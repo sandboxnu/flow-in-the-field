@@ -1,5 +1,5 @@
 import * as firebase from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 
@@ -46,5 +46,9 @@ export default class FirebaseInteractor {
 
     async signInWithUsernameAndPassword(username: string, password: string) {
         await signInWithEmailAndPassword(this.auth, username, password);
+    }
+
+    async resetPassword(email: string) {
+        await sendPasswordResetEmail(this.auth, email)
     }
 }
