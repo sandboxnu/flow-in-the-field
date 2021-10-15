@@ -1,7 +1,6 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, doc, setDoc, getDoc, DocumentData } from "firebase/firestore";
-import { User } from "../models/types";
+import { getFirestore } from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -26,9 +25,9 @@ const app = firebase.initializeApp(firebaseConfig);
 export default class FirebaseInteractor {
     auth = getAuth(app);
     db = getFirestore();
-    currentUser: User | null = null;
+
     /**
-    * Creates an account for a user
+    * Creates an account for a user, but does not store them in the db yet, since we don't know what we will store
     */
     async createAccount(
         email: string,
@@ -46,39 +45,6 @@ export default class FirebaseInteractor {
     }
 
     async signInWithUsernameAndPassword(username: string, password: string) {
-        // idk what this do - robert
-        // this.unsubscribe?.apply(this);
-
         await signInWithEmailAndPassword(this.auth, username, password);
-        await this.createCurrentUser();
     }
-
-    async createCurrentUser() {
-        try {
-            this.currentUser = await this.getUser(undefined);
-        } catch (error) {
-            // Hopefully this does not happen.
-            console.log(error);
-        }
-    }
-
-    async getUser(id: string | undefined): Promise<User> {
-        let idToUse = id || this.auth.currentUser?.uid;
-        let user = await getDoc(doc(collection(this.db, "users"), idToUse));
-
-        let userData = user.data();
-        if (idToUse != null && userData != null) {
-            return this.getUserFromData(idToUse, userData);
-        } else {
-            throw new Error("Invalid user");
-        }
-    }
-    // given a user document, returns a user object
-    getUserFromData(id: string, userData: DocumentData): User {
-        return {
-            id: id,
-            sessionId: userData.sessionId === undefined ? -1 : userData.sessionId,
-        };
-    }
-
 }
