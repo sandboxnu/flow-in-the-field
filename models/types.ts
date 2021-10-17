@@ -1,0 +1,1 @@
+export type NumPairs = 2 | 4 | 8;
