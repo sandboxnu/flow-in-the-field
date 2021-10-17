@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import OnboardingScreen from './OnboardingScreen';
 
 export default function OnboardingScreens() {
-    return 0;
+    return (<OnboardingScreen screenContent="hey there" screenHeader="Hey" screenImage="/"></OnboardingScreen>);
+
 }
