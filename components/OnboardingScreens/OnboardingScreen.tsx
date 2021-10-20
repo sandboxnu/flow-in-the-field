@@ -8,7 +8,11 @@ interface OnboardingScreenProps {
     screenImage: string;
 }
 
-export default function OnboardingScreen({screenImage, screenContent, screenHeader}: OnboardingScreenProps): ReactElement {
+export default function OnboardingScreen({
+    screenImage, 
+    screenContent, 
+    screenHeader, 
+    navigation}: OnboardingScreenProps): ReactElement {
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={{uri: screenImage}}/>
