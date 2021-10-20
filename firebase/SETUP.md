@@ -1,7 +1,5 @@
 # Firebase Emulator Setup
 
-### Step 1: Download the Firebase CLI
-
 The [documentation](https://firebase.google.com/docs/cli#install_the_firebase_cli) overviews instructions
 for Windows, Mac, and Linux.
 
@@ -22,6 +20,11 @@ When asked which emulators to set up, select "Authentication Emulator" and "Fire
 There will be prompts asking what ports you want the emulators, you can choose your own or use defaults. \
 You will also be asked if you'd like to use the Emulator UI, select yes and choose a port (or use the default). \
 Finally, agree to download the emulators.
+
+Then you can run the emulators:
+```
+firebase emulators:start
+```
 
 
 
