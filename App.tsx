@@ -23,9 +23,7 @@ const app = initializeApp(firebaseConfig);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <OnboardingScreens/>
-    </View>
+    <OnboardingScreens/>
   );
 }
 
