@@ -11,7 +11,7 @@ yarn install
 firebase login
 firebase init
 ```
-When asked what features you want to set up for the directory, choose "Firestore" and "Emulators". \
+When asked what features you want to set up for the directory, choose "Firestore" and "Emulators".
 
 For Firestore: \
 When asked to associate the directory with a Firebase project choose "Use an existing project", then "FlowInTheField".
