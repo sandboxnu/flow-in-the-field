@@ -34,7 +34,7 @@ export default function OnboardingScreens() {
                     {props => 
                         <OnboardingScreen 
                             navigation={props.navigation} 
-                            route="First"
+                            route="Login"
                             screenHeader="Instructions"
                             screenContent="Over the next week, you can use this app to practice as much or as little as you like. At the end of the week, you'll receive a vocabulary test. The better you do on the test, the more money you'll win!" 
                             screenImage="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/money-with-wings_1f4b8.png" />}
