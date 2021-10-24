@@ -1,0 +1,1 @@
+export const TURQUOISE = "#5BBAB7"
