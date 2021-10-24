@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getRandomPairing, getTestDate } from "../utils";
 
 
 // Your web app's Firebase configuration
@@ -42,6 +43,12 @@ export default class FirebaseInteractor {
             throw new Error("No actual user");
         }
         sendEmailVerification(userAuth.user);
+        await setDoc(doc(this.db, "users", userAuth.user.uid), {
+            numPairs: getRandomPairing(),
+            testDate: getTestDate(),
+            sessions: [],
+            seenPairs: []
+        });
     }
 
     async signInWithUsernameAndPassword(username: string, password: string) {
