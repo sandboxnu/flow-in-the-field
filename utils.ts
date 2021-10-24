@@ -10,7 +10,7 @@ export function getRandomPairing(): NumPairs {
         case 2:
             return 8;
         default:
-            throw new Error("what");
+            throw new Error("This will never happen, since random from 0 to 3 is never not 0 1 or 2");
     }
 }
 
