@@ -10,7 +10,7 @@ interface SignUpPageProps {
     goToSignIn: () => void;
 }
 
-export default function SignUpPage({goToSignIn} : SignUpPageProps) {
+export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -19,15 +19,15 @@ export default function SignUpPage({goToSignIn} : SignUpPageProps) {
     return (
         <View style={styles.container}>
             <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
-            <TextInput placeholderTextColor="#4D4661" value={name} onChangeText={setName} style={styles.textInput} placeholder="name"/>
-            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email"/>
-            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password"/>
-            <TextInput placeholderTextColor="#4D4661" value={confirmPassword} secureTextEntry onChangeText={setConfirmPassword} style={styles.textInput} placeholder="re-enter password"/>
+            <TextInput placeholderTextColor="#4D4661" value={name} onChangeText={setName} style={styles.textInput} placeholder="name" />
+            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
+            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password" />
+            <TextInput placeholderTextColor="#4D4661" value={confirmPassword} secureTextEntry onChangeText={setConfirmPassword} style={styles.textInput} placeholder="re-enter password" />
             <TouchableOpacity onPress={() => {
                 if (email && password && name && password === confirmPassword) {
                     interactor.createAccount(email, password)
-                    .then(console.log)
-                    .catch(console.log)
+                        .then(console.log)
+                        .catch(console.log)
                 }
             }} style={styles.loginButton}>
                 <Text style={styles.loginText}>sign up</Text>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 9,
         height: 36,
         width: "60%",
-        marginVertical: 17,
+        marginVertical: "4%",
         fontSize: 24,
         fontStyle: "normal",
         fontWeight: "400",
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: 'center',
         height: "100%",
-        paddingTop: "20%"
+        paddingTop: "15%"
     },
     loginButton: {
         backgroundColor: TURQUOISE,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         width: "60%",
         resizeMode: 'contain',
         maxHeight: 158,
-        marginBottom: 81
+        marginBottom: "10%"
     },
     signUpButton: {
         margin: 11

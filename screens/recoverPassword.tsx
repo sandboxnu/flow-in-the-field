@@ -9,13 +9,13 @@ interface RecoveryPasswordProps {
     goToSignIn: () => void
 }
 
-export default function RecoverPasswordPage({ goToSignIn } : RecoveryPasswordProps) {
+export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProps) {
     const [email, setEmail] = useState("")
 
     return (
         <View style={styles.container}>
             <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
-            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email"/>
+            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
             <TouchableOpacity onPress={() => {
                 interactor.resetPassword(email).catch(console.log).then(console.log)
             }} style={styles.recoveryPasswordButton}>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 9,
         height: 36,
         width: "60%",
-        marginVertical: 17,
+        marginVertical: "4%",
         fontSize: 24,
         fontStyle: "normal",
         fontWeight: "400",
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: 'center',
         height: "100%",
-        paddingTop: "20%"
+        paddingTop: "15%"
     },
     recoveryPasswordButton: {
         backgroundColor: TURQUOISE,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         width: "60%",
         resizeMode: 'contain',
         maxHeight: 158,
-        marginBottom: 81
+        marginBottom: "10%"
     },
     loginButton: {
         margin: 11
