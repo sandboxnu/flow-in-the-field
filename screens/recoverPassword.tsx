@@ -1,43 +1,33 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import { TURQUOISE } from "../common/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
 
-interface LoginProps {
-    goToSignUp: () => void;
-    goToRecoveryScreen: () => void;
+interface RecoveryPasswordProps {
+    goToSignIn: () => void
 }
 
-export default function LoginPage({ goToSignUp, goToRecoveryScreen } : LoginProps) {
+export default function RecoverPasswordPage({ goToSignIn } : RecoveryPasswordProps) {
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
 
     return (
         <View style={styles.container}>
             <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
             <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email"/>
-            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password"/>
             <TouchableOpacity onPress={() => {
-                if (email && password) {
-                    interactor.signInWithUsernameAndPassword(email, password)
-                    .then(console.log)
-                    .catch(console.log)
-                }
-            }} style={styles.loginButton}>
+                interactor.resetPassword(email).catch(console.log).then(console.log)
+            }} style={styles.recoveryPasswordButton}>
+                <Text style={styles.recoverPasswordText}>recover password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
                 <Text style={styles.loginText}>log in</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={goToSignUp} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>sign up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={goToRecoveryScreen} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>forgot password</Text>
             </TouchableOpacity>
         </View>
     )
 }
+
 const styles = StyleSheet.create({
     textInput: {
         borderWidth: 1,
@@ -59,12 +49,12 @@ const styles = StyleSheet.create({
         height: "100%",
         paddingTop: "20%"
     },
-    loginButton: {
+    recoveryPasswordButton: {
         backgroundColor: TURQUOISE,
         borderRadius: 8,
         marginTop: 5
     },
-    loginText: {
+    recoverPasswordText: {
         color: 'white',
         paddingHorizontal: 20,
         paddingVertical: 3,
@@ -77,10 +67,10 @@ const styles = StyleSheet.create({
         maxHeight: 158,
         marginBottom: 81
     },
-    signUpButton: {
-        marginTop: 11
+    loginButton: {
+        margin: 11
     },
-    signUpText: {
+    loginText: {
         color: "#4D4661"
     }
 })

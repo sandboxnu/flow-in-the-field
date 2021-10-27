@@ -4,6 +4,7 @@ import { StackActions } from '@react-navigation/routers';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import LoginPage from '../../screens/login';
+import SignInFlow from '../../screens/signInFlow';
 import OnboardingScreen from './OnboardingScreen';
 
 const Stack = createNativeStackNavigator();
@@ -40,7 +41,7 @@ export default function OnboardingScreens() {
                             screenImage="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/money-with-wings_1f4b8.png" />}
                 </Stack.Screen>
                 <Stack.Screen name="Login">
-                    {props => <LoginPage />}
+                    {props => <SignInFlow />}
                 </Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
