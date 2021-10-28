@@ -1,38 +1,33 @@
 import React, { ReactElement } from 'react';
 import { Modal, Image, StyleSheet, View, Text, Button, TouchableHighlight } from 'react-native';
 
-
-interface OnboardingScreenProps {
+interface FinalOnboardingScreenProps {
+    navigation: any,
+    route: string,
     screenContent: string;
     bgColor: string;
-    navigation: any;
-    route: string;
 }
 
-export default function OnboardingScreen({
-    screenContent, 
-    bgColor,
+export default function FinalOnboardingScreen({
     navigation,
-    route}: OnboardingScreenProps): ReactElement {
+    route,
+    screenContent, 
+    bgColor}: FinalOnboardingScreenProps): ReactElement {
 
     const backgroundStyle = {
         backgroundColor: bgColor
     };
 
     return (
-        <TouchableHighlight style={styles.touchable} onPress={() => navigation.navigate(route)}>
-            <View style={[styles.container, backgroundStyle]}>
-                <Image style={styles.image} source={require('../../assets/flow-icon-light.png')}/>
-                <Text style={styles.content}> {screenContent} </Text>
-            </View>
-        </TouchableHighlight>
+        <View style={[styles.container, backgroundStyle]}>
+            <Image style={styles.image} source={require('../../assets/flow-icon-light.png')}/>
+            <Text style={styles.content}> {screenContent} </Text>
+            <Button title="Press" onPress={() => navigation.navigate(route)}/>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    touchable: {
-        height: '100%'
-    },
     container: {
         flex: 1,
         alignItems: 'center',
