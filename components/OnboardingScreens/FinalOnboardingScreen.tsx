@@ -2,11 +2,13 @@ import React, { ReactElement } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 
 interface FinalOnboardingScreenProps {
+    navigation: any;
     screenContent: string;
     bgColor: string;
 }
 
 export default function FinalOnboardingScreen({
+    navigation,
     screenContent, 
     bgColor}: FinalOnboardingScreenProps): ReactElement {
 
@@ -18,7 +20,7 @@ export default function FinalOnboardingScreen({
         <View style={[styles.container, backgroundStyle]}>
             <Image style={styles.image} source={require('../../assets/flow-icon-light.png')}/>
             <Text style={styles.content}> {screenContent} </Text>
-            <Pressable onPress={() => {}} style={styles.button}>
+            <Pressable onPress={() => {navigation.navigate('Login')}} style={styles.button}>
                 <Text style={styles.buttonContent}>Register</Text>
             </Pressable>
         </View>

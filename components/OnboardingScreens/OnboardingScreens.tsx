@@ -4,7 +4,11 @@ import FinalOnboardingScreen from './FinalOnboardingScreen';
 import { TURQUOISE, BLUE, PURPLE } from '../../common/colors';
 import Swiper from 'react-native-swiper';
 
-export default function OnboardingScreens() {
+interface OnboardingScreenProps {
+    navigation: any;
+}
+
+export default function OnboardingScreens({ navigation }: OnboardingScreenProps) {
     return (
         <Swiper 
             showsButtons={false} 
@@ -20,6 +24,7 @@ export default function OnboardingScreens() {
                 screenContent="To achieve your goal, you'll be using this app! Here is how it works: You'll see a set of English words and a set of Turkish words. You'll try to match each English word to the correct Turkish word, then you'll receive feedback. The more you practice, the better you'll get!" />
             <FinalOnboardingScreen 
                 bgColor={PURPLE}
+                navigation={navigation}
                 screenContent="Over the next week, you can use this app to practice as much or as little as you like. At the end of the week, you'll receive a vocabulary test. The better you do on the test, the more money you'll win!" />
         </Swiper>
     )
