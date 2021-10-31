@@ -1,5 +1,5 @@
 import * as firebase from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getRandomPairing, getTestDate } from "../utils";
 
@@ -28,7 +28,7 @@ export default class FirebaseInteractor {
     db = getFirestore();
 
     get email() {
-        return this.auth.currentUser?.email;
+        return this.auth.currentUser?.email ?? "Current user does not exis";
     }
 
     /**
@@ -74,5 +74,8 @@ export default class FirebaseInteractor {
         } else {
             console.log("failed to update password");
         }
+    }
+    async logout() {
+        await signOut(this.auth);
     }
 }
