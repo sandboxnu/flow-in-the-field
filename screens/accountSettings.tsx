@@ -5,7 +5,11 @@ import FirebaseInteractor from "../firebase/firebaseInteractor";
 
 const fi = new FirebaseInteractor();
 
-export default function AccountSettings() {
+interface AccountSettingsProps {
+    goToSignupPage: () => void;
+}
+
+export default function AccountSettings({ goToSignupPage }: AccountSettingsProps) {
 
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -17,6 +21,9 @@ export default function AccountSettings() {
         <CustomTextInput placeholderText="new password" secureText value={newPassword} setValue={setNewPassword} />
         <TouchableOpacity onPress={() => fi.updatePassword(currentPassword, newPassword).then(console.log).catch(console.log)}>
             <Text>Update Password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => fi.logout().then(goToSignupPage).catch(console.log)}>
+            <Text>Logout</Text>
         </TouchableOpacity>
     </View>);
 }

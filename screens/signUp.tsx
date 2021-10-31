@@ -9,9 +9,10 @@ let interactor = new FirebaseInteractor()
 
 interface SignUpPageProps {
     goToSignIn: () => void;
+    goToAccountSettings: () => void;
 }
 
-export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
+export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -27,7 +28,7 @@ export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
             <TouchableOpacity onPress={() => {
                 if (email && password && name && password === confirmPassword) {
                     interactor.createAccount(email, password)
-                        .then(console.log)
+                        .then(goToAccountSettings)
                         .catch(console.log)
                 }
             }} style={styles.loginButton}>

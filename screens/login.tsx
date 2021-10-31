@@ -10,9 +10,10 @@ let interactor = new FirebaseInteractor()
 interface LoginProps {
     goToSignUp: () => void;
     goToRecoveryScreen: () => void;
+    goToAccountSettings: () => void;
 }
 
-export default function LoginPage({ goToSignUp, goToRecoveryScreen }: LoginProps) {
+export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountSettings }: LoginProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -24,7 +25,7 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen }: LoginProps
             <TouchableOpacity onPress={() => {
                 if (email && password) {
                     interactor.signInWithUsernameAndPassword(email, password)
-                        .then(console.log)
+                        .then(goToAccountSettings)
                         .catch(console.log)
                 }
             }} style={styles.loginButton}>
