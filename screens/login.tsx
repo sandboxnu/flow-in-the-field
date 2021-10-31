@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../../constants/colors";
-import CustomTextInput from "../../components/TextInput/CustomTextInput";
-import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import ErrorText from "../../components/ErrorText";
+import { TURQUOISE } from "../common/colors";
+import ErrorText from "../src/components/ErrorText";
+import CustomTextInput from "../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../firebase/firebaseInteractor";
+import { mapErrorCodeToMessage } from "../utils";
 
 let interactor = new FirebaseInteractor()
 
@@ -21,7 +22,7 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
 
     return (
         <View style={styles.container}>
-            <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
+            <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
             <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
             <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
             <ErrorText message={error} />
@@ -34,7 +35,8 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
                     interactor.signInWithUsernameAndPassword(email, password)
                         .then(goToAccountSettings)
                         .catch(e => {
-                            setError(e.message)
+                            console.log(e.message);
+                            setError(mapErrorCodeToMessage(e.code))
                         });
                 }
             }} style={styles.loginButton}>
