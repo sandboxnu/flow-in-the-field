@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import { TURQUOISE } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import ErrorText from "../../components/ErrorText";
 
 let interactor = new FirebaseInteractor()
 
@@ -14,19 +15,28 @@ interface LoginProps {
 export default function LoginPage({ goToSignUp, goToRecoveryScreen }: LoginProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
 
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
-            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password" />
+            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
+            <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
+            <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
-                if (email && password) {
+                if (!email) {
+                    setError("Please enter an email address.")
+                } else if (!password) {
+                    setError("Please enter a password.")
+                } else {
                     interactor.signInWithUsernameAndPassword(email, password)
-                        .then(console.log)
-                        .catch(console.log)
+                        .then(goToAccountSettings)
+                        .catch(e => {
+                            setError(e.message)
+                        });
                 }
             }} style={styles.loginButton}>
+
                 <Text style={styles.loginText}>log in</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToSignUp} style={styles.signUpButton}>
@@ -82,5 +92,5 @@ const styles = StyleSheet.create({
     },
     signUpText: {
         color: "#4D4661"
-    }
+    },
 })
