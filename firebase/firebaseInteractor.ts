@@ -1,5 +1,5 @@
 import * as firebase from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { getRandomPairing, getTestDate } from "../utils";
 
@@ -26,6 +26,10 @@ const app = firebase.initializeApp(firebaseConfig);
 export default class FirebaseInteractor {
     auth = getAuth(app);
     db = getFirestore();
+
+    get email() {
+        return this.auth.currentUser?.email;
+    }
 
     /**
     * Creates an account for a user, but does not store them in the db yet, since we don't know what we will store
@@ -57,5 +61,18 @@ export default class FirebaseInteractor {
 
     async resetPassword(email: string) {
         await sendPasswordResetEmail(this.auth, email)
+    }
+    async updatePassword(oldPassword: string, newPassword: string) {
+        const user = this.auth.currentUser;
+        if (user !== null && user.email !== null) {
+            const credential = EmailAuthProvider.credential(
+                user.email,
+                oldPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+            await updatePassword(user, newPassword);
+        } else {
+            console.log("failed to update password");
+        }
     }
 }
