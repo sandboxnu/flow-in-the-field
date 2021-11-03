@@ -1,60 +1,46 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../common/colors";
-import CustomTextInput from "../components/TextInput/CustomTextInput";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
+import { TURQUOISE } from "../../constants/colors";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
 
-interface LoginProps {
-    goToSignUp: () => void;
-    goToRecoveryScreen: () => void;
+interface SignUpPageProps {
+    goToSignIn: () => void;
     goToAccountSettings: () => void;
 }
 
-export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountSettings }: LoginProps) {
+export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
 
     return (
         <View style={styles.container}>
-            <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
+            <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
+            <CustomTextInput value={name} setValue={setName} placeholderText="name" secureText={false} />
             <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
             <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
+            <CustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="re-enter password" />
             <TouchableOpacity onPress={() => {
-                if (email && password) {
-                    interactor.signInWithUsernameAndPassword(email, password)
+                if (email && password && name && password === confirmPassword) {
+                    interactor.createAccount(email, password)
                         .then(goToAccountSettings)
                         .catch(console.log)
                 }
             }} style={styles.loginButton}>
-                <Text style={styles.loginText}>log in</Text>
+                <Text style={styles.loginText}>sign up</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={goToSignUp} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>sign up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={goToRecoveryScreen} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>forgot password</Text>
+            <TouchableOpacity onPress={goToSignIn} style={styles.signUpButton}>
+                <Text style={styles.signUpText}>log in</Text>
             </TouchableOpacity>
         </View>
     )
 }
 const styles = StyleSheet.create({
-    textInput: {
-        borderWidth: 1,
-        borderColor: "#4D4661",
-        paddingHorizontal: 9,
-        height: 36,
-        width: "60%",
-        marginVertical: "4%",
-        fontSize: 24,
-        fontStyle: "normal",
-        fontWeight: "400",
-        lineHeight: 35,
-        letterSpacing: 0,
-        textAlign: "left"
-    },
     container: {
         display: "flex",
         alignItems: 'center',
@@ -80,7 +66,7 @@ const styles = StyleSheet.create({
         marginBottom: "10%"
     },
     signUpButton: {
-        marginTop: 11
+        margin: 11
     },
     signUpText: {
         color: "#4D4661"

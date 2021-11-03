@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import CustomTextInput from "../components/TextInput/CustomTextInput";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 const fi = new FirebaseInteractor();
 

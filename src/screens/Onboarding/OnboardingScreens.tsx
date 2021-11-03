@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StackActions } from '@react-navigation/routers';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import LoginPage from '../../screens/login';
-import SignInFlow from '../../screens/signInFlow';
+import LoginPage from '../Login/login';
+import SignInFlow from '../Login/signInFlow';
 import OnboardingScreen from './OnboardingScreen';
 
 const Stack = createNativeStackNavigator();
