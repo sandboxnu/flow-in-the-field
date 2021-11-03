@@ -1,4 +1,4 @@
-import { NumPairs } from "./types";
+import { NumPairs } from "../models/types";
 
 export function getRandomPairing(): NumPairs {
     let choice = Math.floor(Math.random() * 3);

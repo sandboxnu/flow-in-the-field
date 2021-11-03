@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { getRandomPairing, getTestDate } from "../models/utils";
+import { getRandomPairing, getTestDate } from "../utils/utils";
 
 
 // Your web app's Firebase configuration
