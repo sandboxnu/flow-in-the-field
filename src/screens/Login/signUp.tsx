@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../common/colors";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
+import { TURQUOISE } from "../../common/colors";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
 
@@ -18,7 +18,7 @@ export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
 
     return (
         <View style={styles.container}>
-            <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
+            <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
             <TextInput placeholderTextColor="#4D4661" value={name} onChangeText={setName} style={styles.textInput} placeholder="name" />
             <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
             <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password" />
