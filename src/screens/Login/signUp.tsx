@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../../common/colors";
+import { TURQUOISE } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../../common/colors";
+import { TURQUOISE } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
