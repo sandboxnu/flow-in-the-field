@@ -34,13 +34,13 @@ export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
                     setError("Please enter a password.")
                 } else if (!confirmPassword) {
                     setError("Please confirm your password")
-                } else if (!)
-
-                    if (email && password && name && password === confirmPassword) {
-                        interactor.createAccount(email, password)
-                            .then(goToAccountSettings)
-                            .catch(console.log)
-                    }
+                } else if (confirmPassword !== password) {
+                    setError("Passwords do not match.")
+                } else {
+                    interactor.createAccount(email, password)
+                        .then(goToAccountSettings)
+                        .catch(console.log)
+                }
             }} style={styles.loginButton}>
                 <Text style={styles.loginText}>sign up</Text>
             </TouchableOpacity>
