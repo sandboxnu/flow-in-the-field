@@ -13,7 +13,6 @@ interface SignUpPageProps {
 }
 
 export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
-    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -21,12 +20,11 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <CustomTextInput value={name} setValue={setName} placeholderText="name" secureText={false} />
             <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
             <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
             <CustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="re-enter password" />
             <TouchableOpacity onPress={() => {
-                if (email && password && name && password === confirmPassword) {
+                if (email && password && password === confirmPassword) {
                     interactor.createAccount(email, password)
                         .then(goToAccountSettings)
                         .catch(console.log)
