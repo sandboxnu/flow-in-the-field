@@ -11,9 +11,10 @@ let interactor = new FirebaseInteractor()
 
 interface SignUpPageProps {
     goToSignIn: () => void;
+    goToAccountSettings: () => void;
 }
 
-export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
+export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -53,20 +54,6 @@ export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
     )
 }
 const styles = StyleSheet.create({
-    textInput: {
-        borderWidth: 1,
-        borderColor: "#4D4661",
-        paddingHorizontal: 9,
-        height: 36,
-        width: "60%",
-        marginVertical: "4%",
-        fontSize: 24,
-        fontStyle: "normal",
-        fontWeight: "400",
-        lineHeight: 35,
-        letterSpacing: 0,
-        textAlign: "left"
-    },
     container: {
         display: "flex",
         alignItems: 'center',
