@@ -28,9 +28,7 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
             <CustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="re-enter password" />
             <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
-                if (!name) {
-                    setError("Please enter your name.")
-                } else if (!email) {
+                if (!email) {
                     setError("Please enter an email address.")
                 } else if (!password) {
                     setError("Please enter a password.")
