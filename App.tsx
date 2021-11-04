@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
-import LoginPage from './src/screens/login/login';
+import signInFlow from './src/screens/Login/signInFlow';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{headerShown: false}}/>
-        <Stack.Screen name="Login" component={LoginPage} options={{headerShown: false}}/>
+        <Stack.Screen name="SignInFlow" component={signInFlow} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

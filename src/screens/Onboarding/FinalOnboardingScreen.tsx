@@ -9,7 +9,7 @@ interface FinalOnboardingScreenProps {
 
 export default function FinalOnboardingScreen({
     navigation,
-    screenContent, 
+    screenContent,
     bgColor}: FinalOnboardingScreenProps): ReactElement {
 
     const backgroundStyle = {
@@ -20,8 +20,8 @@ export default function FinalOnboardingScreen({
         <View style={[styles.container, backgroundStyle]}>
             <Image style={styles.image} source={require('../../assets/flow-icon-light.png')}/>
             <Text style={styles.content}> {screenContent} </Text>
-            <Pressable onPress={() => {navigation.navigate('Login')}} style={styles.button}>
-                <Text style={styles.buttonContent}>Register</Text>
+            <Pressable onPress={() => {navigation.navigate('SignInFlow')}} style={styles.button}>
+                <Text style={styles.buttonContent}>register</Text>
             </Pressable>
         </View>
     )
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFF',
         textAlign: 'center',
-        marginBottom: 24
+        marginBottom: 40
     },
     button: {
         flex: 1,
@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     buttonContent: {
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        fontFamily: 'Futura',
+        fontSize: 20,
+        color: '#D16B50'
     }
 });
