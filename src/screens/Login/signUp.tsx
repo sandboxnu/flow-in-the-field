@@ -5,6 +5,7 @@ import { TURQUOISE } from "../../constants/colors";
 import ErrorText from "../../components/ErrorText";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import { mapErrorCodeToMessage } from "../../utils/utils";
 
 let interactor = new FirebaseInteractor()
 
@@ -27,19 +28,22 @@ export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
             <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
                 if (!name) {
-                    setError("Please enter your name")
+                    setError("Please enter your name.")
                 } else if (!email) {
                     setError("Please enter an email address.")
                 } else if (!password) {
                     setError("Please enter a password.")
                 } else if (!confirmPassword) {
-                    setError("Please confirm your password")
-                } else if (confirmPassword !== password) {
+                    setError("Please confirm your password.")
+                } else if (password !== confirmPassword) {
                     setError("Passwords do not match.")
                 } else {
                     interactor.createAccount(email, password)
                         .then(goToAccountSettings)
-                        .catch(console.log)
+                        .catch(e => {
+                            console.log(e.message);
+                            setError(mapErrorCodeToMessage(e.code))
+                        })
                 }
             }} style={styles.loginButton}>
                 <Text style={styles.loginText}>sign up</Text>
