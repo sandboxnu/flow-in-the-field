@@ -18,7 +18,7 @@ export default function SignInFlow() {
     } else if (currentPage == "recoverPassword") {
         return (<RecoverPasswordPage goToSignIn={() => setCurrentPage("signIn")} />)
     } else if (currentPage == "accountSettings") {
-        return <AccountSettings goToSignupPage={() => setCurrentPage("signUp")} />
+        return <AccountSettings goToLoginPage={() => setCurrentPage("signIn")} />
     } else {
         return (<SignUpPage goToSignIn={() => setCurrentPage("signIn")} goToAccountSettings={() => setCurrentPage("accountSettings")} />)
     }

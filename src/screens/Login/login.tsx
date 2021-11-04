@@ -22,7 +22,7 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
 
     return (
         <View style={styles.container}>
-            <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
+            <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
             <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
             <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
             <ErrorText message={error} />

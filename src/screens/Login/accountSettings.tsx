@@ -8,10 +8,10 @@ import { mapErrorCodeToMessage } from "../../utils/utils";
 const fi = new FirebaseInteractor();
 
 interface AccountSettingsProps {
-    goToSignupPage: () => void;
+    goToLoginPage: () => void;
 }
 
-export default function AccountSettings({ goToSignupPage }: AccountSettingsProps) {
+export default function AccountSettings({ goToLoginPage }: AccountSettingsProps) {
 
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -41,7 +41,7 @@ export default function AccountSettings({ goToSignupPage }: AccountSettingsProps
             <Text>Update Password</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() =>
-            fi.logout().then(goToSignupPage).catch(e => setError(mapErrorCodeToMessage(e.code)))}>
+            fi.logout().then(goToLoginPage).catch(e => setError(mapErrorCodeToMessage(e.code)))}>
             <Text>Logout</Text>
         </TouchableOpacity>
     </View>);
