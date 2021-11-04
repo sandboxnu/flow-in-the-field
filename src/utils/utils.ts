@@ -24,7 +24,7 @@ export function mapErrorCodeToMessage(code: string) {
         case "auth/invalid-email":
             return "Invalid email.";
         case "auth/weak-password":
-            return "Password is not strong enough.";
+            return "Password length must be > 6 characters.";
         case "auth/user-not-found":
             return "Invalid login info.";
         case "auth/wrong-password":
