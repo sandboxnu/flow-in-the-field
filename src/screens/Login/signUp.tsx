@@ -1,33 +1,41 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../common/colors";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
+import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { TURQUOISE } from "../../constants/colors";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
 
-interface RecoveryPasswordProps {
-    goToSignIn: () => void
+interface SignUpPageProps {
+    goToSignIn: () => void;
 }
 
-export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProps) {
+export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
     const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
 
     return (
         <View style={styles.container}>
             <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
             <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
+            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password" />
+            <TextInput placeholderTextColor="#4D4661" value={confirmPassword} secureTextEntry onChangeText={setConfirmPassword} style={styles.textInput} placeholder="re-enter password" />
             <TouchableOpacity onPress={() => {
-                interactor.resetPassword(email).catch(console.log).then(console.log)
-            }} style={styles.recoveryPasswordButton}>
-                <Text style={styles.recoverPasswordText}>recover password</Text>
+                if (email && password && password === confirmPassword) {
+                    interactor.createAccount(email, password)
+                        .then(console.log)
+                        .catch(console.log)
+                }
+            }} style={styles.loginButton}>
+                <Text style={styles.loginText}>sign up</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
-                <Text style={styles.loginText}>log in</Text>
+            <TouchableOpacity onPress={goToSignIn} style={styles.signUpButton}>
+                <Text style={styles.signUpText}>log in</Text>
             </TouchableOpacity>
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     textInput: {
         borderWidth: 1,
@@ -49,12 +57,12 @@ const styles = StyleSheet.create({
         height: "100%",
         paddingTop: "15%"
     },
-    recoveryPasswordButton: {
+    loginButton: {
         backgroundColor: TURQUOISE,
         borderRadius: 8,
         marginTop: 5
     },
-    recoverPasswordText: {
+    loginText: {
         color: 'white',
         paddingHorizontal: 20,
         paddingVertical: 3,
@@ -67,10 +75,10 @@ const styles = StyleSheet.create({
         maxHeight: 158,
         marginBottom: "10%"
     },
-    loginButton: {
+    signUpButton: {
         margin: 11
     },
-    loginText: {
+    signUpText: {
         color: "#4D4661"
     }
 })

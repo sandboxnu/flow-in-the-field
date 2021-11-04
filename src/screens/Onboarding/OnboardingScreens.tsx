@@ -1,7 +1,10 @@
 import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import LoginPage from '../Login/login';
+import SignInFlow from '../Login/signInFlow';
 import OnboardingScreen from './OnboardingScreen';
 import FinalOnboardingScreen from './FinalOnboardingScreen';
-import { TURQUOISE, BLUE, PURPLE } from '../../common/colors';
+import { TURQUOISE, BLUE, PURPLE } from '../../constants/colors';
 import Swiper from 'react-native-swiper';
 
 interface OnboardingScreenProps {

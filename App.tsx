@@ -1,9 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { initializeApp } from "firebase/app";
-import OnboardingScreens from './components/OnboardingScreens/OnboardingScreens';
-import LoginPage from './screens/login';
+import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
+import LoginPage from './src/screens/login/login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -19,12 +18,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
