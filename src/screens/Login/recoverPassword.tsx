@@ -3,6 +3,8 @@ import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'reac
 import { TURQUOISE } from "../../constants/colors";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import ErrorText from "../../components/ErrorText";
+import { mapErrorCodeToMessage } from "../../utils/utils";
 
 let interactor = new FirebaseInteractor()
 
@@ -12,13 +14,23 @@ interface RecoveryPasswordProps {
 
 export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProps) {
     const [email, setEmail] = useState("")
+    const [error, setError] = useState("")
 
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
             <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
+            <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
-                interactor.resetPassword(email).catch(console.log).then(console.log)
+                if (!email) {
+                    setError("Please enter an email address.")
+                } else {
+                    interactor.resetPassword(email).catch(e => {
+                        setError(mapErrorCodeToMessage(e.code))
+                    }).then(() => {
+                        goToSignIn();
+                    });
+                }
             }} style={styles.recoveryPasswordButton}>
                 <Text style={styles.recoverPasswordText}>recover password</Text>
             </TouchableOpacity>

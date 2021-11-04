@@ -2,8 +2,10 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import { TURQUOISE } from "../../constants/colors";
+import ErrorText from "../../components/ErrorText";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import { mapErrorCodeToMessage } from "../../utils/utils";
 
 let interactor = new FirebaseInteractor()
 
@@ -16,6 +18,7 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [error, setError] = useState("")
 
     return (
         <View style={styles.container}>
@@ -23,11 +26,23 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
             <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
             <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
             <CustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="re-enter password" />
+            <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
-                if (email && password && password === confirmPassword) {
+                if (!email) {
+                    setError("Please enter an email address.")
+                } else if (!password) {
+                    setError("Please enter a password.")
+                } else if (!confirmPassword) {
+                    setError("Please confirm your password.")
+                } else if (password !== confirmPassword) {
+                    setError("Passwords do not match.")
+                } else {
                     interactor.createAccount(email, password)
                         .then(goToAccountSettings)
-                        .catch(console.log)
+                        .catch(e => {
+                            console.log(e.message);
+                            setError(mapErrorCodeToMessage(e.code))
+                        })
                 }
             }} style={styles.loginButton}>
                 <Text style={styles.loginText}>sign up</Text>
