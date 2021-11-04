@@ -2,31 +2,29 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import { TURQUOISE } from "../../constants/colors";
-import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
 
 interface SignUpPageProps {
     goToSignIn: () => void;
-    goToAccountSettings: () => void;
 }
 
-export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
+export default function SignUpPage({ goToSignIn }: SignUpPageProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
     return (
         <View style={styles.container}>
-            <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
-            <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
-            <CustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="re-enter password" />
+            <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
+            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
+            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password" />
+            <TextInput placeholderTextColor="#4D4661" value={confirmPassword} secureTextEntry onChangeText={setConfirmPassword} style={styles.textInput} placeholder="re-enter password" />
             <TouchableOpacity onPress={() => {
                 if (email && password && password === confirmPassword) {
                     interactor.createAccount(email, password)
-                        .then(goToAccountSettings)
+                        .then(console.log)
                         .catch(console.log)
                 }
             }} style={styles.loginButton}>
@@ -39,6 +37,20 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
     )
 }
 const styles = StyleSheet.create({
+    textInput: {
+        borderWidth: 1,
+        borderColor: "#4D4661",
+        paddingHorizontal: 9,
+        height: 36,
+        width: "60%",
+        marginVertical: "4%",
+        fontSize: 24,
+        fontStyle: "normal",
+        fontWeight: "400",
+        lineHeight: 35,
+        letterSpacing: 0,
+        textAlign: "left"
+    },
     container: {
         display: "flex",
         alignItems: 'center',
