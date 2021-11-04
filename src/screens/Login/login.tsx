@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import { TURQUOISE } from "../../constants/colors";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
@@ -9,21 +10,22 @@ let interactor = new FirebaseInteractor()
 interface LoginProps {
     goToSignUp: () => void;
     goToRecoveryScreen: () => void;
+    goToAccountSettings: () => void;
 }
 
-export default function LoginPage({ goToSignUp, goToRecoveryScreen }: LoginProps) {
+export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountSettings }: LoginProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
-            <TextInput placeholderTextColor="#4D4661" value={password} secureTextEntry onChangeText={setPassword} style={styles.textInput} placeholder="password" />
+            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
+            <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
             <TouchableOpacity onPress={() => {
                 if (email && password) {
                     interactor.signInWithUsernameAndPassword(email, password)
-                        .then(console.log)
+                        .then(goToAccountSettings)
                         .catch(console.log)
                 }
             }} style={styles.loginButton}>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import { TURQUOISE } from "../../constants/colors";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 let interactor = new FirebaseInteractor()
@@ -15,7 +16,7 @@ export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProp
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <TextInput placeholderTextColor="#4D4661" value={email} onChangeText={setEmail} style={styles.textInput} placeholder="email" />
+            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
             <TouchableOpacity onPress={() => {
                 interactor.resetPassword(email).catch(console.log).then(console.log)
             }} style={styles.recoveryPasswordButton}>
