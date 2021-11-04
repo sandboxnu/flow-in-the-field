@@ -17,3 +17,21 @@ export function getRandomPairing(): NumPairs {
 export function getTestDate() {
     return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //add 7 days to current time
 }
+export function mapErrorCodeToMessage(code: string) {
+    switch (code) {
+        case "auth/email-already-in-use":
+            return "Email already exists.";
+        case "auth/invalid-email":
+            return "Invalid email.";
+        case "auth/weak-password":
+            return "Password length must be > 6 characters.";
+        case "auth/user-not-found":
+            return "Invalid login info.";
+        case "auth/wrong-password":
+            return "Invalid login info.";
+        case "auth/too-many-requests":
+            return "Attempted to login too many times. Please reset your password."
+        default:
+            return "Unknown error: " + code;
+    }
+}
