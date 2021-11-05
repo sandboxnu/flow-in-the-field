@@ -1,27 +1,39 @@
 import React, { ReactElement } from 'react';
-import { Modal, Image, StyleSheet, View, Text, Button } from 'react-native';
+import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 
+const FLOW_ICON = '../../assets/flow-icon-light.png'
 
 interface OnboardingScreenProps {
-    screenHeader: string;
     screenContent: string;
-    screenImage: string;
-    navigation: any;
-    route: string;
+    bgColor: string;
+    hasNavButton?: boolean;
+    navButtonTitle?: string;
+    navigation?: any;
+    route?: string;
 }
 
 export default function OnboardingScreen({
-    screenImage, 
     screenContent, 
-    screenHeader,
+    bgColor,
+    hasNavButton,
+    navButtonTitle,
     navigation,
-    route}: OnboardingScreenProps): ReactElement {
+    route
+}: OnboardingScreenProps): ReactElement {
+
+    const backgroundStyle = { 
+        backgroundColor: bgColor 
+    };
+
     return (
-        <View style={styles.container}>
-            <Image style={styles.image} source={{uri: screenImage}}/>
-            <Text style={styles.header}> {screenHeader} </Text>
-            <Text style={styles.content}> {screenContent} </Text>
-            <Button title="Next" onPress={() => navigation.navigate(route)}/>
+        <View style={[styles.container, backgroundStyle]}>
+            <Image style={styles.image} source={require(FLOW_ICON)}/>
+            <Text style={styles.content}>{ screenContent }</Text>
+            {hasNavButton &&
+                <Pressable onPress={() => {navigation.navigate(route)}} style={styles.button}>
+                    <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
+                </Pressable>
+            }
         </View>
     )
 }
@@ -30,19 +42,39 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        backgroundColor: '#FFF',
+        paddingLeft: 48,
+        paddingRight: 48,
+        paddingTop: '50%',
     },
     image: {
-        height: 100,
-        width: 100
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        margin: 16
+        height: 64,
+        width: '100%',
+        resizeMode: 'contain',
+        marginBottom: 24
     },
     content: {
-        fontSize: 14,
-        margin: 16
+        fontFamily: 'Avenir Next',
+        fontWeight: '500',
+        fontSize: 18,
+        color: '#FFF',
+        textAlign: 'center'
+    },
+    button: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#FFF',
+        width: 130,
+        maxHeight: 30,
+        marginTop: 32,
+        borderRadius: 8,
+        overflow: 'hidden'
+    },
+    buttonContent: {
+        backgroundColor: '#FFF',
+        fontFamily: 'Futura',
+        fontSize: 20,
+        color: '#D16B50'
     }
 });

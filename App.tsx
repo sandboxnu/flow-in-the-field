@@ -1,13 +1,20 @@
 import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
+import signInFlow from './src/screens/Login/signInFlow';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// Import the functions you need from the SDKs you need
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <OnboardingScreens/>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{headerShown: false}}/>
+        <Stack.Screen name="SignInFlow" component={signInFlow} options={{headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
