@@ -4,7 +4,7 @@
     "slug": "flow-in-the-field",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/flow-icon-square.png",
     "splash": {
       "image": "./src/assets/splash-screen.png",
       "resizeMode": "contain",
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/flow-icon-square.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./src/assets/flow-icon-square.png"
     }
   }
 }
