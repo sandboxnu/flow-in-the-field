@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{headerShown: false}}/>
-        <Stack.Screen name="SignInFlow" component={signInFlow} options={{headerShown: false}}/>
+        <Stack.Screen name="SignInFlow" component={signInFlow} options={{headerShown: false, gestureEnabled: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
