@@ -1,6 +1,6 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getFirestore, setDoc, Timestamp } from "firebase/firestore";
 import { getRandomPairing, getTestDate } from "../utils/utils";
 
 
@@ -25,7 +25,7 @@ const app = firebase.initializeApp(firebaseConfig);
  */
 export default class FirebaseInteractor {
     auth = getAuth(app);
-    db = getFirestore();
+    db = getFirestore(app);
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
@@ -47,9 +47,10 @@ export default class FirebaseInteractor {
             throw new Error("No actual user");
         }
         sendEmailVerification(userAuth.user);
-        await setDoc(doc(this.db, "users", userAuth.user.uid), {
+        const userDoc = doc(this.db, "users", userAuth.user.uid)
+        await setDoc(userDoc, {
             numPairs: getRandomPairing(),
-            testDate: getTestDate(),
+            testDate: Timestamp.fromDate(getTestDate()),
             sessions: [],
             seenPairs: []
         });
