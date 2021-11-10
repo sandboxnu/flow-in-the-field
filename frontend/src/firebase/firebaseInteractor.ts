@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getFirestore, setDoc, Timestamp } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc, Timestamp } from "firebase/firestore";
+import { User } from "../models/types";
 import { getRandomPairing, getTestDate } from "../utils/utils";
 
 
@@ -78,5 +79,22 @@ export default class FirebaseInteractor {
     }
     async logout() {
         await signOut(this.auth);
+    }
+
+    async getUser(): Promise<User> {
+        const user = this.auth.currentUser;
+        if (user !== null) {
+            const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+            if (docData === undefined) {
+                throw new Error("No data found")
+            }
+            return {
+                email: user.email ?? "your mom",
+                testDate: docData.testDate ?? new Date(),
+                numPairs: docData.numPairs ?? 2,
+                gameType: docData.game ?? "multipleChoice"
+            }
+        }
+        throw new Error("No user found")
     }
 }
