@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderRadius: 31,
         alignItems: 'center',
-        marginBottom: "10%"
+        marginBottom: "8%"
     },
     monthNameText: {
         fontSize: 48,
