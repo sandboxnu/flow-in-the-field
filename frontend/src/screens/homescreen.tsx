@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TextIconButton from "../components/TextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
@@ -17,13 +17,68 @@ export default function Homescreen() {
 
     const navigation = useNavigation();
 
-    return (<View>
-        {
-            user ? <Text>{user.toString()}</Text> : <Text>Loading...</Text>
-        }
+    if (!user) {
+        return <Text>loading</Text>
+    }
+    
+    return (
+    <View style={styles.main}>
+        <Text style={styles.testDay}>
+            Your test date is:
+        </Text>
+        <View style={styles.calendar}>
+            <Text style={styles.monthNameText}>
+                {user.testDate.toLocaleString('default', { month: 'short' }).toLowerCase()}
+            </Text>
+            <View style={styles.line}/>
+            <View style={styles.evenSpaced}>
+                <Text style={styles.dayText}>{user.testDate.getDate() + 1}</Text>
+            </View>
+        </View>
         <TextIconButton onPress={() => console.log("starting session")} text="Start a new session" icon={require("../assets/flow-icon.png")} />
         <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/flow-icon.png")} />
-        <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/flow-icon.png")} />
+        <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help.png")} />
 
     </View>)
 }
+
+const styles = StyleSheet.create({
+    main: {
+        width: "100%",
+        height: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    calendar: {
+        aspectRatio: 1,
+        width: "50%",
+        borderColor: "#5EAFDF",
+        borderWidth: 3,
+        borderRadius: 31,
+        alignItems: 'center',
+        marginBottom: "10%"
+    },
+    monthNameText: {
+        fontSize: 48,
+        color: "#5EAFDF"
+    },
+    line: {
+        height: 2,
+        width: "100%",
+        backgroundColor: "#5EAFDF"
+    },
+    dayText: {
+        fontSize: 68,
+        textAlign: 'center',
+        color: "#5EAFDF"
+    },
+    evenSpaced: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    testDay: {
+        fontSize: 36,
+        color: "#5EAFDF",
+        marginBottom: "5%"
+    }
+})
