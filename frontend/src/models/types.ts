@@ -6,3 +6,8 @@ export interface User {
     numPairs: NumPairs;
     gameType: GameType;
 }
+
+export interface Word {
+    turkish: string
+    english: string
+}
