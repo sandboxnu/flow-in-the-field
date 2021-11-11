@@ -1,0 +1,10 @@
+{
+  "name": "uploadscript",
+  "version": "1.0.0",
+  "main": "script.js",
+  "license": "GPLv3",
+  "private": false,
+  "dependencies": {
+    "firebase-admin": "^10.0.0"
+  }
+}
