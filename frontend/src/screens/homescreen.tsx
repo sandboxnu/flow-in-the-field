@@ -20,7 +20,9 @@ export default function Homescreen() {
     if (!user) {
         return <Text>loading</Text>
     }
-    
+
+    const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric"} )
+    const monthFormatter = new Intl.DateTimeFormat(undefined, {month: "short"})
     return (
     <View style={styles.main}>
         <Text style={styles.testDay}>
@@ -28,11 +30,11 @@ export default function Homescreen() {
         </Text>
         <View style={styles.calendar}>
             <Text style={styles.monthNameText}>
-                {user.testDate.toLocaleString('default', { month: 'short' }).toLowerCase()}
+                {monthFormatter.format(user.testDate).toLowerCase()}
             </Text>
             <View style={styles.line}/>
             <View style={styles.evenSpaced}>
-                <Text style={styles.dayText}>{user.testDate.getDate() + 1}</Text>
+                <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
             </View>
         </View>
         <TextIconButton onPress={() => console.log("starting session")} text="Start a new session" icon={require("../assets/flow-icon.png")} />
