@@ -6,6 +6,9 @@ import TextIconButton from "../components/TextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User } from "../models/types";
 
+import "intl";
+import 'intl/locale-data/jsonp/en';
+
 const fi = new FirebaseInteractor();
 
 export default function Homescreen() {
@@ -21,27 +24,27 @@ export default function Homescreen() {
         return <Text>loading</Text>
     }
 
-    const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric"} )
-    const monthFormatter = new Intl.DateTimeFormat(undefined, {month: "short"})
+    const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
+    const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" })
     return (
-    <View style={styles.main}>
-        <Text style={styles.testDay}>
-            Your test date is:
-        </Text>
-        <View style={styles.calendar}>
-            <Text style={styles.monthNameText}>
-                {monthFormatter.format(user.testDate).toLowerCase()}
+        <View style={styles.main}>
+            <Text style={styles.testDay}>
+                Your test date is:
             </Text>
-            <View style={styles.line}/>
-            <View style={styles.evenSpaced}>
-                <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
+            <View style={styles.calendar}>
+                <Text style={styles.monthNameText}>
+                    {monthFormatter.format(user.testDate).toLowerCase()}
+                </Text>
+                <View style={styles.line} />
+                <View style={styles.evenSpaced}>
+                    <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
+                </View>
             </View>
-        </View>
-        <TextIconButton onPress={() => console.log("starting session")} text="Start a new session" icon={require("../assets/flow-icon.png")} />
-        <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/flow-icon.png")} />
-        <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help.png")} />
+            <TextIconButton onPress={() => console.log("starting session")} text="Start a new session" icon={require("../assets/flow-icon.png")} />
+            <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/flow-icon.png")} />
+            <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help.png")} />
 
-    </View>)
+        </View>)
 }
 
 const styles = StyleSheet.create({
