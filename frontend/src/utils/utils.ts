@@ -1,4 +1,4 @@
-import { NumPairs } from "../models/types";
+import { NumPairs, GameType } from "../models/types";
 
 export function getRandomPairing(): NumPairs {
     let choice = Math.floor(Math.random() * 3);
@@ -38,4 +38,12 @@ export function mapErrorCodeToMessage(code: string) {
         default:
             return "Unknown error: " + code;
     }
+}
+
+/**
+ * Produces a random game type.
+ */
+export function getRandomGameType(): GameType {
+    const gameTypes: GameType[] = ["pairing", "selecting"];
+    return gameTypes[Math.floor(Math.random() * gameTypes.length)];
 }
