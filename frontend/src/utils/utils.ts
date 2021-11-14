@@ -39,3 +39,13 @@ export function mapErrorCodeToMessage(code: string) {
             return "Unknown error: " + code;
     }
 }
+
+//stolen from https://stackoverflow.com/a/12646864/9124516
+//mutates original array and returns it
+export function durstenfeldShuffle(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
