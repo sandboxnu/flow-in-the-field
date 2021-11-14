@@ -1,7 +1,8 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { getRandomPairing, getTestDate } from "../utils/utils";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
+import { User, Word } from "../models/types";
+import { getRandomPairing, getTestDate, shuffle } from "../utils/utils";
 
 
 // Your web app's Firebase configuration
@@ -25,7 +26,7 @@ const app = firebase.initializeApp(firebaseConfig);
  */
 export default class FirebaseInteractor {
     auth = getAuth(app);
-    db = getFirestore();
+    db = getFirestore(app);
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
@@ -47,9 +48,10 @@ export default class FirebaseInteractor {
             throw new Error("No actual user");
         }
         sendEmailVerification(userAuth.user);
-        await setDoc(doc(this.db, "users", userAuth.user.uid), {
+        const userDoc = doc(this.db, "users", userAuth.user.uid)
+        await setDoc(userDoc, {
             numPairs: getRandomPairing(),
-            testDate: getTestDate(),
+            testDate: Timestamp.fromDate(getTestDate()),
             sessions: [],
             seenPairs: []
         });
@@ -77,5 +79,30 @@ export default class FirebaseInteractor {
     }
     async logout() {
         await signOut(this.auth);
+    }
+
+    async getUser(): Promise<User> {
+        const user = this.auth.currentUser;
+        if (user !== null) {
+            const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+            if (docData === undefined) {
+                throw new Error("No data found")
+            }
+            return {
+                email: user.email ?? "your mom",
+                testDate: docData.testDate.toDate() ?? new Date(),
+                numPairs: docData.numPairs ?? 2,
+                gameType: docData.game ?? "multipleChoice"
+            }
+        }
+        throw new Error("No user found")
+    }
+
+    async getXRandomPairs(num: number): Promise<Word[]> {
+        const col = collection(this.db, "words")
+        const docs = await getDocs(col)
+        let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({english, turkish}) => ({english, turkish}))
+        shuffle(allWords)
+        return allWords.slice(0, num)
     }
 }

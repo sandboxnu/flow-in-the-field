@@ -14,6 +14,10 @@ export function getRandomPairing(): NumPairs {
     }
 }
 
+export function shuffle<T>(vals: T[]) {
+    vals.sort((a, b) => Math.random() - 0.5)
+}
+
 export function getTestDate() {
     return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //add 7 days to current time
 }

@@ -4,19 +4,18 @@ import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import ErrorText from "../../components/ErrorText";
 import { mapErrorCodeToMessage } from "../../utils/utils";
+import { useNavigation } from "@react-navigation/core";
 
 const fi = new FirebaseInteractor();
 
-interface AccountSettingsProps {
-    goToLoginPage: () => void;
-}
-
-export default function AccountSettings({ goToLoginPage }: AccountSettingsProps) {
+export default function AccountSettings() {
 
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [error, setError] = useState("");
     const [successMessage, setSuccesMessage] = useState("")
+
+    const navigation = useNavigation();
 
     return (<View style={styles.container}>
         <Text>Account Settings</Text>
@@ -41,7 +40,7 @@ export default function AccountSettings({ goToLoginPage }: AccountSettingsProps)
             <Text>Update Password</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() =>
-            fi.logout().then(goToLoginPage).catch(e => setError(mapErrorCodeToMessage(e.code)))}>
+            fi.logout().then(() => navigation.navigate("SignInFlow")).catch(e => setError(mapErrorCodeToMessage(e.code)))}>
             <Text>Logout</Text>
         </TouchableOpacity>
     </View>);
