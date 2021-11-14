@@ -39,3 +39,11 @@ export function mapErrorCodeToMessage(code: string) {
             return "Unknown error: " + code;
     }
 }
+
+/**
+ * Produces a random game type.
+ */
+export function getRandomGameType(): String {
+    const gameTypes = ["pairing", "selecting"];
+    return gameTypes[Math.floor(Math.random() * gameTypes.length)];
+}
