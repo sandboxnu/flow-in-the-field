@@ -1,5 +1,5 @@
 export type NumPairs = 2 | 4 | 8;
-export type GameType = "matching" | "multipleChoice";
+export type GameType = "pairing" | "selecting";
 export interface User {
     email: string;
     testDate: Date;
