@@ -1,0 +1,816 @@
+{
+  "words": [
+    {
+      "turkish": "Ekmek",
+      "english": "Bread" 
+    },
+    {
+      "turkish": "Elma",
+      "english": "Apple" 
+    },
+    {
+      "turkish": "Su",
+      "english": "Water" 
+    },
+    {
+      "turkish": "Bir",
+      "english": "One" 
+    },
+    {
+      "turkish": "Iç",
+      "english": "Drink" 
+    },
+    {
+      "turkish": "Ye",
+      "english": "Eat" 
+    },
+    {
+      "turkish": "Genç",
+      "english": "Young" 
+    },
+    {
+      "turkish": "Eski",
+      "english": "Old" 
+    },
+    {
+      "turkish": "Yumurta",
+      "english": "Egg" 
+    },
+    {
+      "turkish": "Şeker",
+      "english": "Sugar" 
+    },
+    {
+      "turkish": "Meyve",
+      "english": "Fruit" 
+    },
+    {
+      "turkish": "Et",
+      "english": "Meat" 
+    },
+    {
+      "turkish": "Merhaba",
+      "english": "Hello" 
+    },
+    {
+      "turkish": "Aşk",
+      "english": "Love" 
+    },
+    {
+      "turkish": "Kedi",
+      "english": "Cat" 
+    },
+    {
+      "turkish": "Köpek",
+      "english": "Dog" 
+    },
+    {
+      "turkish": "Evet",
+      "english": "Yes" 
+    },
+    {
+      "turkish": "Güle güle",
+      "english": "Goodbye" 
+    },
+    {
+      "turkish": "Adam",
+      "english": "Man" 
+    },
+    {
+      "turkish": "Ananas",
+      "english": "Pineapple" 
+    },
+    {
+      "turkish": "Anne",
+      "english": "Mother" 
+    },
+    {
+      "turkish": "Araba",
+      "english": "Car" 
+    },
+    {
+      "turkish": "Aşçı",
+      "english": "Cook" 
+    },
+    {
+      "turkish": "Avukat",
+      "english": "Lawyer" 
+    },
+    {
+      "turkish": "Ay",
+      "english": "Month" 
+    },
+    {
+      "turkish": "Ayak",
+      "english": "Foot" 
+    },
+    {
+      "turkish": "Bacak",
+      "english": "Leg" 
+    },
+    {
+      "turkish": "Bakkal",
+      "english": "Store" 
+    },
+    {
+      "turkish": "Bal",
+      "english": "Honey" 
+    },
+    {
+      "turkish": "Bilezik",
+      "english": "Bracelet" 
+    },
+    {
+      "turkish": "Bisiklet",
+      "english": "Bicycle" 
+    },
+    {
+      "turkish": "Bitki",
+      "english": "Plant" 
+    },
+    {
+      "turkish": "Börek",
+      "english": "Pie" 
+    },
+    {
+      "turkish": "Bugün",
+      "english": "Today" 
+    },
+    {
+      "turkish": "Burada",
+      "english": "Here" 
+    },
+    {
+      "turkish": "Cadde",
+      "english": "Street" 
+    },
+    {
+      "turkish": "Demlik",
+      "english": "Teapot" 
+    },
+    {
+      "turkish": "Deniz",
+      "english": "Sea" 
+    },
+    {
+      "turkish": "Deri",
+      "english": "Leather" 
+    },
+    {
+      "turkish": "Diz",
+      "english": "Knee" 
+    },
+    {
+      "turkish": "Domates",
+      "english": "Tomato" 
+    },
+    {
+      "turkish": "Dudak",
+      "english": "Lip" 
+    },
+    {
+      "turkish": "Duş",
+      "english": "Shower" 
+    },
+    {
+      "turkish": "Eğlence",
+      "english": "Fun" 
+    },
+    {
+      "turkish": "El",
+      "english": "Hand" 
+    },
+    {
+      "turkish": "Erik",
+      "english": "Plum" 
+    },
+    {
+      "turkish": "Erişte",
+      "english": "Pasta" 
+    },
+    {
+      "turkish": "Erkek",
+      "english": "Male" 
+    },
+    {
+      "turkish": "Etek",
+      "english": "Skirt" 
+    },
+    {
+      "turkish": "Ev",
+      "english": "House" 
+    },
+    {
+      "turkish": "Evli",
+      "english": "Married" 
+    },
+    {
+      "turkish": "Fabrika",
+      "english": "Factory" 
+    },
+    {
+      "turkish": "Fare",
+      "english": "Mouse" 
+    },
+    {
+      "turkish": "Fikir",
+      "english": "Idea" 
+    },
+    {
+      "turkish": "Fil",
+      "english": "Elephant" 
+    },
+    {
+      "turkish": "Fincan",
+      "english": "Cup" 
+    },
+    {
+      "turkish": "Fırın",
+      "english": "Oven" 
+    },
+    {
+      "turkish": "Fiyat",
+      "english": "Price" 
+    },
+    {
+      "turkish": "Garson",
+      "english": "Waiter" 
+    },
+    {
+      "turkish": "Gazete",
+      "english": "Newspaper" 
+    },
+    {
+      "turkish": "Gömlek",
+      "english": "Shirt" 
+    },
+    {
+      "turkish": "Göz",
+      "english": "Eye" 
+    },
+    {
+      "turkish": "Gülünç",
+      "english": "Funny" 
+    },
+    {
+      "turkish": "Gün",
+      "english": "Day" 
+    },
+    {
+      "turkish": "Haber",
+      "english": "News" 
+    },
+    {
+      "turkish": "Harita",
+      "english": "Map" 
+    },
+    {
+      "turkish": "Hasta",
+      "english": "Ill" 
+    },
+    {
+      "turkish": "Hata",
+      "english": "Mistake" 
+    },
+    {
+      "turkish": "Havlu",
+      "english": "Towel" 
+    },
+    {
+      "turkish": "Havuç",
+      "english": "Carrot" 
+    },
+    {
+      "turkish": "Iş",
+      "english": "Job" 
+    },
+    {
+      "turkish": "Iyi",
+      "english": "Good" 
+    },
+    {
+      "turkish": "Kadın",
+      "english": "Woman" 
+    },
+    {
+      "turkish": "Kalp",
+      "english": "Heart" 
+    },
+    {
+      "turkish": "Kaplan",
+      "english": "Tiger" 
+    },
+    {
+      "turkish": "Karı",
+      "english": "Wife" 
+    },
+    {
+      "turkish": "Kaz",
+      "english": "Goose" 
+    },
+    {
+      "turkish": "Kiraz",
+      "english": "Cherry" 
+    },
+    {
+      "turkish": "Kol",
+      "english": "Arm" 
+    },
+    {
+      "turkish": "Kolej",
+      "english": "College" 
+    },
+    {
+      "turkish": "Kulak",
+      "english": "Ear" 
+    },
+    {
+      "turkish": "Küpe",
+      "english": "Earrings" 
+    },
+    {
+      "turkish": "Lamba",
+      "english": "Lamp" 
+    },
+    {
+      "turkish": "Saç",
+      "english": "Hair" 
+    },
+    {
+      "turkish": "Baş",
+      "english": "Head" 
+    },
+    {
+      "turkish": "Ağız",
+      "english": "Mouth" 
+    },
+    {
+      "turkish": "Boyun",
+      "english": "Neck" 
+    },
+    {
+      "turkish": "Diş",
+      "english": "Tooth" 
+    },
+    {
+      "turkish": "Dil",
+      "english": "Tongue" 
+    },
+    {
+      "turkish": "Göğüs",
+      "english": "Chest" 
+    },
+    {
+      "turkish": "Parmak",
+      "english": "Finger" 
+    },
+    {
+      "turkish": "Dirsek",
+      "english": "Elbow" 
+    },
+    {
+      "turkish": "Kalp",
+      "english": "Heart" 
+    },
+    {
+      "turkish": "Omuz",
+      "english": "Shoulder" 
+    },
+    {
+      "turkish": "Mide",
+      "english": "Stomach" 
+    },
+    {
+      "turkish": "Ayak",
+      "english": "Foot" 
+    },
+    {
+      "turkish": "Topuk",
+      "english": "Heel" 
+    },
+    {
+      "turkish": "Hayvan",
+      "english": "Animal" 
+    },
+    {
+      "turkish": "Aslan",
+      "english": "Lion" 
+    },
+    {
+      "turkish": "Bu",
+      "english": "This" 
+    },
+    {
+      "turkish": "Hafta",
+      "english": "Week" 
+    },
+    {
+      "turkish": "Yıl",
+      "english": "Year" 
+    },
+    {
+      "turkish": "Yarın",
+      "english": "Tomorrow" 
+    },
+    {
+      "turkish": "Dün",
+      "english": "Yesterday" 
+    },
+    {
+      "turkish": "Saat",
+      "english": "Clock" 
+    },
+    {
+      "turkish": "Gülmek",
+      "english": "Laugh" 
+    },
+    {
+      "turkish": "Uzak",
+      "english": "Far" 
+    },
+    {
+      "turkish": "Küçük",
+      "english": "Small" 
+    },
+    {
+      "turkish": "Kolay",
+      "english": "Easy" 
+    },
+    {
+      "turkish": "Kötü",
+      "english": "Bad" 
+    },
+    {
+      "turkish": "O",
+      "english": "That" 
+    },
+    {
+      "turkish": "Daha",
+      "english": "More" 
+    },
+    {
+      "turkish": "Büyük",
+      "english": "Big" 
+    },
+    {
+      "turkish": "Doğru",
+      "english": "Right" 
+    },
+    {
+      "turkish": "Artık",
+      "english": "Now" 
+    },
+    {
+      "turkish": "Hiç",
+      "english": "Never" 
+    },
+    {
+      "turkish": "Uzun",
+      "english": "Long" 
+    },
+    {
+      "turkish": "Iki",
+      "english": "Two" 
+    },
+    {
+      "turkish": "Içinde ",
+      "english": "Inside" 
+    },
+    {
+      "turkish": "Yavaş",
+      "english": "Slow" 
+    },
+    {
+      "turkish": "Zaman",
+      "english": "Time" 
+    },
+    {
+      "turkish": "Geri",
+      "english": "Back" 
+    },
+    {
+      "turkish": "Başka",
+      "english": "Another" 
+    },
+    {
+      "turkish": "Benim",
+      "english": "Mine" 
+    },
+    {
+      "turkish": "Son",
+      "english": "Last" 
+    },
+    {
+      "turkish": "Gece",
+      "english": "Evening" 
+    },
+    {
+      "turkish": "Sen",
+      "english": "You" 
+    },
+    {
+      "turkish": "Yeniden",
+      "english": "Again" 
+    },
+    {
+      "turkish": "Yol",
+      "english": "Road" 
+    },
+    {
+      "turkish": "Belki",
+      "english": "Maybe" 
+    },
+    {
+      "turkish": "Cevap",
+      "english": "Answer" 
+    },
+    {
+      "turkish": "Aniden",
+      "english": "Suddenly" 
+    },
+    {
+      "turkish": "Birlikte",
+      "english": "Together" 
+    },
+    {
+      "turkish": "Onun",
+      "english": "His" 
+    },
+    {
+      "turkish": "Sıcak",
+      "english": "Hot" 
+    },
+    {
+      "turkish": "Kelime",
+      "english": "Word" 
+    },
+    {
+      "turkish": "Diğer",
+      "english": "Other" 
+    },
+    {
+      "turkish": "Dedi",
+      "english": "Said" 
+    },
+    {
+      "turkish": "Söyle",
+      "english": "Tell" 
+    },
+    {
+      "turkish": "Hava",
+      "english": "Air" 
+    },
+    {
+      "turkish": "Liman",
+      "english": "Port" 
+    },
+    {
+      "turkish": "Okumak",
+      "english": "Read" 
+    },
+    {
+      "turkish": "Ekleyin",
+      "english": "Add" 
+    },
+    {
+      "turkish": "Arazi",
+      "english": "Land" 
+    },
+    {
+      "turkish": "Neden",
+      "english": "Why" 
+    },
+    {
+      "turkish": "Sormak",
+      "english": "Ask" 
+    },
+    {
+      "turkish": "Değişim",
+      "english": "Change" 
+    },
+    {
+      "turkish": "Gitti",
+      "english": "Went" 
+    },
+    {
+      "turkish": "Tür",
+      "english": "Kind" 
+    },
+    {
+      "turkish": "Gerek",
+      "english": "Need" 
+    },
+    {
+      "turkish": "Resim",
+      "english": "Picture" 
+    },
+    {
+      "turkish": "Bizi",
+      "english": "Us" 
+    },
+    {
+      "turkish": "Tekrar",
+      "english": "Again" 
+    },
+    {
+      "turkish": "Dünya",
+      "english": "World" 
+    },
+    {
+      "turkish": "Toprak",
+      "english": "Earth" 
+    },
+    {
+      "turkish": "Baba",
+      "english": "Father" 
+    },
+    {
+      "turkish": "Yeni",
+      "english": "New" 
+    },
+    {
+      "turkish": "Bölüm",
+      "english": "Part" 
+    },
+    {
+      "turkish": "Almak",
+      "english": "Take" 
+    },
+    {
+      "turkish": "Olsun",
+      "english": "Get" 
+    },
+    {
+      "turkish": "Yer",
+      "english": "Place" 
+    },
+    {
+      "turkish": "Canlı",
+      "english": "Live" 
+    },
+    {
+      "turkish": "Nerede",
+      "english": "Where" 
+    },
+    {
+      "turkish": "Yuvarlak",
+      "english": "Round" 
+    },
+    {
+      "turkish": "Adı",
+      "english": "Name" 
+    },
+    {
+      "turkish": "Demek",
+      "english": "Say" 
+    },
+    {
+      "turkish": "Yardım",
+      "english": "Help" 
+    },
+    {
+      "turkish": "Yani",
+      "english": "Mean" 
+    },
+    {
+      "turkish": "Diye",
+      "english": "She" 
+    },
+    {
+      "turkish": "Tüm",
+      "english": "All" 
+    },
+    {
+      "turkish": "Yol",
+      "english": "Way" 
+    },
+    {
+      "turkish": "Yazmak",
+      "english": "Write" 
+    },
+    {
+      "turkish": "Bak",
+      "english": "Look" 
+    },
+    {
+      "turkish": "Numarası",
+      "english": "Number" 
+    },
+    {
+      "turkish": "Ses",
+      "english": "Sound" 
+    },
+    {
+      "turkish": "Hayır",
+      "english": "No" 
+    },
+    {
+      "turkish": "Insanlar",
+      "english": "People" 
+    },
+    {
+      "turkish": "Ilk",
+      "english": "First" 
+    },
+    {
+      "turkish": "Standı",
+      "english": "Stand" 
+    },
+    {
+      "turkish": "Sayfa",
+      "english": "Page" 
+    },
+    {
+      "turkish": "Gerekir",
+      "english": "Should" 
+    },
+    {
+      "turkish": "Okul",
+      "english": "School" 
+    },
+    {
+      "turkish": "Gıda",
+      "english": "Food" 
+    },
+    {
+      "turkish": "Güneş",
+      "english": "Sun" 
+    },
+    {
+      "turkish": "Şehir",
+      "english": "City" 
+    },
+    {
+      "turkish": "Ağaç",
+      "english": "Tree" 
+    },
+    {
+      "turkish": "Hikaye",
+      "english": "Story" 
+    },
+    {
+      "turkish": "Geç",
+      "english": "Late" 
+    },
+    {
+      "turkish": "Basın",
+      "english": "Press" 
+    },
+    {
+      "turkish": "Gece",
+      "english": "Night" 
+    },
+    {
+      "turkish": "Kitap",
+      "english": "Book" 
+    },
+    {
+      "turkish": "Oda",
+      "english": "Room" 
+    },
+    {
+      "turkish": "Dağ",
+      "english": "Mountain" 
+    },
+    {
+      "turkish": "Dur",
+      "english": "Stop"
+    },
+    {
+      "turkish": "At",
+      "english": "Horse"
+    },
+    {
+      "turkish": "Izle",
+      "english": "Watch"
+    },
+    {
+      "turkish": "Renk",
+      "english": "Color"
+    },
+    {
+      "turkish": "Yüz",
+      "english": "Face"
+    },
+    {
+      "turkish": "Beyaz",
+      "english": "White"
+    },
+    {
+      "turkish": "Kâğıt",
+      "english": "Paper"
+    },
+    {
+      "turkish": "Mektup",
+      "english": "Letter"
+    },
+    {
+      "turkish": "Kız",
+      "english": "Girl"
+    },
+    {
+      "turkish": "Kuş",
+      "english": "Bird"
+    }
+  ]
+}

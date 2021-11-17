@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
 import { User, Word } from "../models/types";
-import { getRandomPairing, getTestDate, shuffle } from "../utils/utils";
+import { getRandomPairing, getTestDate, shuffle, getRandomGameType } from "../utils/utils";
 
 
 // Your web app's Firebase configuration
@@ -51,6 +51,7 @@ export default class FirebaseInteractor {
         const userDoc = doc(this.db, "users", userAuth.user.uid)
         await setDoc(userDoc, {
             numPairs: getRandomPairing(),
+            gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
             sessions: [],
             seenPairs: []
