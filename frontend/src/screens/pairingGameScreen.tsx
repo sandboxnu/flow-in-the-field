@@ -36,14 +36,16 @@ export default function PairingGameScreen() {
     </View>)
 }
 
-const defaultStyle = {
-    color: "white",
-    width: "80%",
-    marginVertical: 5,
-    borderRadius: 5,
-    textAlign: "center",
-    paddingVertical: "4%"
-}
+const defaultStyle = StyleSheet.create({
+    default: {
+        color: "white",
+        width: "80%",
+        marginVertical: 5,
+        borderRadius: 5,
+        textAlign: "center",
+        paddingVertical: "4%"
+    }
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -57,11 +59,11 @@ const styles = StyleSheet.create({
         paddingTop: "10%"
     },
     english: {
-        ...defaultStyle,
+        ...defaultStyle.default,
         backgroundColor: BLUE
     },
     turkish: {
-        ...defaultStyle,
+        ...defaultStyle.default,
         backgroundColor: GREY
     }
 })
