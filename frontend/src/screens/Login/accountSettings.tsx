@@ -25,6 +25,8 @@ export default function AccountSettings() {
         <ErrorText message={error} />
         <Text>{successMessage}</Text>
         <TouchableOpacity onPress={() => {
+            setError("");
+            setSuccesMessage("");
             if (!currentPassword) {
                 setError("Please enter your current password.");
             } else if (!newPassword) {
