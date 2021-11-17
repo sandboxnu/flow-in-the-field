@@ -16,8 +16,8 @@ export default function PairingGameScreen() {
         fi.getUser().then(user => {
             setUser(user);
             fi.getXRandomPairs(user.numPairs).then(words => {
-                setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english + i)));
-                setTurkishWords(durstenfeldShuffle(words.map((word, i) => word.turkish + i)));
+                setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
+                setTurkishWords(durstenfeldShuffle(words.map((word, i) => word.turkish)));
             }).catch(console.error);
         }).catch(console.error);
     }, []);
