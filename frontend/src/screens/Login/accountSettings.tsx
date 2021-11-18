@@ -13,7 +13,7 @@ export default function AccountSettings() {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [error, setError] = useState("");
-    const [successMessage, setSuccesMessage] = useState("")
+    const [successMessage, setSuccessMessage] = useState("")
 
     const navigation = useNavigation();
 
@@ -26,7 +26,7 @@ export default function AccountSettings() {
         <Text>{successMessage}</Text>
         <TouchableOpacity onPress={() => {
             setError("");
-            setSuccesMessage("");
+            setSuccessMessage("");
             if (!currentPassword) {
                 setError("Please enter your current password.");
             } else if (!newPassword) {
@@ -35,7 +35,7 @@ export default function AccountSettings() {
                 setError("New password cannot be the same as the old passowrd.")
             } else {
                 fi.updatePassword(currentPassword, newPassword).then(() => {
-                    setSuccesMessage("Successfully changed password.")
+                    setSuccessMessage("Successfully changed password.")
                 }).catch(e => setError(mapErrorCodeToMessage(e.code)))
             }
         }}>
