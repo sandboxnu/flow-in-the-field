@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
 import { User, Word } from "../models/types";
-import { getRandomPairing, getTestDate, shuffle, getRandomGameType } from "../utils/utils";
+import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 
 
 // Your web app's Firebase configuration
@@ -103,7 +103,7 @@ export default class FirebaseInteractor {
         const col = collection(this.db, "words")
         const docs = await getDocs(col)
         let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({english, turkish}) => ({english, turkish}))
-        shuffle(allWords)
+        durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
     }
 }
