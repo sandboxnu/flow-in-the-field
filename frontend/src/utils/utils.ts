@@ -14,10 +14,6 @@ export function getRandomPairing(): NumPairs {
     }
 }
 
-export function shuffle<T>(vals: T[]) {
-    vals.sort((a, b) => Math.random() - 0.5)
-}
-
 export function getTestDate() {
     return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //add 7 days to current time
 }
@@ -40,6 +36,15 @@ export function mapErrorCodeToMessage(code: string) {
     }
 }
 
+//stolen from https://stackoverflow.com/a/12646864/9124516
+//mutates original array and returns it
+export function durstenfeldShuffle(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 /**
  * Produces a random game type.
  */
