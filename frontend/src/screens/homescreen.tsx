@@ -40,9 +40,9 @@ export default function Homescreen() {
                     <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
                 </View>
             </View>
-            <TextIconButton onPress={() => navigation.navigate("pairingGame")} text="Start a new session" icon={require("../assets/flow-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/flow-icon.png")} />
-            <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help.png")} />
+            <TextIconButton onPress={() => navigation.navigate("pairingGame")} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
+            <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/profile-icon.png")} />
+            <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help-icon.png")} />
 
         </View>)
 }
