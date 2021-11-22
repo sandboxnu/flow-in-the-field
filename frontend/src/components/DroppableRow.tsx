@@ -6,23 +6,34 @@ interface DroppableRowProps {
     english?: string,
     removeWord: () => void;
     wordDropped: (word: string) => void;
-    // submitted: boolean;
-    // correctEnglishWord: string
+    showingResults: boolean
 }
 
-export default function DroppableRow({ turkish, english, removeWord, wordDropped }: DroppableRowProps) {
+export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults }: DroppableRowProps) {
+    const extraEnglishInfo = showingResults ? showingResultsStyles.englishWord : {}
+    const extraTurkishInfo = showingResults ? showingResultsStyles.turkishWord : {}
     return (<View style={styles.container}>
         {english ?
-            <TouchableOpacity style={styles.englishTextContainer} onPress={removeWord}>
+            <TouchableOpacity style={{...styles.englishTextContainer, ...extraEnglishInfo}} onPress={() => !showingResults && removeWord()} disabled={showingResults}>
                 <Text style={styles.englishText}>{english}</Text>
             </TouchableOpacity>
             : <DraxView style={styles.draxView}
                 onReceiveDragDrop={({ dragged: { payload } }: { dragged: { payload: string } }) => {
                     wordDropped(payload);
                 }}></DraxView>}
-        <Text style={styles.turkishText}>{turkish}</Text>
+        <Text style={{... styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
     </View>)
 }
+
+const showingResultsStyles = StyleSheet.create({
+    englishWord: {
+        backgroundColor: "#5BBAB780",
+        borderColor: "transparent"
+    },
+    turkishWord: {
+        backgroundColor: "#C4C4C480"
+    }
+})
 
 const styles = StyleSheet.create({
     draxView: {
@@ -55,13 +66,13 @@ const styles = StyleSheet.create({
     },
     englishText: {
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     container: {
         flexDirection: "row",
         alignItems: 'center',
         width: "100%",
-        height: 30,
+        height: 50,
         marginVertical: "1%"
     }
 });
