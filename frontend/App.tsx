@@ -16,24 +16,27 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="SignedInGame" component={HomeNavigation} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="HomeScreen" component={Homescreen} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="SettingsScreen" component={PairingGameScreen} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="GameScreen" component={PairingGameScreen} options={{ headerShown: false, gestureEnabled: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
+/*
 function HomeNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="home" component={Homescreen} />
-        <Stack.Screen name="settings" component={AccountSettings} />
+        <Stack.Screen name="settings" component={PairingGameScreen} />
         <Stack.Screen name="pairingGame" component={PairingGameScreen} />
       </Stack.Navigator>
     </NavigationContainer>);
 
-
 }
+*/
 
 const styles = StyleSheet.create({
   mainImage: {

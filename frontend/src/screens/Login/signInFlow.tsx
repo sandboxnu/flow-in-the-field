@@ -15,10 +15,10 @@ export default function SignInFlow() {
         return (<LoginPage
             goToSignUp={() => setCurrentPage("signUp")}
             goToRecoveryScreen={() => setCurrentPage("recoverPassword")}
-            goToAccountSettings={() => navigation.navigate({key: "SignedInGame"})} />)
+            goToAccountSettings={() => navigation.navigate({key: "HomeScreen"})} />)
     } else if (currentPage == "recoverPassword") {
         return (<RecoverPasswordPage goToSignIn={() => setCurrentPage("signIn")} />)
     } else {
-        return (<SignUpPage goToSignIn={() => setCurrentPage("signIn")} goToAccountSettings={() => navigation.navigate({key: "SignedInGame"})} />)
+        return (<SignUpPage goToSignIn={() => setCurrentPage("signIn")} goToAccountSettings={() => navigation.navigate({key: "HomeScreen"})} />)
     }
 }
