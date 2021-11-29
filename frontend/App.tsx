@@ -25,8 +25,7 @@ export default function App() {
 function HomeNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerTintColor: "#D16B50", headerTitle: () => 
-      { return <Image source={require("./src/assets/flow-icon.png")} style={styles.mainImage} /> } }}>
+      <Stack.Navigator>
         <Stack.Screen name="home" component={Homescreen} />
         <Stack.Screen name="settings" component={AccountSettings} />
         <Stack.Screen name="pairingGame" component={PairingGameScreen} />
