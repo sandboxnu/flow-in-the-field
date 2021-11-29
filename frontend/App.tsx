@@ -5,13 +5,11 @@ import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
 import PairingGameScreen from './src/screens/pairingGameScreen';
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator()
 export default function App() {
   return (
     <NavigationContainer>
