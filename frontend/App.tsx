@@ -17,8 +17,8 @@ export default function App() {
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="SettingsScreen" component={PairingGameScreen} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="GameScreen" component={PairingGameScreen} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="SettingsScreen" component={AccountSettings} options={{ title: '' }}/ >
+        <Stack.Screen name="GameScreen" component={PairingGameScreen} options={{ title: '' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
