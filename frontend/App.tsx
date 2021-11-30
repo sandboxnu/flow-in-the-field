@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
@@ -11,32 +11,33 @@ import PairingGameScreen from './src/screens/pairingGameScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+
+  const HOME_HEADER_OPTIONS = {
+    headerTitle: () => {return <Image style={styles.mainImage} source={require('./src/assets/flow-icon.png')}/>},
+    title: '',
+    headerShadowVisible: false,
+    headerTintColor: '#D16B50',
+    headerBackTitle: '',
+    headerStyle: {
+      backgroundColor: '#FFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS}>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="SettingsScreen" component={AccountSettings} options={{ title: '' }}/ >
-        <Stack.Screen name="GameScreen" component={PairingGameScreen} options={{ title: '' }} />
+        <Stack.Screen name="SettingsScreen" component={AccountSettings} />
+        <Stack.Screen name="GameScreen" component={PairingGameScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-/*
-function HomeNavigation() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="home" component={Homescreen} />
-        <Stack.Screen name="settings" component={PairingGameScreen} />
-        <Stack.Screen name="pairingGame" component={PairingGameScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>);
-
-}
-*/
 
 const styles = StyleSheet.create({
   mainImage: {

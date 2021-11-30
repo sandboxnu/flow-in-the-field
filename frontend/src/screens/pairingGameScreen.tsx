@@ -43,14 +43,15 @@ const defaultStyle = StyleSheet.create({
         marginVertical: 5,
         borderRadius: 5,
         textAlign: "center",
-        paddingVertical: "4%"
+        paddingVertical: "4%",
     }
 });
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "row"
+        flexDirection: "row",
+        backgroundColor: '#FFF',
     },
     column: {
         flex: 1,
