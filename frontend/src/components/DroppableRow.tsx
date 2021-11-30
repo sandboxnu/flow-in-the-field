@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         borderColor: "white",
         borderStyle: "dashed",
-        borderWidth: 4,
+        borderWidth: 2,
         backgroundColor: "#5EAFDF",
         height: "100%",
         color: "white",
