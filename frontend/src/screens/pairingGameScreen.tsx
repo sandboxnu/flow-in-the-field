@@ -41,51 +41,53 @@ export default function PairingGameScreen() {
     const extraButtonStyles = canClickDoneButton ? {} : styles.inactiveButton
     return (
         <DraxProvider>
-            <View style={styles.column}>
-                {submitted ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text> :
-                    englishWords?.map(word => {
-                        if (turkishWords?.some(({ english }) => english === word) ?? false) {
-                            return (<View key={word} style={styles.englishUsed} />)
-                        }
-                        return (<DraxView payload={word} key={word} style={styles.draxView} draggingStyle={styles.englishUsed} dragReleasedStyle={styles.englishUsed}>
-                            <Text style={styles.english}>{word}</Text>
-                        </DraxView>)
-                    })
-                }
-            </View>
-            <View style={styles.turkishContainer}>
-                {turkishWords?.map((word, i) => (
-                    <DroppableRow
-                        key={word.turkish}
-                        showingResults={submitted}
-                        wordDropped={(newWord) => {
-                            const newTurkishWords = [...turkishWords]
-                            newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
-                            setTurkishWords(newTurkishWords)
-                        }}
-                        turkish={word.turkish}
-                        english={word.english}
-                        correctEnglish={word.correctEnglishWord}
-                        removeWord={
-                            () => {
+            <View style={styles.container}>
+                <View style={{...styles.column, flex: submitted ? 5 : 8}}>
+                    {submitted ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text> :
+                        englishWords?.map(word => {
+                            if (turkishWords?.some(({ english }) => english === word) ?? false) {
+                                return (<View key={word} style={styles.englishUsed} />)
+                            }
+                            return (<DraxView payload={word} key={word} style={styles.draxView} draggingStyle={styles.englishUsed} dragReleasedStyle={styles.englishUsed}>
+                                <Text style={styles.english}>{word}</Text>
+                            </DraxView>)
+                        })
+                    }
+                </View>
+                <View style={styles.turkishContainer}>
+                    {turkishWords?.map((word, i) => (
+                        <DroppableRow
+                            key={word.turkish}
+                            showingResults={submitted}
+                            wordDropped={(newWord) => {
                                 const newTurkishWords = [...turkishWords]
-                                newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
+                                newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                 setTurkishWords(newTurkishWords)
                             }}
-                    />))}
-            </View>
-            <View style={styles.doneContainer}>
-                {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
-                    setTurkishWords(turkishWords?.map((word) => ({ ...word, english: undefined })))
-                    setSubmitted(false)
-                }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
-                <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
-                    if (submitted) {
-                        navigation.navigate("home")
-                    } else {
-                        setSubmitted(true)
-                    }
-                }}><Text style={styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                            turkish={word.turkish}
+                            english={word.english}
+                            correctEnglish={word.correctEnglishWord}
+                            removeWord={
+                                () => {
+                                    const newTurkishWords = [...turkishWords]
+                                    newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
+                                    setTurkishWords(newTurkishWords)
+                                }}
+                        />))}
+                </View>
+                <View style={styles.doneContainer}>
+                    {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
+                        setTurkishWords(turkishWords?.map((word) => ({ ...word, english: undefined })))
+                        setSubmitted(false)
+                    }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
+                    <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
+                        if (submitted) {
+                            navigation.navigate("home")
+                        } else {
+                            setSubmitted(true)
+                        }
+                    }}><Text style={styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                </View>
             </View>
         </DraxProvider>
     )
@@ -104,7 +106,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        paddingTop: "5%"
     },
     inactiveButton: {
         backgroundColor: "#D16B5025",
@@ -113,7 +116,6 @@ const styles = StyleSheet.create({
         flex: 8,
         width: "100%",
         alignItems: "center",
-        paddingTop: "10%",
         flexWrap: "wrap",
         flexDirection: "row",
     },
@@ -123,19 +125,19 @@ const styles = StyleSheet.create({
     },
     english: {
         ...defaultStyle.default,
-        paddingVertical: "10%",
-        marginVertical: "4%",
-        backgroundColor: BLUE,
     },
     draxView: {
         width: "40%",
         marginHorizontal: "5%",
         height: "15%",
-        marginVertical: "3%"
+        marginVertical: "3%",
+        backgroundColor: BLUE,
+        justifyContent: 'center'
     },
     doneContainer: {
         flex: 3,
         alignItems: "center",
+        justifyContent: "center"
     },
     doneButton: {
         backgroundColor: "#D16B50",

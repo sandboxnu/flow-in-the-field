@@ -23,7 +23,9 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
                 onReceiveDragDrop={({ dragged: { payload } }: { dragged: { payload: string } }) => {
                     wordDropped(payload);
                 }}></DraxView>}
-        <Text style={{ ...styles.turkishText, ...extraTurkishInfo }}>{turkish}</Text>
+        <View style={styles.turkishContainer}>
+            <Text style={{... styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
+        </View>
     </View>)
 }
 
@@ -54,13 +56,16 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         borderRadius: 0.0001
     },
-    turkishText: {
+    turkishContainer: {
+        justifyContent: "center",
         width: "40%",
-        textAlign: "center",
+        height: "100%",
         backgroundColor: "#C4C4C4",
-        paddingVertical: "2%",
-        color: "white",
         marginHorizontal: "5%"
+    },
+    turkishText: {
+        textAlign: "center",
+        color: "white",
     },
     englishTextContainer: {
         width: "40%",
@@ -69,9 +74,10 @@ const styles = StyleSheet.create({
         borderStyle: "dashed",
         borderWidth: 4,
         backgroundColor: "#5EAFDF",
-        paddingVertical: "2%",
+        height: "100%",
         color: "white",
         marginHorizontal: "5%",
+        justifyContent: "center",
         borderRadius: 0.000001
     },
     englishText: {
@@ -82,7 +88,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         width: "100%",
-        height: "11.5%",
-        marginVertical: "0.5%",
+        flex: 1,
+        marginVertical: "1%"
     }
 });
