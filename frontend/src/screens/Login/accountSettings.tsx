@@ -67,13 +67,6 @@ export default function AccountSettings() {
                 <TouchableOpacity style={styles.button} onPress={() => updatePassword()}>
                     <Text style={styles.buttonText}>change password</Text>
                 </TouchableOpacity>
-                {/*
-                <TouchableOpacity onPress={() => {
-                    fi.logout()
-                        .then(() => navigation.navigate({key: "SignInFlow"}))
-                        .catch(e => setError(mapErrorCodeToMessage(e.code)))}}>
-                    <Text>Logout</Text>
-                </TouchableOpacity>*/}
             </View>
             <View style={styles.half}>
                 <Text style={styles.subheader}>contact us!</Text>
