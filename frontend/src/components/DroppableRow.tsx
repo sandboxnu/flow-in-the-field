@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         width: "100%",
-        flex: 1,
-        marginVertical: "1%"
+        height: "12.5%",
+        paddingVertical: "1%"
     }
 });

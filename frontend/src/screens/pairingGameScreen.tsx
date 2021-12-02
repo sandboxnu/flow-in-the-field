@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     turkishContainer: {
         width: "100%",
         flex: 10,
+        justifyContent: "center"
     },
     english: {
         ...defaultStyle.default,
