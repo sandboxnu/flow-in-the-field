@@ -90,10 +90,10 @@ export default class FirebaseInteractor {
                 throw new Error("No data found")
             }
             return {
-                email: user.email ?? "your mom",
-                testDate: docData.testDate.toDate() ?? new Date(),
-                numPairs: docData.numPairs ?? 2,
-                gameType: docData.game ?? "pairing"
+                email: user.email!,
+                testDate: docData.testDate.toDate(),
+                numPairs: docData.numPairs,
+                gameType: docData.game
             }
         }
         throw new Error("No user found")
