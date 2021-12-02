@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
     column: {
         width: "100%",
         alignItems: "center",
-        // flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "center",
     },
