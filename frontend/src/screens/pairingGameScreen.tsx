@@ -26,7 +26,12 @@ export default function PairingGameScreen() {
         fi.getUser().then(user => {
             setUser(user);
             fi.getXRandomPairs(user.numPairs).then(words => {
-                setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
+                const allEnglishWords = durstenfeldShuffle(words.map((word, i) => word.english));
+                if (user.gameType === "pairing") {
+                    setEnglishWords(allEnglishWords);
+                } else {
+                    setEnglishWords([allEnglishWords[0]])
+                }
                 setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
             }).catch(console.error);
         }).catch(console.error);
@@ -42,7 +47,7 @@ export default function PairingGameScreen() {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{...styles.column, flex: submitted ? 5 : 8}}>
+                <View style={{ ...styles.column, flex: submitted ? 5 : 8 }}>
                     {submitted ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text> :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
