@@ -48,7 +48,10 @@ export default function PairingGameScreen() {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
                                 return (<View key={word} style={styles.englishUsed} />)
                             }
-                            return (<DraxView payload={word} key={word} style={styles.draxView} draggingStyle={styles.englishUsed} dragReleasedStyle={styles.englishUsed}>
+                            return (<DraxView payload={word} key={word} 
+                                style={styles.draxView}
+                                draggingStyle={{opacity: 0.3}}
+                                dragReleasedStyle={{opacity: 0.3}}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
                         })
