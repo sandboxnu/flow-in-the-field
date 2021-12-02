@@ -44,11 +44,16 @@ export default function PairingGameScreen() {
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton ? {} : styles.inactiveButton
+
+    const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
+        : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
+    const shouldNotFlexWrap = user?.gameType === "selecting" || submitted
+
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.column, flex: submitted ? 5 : 8 }}>
-                    {submitted ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text> :
+                <View style={{ ...styles.column, flex: submitted ? 5 : 8, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                    {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
                                 return (<View key={word} style={styles.englishUsed} />)
@@ -118,11 +123,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#D16B5025",
     },
     column: {
-        flex: 8,
         width: "100%",
         alignItems: "center",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
         flexDirection: "row",
+        justifyContent: "center",
     },
     turkishContainer: {
         width: "100%",
@@ -161,6 +166,12 @@ const styles = StyleSheet.create({
         fontSize: 124,
         textAlign: "center",
         width: "100%"
+    },
+    correctText: {
+        color: BLUE,
+        fontSize: 64,
+        textAlign: "center",
+
     },
     englishUsed: {
         borderColor: BLUE,

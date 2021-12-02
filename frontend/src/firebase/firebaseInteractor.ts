@@ -93,7 +93,7 @@ export default class FirebaseInteractor {
                 email: user.email ?? "your mom",
                 testDate: docData.testDate.toDate() ?? new Date(),
                 numPairs: docData.numPairs ?? 2,
-                gameType: docData.game ?? "multipleChoice"
+                gameType: docData.game ?? "pairing"
             }
         }
         throw new Error("No user found")
@@ -102,7 +102,7 @@ export default class FirebaseInteractor {
     async getXRandomPairs(num: number): Promise<Word[]> {
         const col = collection(this.db, "words")
         const docs = await getDocs(col)
-        let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({english, turkish}) => ({english, turkish}))
+        let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({ english, turkish }) => ({ english, turkish }))
         durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
     }
