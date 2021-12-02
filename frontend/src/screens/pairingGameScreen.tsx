@@ -15,6 +15,16 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
+const fetchNewWords = async (user: User) => {
+    const words = await fi.getXRandomPairs(user.numPairs)
+    let allEnglishWords: string[] = durstenfeldShuffle(words.map((word, i) => word.english));
+    if (user.gameType !== "pairing") {
+        allEnglishWords = [allEnglishWords[0]]
+    }
+    const turkishWords: MaybeWordPair[] = durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english })))
+    return {allEnglishWords, turkishWords}
+}
+
 export default function PairingGameScreen() {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
@@ -25,15 +35,11 @@ export default function PairingGameScreen() {
     useEffect(() => {
         fi.getUser().then(user => {
             setUser(user);
-            fi.getXRandomPairs(user.numPairs).then(words => {
-                const allEnglishWords = durstenfeldShuffle(words.map((word, i) => word.english));
-                if (user.gameType === "pairing") {
-                    setEnglishWords(allEnglishWords);
-                } else {
-                    setEnglishWords([allEnglishWords[0]])
-                }
-                setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
-            }).catch(console.error);
+            fetchNewWords(user)
+            .then(({allEnglishWords, turkishWords}) => {
+                setEnglishWords(allEnglishWords)
+                setTurkishWords(turkishWords)
+            }).catch(console.log)
         }).catch(console.error);
     }, []);
 
@@ -87,8 +93,14 @@ export default function PairingGameScreen() {
                 </View>
                 <View style={styles.doneContainer}>
                     {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
-                        setTurkishWords(turkishWords?.map((word) => ({ ...word, english: undefined })))
-                        setSubmitted(false)
+                        if (user) {
+                            fetchNewWords(user)
+                            .then(({allEnglishWords, turkishWords}) => {
+                                setEnglishWords(allEnglishWords)
+                                setTurkishWords(turkishWords)
+                                setSubmitted(false)
+                            }).catch(console.log)
+                        }
                     }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
