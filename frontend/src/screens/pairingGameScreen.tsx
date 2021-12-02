@@ -98,12 +98,14 @@ const defaultStyle = StyleSheet.create({
         color: "white",
         borderRadius: 5,
         textAlign: "center",
+        paddingVertical: "4%",
     }
 });
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFF',
         alignItems: "center",
         width: "100%",
         height: "100%",

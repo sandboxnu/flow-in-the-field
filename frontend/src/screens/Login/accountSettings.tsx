@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         paddingTop: "4%",
-        paddingBottom: "4%"
+        paddingBottom: "4%",
+        backgroundColor: "#FFF"
     },
     half: {
         flex: 1,
