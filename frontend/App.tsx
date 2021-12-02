@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
@@ -26,12 +26,20 @@ export default function App() {
     },
   }
 
+  const NAV_THEME = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#FFF'
+    },
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={NAV_THEME}>
       <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS}>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="HomeScreen" component={Homescreen} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
         <Stack.Screen name="SettingsScreen" component={AccountSettings} />
         <Stack.Screen name="GameScreen" component={PairingGameScreen}/>
       </Stack.Navigator>
