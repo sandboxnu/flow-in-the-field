@@ -42,6 +42,7 @@ export default function App() {
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
         <Stack.Screen name="SettingsScreen" component={AccountSettings} />
         <Stack.Screen name="GameScreen" component={PairingGameScreen}/>
+        <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
