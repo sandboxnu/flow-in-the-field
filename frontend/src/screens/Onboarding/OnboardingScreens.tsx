@@ -40,7 +40,7 @@ export default function OnboardingScreens( {navigation, route: { params }}: Onbo
                     "you'll receive a vocabulary test. The better you do on the " +
                     "test, the more money you'll win!"}
                 hasNavButton={true}
-                navButtonTitle={"register"}
+                navButtonTitle={params?.signedIn ? "done" : "register"}
                 navigation={navigation}
                 route={params?.signedIn ? "HomeScreen" : "SignInFlow"}/>
         </Swiper>
