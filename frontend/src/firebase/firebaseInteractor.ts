@@ -93,7 +93,7 @@ export default class FirebaseInteractor {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
                 numPairs: docData.numPairs,
-                gameType: docData.game
+                gameType: docData.gameType
             }
         }
         throw new Error("No user found")
