@@ -17,8 +17,14 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
         {(english || showingResults) ?
-            <DraxView style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} payload={showingResults ? undefined : english} draggingStyle={{opacity: 0.3}} dragReleasedStyle={{opacity: 0.3}} key={1}
+            <DraxView style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} 
+                dragPayload={showingResults ? undefined : english} 
+                draggable={!showingResults}
+                draggingStyle={{opacity: 0.3}} 
+                dragReleasedStyle={{opacity: 0.3}} 
+                key={1}
                 onDragStart={() => setDragging(false)}
+                hoverDraggingStyle={{borderColor: "transparent"}}
                 onDrag={event => {
                     if (Math.abs(event.dragTranslation.x) > 1 || Math.abs(event.dragTranslation.y) > 1) {
                         setDragging(true)
