@@ -13,8 +13,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   const HOME_HEADER_OPTIONS = {
-    headerTitle: () => {return <Image style={styles.mainImage} source={require('./src/assets/flow-icon.png')}/>},
+    headerTitle: () => { return <Image style={styles.mainImage} source={require('./src/assets/flow-icon.png')} /> },
     title: '',
+    headerTitleAlign: "center" as "center",
     headerShadowVisible: false,
     headerTintColor: '#D16B50',
     headerBackTitle: '',
@@ -23,7 +24,7 @@ export default function App() {
       elevation: 0,
       shadowOpacity: 0,
       borderBottomWidth: 0,
-    },
+    }
   }
 
   const NAV_THEME = {
@@ -41,7 +42,7 @@ export default function App() {
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
         <Stack.Screen name="SettingsScreen" component={AccountSettings} />
-        <Stack.Screen name="GameScreen" component={PairingGameScreen}/>
+        <Stack.Screen name="GameScreen" component={PairingGameScreen} />
         <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
