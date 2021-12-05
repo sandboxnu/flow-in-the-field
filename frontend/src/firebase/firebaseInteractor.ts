@@ -1,6 +1,6 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc } from "firebase/firestore";
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 
@@ -53,8 +53,6 @@ export default class FirebaseInteractor {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
-            sessions: [],
-            seenPairs: []
         });
     }
 
@@ -65,6 +63,7 @@ export default class FirebaseInteractor {
     async resetPassword(email: string) {
         await sendPasswordResetEmail(this.auth, email)
     }
+
     async updatePassword(oldPassword: string, newPassword: string) {
         const user = this.auth.currentUser;
         if (user !== null && user.email !== null) {
@@ -98,6 +97,27 @@ export default class FirebaseInteractor {
         }
         throw new Error("No user found")
     }
+
+    async startSession(): Promise<Session> {
+
+        const user = this.auth.currentUser;
+
+        if (user !== null) {
+            const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+
+            const newSession = {
+                user: user,
+                startTime: Timestamp,
+                endTime: null,
+            }
+
+            const col = collection(this.db, "sessions");
+            addDoc(col, newSession);
+            
+            return newSession;
+        }
+    }
+
 
     async getXRandomPairs(num: number): Promise<Word[]> {
         const col = collection(this.db, "words")
