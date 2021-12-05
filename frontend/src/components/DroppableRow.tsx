@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { DraxView } from "react-native-drax";
 import { ORANGE } from "../constants/colors";
 interface DroppableRowProps {
@@ -14,15 +14,37 @@ interface DroppableRowProps {
 export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, correctEnglish }: DroppableRowProps) {
     const correct = english === correctEnglish || !english;
     const extraEnglishInfo = showingResults ? correct ? showingResultsStyles.correctEnglishWord : showingResultsStyles.incorrectEnglishWord : {}
+    const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
         {(english || showingResults) ?
-            <TouchableOpacity style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} onPress={() => !showingResults && removeWord()} disabled={showingResults}>
+            <DraxView style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} 
+                dragPayload={showingResults ? undefined : english} 
+                draggable={!showingResults}
+                draggingStyle={{opacity: 0.3}} 
+                dragReleasedStyle={{opacity: 0.3}} 
+                key={1}
+                onDragStart={() => setDragging(false)}
+                hoverDraggingStyle={{borderColor: "transparent"}}
+                onDrag={event => {
+                    if (Math.abs(event.dragTranslation.x) > 1 || Math.abs(event.dragTranslation.y) > 1) {
+                        setDragging(true)
+                    }
+                }}
+                onDragEnd={() => {
+                    if (!dragging) {
+                        removeWord();
+                    }
+                    setDragging(false)
+                }} // This is a hack since there is no way to interact draxview with a touch handler
+                longPressDelay={1}>
                 <Text style={styles.englishText}>{showingResults ? correctEnglish : english}</Text>
-            </TouchableOpacity>
+            </DraxView>
+            
             : <DraxView style={styles.draxView}
                 onReceiveDragDrop={({ dragged: { payload } }: { dragged: { payload: string } }) => {
                     wordDropped(payload);
-                }}></DraxView>}
+                }}
+                key={2}></DraxView>}
         <View style={styles.turkishContainer}>
             <Text style={styles.turkishText}>{turkish}</Text>
         </View>

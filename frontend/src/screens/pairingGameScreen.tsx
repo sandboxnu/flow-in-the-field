@@ -16,8 +16,10 @@ interface MaybeWordPair {
 }
 
 const fetchNewWords = async (user: User) => {
+    console.log(user)
     const words = await fi.getXRandomPairs(user.numPairs)
     let allEnglishWords: string[] = durstenfeldShuffle(words.map((word, i) => word.english));
+    console.log(user.gameType)
     if (user.gameType !== "pairing") {
         allEnglishWords = [allEnglishWords[0]]
     }
@@ -54,7 +56,6 @@ export default function PairingGameScreen() {
     const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
         : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
     const shouldNotFlexWrap = user?.gameType === "selecting" || submitted
-
     return (
         <DraxProvider>
             <View style={styles.container}>
@@ -67,7 +68,8 @@ export default function PairingGameScreen() {
                             return (<DraxView payload={word} key={word} 
                                 style={styles.draxView}
                                 draggingStyle={{opacity: 0.3}}
-                                dragReleasedStyle={{opacity: 0.3}}>
+                                dragReleasedStyle={{opacity: 0.3}}
+                                longPressDelay={100}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
                         })
@@ -79,7 +81,13 @@ export default function PairingGameScreen() {
                             key={word.turkish}
                             showingResults={submitted}
                             wordDropped={(newWord) => {
-                                const newTurkishWords = [...turkishWords]
+                                const newTurkishWords = turkishWords.map(({english, turkish, correctEnglishWord}) => {
+                                    if (english === newWord) {
+                                        return {turkish, correctEnglishWord}
+                                    } else {
+                                        return {turkish, correctEnglishWord, english}
+                                    }
+                                })
                                 newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                 setTurkishWords(newTurkishWords)
                             }}
