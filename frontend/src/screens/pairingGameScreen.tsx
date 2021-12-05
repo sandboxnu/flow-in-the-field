@@ -79,7 +79,13 @@ export default function PairingGameScreen() {
                             key={word.turkish}
                             showingResults={submitted}
                             wordDropped={(newWord) => {
-                                const newTurkishWords = [...turkishWords]
+                                const newTurkishWords = turkishWords.map(({english, turkish, correctEnglishWord}) => {
+                                    if (english === newWord) {
+                                        return {turkish, correctEnglishWord}
+                                    } else {
+                                        return {turkish, correctEnglishWord, english}
+                                    }
+                                })
                                 newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                 setTurkishWords(newTurkishWords)
                             }}

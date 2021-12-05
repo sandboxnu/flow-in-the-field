@@ -16,9 +16,12 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
     const extraEnglishInfo = showingResults ? correct ? showingResultsStyles.correctEnglishWord : showingResultsStyles.incorrectEnglishWord : {}
     return (<View style={styles.container}>
         {(english || showingResults) ?
-            <TouchableOpacity style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} onPress={() => !showingResults && removeWord()} disabled={showingResults}>
-                <Text style={styles.englishText}>{showingResults ? correctEnglish : english}</Text>
-            </TouchableOpacity>
+            <DraxView style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} payload={showingResults ? undefined : english} draggingStyle={{opacity: 0.3}} hoverDraggingStyle={{opacity: 0.3}}>
+                <TouchableOpacity  onPress={() => !showingResults && removeWord()} disabled={showingResults}>
+                    <Text style={styles.englishText}>{showingResults ? correctEnglish : english}</Text>
+                </TouchableOpacity>
+            </DraxView>
+            
             : <DraxView style={styles.draxView}
                 onReceiveDragDrop={({ dragged: { payload } }: { dragged: { payload: string } }) => {
                     wordDropped(payload);
