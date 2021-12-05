@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { BLUE, GREY } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, Word } from "../models/types";
+import { User, Word, UID } from "../models/types";
 import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
+
 const fi = new FirebaseInteractor();
 
 interface MaybeWordPair {
@@ -15,12 +16,17 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
-export default function PairingGameScreen() {
+interface PairingGameScreenProps {
+    route: any;
+}
+
+export default function PairingGameScreen(props: PairingGameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
     const [submitted, setSubmitted] = useState(false);
     const navigation = useNavigation()
+    const { sessionId } = props.route.params;
 
     useEffect(() => {
         fi.getUser().then(user => {
@@ -82,7 +88,8 @@ export default function PairingGameScreen() {
                     }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
-                            navigation.navigate("home")
+                            fi.endSession(sessionId);
+                            navigation.navigate("home");
                         } else {
                             setSubmitted(true)
                         }

@@ -19,7 +19,7 @@ export interface Word {
 export interface Session {
     user: UID;
     startTime: Date;
-    endTime: Date;
+    endTime: Date | null;
 }
 
 export interface Round {

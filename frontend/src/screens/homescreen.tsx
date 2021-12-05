@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TextIconButton from "../components/TextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User } from "../models/types";
+import { User, UID } from "../models/types";
 
 import "intl";
 import 'intl/locale-data/jsonp/en';
@@ -24,6 +24,10 @@ export default function Homescreen() {
         return <Text>loading</Text>
     }
 
+    const startSession = () => {
+        fi.startSession().then((sessionId: UID) => navigation.navigate("pairingGame", {sessionId: sessionId}))
+    }
+
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
     const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" })
     return (
@@ -40,7 +44,7 @@ export default function Homescreen() {
                     <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
                 </View>
             </View>
-            <TextIconButton onPress={() => navigation.navigate("pairingGame")} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
+            <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
             <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/profile-icon.png")} />
             <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help-icon.png")} />
 

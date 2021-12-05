@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc } from "firebase/firestore";
-import { User, Word } from "../models/types";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { User, Word, Session, Round, Match, UID } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 
 
@@ -98,24 +98,38 @@ export default class FirebaseInteractor {
         throw new Error("No user found")
     }
 
-    async startSession(): Promise<Session> {
+    async startSession(): Promise<UID> {
 
         const user = this.auth.currentUser;
 
         if (user !== null) {
-            const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
 
-            const newSession = {
-                user: user,
-                startTime: Timestamp,
+            const newSession: Session = {
+                user: user.uid,
+                startTime: new Date(),
                 endTime: null,
             }
 
             const col = collection(this.db, "sessions");
-            addDoc(col, newSession);
+            const sessionID: UID = (await addDoc(col, newSession)).id;
             
-            return newSession;
+            return sessionID;
         }
+        throw new Error("No user found")
+    }
+
+    async endSession(sessionId: UID): Promise<UID> {
+        
+        const user = this.auth.currentUser;
+
+        if (user !== null) {
+            const sessionsRef = collection(this.db, "sessions");
+            await updateDoc(doc(sessionsRef, sessionId), {
+                endTime: new Date()
+            })
+        }
+        
+        throw new Error("No user found")
     }
 
 
