@@ -27,19 +27,35 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const [submitted, setSubmitted] = useState(false);
     const navigation = useNavigation()
     const { sessionId } = props.route.params;
+    const [currentRoundId, setCurrentRoundId] = useState<UID>("");
 
     useEffect(() => {
-        fi.getUser().then(user => {
+        if (currentRoundId == ""){
+            startRound();
+        }
             setUser(user);
-            fi.getXRandomPairs(user.numPairs).then(words => {
+            fi.getRoundPairs(currentRoundId).then(words => {
                 setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
                 setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
             }).catch(console.error);
-        }).catch(console.error);
-    }, []);
+    }, [currentRoundId]);
 
     if (englishWords === undefined) {
         return <Text>loading</Text>
+    }
+
+
+    const startRound = () => {
+        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+    }
+
+    const restartRound = () => {
+        fi.endRound(currentRoundId);
+        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+    }
+
+    const endRound = () => {
+        fi.endRound(currentRoundId);
     }
 
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
@@ -85,7 +101,9 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                     {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
                         setTurkishWords(turkishWords?.map((word) => ({ ...word, english: undefined })))
                         setSubmitted(false)
-                    }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
+                        restartRound()
+                    }}>
+                        <Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
                             fi.endSession(sessionId);
@@ -99,6 +117,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         </DraxProvider>
     )
 }
+
 
 const defaultStyle = StyleSheet.create({
     default: {
