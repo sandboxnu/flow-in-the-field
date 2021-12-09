@@ -7,6 +7,7 @@ import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
+import { LoadingScreen } from "../components/LoadingScreen";
 const fi = new FirebaseInteractor();
 
 interface MaybeWordPair {
@@ -46,7 +47,7 @@ export default function PairingGameScreen() {
     }, []);
 
     if (englishWords === undefined) {
-        return <Text>loading</Text>
+        return <LoadingScreen />
     }
 
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
