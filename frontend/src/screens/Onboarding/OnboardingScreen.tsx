@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
-
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { HAS_SEEN_ONBOARDING } from '../../constants/startingStates';
 const FLOW_ICON = '../../assets/flow-icon-light.png'
 
 interface OnboardingScreenProps {
@@ -13,7 +14,7 @@ interface OnboardingScreenProps {
 }
 
 export default function OnboardingScreen({
-    screenContent, 
+    screenContent,
     bgColor,
     hasNavButton,
     navButtonTitle,
@@ -21,17 +22,17 @@ export default function OnboardingScreen({
     route
 }: OnboardingScreenProps): ReactElement {
 
-    const backgroundStyle = { 
-        backgroundColor: bgColor 
+    const backgroundStyle = {
+        backgroundColor: bgColor
     };
 
     return (
         <View style={[styles.container, backgroundStyle]}>
-            <Image style={styles.image} source={require(FLOW_ICON)}/>
-            <Text style={styles.content}>{ screenContent }</Text>
+            <Image style={styles.image} source={require(FLOW_ICON)} />
+            <Text style={styles.content}>{screenContent}</Text>
             {hasNavButton &&
-                <Pressable onPress={() => {navigation.navigate(route)}} style={styles.button}>
-                    <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
+                <Pressable onPress={() => { navigation.navigate(route); AsyncStorage.setItem(HAS_SEEN_ONBOARDING, "true") }} style={styles.button}>
+                    <Text style={styles.buttonContent}>{navButtonTitle}</Text>
                 </Pressable>
             }
         </View>

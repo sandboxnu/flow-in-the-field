@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import FirebaseInteractor from "../../firebase/firebaseInteractor"
 import AccountSettings from "./accountSettings"
 import LoginPage from "./login"
@@ -21,6 +21,10 @@ export default function SignInFlow() {
 
     const [currentPage, setCurrentPage] = useState<CurrentPage>("signUp")
     const navigation = useNavigation();
+
+    useEffect(() => {
+        fi.trySignedIn().then(user => user && navigation.navigate("HomeScreen"))
+    }, [])
     if (currentPage == 'signIn') {
         return (<LoginPage
             goToSignUp={() => setCurrentPage("signUp")}
