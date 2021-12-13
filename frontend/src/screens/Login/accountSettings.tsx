@@ -41,32 +41,39 @@ export default function AccountSettings() {
                 <Text style={styles.header}>Account Settings</Text>
                 <View style={styles.horizontalScroller}>
                     <Text style={styles.paragraph}>email: </Text>
-                    <ScrollView 
+                    <ScrollView
                         style={styles.horizontalScrollerSubject}
-                        onScroll={(event) => {setEmailScrollPos(event.nativeEvent.contentOffset.x)}}
+                        onScroll={(event) => { setEmailScrollPos(event.nativeEvent.contentOffset.x) }}
                         horizontal>
-                    <Text 
-                        numberOfLines={1} 
-                        style={[styles.paragraph, {maxWidth: `${emailScrollPos > 0 ? "9999%" : "100%"}`}]}>
-                        {fi.email}
-                    </Text>
+                        <Text
+                            numberOfLines={1}
+                            style={[styles.paragraph, { maxWidth: `${emailScrollPos > 0 ? "9999%" : "100%"}` }]}>
+                            {fi.email}
+                        </Text>
                     </ScrollView>
                 </View>
-                <CustomTextInput 
+                <CustomTextInput
                     secureText
-                    placeholderText="current password"  
-                    value={currentPassword} 
+                    placeholderText="current password"
+                    value={currentPassword}
                     setValue={setCurrentPassword} />
-                <CustomTextInput 
-                    secureText 
-                    placeholderText="new password" 
-                    value={newPassword} 
+                <CustomTextInput
+                    secureText
+                    placeholderText="new password"
+                    value={newPassword}
                     setValue={setNewPassword} />
                 <ErrorText message={error} />
                 <Text>{successMessage}</Text>
                 <TouchableOpacity style={styles.button} onPress={() => updatePassword()}>
                     <Text style={styles.buttonText}>change password</Text>
                 </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.button} onPress={() => fi.logout().then(() => navigation.navigate("SignInFlow"))}>
+                    <Text style={styles.buttonText}>logout test</Text>
+                </TouchableOpacity> 
+                
+                there's no logout button but we needed one for testing, so uncomment this if you need to logout - robert
+
+                */}
             </View>
             <View style={styles.half}>
                 <Text style={styles.subheader}>contact us!</Text>
@@ -95,9 +102,9 @@ const styles = StyleSheet.create({
         padding: 64
     },
     header: {
-      fontSize: 32,
-      color: BLUE,
-      marginBottom: 16  
+        fontSize: 32,
+        color: BLUE,
+        marginBottom: 16
     },
     horizontalScroller: {
         flexDirection: "row",

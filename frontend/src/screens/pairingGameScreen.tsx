@@ -24,7 +24,7 @@ const fetchNewWords = async (user: User) => {
         allEnglishWords = [allEnglishWords[0]]
     }
     const turkishWords: MaybeWordPair[] = durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english })))
-    return {allEnglishWords, turkishWords}
+    return { allEnglishWords, turkishWords }
 }
 
 export default function PairingGameScreen() {
@@ -38,10 +38,10 @@ export default function PairingGameScreen() {
         fi.getUser().then(user => {
             setUser(user);
             fetchNewWords(user)
-            .then(({allEnglishWords, turkishWords}) => {
-                setEnglishWords(allEnglishWords)
-                setTurkishWords(turkishWords)
-            }).catch(console.log)
+                .then(({ allEnglishWords, turkishWords }) => {
+                    setEnglishWords(allEnglishWords)
+                    setTurkishWords(turkishWords)
+                }).catch(console.log)
         }).catch(console.error);
     }, []);
 
@@ -65,10 +65,10 @@ export default function PairingGameScreen() {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
                                 return (<View key={word} style={styles.englishUsed} />)
                             }
-                            return (<DraxView payload={word} key={word} 
+                            return (<DraxView payload={word} key={word}
                                 style={styles.draxView}
-                                draggingStyle={{opacity: 0.3}}
-                                dragReleasedStyle={{opacity: 0.3}}
+                                draggingStyle={{ opacity: 0.3 }}
+                                dragReleasedStyle={{ opacity: 0.3 }}
                                 longPressDelay={100}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
@@ -81,11 +81,11 @@ export default function PairingGameScreen() {
                             key={word.turkish}
                             showingResults={submitted}
                             wordDropped={(newWord) => {
-                                const newTurkishWords = turkishWords.map(({english, turkish, correctEnglishWord}) => {
+                                const newTurkishWords = turkishWords.map(({ english, turkish, correctEnglishWord }) => {
                                     if (english === newWord) {
-                                        return {turkish, correctEnglishWord}
+                                        return { turkish, correctEnglishWord }
                                     } else {
-                                        return {turkish, correctEnglishWord, english}
+                                        return { turkish, correctEnglishWord, english }
                                     }
                                 })
                                 newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
@@ -106,16 +106,16 @@ export default function PairingGameScreen() {
                     {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
                         if (user) {
                             fetchNewWords(user)
-                            .then(({allEnglishWords, turkishWords}) => {
-                                setEnglishWords(allEnglishWords)
-                                setTurkishWords(turkishWords)
-                                setSubmitted(false)
-                            }).catch(console.log)
+                                .then(({ allEnglishWords, turkishWords }) => {
+                                    setEnglishWords(allEnglishWords)
+                                    setTurkishWords(turkishWords)
+                                    setSubmitted(false)
+                                }).catch(console.log)
                         }
                     }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
-                            navigation.navigate("home")
+                            navigation.navigate("HomeScreen")
                         } else {
                             setSubmitted(true)
                         }

@@ -1,5 +1,5 @@
 import * as firebase from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
@@ -30,6 +30,18 @@ export default class FirebaseInteractor {
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
+    }
+
+    trySignedIn() {
+        return new Promise((resolve, reject) => {
+            onAuthStateChanged(this.auth, user => {
+                if (user) {
+                    resolve(user)
+                } else {
+                    resolve(null)
+                }
+            })
+        })
     }
 
     /**
