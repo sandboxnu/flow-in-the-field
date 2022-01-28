@@ -132,7 +132,8 @@ export default class FirebaseInteractor {
     }
 
     async getRoundPairs(roundId: UID) {
-        const docData = (await getDoc(doc(this.db, "rounds", roundId))).data();
+        const roundsRef = collection(this.db, "rounds");
+        const docData = (await getDoc(doc(roundsRef, roundId))).data();
         return docData?.words ?? [];
     }
 
@@ -167,7 +168,7 @@ export default class FirebaseInteractor {
     async getXRandomPairs(num: number): Promise<Word[]> {
         const col = collection(this.db, "words")
         const docs = await getDocs(col)
-        let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({english, turkish}) => ({english, turkish}))
+        let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({ english, turkish }) => ({ english, turkish }))
         durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
     }

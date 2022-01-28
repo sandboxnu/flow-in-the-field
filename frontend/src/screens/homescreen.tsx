@@ -25,7 +25,7 @@ export default function Homescreen() {
     }
 
     const startSession = () => {
-        fi.startSession().then((sessionId: UID) => navigation.navigate("pairingGame", {sessionId: sessionId}))
+        fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", {sessionId: sessionId}))
     }
 
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
@@ -45,9 +45,8 @@ export default function Homescreen() {
                 </View>
             </View>
             <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/profile-icon.png")} />
-            <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help-icon.png")} />
-
+            <TextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
+            <TextIconButton onPress={() => navigation.navigate("RevisitOnboarding", {signedIn: true})} text="Help" icon={require("../assets/help-icon.png")} />
         </View>)
 }
 
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#FFF'
     },
     calendar: {
         aspectRatio: 1,

@@ -31,19 +31,18 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
 
     useEffect(() => {
         if (currentRoundId == ""){
-            startRound();
+            fi.startRound(sessionId).then(result => setCurrentRoundId(result));
         }
-            setUser(user);
-            fi.getRoundPairs(currentRoundId).then(words => {
-                setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
-                setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
-            }).catch(console.error);
+        setUser(user);
+        fi.getRoundPairs(currentRoundId).then(words => {
+            setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
+            setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+        }).catch(console.error);
     }, [currentRoundId]);
 
     if (englishWords === undefined) {
         return <Text>loading</Text>
     }
-
 
     const startRound = () => {
         fi.startRound(sessionId).then(result => setCurrentRoundId(result));
@@ -61,16 +60,24 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton ? {} : styles.inactiveButton
+
+    const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
+        : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
+    const shouldNotFlexWrap = user?.gameType === "selecting" || submitted
+
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{...styles.column, flex: submitted ? 5 : 8}}>
-                    {submitted ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text> :
+                <View style={{ ...styles.column, flex: submitted ? 5 : 8, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                    {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
                                 return (<View key={word} style={styles.englishUsed} />)
                             }
-                            return (<DraxView payload={word} key={word} style={styles.draxView} draggingStyle={styles.englishUsed} dragReleasedStyle={styles.englishUsed}>
+                            return (<DraxView payload={word} key={word} 
+                                style={styles.draxView}
+                                draggingStyle={{opacity: 0.3}}
+                                dragReleasedStyle={{opacity: 0.3}}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
                         })
@@ -106,8 +113,9 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                         <Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
+                            fi.endRound(currentRoundId);
                             fi.endSession(sessionId);
-                            navigation.navigate("home");
+                            navigation.navigate("HomeScreen");
                         } else {
                             setSubmitted(true)
                         }
@@ -124,12 +132,14 @@ const defaultStyle = StyleSheet.create({
         color: "white",
         borderRadius: 5,
         textAlign: "center",
+        paddingVertical: "4%",
     }
 });
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFF',
         alignItems: "center",
         width: "100%",
         height: "100%",
@@ -139,15 +149,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#D16B5025",
     },
     column: {
-        flex: 8,
         width: "100%",
         alignItems: "center",
-        flexWrap: "wrap",
         flexDirection: "row",
+        justifyContent: "center",
     },
     turkishContainer: {
         width: "100%",
         flex: 10,
+        justifyContent: "center"
     },
     english: {
         ...defaultStyle.default,
@@ -182,6 +192,12 @@ const styles = StyleSheet.create({
         fontSize: 124,
         textAlign: "center",
         width: "100%"
+    },
+    correctText: {
+        color: BLUE,
+        fontSize: 64,
+        textAlign: "center",
+
     },
     englishUsed: {
         borderColor: BLUE,
