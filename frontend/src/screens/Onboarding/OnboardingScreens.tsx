@@ -9,21 +9,21 @@ interface OnboardingScreenProps {
     route: { params?: { signedIn?: boolean } }
 }
 
-export default function OnboardingScreens( {navigation, route: { params }}: OnboardingScreenProps) {
+export default function OnboardingScreens({ navigation, route: { params } }: OnboardingScreenProps) {
     return (
-        <Swiper 
-            showsButtons={false} 
-            loop={false} 
+        <Swiper
+            showsButtons={false}
+            loop={false}
             pagingEnabled={true}
             dotStyle={styles.dots}
             activeDotStyle={styles.activeDots}>
-            <OnboardingScreen 
+            <OnboardingScreen
                 bgColor={BLUE}
                 screenContent={
                     "Thank you for agreeing to \nparticipate in our study! " +
                     "For the next week, your goal is to learn as many " +
-                    "Turkish words as possible."}/>
-            <OnboardingScreen 
+                    "Turkish words as possible."} />
+            <OnboardingScreen
                 bgColor={TURQUOISE}
                 screenContent={
                     "To achieve your goal, you'll be using this app!\n\n " +
@@ -31,8 +31,8 @@ export default function OnboardingScreens( {navigation, route: { params }}: Onbo
                     "words and a set of Turkish words.\n • You'll try to " +
                     "match each English word to the correct Turkish word, " +
                     "then you'll receive feedback.\n • The more you practice, " +
-                    "the better you'll get!"}/>
-            <OnboardingScreen 
+                    "the better you'll get!"} />
+            <OnboardingScreen
                 bgColor={PURPLE}
                 screenContent={
                     "Over the next week, you can use this app to practice " +
@@ -42,22 +42,22 @@ export default function OnboardingScreens( {navigation, route: { params }}: Onbo
                 hasNavButton={true}
                 navButtonTitle={params?.signedIn ? "done" : "register"}
                 navigation={navigation}
-                route={params?.signedIn ? "HomeScreen" : "SignInFlow"}/>
+                route={params?.signedIn ? "HomeScreen" : "SignInFlow"} />
         </Swiper>
     )
 }
 
 const styles = StyleSheet.create({
     dots: {
-        backgroundColor:'rgba(255,255,255,0.5)', 
-        width: 16, 
-        height: 16, 
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        width: 16,
+        height: 16,
         borderRadius: 16
     },
     activeDots: {
-        backgroundColor:'#FFF', 
-        width: 16, 
-        height: 16, 
+        backgroundColor: '#FFF',
+        width: 16,
+        height: 16,
         borderRadius: 16
     }
 });

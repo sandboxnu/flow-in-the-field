@@ -32,6 +32,10 @@ export default class FirebaseInteractor {
         return this.auth.currentUser?.email ?? "Current user does not exis";
     }
 
+    async checkIfVerified() {
+        await this.auth.currentUser?.reload();
+        return this.auth.currentUser?.emailVerified ?? false;
+    }
     /**
     * Creates an account for a user, but does not store them in the db yet, since we don't know what we will store
     */

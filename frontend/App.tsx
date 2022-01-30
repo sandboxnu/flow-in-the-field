@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
 import PairingGameScreen from './src/screens/pairingGameScreen';
+import EmailVerificationScreen from './src/screens/emailVerificationScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
       <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS}>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
         <Stack.Screen name="SettingsScreen" component={AccountSettings} />
         <Stack.Screen name="GameScreen" component={PairingGameScreen} />
