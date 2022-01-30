@@ -20,7 +20,7 @@ interface MaybeWordPair {
 const fetchNewWords = async (user: User) => {
   const words = await fi.getXRandomPairs(user.numPairs);
   let allEnglishWords: string[] = durstenfeldShuffle(
-    words.map((word, i) => word.english)
+    words.map((word, i) => word.english),
   );
   if (user.gameType !== "pairing") {
     allEnglishWords = [allEnglishWords[0]];
@@ -29,7 +29,7 @@ const fetchNewWords = async (user: User) => {
     words.map((word, i) => ({
       turkish: word.turkish,
       correctEnglishWord: word.english,
-    }))
+    })),
   );
   return { allEnglishWords, turkishWords };
 };
@@ -43,7 +43,7 @@ export default function PairingGameScreen() {
 
   useEffect(() => {
     fi.getUser()
-      .then((user) => {
+      .then(user => {
         setUser(user);
         fetchNewWords(user)
           .then(({ allEnglishWords, turkishWords }) => {
@@ -61,10 +61,10 @@ export default function PairingGameScreen() {
 
   const correctValues =
     turkishWords?.filter(
-      ({ english, correctEnglishWord }) => english === correctEnglishWord
+      ({ english, correctEnglishWord }) => english === correctEnglishWord,
     ).length ?? 0;
-  const canClickDoneButton = englishWords.every((word) =>
-    turkishWords?.some(({ english }) => english === word)
+  const canClickDoneButton = englishWords.every(word =>
+    turkishWords?.some(({ english }) => english === word),
   );
   const extraButtonStyles = canClickDoneButton ? {} : styles.inactiveButton;
 
@@ -91,7 +91,7 @@ export default function PairingGameScreen() {
         >
           {submitted
             ? topScreen
-            : englishWords?.map((word) => {
+            : englishWords?.map(word => {
                 if (
                   turkishWords?.some(({ english }) => english === word) ??
                   false
@@ -117,14 +117,14 @@ export default function PairingGameScreen() {
             <DroppableRow
               key={word.turkish}
               showingResults={submitted}
-              wordDropped={(newWord) => {
+              wordDropped={newWord => {
                 const newTurkishWords = turkishWords.map(
                   ({ english, turkish, correctEnglishWord }) => {
                     if (english === newWord) {
                       return { turkish, correctEnglishWord };
                     }
                     return { turkish, correctEnglishWord, english };
-                  }
+                  },
                 );
                 newTurkishWords[i] = {
                   english: newWord,

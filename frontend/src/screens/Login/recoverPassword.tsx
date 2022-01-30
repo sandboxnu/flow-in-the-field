@@ -45,7 +45,7 @@ export default function RecoverPasswordPage({
           } else {
             interactor
               .resetPassword(email)
-              .catch((e) => {
+              .catch(e => {
                 setError(mapErrorCodeToMessage(e.code));
               })
               .then(() => {

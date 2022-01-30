@@ -38,18 +38,18 @@ export default function EmailVerificationScreen() {
           style={styles.verifiedButton}
           onPress={() => {
             fi.checkIfVerified()
-              .then((emailVerified) => {
+              .then(emailVerified => {
                 if (emailVerified) {
                   navigation.navigate("HomeScreen");
                 } else {
                   setErrorMessage(
-                    "Email has not been verified. Please check your email."
+                    "Email has not been verified. Please check your email.",
                   );
                 }
               })
-              .catch((e) => {
+              .catch(e => {
                 setErrorMessage(
-                  "Something went wrong. Please try again later."
+                  "Something went wrong. Please try again later.",
                 );
                 console.log(e);
               });

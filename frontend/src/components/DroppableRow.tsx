@@ -39,7 +39,7 @@ export default function DroppableRow({
           key={1}
           onDragStart={() => setDragging(false)}
           hoverDraggingStyle={{ borderColor: "transparent" }}
-          onDrag={(event) => {
+          onDrag={event => {
             if (
               Math.abs(event.dragTranslation.x) > 1 ||
               Math.abs(event.dragTranslation.y) > 1

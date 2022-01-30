@@ -70,7 +70,7 @@ export default function SignUpPage({
             interactor
               .createAccount(email, password)
               .then(goToAccountSettings)
-              .catch((e) => {
+              .catch(e => {
                 console.log(e.message);
                 setError(mapErrorCodeToMessage(e.code));
               });

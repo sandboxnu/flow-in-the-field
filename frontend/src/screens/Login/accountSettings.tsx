@@ -38,7 +38,7 @@ export default function AccountSettings() {
         .then(() => {
           setSuccessMessage("Successfully changed password.");
         })
-        .catch((e) => setError(mapErrorCodeToMessage(e.code)));
+        .catch(e => setError(mapErrorCodeToMessage(e.code)));
     }
   };
 
@@ -50,7 +50,7 @@ export default function AccountSettings() {
           <Text style={styles.paragraph}>email: </Text>
           <ScrollView
             style={styles.horizontalScrollerSubject}
-            onScroll={(event) => {
+            onScroll={event => {
               setEmailScrollPos(event.nativeEvent.contentOffset.x);
             }}
             horizontal

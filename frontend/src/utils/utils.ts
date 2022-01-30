@@ -11,7 +11,7 @@ export function getRandomPairing(): NumPairs {
       return 8;
     default:
       throw new Error(
-        "This will never happen, since random from 0 to 3 is never not 0 1 or 2"
+        "This will never happen, since random from 0 to 3 is never not 0 1 or 2",
       );
   }
 }

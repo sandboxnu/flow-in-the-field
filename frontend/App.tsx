@@ -1,14 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
-import { initializeApp } from 'firebase/app';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
-import signInFlow from './src/screens/Login/signInFlow';
-import Homescreen from './src/screens/homescreen';
-import AccountSettings from './src/screens/Login/accountSettings';
-import PairingGameScreen from './src/screens/pairingGameScreen';
-import EmailVerificationScreen from './src/screens/emailVerificationScreen';
+import React from "react";
+import { StyleSheet, Text, View, Image, ViewStyle } from "react-native";
+import { initializeApp } from "firebase/app";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import OnboardingScreens from "./src/screens/Onboarding/OnboardingScreens";
+import signInFlow from "./src/screens/Login/signInFlow";
+import Homescreen from "./src/screens/homescreen";
+import AccountSettings from "./src/screens/Login/accountSettings";
+import PairingGameScreen from "./src/screens/pairingGameScreen";
+import EmailVerificationScreen from "./src/screens/emailVerificationScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -17,17 +17,17 @@ export default function App() {
       return (
         <Image
           style={styles.mainImage}
-          source={require('./src/assets/flow-icon.png')}
+          source={require("./src/assets/flow-icon.png")}
         />
       );
     },
-    title: '',
-    headerTitleAlign: 'center' as const,
+    title: "",
+    headerTitleAlign: "center" as const,
     headerShadowVisible: false,
-    headerTintColor: '#D16B50',
-    headerBackTitle: '',
+    headerTintColor: "#D16B50",
+    headerBackTitle: "",
     headerStyle: {
-      backgroundColor: '#FFF',
+      backgroundColor: "#FFF",
       elevation: 0,
       shadowOpacity: 0,
       borderBottomWidth: 0,
@@ -38,7 +38,7 @@ export default function App() {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: '#FFF',
+      background: "#FFF",
     },
   };
 
@@ -61,7 +61,7 @@ export default function App() {
           options={{
             headerShown: false,
             gestureEnabled: false,
-            animation: 'none',
+            animation: "none",
           }}
         />
         <Stack.Screen
@@ -84,7 +84,7 @@ export default function App() {
 const styles = StyleSheet.create({
   mainImage: {
     width: 94,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     height: 51,
   },
 });

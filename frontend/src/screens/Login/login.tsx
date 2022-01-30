@@ -61,7 +61,7 @@ export default function LoginPage({
             interactor
               .signInWithUsernameAndPassword(email, password)
               .then(goToAccountSettings)
-              .catch((e) => {
+              .catch(e => {
                 console.log(e.message);
                 setError(mapErrorCodeToMessage(e.code));
               });

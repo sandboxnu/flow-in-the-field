@@ -67,7 +67,7 @@ export default class FirebaseInteractor {
     const userAuth = await createUserWithEmailAndPassword(
       this.auth,
       email,
-      password
+      password,
     );
     if (userAuth.user?.uid == null) {
       throw new Error("No actual user");
@@ -127,7 +127,7 @@ export default class FirebaseInteractor {
     const col = collection(this.db, "words");
     const docs = await getDocs(col);
     const allWords: Word[] = docs.docs
-      .map((doc) => doc.data())
+      .map(doc => doc.data())
       .map(({ english, turkish }) => ({ english, turkish }));
     durstenfeldShuffle(allWords);
     return allWords.slice(0, num);
