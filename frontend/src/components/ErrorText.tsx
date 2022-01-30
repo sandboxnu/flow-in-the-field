@@ -1,5 +1,5 @@
-import { StyleSheet, Text } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text } from "react-native";
+import React from "react";
 
 interface ErrorTextProps {
   message?: string;
@@ -14,6 +14,6 @@ export default function ErrorText({ message }: ErrorTextProps) {
 
 const styles = StyleSheet.create({
   errorText: {
-    color: 'red',
+    color: "red",
   },
 });

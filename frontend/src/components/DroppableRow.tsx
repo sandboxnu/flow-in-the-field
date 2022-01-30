@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import { DraxView } from 'react-native-drax';
-import { ORANGE } from '../constants/colors';
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { DraxView } from "react-native-drax";
+import { ORANGE } from "../constants/colors";
 
 interface DroppableRowProps {
   turkish: string;
@@ -38,8 +38,8 @@ export default function DroppableRow({
           dragReleasedStyle={{ opacity: 0.3 }}
           key={1}
           onDragStart={() => setDragging(false)}
-          hoverDraggingStyle={{ borderColor: 'transparent' }}
-          onDrag={event => {
+          hoverDraggingStyle={{ borderColor: "transparent" }}
+          onDrag={(event) => {
             if (
               Math.abs(event.dragTranslation.x) > 1 ||
               Math.abs(event.dragTranslation.y) > 1
@@ -82,58 +82,58 @@ export default function DroppableRow({
 const showingResultsStyles = StyleSheet.create({
   incorrectEnglishWord: {
     backgroundColor: ORANGE,
-    borderColor: 'transparent',
+    borderColor: "transparent",
   },
   correctEnglishWord: {
-    backgroundColor: '#5BBAB7',
-    borderColor: 'transparent',
+    backgroundColor: "#5BBAB7",
+    borderColor: "transparent",
   },
 });
 
 const styles = StyleSheet.create({
   draxView: {
-    borderColor: '#5BBAB7',
+    borderColor: "#5BBAB7",
     borderWidth: 3,
-    width: '40%',
-    borderStyle: 'dashed',
-    height: '100%',
-    marginHorizontal: '5%',
+    width: "40%",
+    borderStyle: "dashed",
+    height: "100%",
+    marginHorizontal: "5%",
     borderRadius: 0.0001,
   },
   turkishContainer: {
-    justifyContent: 'center',
-    width: '40%',
-    height: '100%',
-    backgroundColor: '#C4C4C4',
-    marginHorizontal: '5%',
+    justifyContent: "center",
+    width: "40%",
+    height: "100%",
+    backgroundColor: "#C4C4C4",
+    marginHorizontal: "5%",
   },
   turkishText: {
-    textAlign: 'center',
-    color: 'white',
-    backgroundColor: '#C4C4C4',
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "#C4C4C4",
   },
   englishTextContainer: {
-    width: '40%',
-    textAlign: 'center',
-    borderColor: 'white',
-    borderStyle: 'dashed',
+    width: "40%",
+    textAlign: "center",
+    borderColor: "white",
+    borderStyle: "dashed",
     borderWidth: 2,
-    backgroundColor: '#5EAFDF',
-    height: '100%',
-    color: 'white',
-    marginHorizontal: '5%',
-    justifyContent: 'center',
+    backgroundColor: "#5EAFDF",
+    height: "100%",
+    color: "white",
+    marginHorizontal: "5%",
+    justifyContent: "center",
     borderRadius: 0.000001,
   },
   englishText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
   },
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    height: '12.5%',
-    paddingVertical: '1%',
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    height: "12.5%",
+    paddingVertical: "1%",
   },
 });

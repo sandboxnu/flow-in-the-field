@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import * as firebase from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -9,7 +9,7 @@ import {
   reauthenticateWithCredential,
   updatePassword,
   signOut,
-} from 'firebase/auth';
+} from "firebase/auth";
 import {
   doc,
   getDoc,
@@ -18,23 +18,23 @@ import {
   Timestamp,
   collection,
   getDocs,
-} from 'firebase/firestore';
-import { User, Word } from '../models/types';
+} from "firebase/firestore";
+import { User, Word } from "../models/types";
 import {
   getRandomPairing,
   getTestDate,
   durstenfeldShuffle,
   getRandomGameType,
-} from '../utils/utils';
+} from "../utils/utils";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyC9cAIskIjacQRxhbJlJxJNizGOlbRj4gk',
-  authDomain: 'flowinthefield.firebaseapp.com',
-  projectId: 'flowinthefield',
-  storageBucket: 'flowinthefield.appspot.com',
-  messagingSenderId: '788116866647',
-  appId: '1:788116866647:web:0e2cbfc671576c8089c512',
+  apiKey: "AIzaSyC9cAIskIjacQRxhbJlJxJNizGOlbRj4gk",
+  authDomain: "flowinthefield.firebaseapp.com",
+  projectId: "flowinthefield",
+  storageBucket: "flowinthefield.appspot.com",
+  messagingSenderId: "788116866647",
+  appId: "1:788116866647:web:0e2cbfc671576c8089c512",
 };
 
 // Initialize Firebase
@@ -52,7 +52,7 @@ export default class FirebaseInteractor {
   db = getFirestore(app);
 
   get email() {
-    return this.auth.currentUser?.email ?? 'Current user does not exis';
+    return this.auth.currentUser?.email ?? "Current user does not exis";
   }
 
   async checkIfVerified() {
@@ -67,13 +67,13 @@ export default class FirebaseInteractor {
     const userAuth = await createUserWithEmailAndPassword(
       this.auth,
       email,
-      password,
+      password
     );
     if (userAuth.user?.uid == null) {
-      throw new Error('No actual user');
+      throw new Error("No actual user");
     }
     sendEmailVerification(userAuth.user);
-    const userDoc = doc(this.db, 'users', userAuth.user.uid);
+    const userDoc = doc(this.db, "users", userAuth.user.uid);
     await setDoc(userDoc, {
       numPairs: getRandomPairing(),
       gameType: getRandomGameType(),
@@ -98,7 +98,7 @@ export default class FirebaseInteractor {
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
     } else {
-      console.log('failed to update password');
+      console.log("failed to update password");
     }
   }
 
@@ -109,9 +109,9 @@ export default class FirebaseInteractor {
   async getUser(): Promise<User> {
     const user = this.auth.currentUser;
     if (user !== null) {
-      const docData = (await getDoc(doc(this.db, 'users', user.uid))).data();
+      const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
       if (docData === undefined) {
-        throw new Error('No data found');
+        throw new Error("No data found");
       }
       return {
         email: user.email!,
@@ -120,14 +120,14 @@ export default class FirebaseInteractor {
         gameType: docData.gameType,
       };
     }
-    throw new Error('No user found');
+    throw new Error("No user found");
   }
 
   async getXRandomPairs(num: number): Promise<Word[]> {
-    const col = collection(this.db, 'words');
+    const col = collection(this.db, "words");
     const docs = await getDocs(col);
     const allWords: Word[] = docs.docs
-      .map(doc => doc.data())
+      .map((doc) => doc.data())
       .map(({ english, turkish }) => ({ english, turkish }));
     durstenfeldShuffle(allWords);
     return allWords.slice(0, num);

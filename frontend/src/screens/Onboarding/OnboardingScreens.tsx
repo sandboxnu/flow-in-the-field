@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import Swiper from 'react-native-swiper';
-import OnboardingScreen from './OnboardingScreen';
-import { TURQUOISE, BLUE, PURPLE } from '../../constants/colors';
+import React from "react";
+import { StyleSheet } from "react-native";
+import Swiper from "react-native-swiper";
+import OnboardingScreen from "./OnboardingScreen";
+import { TURQUOISE, BLUE, PURPLE } from "../../constants/colors";
 
 interface OnboardingScreenProps {
   navigation: any;
@@ -24,9 +24,9 @@ export default function OnboardingScreens({
       <OnboardingScreen
         bgColor={BLUE}
         screenContent={
-          'Thank you for agreeing to \nparticipate in our study! ' +
-          'For the next week, your goal is to learn as many ' +
-          'Turkish words as possible.'
+          "Thank you for agreeing to \nparticipate in our study! " +
+          "For the next week, your goal is to learn as many " +
+          "Turkish words as possible."
         }
       />
       <OnboardingScreen
@@ -35,7 +35,7 @@ export default function OnboardingScreens({
           "To achieve your goal, you'll be using this app!\n\n " +
           "Here is how it works:\n • You'll see a set of English " +
           "words and a set of Turkish words.\n • You'll try to " +
-          'match each English word to the correct Turkish word, ' +
+          "match each English word to the correct Turkish word, " +
           "then you'll receive feedback.\n • The more you practice, " +
           "the better you'll get!"
         }
@@ -43,15 +43,15 @@ export default function OnboardingScreens({
       <OnboardingScreen
         bgColor={PURPLE}
         screenContent={
-          'Over the next week, you can use this app to practice ' +
-          'as much or as little as you like. At the end of the week, ' +
+          "Over the next week, you can use this app to practice " +
+          "as much or as little as you like. At the end of the week, " +
           "you'll receive a vocabulary test. The better you do on the " +
           "test, the more money you'll win!"
         }
         hasNavButton
-        navButtonTitle={params?.signedIn ? 'done' : 'register'}
+        navButtonTitle={params?.signedIn ? "done" : "register"}
         navigation={navigation}
-        route={params?.signedIn ? 'HomeScreen' : 'SignInFlow'}
+        route={params?.signedIn ? "HomeScreen" : "SignInFlow"}
       />
     </Swiper>
   );
@@ -59,13 +59,13 @@ export default function OnboardingScreens({
 
 const styles = StyleSheet.create({
   dots: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: "rgba(255,255,255,0.5)",
     width: 16,
     height: 16,
     borderRadius: 16,
   },
   activeDots: {
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     width: 16,
     height: 16,
     borderRadius: 16,

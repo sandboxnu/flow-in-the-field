@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/core';
-import React, { useState } from 'react';
+import { useNavigation } from "@react-navigation/core";
+import React, { useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -8,12 +8,12 @@ import {
   View,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import { PURPLE, TURQUOISE } from '../../constants/colors';
-import ErrorText from '../../components/ErrorText';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import FirebaseInteractor from '../../firebase/firebaseInteractor';
-import { mapErrorCodeToMessage } from '../../utils/utils';
+} from "react-native";
+import { PURPLE, TURQUOISE } from "../../constants/colors";
+import ErrorText from "../../components/ErrorText";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import { mapErrorCodeToMessage } from "../../utils/utils";
 
 const interactor = new FirebaseInteractor();
 
@@ -26,15 +26,15 @@ export default function SignUpPage({
   goToSignIn,
   goToAccountSettings,
 }: SignUpPageProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/flow-icon.png')}
+        source={require("../../assets/flow-icon.png")}
         style={styles.mainImage}
       />
       <CustomTextInput
@@ -59,18 +59,18 @@ export default function SignUpPage({
       <TouchableOpacity
         onPress={() => {
           if (!email) {
-            setError('Please enter an email address.');
+            setError("Please enter an email address.");
           } else if (!password) {
-            setError('Please enter a password.');
+            setError("Please enter a password.");
           } else if (!confirmPassword) {
-            setError('Please confirm your password.');
+            setError("Please confirm your password.");
           } else if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+            setError("Passwords do not match.");
           } else {
             interactor
               .createAccount(email, password)
               .then(goToAccountSettings)
-              .catch(e => {
+              .catch((e) => {
                 console.log(e.message);
                 setError(mapErrorCodeToMessage(e.code));
               });
@@ -88,10 +88,10 @@ export default function SignUpPage({
 }
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    paddingTop: '15%',
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    paddingTop: "15%",
   },
   loginButton: {
     backgroundColor: TURQUOISE,
@@ -99,24 +99,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   loginText: {
-    color: 'white',
+    color: "white",
     paddingHorizontal: 20,
     paddingVertical: 3,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   mainImage: {
-    width: '60%',
-    resizeMode: 'contain',
+    width: "60%",
+    resizeMode: "contain",
     maxHeight: 158,
-    marginBottom: '10%',
+    marginBottom: "10%",
   },
   signUpButton: {
     margin: 11,
   },
   signUpText: {
     color: PURPLE,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontSize: 18,
   },
 });

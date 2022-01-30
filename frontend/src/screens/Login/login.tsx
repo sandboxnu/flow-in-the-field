@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/core';
-import React, { useState } from 'react';
+import { useNavigation } from "@react-navigation/core";
+import React, { useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -8,12 +8,12 @@ import {
   View,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import { PURPLE, TURQUOISE } from '../../constants/colors';
-import ErrorText from '../../components/ErrorText';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import FirebaseInteractor from '../../firebase/firebaseInteractor';
-import { mapErrorCodeToMessage } from '../../utils/utils';
+} from "react-native";
+import { PURPLE, TURQUOISE } from "../../constants/colors";
+import ErrorText from "../../components/ErrorText";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import { mapErrorCodeToMessage } from "../../utils/utils";
 
 const interactor = new FirebaseInteractor();
 
@@ -28,14 +28,14 @@ export default function LoginPage({
   goToRecoveryScreen,
   goToAccountSettings,
 }: LoginProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/flow-icon.png')}
+        source={require("../../assets/flow-icon.png")}
         style={styles.mainImage}
       />
       <CustomTextInput
@@ -54,14 +54,14 @@ export default function LoginPage({
       <TouchableOpacity
         onPress={() => {
           if (!email) {
-            setError('Please enter an email address.');
+            setError("Please enter an email address.");
           } else if (!password) {
-            setError('Please enter a password.');
+            setError("Please enter a password.");
           } else {
             interactor
               .signInWithUsernameAndPassword(email, password)
               .then(goToAccountSettings)
-              .catch(e => {
+              .catch((e) => {
                 console.log(e.message);
                 setError(mapErrorCodeToMessage(e.code));
               });
@@ -86,23 +86,23 @@ export default function LoginPage({
 const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
-    borderColor: '#4D4661',
+    borderColor: "#4D4661",
     paddingHorizontal: 9,
     height: 36,
-    width: '60%',
-    marginVertical: '4%',
+    width: "60%",
+    marginVertical: "4%",
     fontSize: 24,
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     lineHeight: 35,
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
   },
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    paddingTop: '15%',
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    paddingTop: "15%",
   },
   loginButton: {
     backgroundColor: TURQUOISE,
@@ -110,23 +110,23 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   loginText: {
-    color: 'white',
+    color: "white",
     paddingHorizontal: 20,
     paddingVertical: 3,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   mainImage: {
-    width: '60%',
-    resizeMode: 'contain',
+    width: "60%",
+    resizeMode: "contain",
     maxHeight: 158,
-    marginBottom: '10%',
+    marginBottom: "10%",
   },
   signUpButton: {
     marginTop: 11,
   },
   signUpText: {
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     color: PURPLE,
     fontSize: 18,
   },

@@ -1,44 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/core';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import FirebaseInteractor from '../../firebase/firebaseInteractor';
-import ErrorText from '../../components/ErrorText';
-import { mapErrorCodeToMessage } from '../../utils/utils';
-import { BLUE, ORANGE } from '../../constants/colors';
+} from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import ErrorText from "../../components/ErrorText";
+import { mapErrorCodeToMessage } from "../../utils/utils";
+import { BLUE, ORANGE } from "../../constants/colors";
 
 const fi = new FirebaseInteractor();
 
 export default function AccountSettings() {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [emailScrollPos, setEmailScrollPos] = useState(0);
 
   const navigation = useNavigation();
 
   const updatePassword: Function = (): void => {
-    setError('');
-    setSuccessMessage('');
+    setError("");
+    setSuccessMessage("");
     if (!currentPassword) {
-      setError('Please enter your current password.');
+      setError("Please enter your current password.");
     } else if (!newPassword) {
-      setError('Please enter a new password.');
+      setError("Please enter a new password.");
     } else if (currentPassword === newPassword) {
-      setError('New password cannot be the same as the old password.');
+      setError("New password cannot be the same as the old password.");
     } else {
       fi.updatePassword(currentPassword, newPassword)
         .then(() => {
-          setSuccessMessage('Successfully changed password.');
+          setSuccessMessage("Successfully changed password.");
         })
-        .catch(e => setError(mapErrorCodeToMessage(e.code)));
+        .catch((e) => setError(mapErrorCodeToMessage(e.code)));
     }
   };
 
@@ -50,7 +50,7 @@ export default function AccountSettings() {
           <Text style={styles.paragraph}>email: </Text>
           <ScrollView
             style={styles.horizontalScrollerSubject}
-            onScroll={event => {
+            onScroll={(event) => {
               setEmailScrollPos(event.nativeEvent.contentOffset.x);
             }}
             horizontal
@@ -59,7 +59,7 @@ export default function AccountSettings() {
               numberOfLines={1}
               style={[
                 styles.paragraph,
-                { maxWidth: `${emailScrollPos > 0 ? '9999%' : '100%'}` },
+                { maxWidth: `${emailScrollPos > 0 ? "9999%" : "100%"}` },
               ]}
             >
               {fi.email}
@@ -99,18 +99,18 @@ export default function AccountSettings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: '4%',
-    paddingBottom: '4%',
-    backgroundColor: '#FFF',
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "4%",
+    paddingBottom: "4%",
+    backgroundColor: "#FFF",
   },
   half: {
     flex: 1,
-    height: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: "50%",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 64,
   },
   header: {
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   horizontalScroller: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   horizontalScrollerSubject: {
     minHeight: 36,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   subheader: {
     fontSize: 18,
     color: BLUE,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 16,
   },
   button: {
@@ -144,10 +144,10 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     paddingHorizontal: 20,
     paddingVertical: 3,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
   },
 });

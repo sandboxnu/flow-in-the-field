@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import React from "react";
+import { TextInput, StyleSheet } from "react-native";
 
 interface CustomTextInputProps {
   value: string;
@@ -29,16 +29,16 @@ export default function CustomTextInput({
 const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
-    borderColor: '#4D4661',
+    borderColor: "#4D4661",
     paddingHorizontal: 9,
     height: 36,
-    width: '60%',
-    marginVertical: '4%',
+    width: "60%",
+    marginVertical: "4%",
     fontSize: 24,
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     lineHeight: 35,
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
   },
 });

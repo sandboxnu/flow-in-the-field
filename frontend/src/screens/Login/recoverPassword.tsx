@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,12 +6,12 @@ import {
   View,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import { PURPLE, TURQUOISE } from '../../constants/colors';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import FirebaseInteractor from '../../firebase/firebaseInteractor';
-import ErrorText from '../../components/ErrorText';
-import { mapErrorCodeToMessage } from '../../utils/utils';
+} from "react-native";
+import { PURPLE, TURQUOISE } from "../../constants/colors";
+import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import ErrorText from "../../components/ErrorText";
+import { mapErrorCodeToMessage } from "../../utils/utils";
 
 const interactor = new FirebaseInteractor();
 
@@ -22,13 +22,13 @@ interface RecoveryPasswordProps {
 export default function RecoverPasswordPage({
   goToSignIn,
 }: RecoveryPasswordProps) {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/flow-icon.png')}
+        source={require("../../assets/flow-icon.png")}
         style={styles.mainImage}
       />
       <CustomTextInput
@@ -41,11 +41,11 @@ export default function RecoverPasswordPage({
       <TouchableOpacity
         onPress={() => {
           if (!email) {
-            setError('Please enter an email address.');
+            setError("Please enter an email address.");
           } else {
             interactor
               .resetPassword(email)
-              .catch(e => {
+              .catch((e) => {
                 setError(mapErrorCodeToMessage(e.code));
               })
               .then(() => {
@@ -67,23 +67,23 @@ export default function RecoverPasswordPage({
 const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
-    borderColor: '#4D4661',
+    borderColor: "#4D4661",
     paddingHorizontal: 9,
     height: 36,
-    width: '60%',
-    marginVertical: '4%',
+    width: "60%",
+    marginVertical: "4%",
     fontSize: 24,
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: "normal",
+    fontWeight: "400",
     lineHeight: 35,
     letterSpacing: 0,
-    textAlign: 'left',
+    textAlign: "left",
   },
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    paddingTop: '15%',
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    paddingTop: "15%",
   },
   recoveryPasswordButton: {
     backgroundColor: TURQUOISE,
@@ -91,24 +91,24 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   recoverPasswordText: {
-    color: 'white',
+    color: "white",
     paddingHorizontal: 20,
     paddingVertical: 3,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   mainImage: {
-    width: '60%',
-    resizeMode: 'contain',
+    width: "60%",
+    resizeMode: "contain",
     maxHeight: 158,
-    marginBottom: '10%',
+    marginBottom: "10%",
   },
   loginButton: {
     margin: 11,
   },
   loginText: {
     color: PURPLE,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontSize: 18,
   },
 });

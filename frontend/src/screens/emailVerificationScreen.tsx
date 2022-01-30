@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Image,
@@ -7,12 +7,12 @@ import {
   StyleSheet,
   Linking,
   Platform,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/core';
-import { startActivityAsync } from 'expo-intent-launcher';
-import { BLUE, GREY, ORANGE, PURPLE, TURQUOISE } from '../constants/colors';
-import ErrorText from '../components/ErrorText';
-import FirebaseInteractor from '../firebase/firebaseInteractor';
+} from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { startActivityAsync } from "expo-intent-launcher";
+import { BLUE, GREY, ORANGE, PURPLE, TURQUOISE } from "../constants/colors";
+import ErrorText from "../components/ErrorText";
+import FirebaseInteractor from "../firebase/firebaseInteractor";
 
 const fi = new FirebaseInteractor();
 
@@ -24,7 +24,7 @@ export default function EmailVerificationScreen() {
     <View style={styles.container}>
       <View style={styles.containedContainer}>
         <Image
-          source={require('../assets/flow-icon.png')}
+          source={require("../assets/flow-icon.png")}
           style={styles.mainImage}
         />
         <Text style={styles.promptText}>
@@ -38,18 +38,18 @@ export default function EmailVerificationScreen() {
           style={styles.verifiedButton}
           onPress={() => {
             fi.checkIfVerified()
-              .then(emailVerified => {
+              .then((emailVerified) => {
                 if (emailVerified) {
-                  navigation.navigate('HomeScreen');
+                  navigation.navigate("HomeScreen");
                 } else {
                   setErrorMessage(
-                    'Email has not been verified. Please check your email.',
+                    "Email has not been verified. Please check your email."
                   );
                 }
               })
-              .catch(e => {
+              .catch((e) => {
                 setErrorMessage(
-                  'Something went wrong. Please try again later.',
+                  "Something went wrong. Please try again later."
                 );
                 console.log(e);
               });
@@ -60,11 +60,11 @@ export default function EmailVerificationScreen() {
         <TouchableOpacity
           style={styles.mailButton}
           onPress={() => {
-            if (Platform.OS === 'ios') {
-              Linking.openURL('message://');
+            if (Platform.OS === "ios") {
+              Linking.openURL("message://");
             } else {
-              startActivityAsync('android.intent.action.MAIN', {
-                category: 'android.intent.category.APP_EMAIL',
+              startActivityAsync("android.intent.action.MAIN", {
+                category: "android.intent.category.APP_EMAIL",
                 flags: 268435456,
               });
               // Linking.sendIntent("android.intent.action.MAIN", [
@@ -82,53 +82,53 @@ export default function EmailVerificationScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    paddingVertical: '10%',
-    justifyContent: 'space-between',
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    paddingVertical: "10%",
+    justifyContent: "space-between",
   },
 
   containedContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
 
   mainImage: {
-    width: '60%',
-    resizeMode: 'contain',
+    width: "60%",
+    resizeMode: "contain",
     maxHeight: 158,
-    marginBottom: '10%',
+    marginBottom: "10%",
   },
   promptText: {
-    textAlign: 'center',
-    marginHorizontal: '10%',
+    textAlign: "center",
+    marginHorizontal: "10%",
     fontSize: 18,
     color: BLUE,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   verifiedText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: '400',
-    width: '100%',
-    textAlign: 'center',
+    fontWeight: "400",
+    width: "100%",
+    textAlign: "center",
     paddingVertical: 15,
   },
   verifiedButton: {
-    width: '80%',
+    width: "80%",
     margin: 10,
     backgroundColor: TURQUOISE,
     borderRadius: 10000000,
   },
   mailButton: {
-    width: '100%',
+    width: "100%",
   },
   mailText: {
     fontSize: 18,
     color: PURPLE,
-    textAlign: 'center',
-    textDecorationLine: 'underline',
-    fontWeight: '300',
+    textAlign: "center",
+    textDecorationLine: "underline",
+    fontWeight: "300",
   },
 });

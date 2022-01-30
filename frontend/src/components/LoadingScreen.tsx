@@ -1,6 +1,6 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import React from 'react';
-import { BLUE } from '../constants/colors';
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import React from "react";
+import { BLUE } from "../constants/colors";
 
 export function LoadingScreen() {
   return (
@@ -12,8 +12,8 @@ export function LoadingScreen() {
 
 const style = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
   },
 });

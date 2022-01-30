@@ -1,14 +1,14 @@
-import { useNavigation } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import TextIconButton from '../components/TextIconButton';
-import FirebaseInteractor from '../firebase/firebaseInteractor';
-import { User } from '../models/types';
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import TextIconButton from "../components/TextIconButton";
+import FirebaseInteractor from "../firebase/firebaseInteractor";
+import { User } from "../models/types";
 
-import 'intl';
-import 'intl/locale-data/jsonp/en';
-import { LoadingScreen } from '../components/LoadingScreen';
+import "intl";
+import "intl/locale-data/jsonp/en";
+import { LoadingScreen } from "../components/LoadingScreen";
 
 const fi = new FirebaseInteractor();
 
@@ -25,8 +25,8 @@ export default function Homescreen() {
     return <LoadingScreen />;
   }
 
-  const dayFormatter = new Intl.DateTimeFormat(undefined, { day: 'numeric' });
-  const monthFormatter = new Intl.DateTimeFormat(undefined, { month: 'short' });
+  const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" });
+  const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" });
   return (
     <View style={styles.main}>
       <Text style={styles.testDay}>Your test date is:</Text>
@@ -42,21 +42,21 @@ export default function Homescreen() {
         </View>
       </View>
       <TextIconButton
-        onPress={() => navigation.navigate('GameScreen')}
+        onPress={() => navigation.navigate("GameScreen")}
         text="Start a new session"
-        icon={require('../assets/start-session-icon.png')}
+        icon={require("../assets/start-session-icon.png")}
       />
       <TextIconButton
-        onPress={() => navigation.navigate('SettingsScreen')}
+        onPress={() => navigation.navigate("SettingsScreen")}
         text="Profile"
-        icon={require('../assets/profile-icon.png')}
+        icon={require("../assets/profile-icon.png")}
       />
       <TextIconButton
         onPress={() =>
-          navigation.navigate('RevisitOnboarding', { signedIn: true })
+          navigation.navigate("RevisitOnboarding", { signedIn: true })
         }
         text="Help"
-        icon={require('../assets/help-icon.png')}
+        icon={require("../assets/help-icon.png")}
       />
     </View>
   );
@@ -64,42 +64,42 @@ export default function Homescreen() {
 
 const styles = StyleSheet.create({
   main: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFF',
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFF",
   },
   calendar: {
     aspectRatio: 1,
-    width: '50%',
-    borderColor: '#5EAFDF',
+    width: "50%",
+    borderColor: "#5EAFDF",
     borderWidth: 3,
     borderRadius: 31,
-    alignItems: 'center',
-    marginBottom: '8%',
+    alignItems: "center",
+    marginBottom: "8%",
   },
   monthNameText: {
     fontSize: 48,
-    color: '#5EAFDF',
+    color: "#5EAFDF",
   },
   line: {
     height: 2,
-    width: '100%',
-    backgroundColor: '#5EAFDF',
+    width: "100%",
+    backgroundColor: "#5EAFDF",
   },
   dayText: {
     fontSize: 68,
-    textAlign: 'center',
-    color: '#5EAFDF',
+    textAlign: "center",
+    color: "#5EAFDF",
   },
   evenSpaced: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   testDay: {
     fontSize: 36,
-    color: '#5EAFDF',
-    marginBottom: '5%',
+    color: "#5EAFDF",
+    marginBottom: "5%",
   },
 });
