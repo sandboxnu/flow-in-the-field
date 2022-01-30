@@ -33,7 +33,12 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
                     setError("Please enter a password.")
                 } else {
                     interactor.signInWithUsernameAndPassword(email, password)
-                        .then(goToAccountSettings)
+                        .then(() => {
+                            setEmail("");
+                            setPassword("");
+                            setError("");
+                            goToAccountSettings();
+                        })
                         .catch(e => {
                             console.log(e.message);
                             setError(mapErrorCodeToMessage(e.code))
