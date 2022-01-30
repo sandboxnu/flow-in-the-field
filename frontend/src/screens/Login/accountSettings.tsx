@@ -5,7 +5,7 @@ import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import ErrorText from "../../components/ErrorText";
 import { mapErrorCodeToMessage } from "../../utils/utils";
 import { useNavigation } from "@react-navigation/core";
-import { BLUE, ORANGE } from "../../constants/colors"
+import { BLUE, ORANGE, PURPLE } from "../../constants/colors"
 
 const fi = new FirebaseInteractor();
 
@@ -41,31 +41,38 @@ export default function AccountSettings() {
                 <Text style={styles.header}>Account Settings</Text>
                 <View style={styles.horizontalScroller}>
                     <Text style={styles.paragraph}>email: </Text>
-                    <ScrollView 
+                    <ScrollView
                         style={styles.horizontalScrollerSubject}
-                        onScroll={(event) => {setEmailScrollPos(event.nativeEvent.contentOffset.x)}}
+                        onScroll={(event) => { setEmailScrollPos(event.nativeEvent.contentOffset.x) }}
                         horizontal>
-                    <Text 
-                        numberOfLines={1} 
-                        style={[styles.paragraph, {maxWidth: `${emailScrollPos > 0 ? "9999%" : "100%"}`}]}>
-                        {fi.email}
-                    </Text>
+                        <Text
+                            numberOfLines={1}
+                            style={[styles.paragraph, { maxWidth: `${emailScrollPos > 0 ? "9999%" : "100%"}` }]}>
+                            {fi.email}
+                        </Text>
                     </ScrollView>
                 </View>
-                <CustomTextInput 
+                <CustomTextInput
                     secureText
-                    placeholderText="current password"  
-                    value={currentPassword} 
+                    placeholderText="current password"
+                    value={currentPassword}
                     setValue={setCurrentPassword} />
-                <CustomTextInput 
-                    secureText 
-                    placeholderText="new password" 
-                    value={newPassword} 
+                <CustomTextInput
+                    secureText
+                    placeholderText="new password"
+                    value={newPassword}
                     setValue={setNewPassword} />
                 <ErrorText message={error} />
                 <Text>{successMessage}</Text>
                 <TouchableOpacity style={styles.button} onPress={() => updatePassword()}>
                     <Text style={styles.buttonText}>change password</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    fi.logout().then(() => {
+                        navigation.navigate("SignInFlow");
+                    });
+                }} style={styles.logOutButton}>
+                    <Text style={styles.logOutText}>log out</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.half}>
@@ -95,9 +102,9 @@ const styles = StyleSheet.create({
         padding: 64
     },
     header: {
-      fontSize: 32,
-      color: BLUE,
-      marginBottom: 16  
+        fontSize: 32,
+        color: BLUE,
+        marginBottom: 16
     },
     horizontalScroller: {
         flexDirection: "row",
@@ -130,5 +137,14 @@ const styles = StyleSheet.create({
         paddingVertical: 3,
         fontSize: 18,
         fontWeight: '400'
+    },
+    logOutButton: {
+        marginTop: 11
+    },
+    logOutText: {
+        textDecorationLine: "underline",
+        color: PURPLE,
+        fontSize: 18
+
     },
 });
