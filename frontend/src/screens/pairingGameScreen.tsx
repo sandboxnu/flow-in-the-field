@@ -30,14 +30,15 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const [currentRoundId, setCurrentRoundId] = useState<UID>("");
 
     useEffect(() => {
-        if (currentRoundId == ""){
+        if (currentRoundId == "") {
             fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        } else {
+            setUser(user);
+            fi.getRoundPairs(currentRoundId).then(words => {
+                setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
+                setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+            }).catch(console.error);
         }
-        setUser(user);
-        fi.getRoundPairs(currentRoundId).then(words => {
-            setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
-            setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
-        }).catch(console.error);
     }, [currentRoundId]);
 
     if (englishWords === undefined) {
@@ -74,10 +75,10 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
                                 return (<View key={word} style={styles.englishUsed} />)
                             }
-                            return (<DraxView payload={word} key={word} 
+                            return (<DraxView payload={word} key={word}
                                 style={styles.draxView}
-                                draggingStyle={{opacity: 0.3}}
-                                dragReleasedStyle={{opacity: 0.3}}>
+                                draggingStyle={{ opacity: 0.3 }}
+                                dragReleasedStyle={{ opacity: 0.3 }}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
                         })
