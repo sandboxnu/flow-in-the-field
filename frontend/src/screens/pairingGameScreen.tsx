@@ -17,10 +17,8 @@ interface MaybeWordPair {
 }
 
 const fetchNewWords = async (user: User) => {
-    console.log(user)
     const words = await fi.getXRandomPairs(user.numPairs)
     let allEnglishWords: string[] = durstenfeldShuffle(words.map((word, i) => word.english));
-    console.log(user.gameType)
     if (user.gameType !== "pairing") {
         allEnglishWords = [allEnglishWords[0]]
     }
@@ -116,7 +114,7 @@ export default function PairingGameScreen() {
                     }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
-                            navigation.navigate("home")
+                            navigation.navigate("HomeScreen")
                         } else {
                             setSubmitted(true)
                         }
