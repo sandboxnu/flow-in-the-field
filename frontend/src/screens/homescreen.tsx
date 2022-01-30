@@ -8,6 +8,7 @@ import { User } from "../models/types";
 
 import "intl";
 import 'intl/locale-data/jsonp/en';
+import { LoadingScreen } from "../components/LoadingScreen";
 
 const fi = new FirebaseInteractor();
 
@@ -21,7 +22,7 @@ export default function Homescreen() {
     const navigation = useNavigation();
 
     if (!user) {
-        return <Text>loading</Text>
+        return <LoadingScreen />
     }
 
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
@@ -40,9 +41,9 @@ export default function Homescreen() {
                     <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
                 </View>
             </View>
-            <TextIconButton onPress={() => navigation.navigate("pairingGame")} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("settings")} text="Profile" icon={require("../assets/profile-icon.png")} />
-            <TextIconButton onPress={() => console.log("starting help")} text="Help" icon={require("../assets/help-icon.png")} />
+            <TextIconButton onPress={() => navigation.navigate("GameScreen")} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
+            <TextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
+            <TextIconButton onPress={() => navigation.navigate("RevisitOnboarding", {signedIn: true})} text="Help" icon={require("../assets/help-icon.png")} />
 
         </View>)
 }
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#FFF'
     },
     calendar: {
         aspectRatio: 1,

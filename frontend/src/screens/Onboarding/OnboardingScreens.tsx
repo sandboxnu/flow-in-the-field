@@ -6,11 +6,10 @@ import Swiper from 'react-native-swiper';
 
 interface OnboardingScreenProps {
     navigation: any;
+    route: { params?: { signedIn?: boolean } }
 }
 
-export default function OnboardingScreens({ 
-    navigation 
-}: OnboardingScreenProps) {
+export default function OnboardingScreens( {navigation, route: { params }}: OnboardingScreenProps) {
     return (
         <Swiper 
             showsButtons={false} 
@@ -41,9 +40,9 @@ export default function OnboardingScreens({
                     "you'll receive a vocabulary test. The better you do on the " +
                     "test, the more money you'll win!"}
                 hasNavButton={true}
-                navButtonTitle={"register"}
+                navButtonTitle={params?.signedIn ? "done" : "register"}
                 navigation={navigation}
-                route={"SignInFlow"}/>
+                route={params?.signedIn ? "HomeScreen" : "SignInFlow"}/>
         </Swiper>
     )
 }

@@ -1,36 +1,52 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
 import PairingGameScreen from './src/screens/pairingGameScreen';
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator()
 export default function App() {
+
+  const HOME_HEADER_OPTIONS = {
+    headerTitle: () => { return <Image style={styles.mainImage} source={require('./src/assets/flow-icon.png')} /> },
+    title: '',
+    headerTitleAlign: "center" as "center",
+    headerShadowVisible: false,
+    headerTintColor: '#D16B50',
+    headerBackTitle: '',
+    headerStyle: {
+      backgroundColor: '#FFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    }
+  }
+
+  const NAV_THEME = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#FFF'
+    },
+  };
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NavigationContainer theme={NAV_THEME}>
+      <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS}>
         <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="drawer" component={drawerScreen} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
+        <Stack.Screen name="SettingsScreen" component={AccountSettings} />
+        <Stack.Screen name="GameScreen" component={PairingGameScreen} />
+        <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
-
-function drawerScreen() {
-  return (
-    <Drawer.Navigator screenOptions={{ headerTintColor: "#D16B50", headerTitle: () => { return <Image source={require("./src/assets/flow-icon.png")} style={styles.mainImage} /> } }}>
-      <Drawer.Screen name="home" component={Homescreen} />
-      <Drawer.Screen name="settings" component={AccountSettings} />
-      <Drawer.Screen name="pairingGame" component={PairingGameScreen} />
-    </Drawer.Navigator>);
 }
 
 const styles = StyleSheet.create({
