@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     mainImage: {
         width: "60%",
         resizeMode: 'contain',
-        maxHeight: 158,
+        maxHeight: "26.4%", // was 158
         marginBottom: "10%"
     },
     promptText: {
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     verifiedButton: {
         width: "80%",
-        margin: 10,
+        margin: "2.55%", // was 10
         backgroundColor: TURQUOISE,
         borderRadius: 10000000
     },
@@ -108,6 +108,5 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
-
     }
 })
