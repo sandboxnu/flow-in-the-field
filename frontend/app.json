@@ -2,6 +2,7 @@
   "expo": {
     "name": "flow-in-the-field",
     "slug": "flow-in-the-field",
+    "owner": "flow-in-the-field",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/flow-icon-square.png",
@@ -27,6 +28,7 @@
     },
     "web": {
       "favicon": "./src/assets/flow-icon-square.png"
-    }
+    },
+    "description": ""
   }
 }
