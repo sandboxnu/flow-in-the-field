@@ -16,6 +16,9 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
     const extraTurkishInfo = showingResults ? correct ? showingResultsStyles.correctTurkishWord : showingResultsStyles.incorrectTurkishWord : {}
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
+        <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
+            <Text style={{ ...styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
+        </View>
         {(english || showingResults) ?
             <DraxView style={{ ...styles.englishTextContainer }}
                 dragPayload={showingResults ? undefined : english} 
@@ -45,9 +48,6 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
                     wordDropped(payload);
                 }}
                 key={2}></DraxView>}
-        <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
-            <Text style={{ ...styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
-        </View>
     </View>)
 }
 
