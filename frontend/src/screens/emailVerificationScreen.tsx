@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
 
     containedContainer: {
         width: "100%",
+        height: "87%", // height was not defined previously
         alignItems: "center"
     },
 
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     },
     mailText: {
         fontSize: 18,
+        //margin: "2%",
         color: PURPLE,
         textAlign: "center",
         textDecorationLine: "underline",
