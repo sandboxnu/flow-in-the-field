@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
 
     containedContainer: {
         width: "100%",
-        height: "87%", // height was not defined previously
+        height: "87%",
         alignItems: "center"
     },
 
     mainImage: {
         width: "60%",
         resizeMode: 'contain',
-        maxHeight: "26.4%", // was 158
+        maxHeight: "26.4%",
         marginBottom: "10%"
     },
     promptText: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     verifiedButton: {
         width: "80%",
-        margin: "2.55%", // was 10
+        margin: "2.55%",
         backgroundColor: TURQUOISE,
         borderRadius: 10000000
     },
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     },
     mailText: {
         fontSize: 18,
-        //margin: "2%",
         color: PURPLE,
         textAlign: "center",
         textDecorationLine: "underline",
