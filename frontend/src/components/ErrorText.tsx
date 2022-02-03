@@ -14,6 +14,8 @@ export default function ErrorText({ message }: ErrorTextProps) {
 
 const styles = StyleSheet.create({
     errorText: {
-        color: "red"
+        color: "red",
+        position: 'absolute',
+        bottom: "100%",
     }
 })
