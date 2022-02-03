@@ -7,6 +7,7 @@ import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
+import { LoadingScreen } from "../components/LoadingScreen";
 
 const fi = new FirebaseInteractor();
 
@@ -42,7 +43,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     }, [currentRoundId]);
 
     if (englishWords === undefined) {
-        return <Text>loading</Text>
+        return <LoadingScreen />
     }
 
     const startRound = () => {
@@ -65,7 +66,6 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
         : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
     const shouldNotFlexWrap = user?.gameType === "selecting" || submitted
-
     return (
         <DraxProvider>
             <View style={styles.container}>
@@ -77,8 +77,9 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                             }
                             return (<DraxView payload={word} key={word}
                                 style={styles.draxView}
-                                draggingStyle={{ opacity: 0.3 }}
-                                dragReleasedStyle={{ opacity: 0.3 }}>
+                                draggingStyle={{opacity: 0.3}}
+                                dragReleasedStyle={{opacity: 0.3}}
+                                longPressDelay={100}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
                         })
@@ -90,7 +91,13 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                             key={word.turkish}
                             showingResults={submitted}
                             wordDropped={(newWord) => {
-                                const newTurkishWords = [...turkishWords]
+                                const newTurkishWords = turkishWords.map(({english, turkish, correctEnglishWord}) => {
+                                    if (english === newWord) {
+                                        return {turkish, correctEnglishWord}
+                                    } else {
+                                        return {turkish, correctEnglishWord, english}
+                                    }
+                                })
                                 newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                 setTurkishWords(newTurkishWords)
                             }}
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
     turkishContainer: {
         width: "100%",
         flex: 10,
-        justifyContent: "center"
+        justifyContent: "center",
     },
     english: {
         ...defaultStyle.default,
@@ -168,7 +175,7 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         height: "15%",
         marginVertical: "3%",
-        backgroundColor: BLUE,
+        backgroundColor: GREY,
         justifyContent: 'center'
     },
     doneContainer: {
@@ -211,4 +218,3 @@ const styles = StyleSheet.create({
         borderRadius: 0.0001
     }
 })
-

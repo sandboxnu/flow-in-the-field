@@ -8,6 +8,7 @@ import { User, UID } from "../models/types";
 
 import "intl";
 import 'intl/locale-data/jsonp/en';
+import { LoadingScreen } from "../components/LoadingScreen";
 
 const fi = new FirebaseInteractor();
 
@@ -21,7 +22,7 @@ export default function Homescreen() {
     const navigation = useNavigation();
 
     if (!user) {
-        return <Text>loading</Text>
+        return <LoadingScreen />
     }
 
     const startSession = () => {

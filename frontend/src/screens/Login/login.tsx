@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { TURQUOISE } from "../../constants/colors";
+import { PURPLE, TURQUOISE } from "../../constants/colors";
 import ErrorText from "../../components/ErrorText";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
@@ -33,7 +33,12 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
                     setError("Please enter a password.")
                 } else {
                     interactor.signInWithUsernameAndPassword(email, password)
-                        .then(goToAccountSettings)
+                        .then(() => {
+                            setEmail("");
+                            setPassword("");
+                            setError("");
+                            goToAccountSettings();
+                        })
                         .catch(e => {
                             console.log(e.message);
                             setError(mapErrorCodeToMessage(e.code))
@@ -95,6 +100,9 @@ const styles = StyleSheet.create({
         marginTop: 11
     },
     signUpText: {
-        color: "#4D4661"
+        textDecorationLine: "underline",
+        color: PURPLE,
+        fontSize: 18
+
     },
 })

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { DraxView } from "react-native-drax";
-import { ORANGE } from "../constants/colors";
+import { BLUE, GREY, ORANGE } from "../constants/colors";
 interface DroppableRowProps {
     turkish: string,
     english?: string,
@@ -13,28 +13,50 @@ interface DroppableRowProps {
 
 export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, correctEnglish }: DroppableRowProps) {
     const correct = english === correctEnglish || !english;
-    const extraEnglishInfo = showingResults ? correct ? showingResultsStyles.correctEnglishWord : showingResultsStyles.incorrectEnglishWord : {}
+    const extraTurkishInfo = showingResults ? correct ? showingResultsStyles.correctTurkishWord : showingResultsStyles.incorrectTurkishWord : {}
+    const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
+        <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
+            <Text style={{ ...styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
+        </View>
         {(english || showingResults) ?
-            <TouchableOpacity style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} onPress={() => !showingResults && removeWord()} disabled={showingResults}>
+            <DraxView style={{ ...styles.englishTextContainer }}
+                dragPayload={showingResults ? undefined : english} 
+                draggable={!showingResults}
+                draggingStyle={{opacity: 0.3}} 
+                dragReleasedStyle={{opacity: 0.3}} 
+                key={1}
+                onDragStart={() => setDragging(false)}
+                hoverDraggingStyle={{borderColor: "transparent"}}
+                onDrag={event => {
+                    if (Math.abs(event.dragTranslation.x) > 1 || Math.abs(event.dragTranslation.y) > 1) {
+                        setDragging(true)
+                    }
+                }}
+                onDragEnd={() => {
+                    if (!dragging) {
+                        removeWord();
+                    }
+                    setDragging(false)
+                }} // This is a hack since there is no way to interact draxview with a touch handler
+                longPressDelay={1}>
                 <Text style={styles.englishText}>{showingResults ? correctEnglish : english}</Text>
-            </TouchableOpacity>
+            </DraxView>
+            
             : <DraxView style={styles.draxView}
                 onReceiveDragDrop={({ dragged: { payload } }: { dragged: { payload: string } }) => {
                     wordDropped(payload);
-                }}></DraxView>}
-        <View style={styles.turkishContainer}>
-            <Text style={styles.turkishText}>{turkish}</Text>
-        </View>
+                }}
+                key={2}></DraxView>}
     </View>)
 }
 
 const showingResultsStyles = StyleSheet.create({
-    incorrectEnglishWord: {
+    incorrectTurkishWord: {
         backgroundColor: ORANGE,
         borderColor: "transparent"
     },
-    correctEnglishWord: {
+    correctTurkishWord: {
         backgroundColor: "#5BBAB7",
         borderColor: "transparent"
     },
@@ -54,13 +76,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "40%",
         height: "100%",
-        backgroundColor: "#C4C4C4",
+        backgroundColor: BLUE,
         marginHorizontal: "5%"
     },
     turkishText: {
         textAlign: "center",
         color: "white",
-        backgroundColor: "#C4C4C4"
+        backgroundColor: BLUE,
     },
     englishTextContainer: {
         width: "40%",
@@ -68,7 +90,7 @@ const styles = StyleSheet.create({
         borderColor: "white",
         borderStyle: "dashed",
         borderWidth: 2,
-        backgroundColor: "#5EAFDF",
+        backgroundColor: GREY,
         height: "100%",
         color: "white",
         marginHorizontal: "5%",
