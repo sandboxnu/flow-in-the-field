@@ -101,10 +101,10 @@ export default class FirebaseInteractor {
             }
 
             return {
-                email:    user.email                ?? "your mom",
-                testDate: docData.testDate.toDate() ?? new Date(),
-                numPairs: docData.numPairs          ?? 2,
-                gameType: docData.gameType          ?? "pairing"
+                email: user.email!,
+                testDate: docData.testDate.toDate(),
+                numPairs: docData.numPairs,
+                gameType: docData.gameType
             }
         }
 
