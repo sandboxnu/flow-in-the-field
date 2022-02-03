@@ -36,7 +36,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         } else {
             setUser(user);
             fi.getRoundPairs(currentRoundId).then(words => {
-                setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english)));
+                setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]]));
                 setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
             }).catch(console.error);
         }
