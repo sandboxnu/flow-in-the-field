@@ -1,9 +1,8 @@
 import * as firebase from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, connectFirestoreEmulator, Firestore } from "firebase/firestore";
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -25,8 +24,21 @@ const app = firebase.initializeApp(firebaseConfig);
  * Stolen from vocab buddy.
  */
 export default class FirebaseInteractor {
-    auth = getAuth(app);
-    db = getFirestore(app);
+
+    auth : Auth;
+    db : Firestore; 
+    constructor(emulator=true) {
+        if (emulator) {
+            // firebaseApps previously initialized using initializeApp()
+            this.db = getFirestore();
+            connectFirestoreEmulator(this.db, 'localhost', 8080);
+            this.auth = getAuth();
+            connectAuthEmulator(this.auth, "http://localhost:9099");
+        } else {
+            this.db = getFirestore(app);
+            this.auth = getAuth(app);
+        }
+    }
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
