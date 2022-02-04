@@ -3,6 +3,9 @@ import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPas
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, connectFirestoreEmulator, Firestore } from "firebase/firestore";
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
+import Constants from "expo-constants";
+
+const { manifest } = Constants;
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,6 +19,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
+    const ip = manifest.debuggerHost.split(`:`).shift() ?? "localhost";
+    console.log("Emulator IP: " + ip);
+    connectFirestoreEmulator(db, ip, 8080);
+    connectAuthEmulator(auth, `http://${ip}:9099`,);
+}
 
 /**
  * A class to interact with firebase. This class stores the current state,
@@ -25,20 +37,10 @@ const app = firebase.initializeApp(firebaseConfig);
  */
 export default class FirebaseInteractor {
 
-    auth : Auth;
-    db : Firestore; 
-    constructor(emulator=true) {
-        if (emulator) {
-            // firebaseApps previously initialized using initializeApp()
-            this.db = getFirestore();
-            connectFirestoreEmulator(this.db, 'localhost', 8080);
-            this.auth = getAuth();
-            connectAuthEmulator(this.auth, "http://localhost:9099");
-        } else {
-            this.db = getFirestore(app);
-            this.auth = getAuth(app);
-        }
-    }
+
+    db = db;
+    auth = auth;
+
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
