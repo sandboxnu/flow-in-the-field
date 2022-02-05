@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "flow-in-the-field",
+    "name": "Flow in the Field",
     "slug": "flow-in-the-field",
     "owner": "flow-in-the-field",
     "version": "1.0.0",
@@ -29,6 +29,7 @@
     "web": {
       "favicon": "./src/assets/flow-icon-square.png"
     },
-    "description": ""
+    "description": "Main branch of *Flow in the Field* - currently in development.\n\nA language learning mobile app designed to study the relationship between mutual information and flow.",
+    "githubUrl": "https://github.com/sandboxnu/flow-in-the-field"
   }
 }

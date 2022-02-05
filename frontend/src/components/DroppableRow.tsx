@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { DraxView } from "react-native-drax";
-import { ORANGE } from "../constants/colors";
+import { BLUE, GREY, ORANGE } from "../constants/colors";
 interface DroppableRowProps {
     turkish: string,
     english?: string,
@@ -13,11 +13,14 @@ interface DroppableRowProps {
 
 export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, correctEnglish }: DroppableRowProps) {
     const correct = english === correctEnglish || !english;
-    const extraEnglishInfo = showingResults ? correct ? showingResultsStyles.correctEnglishWord : showingResultsStyles.incorrectEnglishWord : {}
+    const extraTurkishInfo = showingResults ? correct ? showingResultsStyles.correctTurkishWord : showingResultsStyles.incorrectTurkishWord : {}
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
+        <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
+            <Text style={{ ...styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
+        </View>
         {(english || showingResults) ?
-            <DraxView style={{ ...styles.englishTextContainer, ...extraEnglishInfo }} 
+            <DraxView style={{ ...styles.englishTextContainer }}
                 dragPayload={showingResults ? undefined : english} 
                 draggable={!showingResults}
                 draggingStyle={{opacity: 0.3}} 
@@ -45,18 +48,15 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
                     wordDropped(payload);
                 }}
                 key={2}></DraxView>}
-        <View style={styles.turkishContainer}>
-            <Text style={styles.turkishText}>{turkish}</Text>
-        </View>
     </View>)
 }
 
 const showingResultsStyles = StyleSheet.create({
-    incorrectEnglishWord: {
+    incorrectTurkishWord: {
         backgroundColor: ORANGE,
         borderColor: "transparent"
     },
-    correctEnglishWord: {
+    correctTurkishWord: {
         backgroundColor: "#5BBAB7",
         borderColor: "transparent"
     },
@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "40%",
         height: "100%",
-        backgroundColor: "#C4C4C4",
+        backgroundColor: BLUE,
         marginHorizontal: "5%"
     },
     turkishText: {
         textAlign: "center",
         color: "white",
-        backgroundColor: "#C4C4C4"
+        backgroundColor: BLUE,
     },
     englishTextContainer: {
         width: "40%",
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         borderColor: "white",
         borderStyle: "dashed",
         borderWidth: 2,
-        backgroundColor: "#5EAFDF",
+        backgroundColor: GREY,
         height: "100%",
         color: "white",
         marginHorizontal: "5%",

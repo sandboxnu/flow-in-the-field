@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     turkishContainer: {
         width: "100%",
         flex: 10,
-        justifyContent: "center"
+        justifyContent: "center",
     },
     english: {
         ...defaultStyle.default,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         marginHorizontal: "5%",
         height: "15%",
         marginVertical: "3%",
-        backgroundColor: BLUE,
+        backgroundColor: GREY,
         justifyContent: 'center'
     },
     doneContainer: {
@@ -208,4 +208,3 @@ const styles = StyleSheet.create({
         borderRadius: 0.0001
     }
 })
-
