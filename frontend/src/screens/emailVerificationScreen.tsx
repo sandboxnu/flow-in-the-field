@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
 
     containedContainer: {
         width: "100%",
-        height: "87%",
+        height: "85%",
         alignItems: "center"
     },
 
     mainImage: {
         width: "60%",
         resizeMode: 'contain',
-        maxHeight: "26.4%",
+        maxHeight: "25%",
         marginBottom: "10%"
     },
     promptText: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     verifiedButton: {
         width: "80%",
-        margin: "2.55%",
+        margin: "2%",
         backgroundColor: TURQUOISE,
         borderRadius: 10000000
     },
