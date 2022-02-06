@@ -52,6 +52,7 @@ export default function App() {
         <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS} initialRouteName={startingState}>
           <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
           <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
+          <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={PairingGameScreen} />
