@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPas
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
+import { User as AuthUser } from "firebase/auth";
 
 
 // Your web app's Firebase configuration
@@ -37,7 +38,7 @@ export default class FirebaseInteractor {
         return this.auth.currentUser?.emailVerified ?? false;
     }
     trySignedIn() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve: (value: AuthUser | null) => void, reject) => {
             onAuthStateChanged(this.auth, user => {
                 if (user) {
                     resolve(user)
