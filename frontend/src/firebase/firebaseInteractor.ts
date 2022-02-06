@@ -4,6 +4,7 @@ import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, conn
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 import Constants from "expo-constants";
+// import words from "./../firebase/words";
 
 const { manifest } = Constants;
 
@@ -27,6 +28,10 @@ if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
     console.log("Emulator IP: " + ip);
     connectFirestoreEmulator(db, ip, 8080);
     connectAuthEmulator(auth, `http://${ip}:9099`,);
+    // const coll = collection(db, "words");
+    // for (let word of words.words) {
+    //     setDoc(doc(coll), word);
+    // }
 }
 
 /**
