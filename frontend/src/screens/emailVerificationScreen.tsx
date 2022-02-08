@@ -133,5 +133,5 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
-    },
+    }
 })
