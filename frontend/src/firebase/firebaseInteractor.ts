@@ -62,6 +62,16 @@ export default class FirebaseInteractor {
         });
     }
 
+    async resendEmailVerification() {
+        const user = this.auth.currentUser;
+        if (user !== null) {
+            sendEmailVerification(user);
+        }
+        else {
+            throw new Error("No actual user");
+        }
+    }
+
     async signInWithUsernameAndPassword(username: string, password: string) {
         await signInWithEmailAndPassword(this.auth, username, password);
     }

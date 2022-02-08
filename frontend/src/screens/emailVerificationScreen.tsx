@@ -24,6 +24,11 @@ export default function EmailVerificationScreen() {
         </View>
         <View style={styles.containedContainer}>
             <ErrorText message={errorMessage} />
+            <TouchableOpacity style={styles.resendButton} onPress={() => {
+                fi.resendEmailVerification();
+            }}>
+                <Text style={styles.resendText}>resend verification email</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.verifiedButton} onPress={() => {
                 fi.checkIfVerified().then(emailVerified => {
                     if (emailVerified) {
@@ -79,6 +84,7 @@ const styles = StyleSheet.create({
         maxHeight: "25%",
         marginBottom: "10%"
     },
+
     promptText: {
         textAlign: "center",
         marginHorizontal: "10%",
@@ -86,6 +92,27 @@ const styles = StyleSheet.create({
         color: BLUE,
         fontWeight: "600"
     },
+
+    resendButton: {
+        width: "100%",
+        paddingVertical: "1%"
+    },
+
+    resendText: {
+        fontSize: 18,
+        color: PURPLE,
+        textAlign: "center",
+        textDecorationLine: "underline",
+        fontWeight: "300",
+    },
+
+    verifiedButton: {
+        width: "80%",
+        margin: "2%",
+        backgroundColor: TURQUOISE,
+        borderRadius: 10000000,
+    },
+
     verifiedText: {
         color: "white",
         fontSize: 18,
@@ -94,20 +121,17 @@ const styles = StyleSheet.create({
         textAlign: "center",
         paddingVertical: 15
     },
-    verifiedButton: {
-        width: "80%",
-        margin: "2%",
-        backgroundColor: TURQUOISE,
-        borderRadius: 10000000
-    },
+
     mailButton: {
-        width: "100%"
+        width: "100%",
+        paddingVertical: "1%"
     },
+
     mailText: {
         fontSize: 18,
         color: PURPLE,
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
-    }
+    },
 })
