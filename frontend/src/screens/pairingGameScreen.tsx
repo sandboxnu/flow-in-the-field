@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { BLUE, GREY } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, Word, UID } from "../models/types";
+import { User, Word, UID, GameType } from "../models/types";
 import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
@@ -15,6 +15,14 @@ interface MaybeWordPair {
     english?: string;
     turkish: string;
     correctEnglishWord: string;
+}
+
+const isPairingGame = (user: User) => {
+    if (user.gameType === "selecting") {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 interface PairingGameScreenProps {
@@ -34,10 +42,17 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         if (currentRoundId == "") {
             fi.startRound(sessionId).then(result => setCurrentRoundId(result));
         } else {
-            setUser(user);
-            fi.getRoundPairs(currentRoundId).then(words => {
-                setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]]));
-                setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+            fi.getUser().then(user => {
+                setUser(user);
+                fi.getRoundPairs(currentRoundId).then(words => {
+                    if (isPairingGame(user)) {
+                        setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english))); // pairing case
+                        setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+                    } else {
+                        setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]])); // selecting case
+                        setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+                    }
+                }).catch(console.error);
             }).catch(console.error);
         }
     }, [currentRoundId]);
