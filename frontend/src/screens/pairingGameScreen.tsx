@@ -18,11 +18,7 @@ interface MaybeWordPair {
 }
 
 const isPairingGame = (user: User) => {
-    if (user.gameType === "selecting") {
-        return false;
-    } else {
-        return true;
-    }
+    return user.gameType === 'pairing';
 }
 
 interface PairingGameScreenProps {
@@ -47,11 +43,10 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                 fi.getRoundPairs(currentRoundId).then(words => {
                     if (isPairingGame(user)) {
                         setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english))); // pairing case
-                        setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
                     } else {
                         setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]])); // selecting case
-                        setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
                     }
+                    setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
                 }).catch(console.error);
             }).catch(console.error);
         }
