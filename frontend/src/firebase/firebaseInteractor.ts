@@ -1,9 +1,11 @@
 import * as firebase from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, connectFirestoreEmulator, Firestore } from "firebase/firestore";
 import { User, Word } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
+import Constants from "expo-constants";
 
+const { manifest } = Constants;
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,6 +19,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
+    const ip = manifest.debuggerHost.split(`:`).shift() ?? "localhost";
+    console.log("Emulator IP: " + ip);
+    connectFirestoreEmulator(db, ip, 8080);
+    connectAuthEmulator(auth, `http://${ip}:9099`,);
+}
 
 /**
  * A class to interact with firebase. This class stores the current state,
@@ -25,8 +36,11 @@ const app = firebase.initializeApp(firebaseConfig);
  * Stolen from vocab buddy.
  */
 export default class FirebaseInteractor {
-    auth = getAuth(app);
-    db = getFirestore(app);
+
+
+    db = db;
+    auth = auth;
+
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
