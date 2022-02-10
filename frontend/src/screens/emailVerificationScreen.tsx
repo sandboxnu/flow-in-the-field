@@ -24,8 +24,8 @@ export default function EmailVerificationScreen() {
         </View>
         <View style={styles.containedContainer}>
             <ErrorText message={errorMessage} />
-            <TouchableOpacity style={styles.resendButton} onPress={() => {
-                fi.resendEmailVerification();
+            <TouchableOpacity style={styles.resendButton} onPress={async () => {
+                await fi.resendEmailVerification();
             }}>
                 <Text style={styles.resendText}>resend verification email</Text>
             </TouchableOpacity>

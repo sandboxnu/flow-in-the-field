@@ -18,6 +18,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 
+// Firebase Auth delay in email verification
+const AUTH_DELAY = 60000 // in ms, equal to 1 minute
+
 /**
  * A class to interact with firebase. This class stores the current state,
  * including a reference to the firestore, and the current authenticated user.
@@ -27,6 +30,7 @@ const app = firebase.initializeApp(firebaseConfig);
 export default class FirebaseInteractor {
     auth = getAuth(app);
     db = getFirestore(app);
+    lastEmailRequestedAt?: Date;
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exis";
@@ -52,6 +56,7 @@ export default class FirebaseInteractor {
             throw new Error("No actual user");
         }
         sendEmailVerification(userAuth.user);
+        this.lastEmailRequestedAt = new Date(Date.now());
         const userDoc = doc(this.db, "users", userAuth.user.uid)
         await setDoc(userDoc, {
             numPairs: getRandomPairing(),
@@ -62,14 +67,21 @@ export default class FirebaseInteractor {
         });
     }
 
+    // Delays resending the verification email to avoid Firebase too-many-requests error
     async resendEmailVerification() {
         const user = this.auth.currentUser;
-        if (user !== null) {
-            sendEmailVerification(user);
-        }
-        else {
+        let now = new Date(Date.now());
+        let timeDifference = this.lastEmailRequestedAt ? now.getTime() - this.lastEmailRequestedAt.getTime() : 0;
+        timeDifference = timeDifference < 0 ? 0 : timeDifference; // sanity check that difference is nonnegative
+
+        if (user === null) {
             throw new Error("No actual user");
         }
+
+        this.lastEmailRequestedAt = new Date(Date.now());
+        setTimeout(() => {
+            sendEmailVerification(user);
+        }, AUTH_DELAY - timeDifference);
     }
 
     async signInWithUsernameAndPassword(username: string, password: string) {
