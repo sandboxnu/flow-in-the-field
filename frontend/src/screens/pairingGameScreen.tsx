@@ -58,7 +58,7 @@ export default function PairingGameScreen() {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.column, flex: submitted ? 5 : 8, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                <View style={{ ...styles.topContainer, flex: submitted ? 4 : 7, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
                     {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
@@ -74,7 +74,7 @@ export default function PairingGameScreen() {
                         })
                     }
                 </View>
-                <View style={styles.turkishContainer}>
+                <View style={styles.bottomContainer}>
                     {turkishWords?.map((word, i) => (
                         <DroppableRow
                             key={word.turkish}
@@ -146,15 +146,15 @@ const styles = StyleSheet.create({
     inactiveButton: {
         backgroundColor: "#D16B5025",
     },
-    column: {
+    topContainer: {
         width: "100%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
     },
-    turkishContainer: {
+    bottomContainer: {
         width: "100%",
-        flex: 10,
+        flex: 12,
         justifyContent: "center",
     },
     english: {
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         width: "40%",
         marginHorizontal: "5%",
         height: "15%",
-        marginVertical: "3%",
+        marginVertical: "2%",
         backgroundColor: GREY,
         justifyContent: 'center'
     },
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         width: "40%",
         borderStyle: "dashed",
         height: "15%",
-        marginVertical: "3%",
+        marginVertical: "2%",
         marginHorizontal: "5%",
         borderRadius: 0.0001
     }

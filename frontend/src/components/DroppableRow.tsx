@@ -106,6 +106,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: "100%",
         height: "12.5%",
-        paddingVertical: "1%"
+        paddingVertical: "1.5%"
     }
 });
