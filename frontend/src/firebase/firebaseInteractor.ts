@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, connectFirestoreEmulator, Firestore } from "firebase/firestore";
-import { User, Word } from "../models/types";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
+import { User, Word, Session, Round, GameType, UID } from "../models/types";
 import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 import Constants from "expo-constants";
 
@@ -37,13 +37,11 @@ if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
  */
 export default class FirebaseInteractor {
 
-
-    db = db;
-    auth = auth;
-
+    auth = getAuth(app);
+    db = getFirestore(app);
 
     get email() {
-        return this.auth.currentUser?.email ?? "Current user does not exis";
+        return this.auth.currentUser?.email ?? "Current user does not exist";
     }
 
     async checkIfVerified() {
@@ -62,17 +60,19 @@ export default class FirebaseInteractor {
             email,
             password
         );
+
         if (userAuth.user?.uid == null) {
             throw new Error("No actual user");
         }
+
         sendEmailVerification(userAuth.user);
+        
         const userDoc = doc(this.db, "users", userAuth.user.uid)
+        
         await setDoc(userDoc, {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
-            sessions: [],
-            seenPairs: []
         });
     }
 
@@ -83,6 +83,7 @@ export default class FirebaseInteractor {
     async resetPassword(email: string) {
         await sendPasswordResetEmail(this.auth, email)
     }
+
     async updatePassword(oldPassword: string, newPassword: string) {
         const user = this.auth.currentUser;
         if (user !== null && user.email !== null) {
@@ -101,12 +102,16 @@ export default class FirebaseInteractor {
     }
 
     async getUser(): Promise<User> {
+
         const user = this.auth.currentUser;
+
         if (user !== null) {
             const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+
             if (docData === undefined) {
                 throw new Error("No data found")
             }
+
             return {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
@@ -114,7 +119,72 @@ export default class FirebaseInteractor {
                 gameType: docData.gameType
             }
         }
+
         throw new Error("No user found")
+    }
+
+    async startRound(sessionId: string): Promise<UID> {
+
+        const user = this.auth.currentUser;
+
+        if (user !== null) {
+            const user = await this.getUser()
+
+            const newRound: Round = {
+                session: sessionId,
+                startTime: new Date(),
+                endTime: null,
+                words: await this.getXRandomPairs(user.numPairs),
+            }
+
+            const col = collection(this.db, "rounds");
+            const roundID: UID = (await addDoc(col, newRound)).id;
+            
+            return roundID;
+        }
+
+        throw new Error("No user found")
+    }
+
+    async endRound(roundId: UID) {
+        const roundRef = collection(this.db, "rounds");
+        await updateDoc(doc(roundRef, roundId), {
+            endTime: new Date()
+        })
+    }
+
+    async getRoundPairs(roundId: UID) {
+        const roundsRef = collection(this.db, "rounds");
+        const docData = (await getDoc(doc(roundsRef, roundId))).data();
+        return docData?.words ?? [];
+    }
+
+    async startSession(): Promise<UID> {
+
+        const user = this.auth.currentUser;
+
+        if (user !== null) {
+
+            const newSession: Session = {
+                user: user.uid,
+                startTime: new Date(),
+                endTime: null,
+            }
+
+            const col = collection(this.db, "sessions");
+            const sessionID: UID = (await addDoc(col, newSession)).id;
+            
+            return sessionID;
+        }
+
+        throw new Error("No user found")
+    }
+
+    async endSession(sessionId: UID) {
+        const sessionsRef = collection(this.db, "sessions");
+        await updateDoc(doc(sessionsRef, sessionId), {
+            endTime: new Date()
+        })
     }
 
     async getXRandomPairs(num: number): Promise<Word[]> {
