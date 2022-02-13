@@ -112,13 +112,14 @@ export default function PairingGameScreen() {
                             }).catch(console.log)
                         }
                     }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
-                    <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
+                    <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...extraButtonStyles }
+                     : { ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
                         if (submitted) {
                             navigation.navigate("HomeScreen")
                         } else {
                             setSubmitted(true)
                         }
-                    }}><Text style={styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                    }}><Text style={submitted ? styles.endSessionButtonTitle : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
                 </View>
             </View>
         </DraxProvider>
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
     },
     inactiveButton: {
         backgroundColor: "#D16B5025",
+        borderColor: "#FFF"
     },
     topContainer: {
         width: "100%",
@@ -177,17 +179,35 @@ const styles = StyleSheet.create({
     },
     doneButton: {
         backgroundColor: "#D16B50",
+        borderColor: "#D16B50",
+        borderWidth: 2,
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
         width: '40%',
-        paddingHorizontal: "10%",
+        paddingHorizontal: "5%",
         marginHorizontal: '3%',
         marginVertical: "1%",
         paddingVertical: 10
     },
     doneButtonTitle: {
         color: "white"
+    },
+    endSessionButton: {
+        backgroundColor: 'white',
+        borderColor: "#D16B50",
+        borderWidth: 2,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '40%',
+        paddingHorizontal: "5%",
+        marginHorizontal: '3%',
+        marginVertical: "1%",
+        paddingVertical: 10
+    },
+    endSessionButtonTitle: {
+        color: "#D16B50"
     },
     scoreText: {
         color: BLUE,
@@ -198,8 +218,7 @@ const styles = StyleSheet.create({
     correctText: {
         color: BLUE,
         fontSize: 64,
-        textAlign: "center",
-
+        textAlign: "center"
     },
     englishUsed: {
         borderColor: BLUE,
