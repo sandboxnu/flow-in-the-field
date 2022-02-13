@@ -8,12 +8,25 @@ interface DroppableRowProps {
     correctEnglish: string,
     removeWord: () => void;
     wordDropped: (word: string) => void;
-    showingResults: boolean
+    showingResults: boolean,
+    isPairing: boolean
 }
 
-export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, correctEnglish }: DroppableRowProps) {
-    const correct = english === correctEnglish || !english;
-    const extraTurkishInfo = showingResults ? correct ? showingResultsStyles.correctTurkishWord : showingResultsStyles.incorrectTurkishWord : {}
+export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, correctEnglish, isPairing }: DroppableRowProps) {
+    const correct = english === correctEnglish;
+    const unusedSelectingWord = !english && !isPairing;
+
+    let extraTurkishInfo;
+    if (showingResults) {
+        if (correct) {
+            extraTurkishInfo = showingResultsStyles.correctTurkishWord;
+        } else if (unusedSelectingWord) {
+            extraTurkishInfo = showingResultsStyles.unusedTurkishWord;
+        } else {
+            extraTurkishInfo = showingResultsStyles.incorrectTurkishWord
+        }
+    }
+
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
         <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
@@ -60,6 +73,10 @@ const showingResultsStyles = StyleSheet.create({
         backgroundColor: "#5BBAB7",
         borderColor: "transparent"
     },
+    unusedTurkishWord: {
+        backgroundColor: BLUE,
+        borderColor: "transparent"
+    }
 })
 
 const styles = StyleSheet.create({

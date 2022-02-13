@@ -120,6 +120,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                                     newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                     setTurkishWords(newTurkishWords)
                                 }}
+                            isPairing={isPairingGame(user as User)}
                         />))}
                 </View>
                 <View style={styles.doneContainer}>
