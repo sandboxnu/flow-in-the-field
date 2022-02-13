@@ -58,7 +58,7 @@ export default function PairingGameScreen() {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.topContainer, flex: submitted ? 4 : 7, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                <View style={{ ...styles.topContainer, flex: submitted ? 3 : 6, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
                     {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
