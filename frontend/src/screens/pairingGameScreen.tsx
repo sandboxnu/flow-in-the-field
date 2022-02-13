@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
+        width: '40%',
         paddingHorizontal: "10%",
         marginHorizontal: '3%',
         marginVertical: "1%",
