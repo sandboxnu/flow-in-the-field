@@ -58,7 +58,7 @@ export default function PairingGameScreen() {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.topContainer, flex: submitted ? 3 : 6, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                <View style={{ ...styles.topContainer, flex: 6, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
                     {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
@@ -130,6 +130,7 @@ const defaultStyle = StyleSheet.create({
         color: "white",
         borderRadius: 5,
         textAlign: "center",
+        alignItems: "center",
         paddingVertical: "4%",
     }
 });
@@ -171,7 +172,8 @@ const styles = StyleSheet.create({
     doneContainer: {
         flex: 3,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        flexDirection: 'row'
     },
     doneButton: {
         backgroundColor: "#D16B50",
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: "10%",
+        marginHorizontal: '3%',
         marginVertical: "1%",
         paddingVertical: 10
     },
