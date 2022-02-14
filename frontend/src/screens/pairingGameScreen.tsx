@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { BLUE, GREY } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, Word } from "../models/types";
+import { User, Word, UID, GameType } from "../models/types";
 import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
+
 const fi = new FirebaseInteractor();
 
 interface MaybeWordPair {
@@ -16,36 +17,56 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
-const fetchNewWords = async (user: User) => {
-    const words = await fi.getXRandomPairs(user.numPairs)
-    let allEnglishWords: string[] = durstenfeldShuffle(words.map((word, i) => word.english));
-    if (user.gameType !== "pairing") {
-        allEnglishWords = [allEnglishWords[0]]
-    }
-    const turkishWords: MaybeWordPair[] = durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english })))
-    return {allEnglishWords, turkishWords}
+const isPairingGame = (user: User) => {
+    return user.gameType === 'pairing';
 }
 
-export default function PairingGameScreen() {
+interface PairingGameScreenProps {
+    route: any;
+}
+
+export default function PairingGameScreen(props: PairingGameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
     const [submitted, setSubmitted] = useState(false);
     const navigation = useNavigation()
+    const { sessionId } = props.route.params;
+    const [currentRoundId, setCurrentRoundId] = useState<UID>("");
 
     useEffect(() => {
-        fi.getUser().then(user => {
-            setUser(user);
-            fetchNewWords(user)
-            .then(({allEnglishWords, turkishWords}) => {
-                setEnglishWords(allEnglishWords)
-                setTurkishWords(turkishWords)
-            }).catch(console.log)
-        }).catch(console.error);
-    }, []);
+        if (currentRoundId == "") {
+            fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        } else {
+            fi.getUser().then(user => {
+                setUser(user);
+                fi.getRoundPairs(currentRoundId).then(words => {
+                    if (isPairingGame(user)) {
+                        setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english))); // pairing case
+                    } else {
+                        setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]])); // selecting case
+                    }
+                    setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+                }).catch(console.error);
+            }).catch(console.error);
+        }
+    }, [currentRoundId]);
 
     if (englishWords === undefined) {
         return <LoadingScreen />
+    }
+
+    const startRound = () => {
+        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+    }
+
+    const restartRound = () => {
+        fi.endRound(currentRoundId);
+        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+    }
+
+    const endRound = () => {
+        fi.endRound(currentRoundId);
     }
 
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
@@ -64,10 +85,10 @@ export default function PairingGameScreen() {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
                                 return (<View key={word} style={styles.englishUsed} />)
                             }
-                            return (<DraxView payload={word} key={word} 
+                            return (<DraxView payload={word} key={word}
                                 style={styles.draxView}
-                                draggingStyle={{opacity: 0.3}}
-                                dragReleasedStyle={{opacity: 0.3}}
+                                draggingStyle={{ opacity: 0.3 }}
+                                dragReleasedStyle={{ opacity: 0.3 }}
                                 longPressDelay={100}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
@@ -80,11 +101,11 @@ export default function PairingGameScreen() {
                             key={word.turkish}
                             showingResults={submitted}
                             wordDropped={(newWord) => {
-                                const newTurkishWords = turkishWords.map(({english, turkish, correctEnglishWord}) => {
+                                const newTurkishWords = turkishWords.map(({ english, turkish, correctEnglishWord }) => {
                                     if (english === newWord) {
-                                        return {turkish, correctEnglishWord}
+                                        return { turkish, correctEnglishWord }
                                     } else {
-                                        return {turkish, correctEnglishWord, english}
+                                        return { turkish, correctEnglishWord, english }
                                     }
                                 })
                                 newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
@@ -99,32 +120,32 @@ export default function PairingGameScreen() {
                                     newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                     setTurkishWords(newTurkishWords)
                                 }}
+                            isPairing={isPairingGame(user as User)}
                         />))}
                 </View>
                 <View style={styles.doneContainer}>
                     {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
-                        if (user) {
-                            fetchNewWords(user)
-                            .then(({allEnglishWords, turkishWords}) => {
-                                setEnglishWords(allEnglishWords)
-                                setTurkishWords(turkishWords)
-                                setSubmitted(false)
-                            }).catch(console.log)
-                        }
-                    }}><Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
+                        setTurkishWords(turkishWords?.map((word) => ({ ...word, english: undefined })))
+                        setSubmitted(false)
+                        restartRound()
+                    }}>
+                        <Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
                     <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...extraButtonStyles }
-                     : { ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
-                        if (submitted) {
-                            navigation.navigate("HomeScreen")
-                        } else {
-                            setSubmitted(true)
-                        }
-                    }}><Text style={submitted ? styles.endSessionButtonTitle : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                        : { ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
+                            if (submitted) {
+                                fi.endRound(currentRoundId);
+                                fi.endSession(sessionId);
+                                navigation.navigate("HomeScreen");
+                            } else {
+                                setSubmitted(true)
+                            }
+                        }}><Text style={submitted ? styles.endSessionButtonTitle : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
                 </View>
             </View>
         </DraxProvider>
     )
 }
+
 
 const defaultStyle = StyleSheet.create({
     default: {
