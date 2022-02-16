@@ -79,7 +79,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.column, flex: submitted ? 5 : 8, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                <View style={{ ...styles.topContainer, flex: 6, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
                     {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
@@ -87,25 +87,25 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                             }
                             return (<DraxView payload={word} key={word}
                                 style={styles.draxView}
-                                draggingStyle={{opacity: 0.3}}
-                                dragReleasedStyle={{opacity: 0.3}}
+                                draggingStyle={{ opacity: 0.3 }}
+                                dragReleasedStyle={{ opacity: 0.3 }}
                                 longPressDelay={100}>
                                 <Text style={styles.english}>{word}</Text>
                             </DraxView>)
                         })
                     }
                 </View>
-                <View style={styles.turkishContainer}>
+                <View style={styles.bottomContainer}>
                     {turkishWords?.map((word, i) => (
                         <DroppableRow
                             key={word.turkish}
                             showingResults={submitted}
                             wordDropped={(newWord) => {
-                                const newTurkishWords = turkishWords.map(({english, turkish, correctEnglishWord}) => {
+                                const newTurkishWords = turkishWords.map(({ english, turkish, correctEnglishWord }) => {
                                     if (english === newWord) {
-                                        return {turkish, correctEnglishWord}
+                                        return { turkish, correctEnglishWord }
                                     } else {
-                                        return {turkish, correctEnglishWord, english}
+                                        return { turkish, correctEnglishWord, english }
                                     }
                                 })
                                 newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
@@ -130,15 +130,16 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                         restartRound()
                     }}>
                         <Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
-                    <TouchableOpacity style={{ ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
-                        if (submitted) {
-                            fi.endRound(currentRoundId);
-                            fi.endSession(sessionId);
-                            navigation.navigate("HomeScreen");
-                        } else {
-                            setSubmitted(true)
-                        }
-                    }}><Text style={styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                    <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...extraButtonStyles }
+                        : { ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
+                            if (submitted) {
+                                fi.endRound(currentRoundId);
+                                fi.endSession(sessionId);
+                                navigation.navigate("HomeScreen");
+                            } else {
+                                setSubmitted(true)
+                            }
+                        }}><Text style={submitted ? styles.endSessionButtonTitle : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
                 </View>
             </View>
         </DraxProvider>
@@ -151,6 +152,7 @@ const defaultStyle = StyleSheet.create({
         color: "white",
         borderRadius: 5,
         textAlign: "center",
+        alignItems: "center",
         paddingVertical: "4%",
     }
 });
@@ -166,16 +168,17 @@ const styles = StyleSheet.create({
     },
     inactiveButton: {
         backgroundColor: "#D16B5025",
+        borderColor: "#FFF"
     },
-    column: {
+    topContainer: {
         width: "100%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
     },
-    turkishContainer: {
+    bottomContainer: {
         width: "100%",
-        flex: 10,
+        flex: 12,
         justifyContent: "center",
     },
     english: {
@@ -185,26 +188,47 @@ const styles = StyleSheet.create({
         width: "40%",
         marginHorizontal: "5%",
         height: "15%",
-        marginVertical: "3%",
+        marginVertical: "2%",
         backgroundColor: GREY,
         justifyContent: 'center'
     },
     doneContainer: {
         flex: 3,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        flexDirection: 'row'
     },
     doneButton: {
         backgroundColor: "#D16B50",
+        borderColor: "#D16B50",
+        borderWidth: 2,
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: "10%",
+        width: '40%',
+        paddingHorizontal: "5%",
+        marginHorizontal: '3%',
         marginVertical: "1%",
         paddingVertical: 10
     },
     doneButtonTitle: {
         color: "white"
+    },
+    endSessionButton: {
+        backgroundColor: 'white',
+        borderColor: "#D16B50",
+        borderWidth: 2,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '40%',
+        paddingHorizontal: "5%",
+        marginHorizontal: '3%',
+        marginVertical: "1%",
+        paddingVertical: 10
+    },
+    endSessionButtonTitle: {
+        color: "#D16B50"
     },
     scoreText: {
         color: BLUE,
@@ -215,8 +239,7 @@ const styles = StyleSheet.create({
     correctText: {
         color: BLUE,
         fontSize: 64,
-        textAlign: "center",
-
+        textAlign: "center"
     },
     englishUsed: {
         borderColor: BLUE,
@@ -224,7 +247,7 @@ const styles = StyleSheet.create({
         width: "40%",
         borderStyle: "dashed",
         height: "15%",
-        marginVertical: "3%",
+        marginVertical: "2%",
         marginHorizontal: "5%",
         borderRadius: 0.0001
     }
