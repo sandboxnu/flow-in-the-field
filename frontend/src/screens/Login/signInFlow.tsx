@@ -26,13 +26,13 @@ export default function SignInFlow() {
     const navigation = useNavigation();
 
     useFocusEffect(() => {
-        fi.trySignedIn().then(user => setCurrentUser(user))
+        fi.trySignedIn().then(user => {
+            setCurrentUser(user)
+            if (fi.auth.currentUser) userSignedIn();
+        });
     })
 
-    if (currentUser == "unknown") {
-        return <LoadingScreen />
-    } else if (currentUser) {
-        navigation.navigate("HomeScreen");
+    if (currentUser) {
         return <LoadingScreen />
     } else {
         if (currentPage == 'signIn') {
