@@ -33,6 +33,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const navigation = useNavigation()
     const { sessionId } = props.route.params;
     const [currentRoundId, setCurrentRoundId] = useState<UID>("");
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (currentRoundId == "") {
@@ -46,7 +47,9 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                     } else {
                         setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]])); // selecting case
                     }
-                    setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english }))));
+                    setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
+                    setSubmitted(false)
+                    setIsLoading(false)
                 }).catch(console.error);
             }).catch(console.error);
         }
@@ -71,7 +74,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
 
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
-    const extraButtonStyles = canClickDoneButton ? {} : styles.inactiveButton
+    const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
     const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
         : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
@@ -124,14 +127,17 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                         />))}
                 </View>
                 <View style={styles.doneContainer}>
-                    {submitted && <TouchableOpacity style={styles.doneButton} onPress={() => {
-                        setTurkishWords(turkishWords?.map((word) => ({ ...word, english: undefined })))
-                        setSubmitted(false)
-                        restartRound()
-                    }}>
-                        <Text style={styles.doneButtonTitle}>play again</Text></TouchableOpacity>}
-                    <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...extraButtonStyles }
-                        : { ...styles.doneButton, ...extraButtonStyles }} disabled={!canClickDoneButton} onPress={() => {
+                    {submitted && <TouchableOpacity
+                        style={{ ...styles.doneButton, ...(isLoading ? styles.inactiveButton : {}) }}
+                        disabled={isLoading}
+                        onPress={() => {
+                            setIsLoading(true);
+                            restartRound()
+                        }}>
+                        <Text style={styles.doneButtonTitle}>play again</Text>
+                    </TouchableOpacity>}
+                    <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...(isLoading ? { borderColor: "#D16B5025" } : {}) }
+                        : { ...styles.doneButton, ...extraButtonStyles }} disabled={submitted ? !isLoading : !canClickDoneButton} onPress={() => {
                             if (submitted) {
                                 fi.endRound(currentRoundId);
                                 fi.endSession(sessionId);
@@ -139,7 +145,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                             } else {
                                 setSubmitted(true)
                             }
-                        }}><Text style={submitted ? styles.endSessionButtonTitle : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                        }}><Text style={submitted ? { ...styles.endSessionButtonTitle, ...(isLoading ? { color: "#D16B5025" } : {}) } : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
                 </View>
             </View>
         </DraxProvider>
