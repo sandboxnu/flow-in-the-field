@@ -17,11 +17,11 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
-interface PairingGameScreenProps {
+interface SelectingGameScreenProps {
     route: any;
 }
 
-export default function PairingGameScreen(props: PairingGameScreenProps) {
+export default function SelectingGameScreen(props: SelectingGameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
@@ -38,7 +38,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
             fi.getUser().then(user => {
                 setUser(user);
                 fi.getRoundPairs(currentRoundId).then(words => {
-                    setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english))); // pairing case
+                    setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]])); // selecting case
                     setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
                     setSubmitted(false)
                     setIsLoading(false)
@@ -115,7 +115,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
                                     newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                     setTurkishWords(newTurkishWords)
                                 }}
-                            isPairing={true}
+                            isPairing={false}
                         />))}
                 </View>
                 <View style={styles.doneContainer}>

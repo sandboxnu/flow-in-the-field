@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { User, Word, UID, GameType } from "./src/models/types";
 import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
@@ -7,11 +8,28 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
-import PairingGameScreen from './src/screens/pairingGameScreen';
+import PairingGameScreen from "./src/screens/pairingGameScreen";
+import PairingGameScreenProps from "./src/screens/pairingGameScreen"
 import EmailVerificationScreen from './src/screens/emailVerificationScreen';
+import FirebaseInteractor from "./src/firebase/firebaseInteractor";
+import SelectingGameScreen from "./src/screens/selectingGameScreen";
+import SelectingGameScreenProps from "./src/screens/selectingGameScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+
+  const [user, setUser] = useState<User>();
+  const [gameScreen, setGameScreen] = useState(() => (props: PairingGameScreenProps) => PairingGameScreen(props));
+  const fi = new FirebaseInteractor();
+  
+  useEffect(() => {
+    fi.getUser().then(user => {
+      if (user.gameType === 'pairing')  {
+        setGameScreen(() => (props: PairingGameScreenProps) => PairingGameScreen(props));
+      } else {
+        setGameScreen(() => (props: SelectingGameScreenProps) => SelectingGameScreen(props))
+      }
+    })});
 
   const HOME_HEADER_OPTIONS = {
     headerTitle: () => { return <Image style={styles.mainImage} source={require('./src/assets/flow-icon.png')} /> },
