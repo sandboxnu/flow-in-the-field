@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
 import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
+import PairingGameTutorialScreens from './src/screens/Pairing Game Tutorial/PairingGameTutorialScreens';
 import signInFlow from './src/screens/Login/signInFlow';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -44,6 +45,7 @@ export default function App() {
         <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
         <Stack.Screen name="SettingsScreen" component={AccountSettings} />
+        <Stack.Screen name="PairingGameTutorial" component={PairingGameTutorialScreens} />
         <Stack.Screen name="GameScreen" component={PairingGameScreen} />
         <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
       </Stack.Navigator>

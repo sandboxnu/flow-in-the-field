@@ -113,7 +113,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   return (
     <DraxProvider>
       <View style={styles.container}>
-        <Modal visible={modalVisible}>
+        {/* <Modal visible={modalVisible}>
           <View style={{ ...styles.modalContent, flexDirection: "row" }}>
             <Text style={styles.howToPlay}>How to Play</Text>
             <Text style={{ ...styles.modalClose }}>
@@ -132,14 +132,13 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
             </Text>
           </View>
           <View></View>
-        </Modal>
-
-        <MaterialIcons
+        </Modal> */}
+        {/* <MaterialIcons
           name="add"
           size={24}
           style={styles.modalToggle}
           onPress={() => setModalVisible(true)}
-        />
+        /> */}
 
         <View
           style={{
