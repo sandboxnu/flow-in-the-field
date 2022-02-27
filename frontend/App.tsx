@@ -13,22 +13,10 @@ import { GameScreenProps } from "./src/screens/pairingGameScreen"
 import EmailVerificationScreen from './src/screens/emailVerificationScreen';
 import FirebaseInteractor from "./src/firebase/firebaseInteractor";
 import SelectingGameScreen from "./src/screens/selectingGameScreen";
+import GameScreenFlow from "./src/screens/GameScreenFlow";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
-
-  const [user, setUser] = useState<User>();
-  const [gameScreen, setGameScreen] = useState(() => (props: GameScreenProps) => SelectingGameScreen(props));
-  const fi = new FirebaseInteractor();
-  
-  useEffect(() => {
-    fi.getUser().then(user => {
-      if (user.gameType === 'pairing')  {
-        setGameScreen(() => (props: GameScreenProps) => PairingGameScreen(props));
-      } else {
-        setGameScreen(() => (props: GameScreenProps) => SelectingGameScreen(props))
-      }
-    })}, [user]);
 
   const HOME_HEADER_OPTIONS = {
     headerTitle: () => { return <Image style={styles.mainImage} source={require('./src/assets/flow-icon.png')} /> },
@@ -61,7 +49,7 @@ export default function App() {
         <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
         <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
         <Stack.Screen name="SettingsScreen" component={AccountSettings} />
-        <Stack.Screen name="GameScreen" component={gameScreen} />
+        <Stack.Screen name="GameScreen" component={GameScreenFlow} />
         <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
