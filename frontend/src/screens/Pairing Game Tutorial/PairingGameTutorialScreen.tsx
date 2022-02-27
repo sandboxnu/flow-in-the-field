@@ -4,8 +4,8 @@ import { ORANGE, LIGHTPURPLE } from '../../constants/colors';
 
 interface PairingGameTutorialScreenProps {
     screenContent: string;
-    hasSecondaryScreenContent?: boolean;
     secondaryScreenContent?: string;
+    imagePath?: Object;
     hasNavButton?: boolean;
     navButtonTitle?: string;
     navigation?: any;
@@ -14,8 +14,8 @@ interface PairingGameTutorialScreenProps {
 
 export default function PairingGameTutorialScreen({
     screenContent,
-    hasSecondaryScreenContent,
-    secondaryScreenContent, 
+    secondaryScreenContent,
+    imagePath,
     hasNavButton,
     navButtonTitle,
     navigation,
@@ -28,9 +28,14 @@ export default function PairingGameTutorialScreen({
                 <Text style={styles.startPlaying}>Let's Start Playing!</Text>}
             {!hasNavButton &&
                 <Text style={styles.howToPlay}>How to Play</Text>}
-            <Text style={styles.content}>{ screenContent }</Text>
-            {hasSecondaryScreenContent &&
+            {!secondaryScreenContent &&
+                <Text style={styles.content}>{ screenContent }</Text>}
+            {secondaryScreenContent &&
+                <Text style={{...styles.content, marginBottom: 0}}>{ screenContent }</Text>}
+            {secondaryScreenContent &&
                 <Text style={{...styles.content, color: LIGHTPURPLE}}>{ secondaryScreenContent }</Text>}
+            {imagePath &&
+                <Image style={styles.image} source={imagePath}/>}
             {hasNavButton &&
                 <Pressable onPress={() => {navigation.navigate(route)}} style={styles.button}>
                     <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
@@ -52,6 +57,7 @@ const styles = StyleSheet.create({
     image: {
         height: 64,
         width: '100%',
+        padding: 80,
         resizeMode: 'contain',
         marginBottom: 24
     },
@@ -59,6 +65,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Avenir Next',
         fontWeight: '500',
         fontSize: 18,
+        marginBottom: 50,
         color: '#000000',
         textAlign: 'left'
     },
