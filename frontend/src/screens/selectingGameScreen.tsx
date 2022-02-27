@@ -8,6 +8,8 @@ import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
+import PairingGameScreen from "./pairingGameScreen";
+import { GameScreenProps } from "./pairingGameScreen";
 
 const fi = new FirebaseInteractor();
 
@@ -17,11 +19,7 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
-interface SelectingGameScreenProps {
-    route: any;
-}
-
-export default function SelectingGameScreen(props: SelectingGameScreenProps) {
+export default function SelectingGameScreen(props: GameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
@@ -68,13 +66,11 @@ export default function SelectingGameScreen(props: SelectingGameScreenProps) {
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
-    const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
-        : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
-    const shouldNotFlexWrap = user?.gameType === "selecting" || submitted
+    const topScreen = <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.topContainer, flex: 6, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                <View style={{ ...styles.topContainer, flex: 6, flexWrap: "nowrap"}}>
                     {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {

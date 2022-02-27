@@ -17,11 +17,11 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
-interface PairingGameScreenProps {
+export interface GameScreenProps {
     route: any;
 }
 
-export default function PairingGameScreen(props: PairingGameScreenProps) {
+export default function PairingGameScreen(props: GameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
@@ -32,6 +32,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        console.log("sessionId = " + sessionId)
         if (currentRoundId == "") {
             fi.startRound(sessionId).then(result => setCurrentRoundId(result));
         } else {
@@ -68,9 +69,8 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
-    const topScreen = user?.gameType === "pairing" ? <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
-        : <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
-    const shouldNotFlexWrap = user?.gameType === "selecting" || submitted
+    const topScreen = <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
+    const shouldNotFlexWrap = submitted
     return (
         <DraxProvider>
             <View style={styles.container}>
