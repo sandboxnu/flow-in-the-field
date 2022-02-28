@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { StyleSheet } from 'react-native';
 import PairingGameTutorialScreen from './PairingGameTutorialScreen';
-import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { LIGHTPURPLE, TURQUOISE } from '../../constants/colors';
 import Swiper from 'react-native-swiper';
 import { User, UID } from "../../models/types";
@@ -15,18 +14,19 @@ const pairingTutorialImages = {
     page6: require('../../assets/pairing-tutorial-page-6.png'),
 };
 
+// interface PairingGameTutorialScreenProps {
+//     navigation: any;
+//     route: { params?: { signedIn?: boolean } }
+// }
+
 interface PairingGameTutorialScreenProps {
-    navigation: any;
-    route: { params?: { signedIn?: boolean } }
+    gameType: string;
 }
 
-const fi = new FirebaseInteractor();
-
-export default function PairingGameTutorialScreens({ navigation, route: { params } }: PairingGameTutorialScreenProps) {
-
-    const startSession = () => {
-        fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", {sessionId: sessionId}))
-    }
+// export default function PairingGameTutorialScreens({ navigation, route: { params } }: PairingGameTutorialScreenProps) {
+export default function PairingGameTutorialScreens({
+    gameType,
+}: PairingGameTutorialScreenProps): ReactElement {
 
     return (
         <Swiper
@@ -71,8 +71,7 @@ export default function PairingGameTutorialScreens({ navigation, route: { params
                     "Try the game out for yourself."}
                 hasNavButton={true}
                 navButtonTitle={"start session"}
-                navigation={navigation}
-                // TO DO: Need to call the startSession() here to route to the pairing game screen
+                // TO DO: Need to close the modal to show the game screen here
                 route={"HomeScreen"} />
         </Swiper>
     )

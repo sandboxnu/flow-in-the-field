@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
+import { useNavigation } from "@react-navigation/core";
 import { ORANGE, LIGHTPURPLE } from '../../constants/colors';
 
 interface PairingGameTutorialScreenProps {
@@ -8,7 +9,6 @@ interface PairingGameTutorialScreenProps {
     imagePath?: Object;
     hasNavButton?: boolean;
     navButtonTitle?: string;
-    navigation?: any;
     route?: string;
 }
 
@@ -18,9 +18,10 @@ export default function PairingGameTutorialScreen({
     imagePath,
     hasNavButton,
     navButtonTitle,
-    navigation,
     route
 }: PairingGameTutorialScreenProps): ReactElement {
+
+    const navigation = useNavigation();
 
     return (
         <View style={ styles.container }>
@@ -36,7 +37,7 @@ export default function PairingGameTutorialScreen({
                 <Text style={{...styles.content, color: LIGHTPURPLE}}>{ secondaryScreenContent }</Text>}
             {imagePath &&
                 <Image style={styles.image} source={imagePath}/>}
-            {hasNavButton &&
+            {hasNavButton && route &&
                 <Pressable onPress={() => {navigation.navigate(route)}} style={styles.button}>
                     <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
                 </Pressable>
@@ -52,7 +53,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         paddingLeft: 20,
         paddingRight: 20,
-        paddingTop: '50%',
     },
     image: {
         height: 64,
@@ -90,14 +90,16 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         color: "#5EAFDF",
-        padding: 32,
+        paddingTop: 12,
+        paddingBottom: 32,
         textAlign: "center",
     },
     startPlaying: {
         fontSize: 24,
         fontWeight: "bold",
         color: "#5EAFDF",
-        padding: 32,
+        paddingTop: 12,
+        paddingBottom: 32,
         textAlign: "center",
     }
 });

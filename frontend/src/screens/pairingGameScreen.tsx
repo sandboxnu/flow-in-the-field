@@ -10,7 +10,10 @@ import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { MaterialIcons } from "@expo/vector-icons";
-import { ORANGE } from "../constants/colors";
+import { useCallback, useMemo, useRef } from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
+import PairingGameTutorialScreen from "./Pairing Game Tutorial/PairingGameTutorialScreen";
+import PairingGameTutorialScreens from "./Pairing Game Tutorial/PairingGameTutorialScreens";
 
 const fi = new FirebaseInteractor();
 
@@ -36,9 +39,18 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   const navigation = useNavigation();
   const { sessionId } = props.route.params;
   const [currentRoundId, setCurrentRoundId] = useState<UID>("");
+  const [firstSession, setFirstSession] = useState(true);
 
-  // State for setting modal for pairing game tutorial to true or false
-  const [modalVisible, setModalVisible] = useState(false);
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['1%', '65%'], []);
+  
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   useEffect(() => {
     if (currentRoundId == "") {
@@ -113,33 +125,6 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   return (
     <DraxProvider>
       <View style={styles.container}>
-        {/* <Modal visible={modalVisible}>
-          <View style={{ ...styles.modalContent, flexDirection: "row" }}>
-            <Text style={styles.howToPlay}>How to Play</Text>
-            <Text style={{ ...styles.modalClose }}>
-              <MaterialIcons
-                style={{ color: ORANGE }}
-                name="close"
-                size={24}
-                onPress={() => setModalVisible(false)}
-              />
-            </Text>
-          </View>
-          <View style={styles.descriptionInfo}>
-            <Text>
-              Drag the English word into the box that matches with the Turkish
-              word.
-            </Text>
-          </View>
-          <View></View>
-        </Modal> */}
-        {/* <MaterialIcons
-          name="add"
-          size={24}
-          style={styles.modalToggle}
-          onPress={() => setModalVisible(true)}
-        /> */}
-
         <View
           style={{
             ...styles.column,
@@ -239,6 +224,21 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Check if it is the user's first session
+        If so, then show the bottom sheet modal tutorial */}
+        {firstSession &&
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+          >
+            <View style={styles.contentContainer}>
+              <PairingGameTutorialScreens gameType={"pairing"}/>
+            </View>
+          </BottomSheet>}
+
       </View>
     </DraxProvider>
   );
@@ -325,32 +325,9 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     borderRadius: 0.0001,
   },
-
-  // Styles for modal for pairing game tutorial screens
-  modalToggle: {
-    marginBottom: 10,
-    padding: 10,
-  },
-  modalClose: {
-    marginTop: 100,
-    marginBottom: 0,
-    marginLeft: "51%",
-    padding: 10,
-  },
-  modalContent: {
+  // Styles for bottom sheet modal
+  contentContainer: {
     flex: 1,
-  },
-  howToPlay: {
-    fontSize: 18,
-    color: "#5EAFDF",
-    marginTop: 100,
-    marginLeft: "4%",
-    padding: 10,
-    textAlign: "left",
-  },
-  descriptionInfo: {
-    marginBottom: "160%",
-    marginLeft: "7%",
-    marginRight: "7%",
+    alignItems: 'center',
   },
 });

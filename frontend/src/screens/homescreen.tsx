@@ -51,7 +51,7 @@ export default function Homescreen() {
             </View>
             {/* TO DO: Change this so startPairingGameTutorial() is called only on the user's first time
             clicking the button, and only if they are a pairing game-type user */}
-            <TextIconButton onPress={() => startPairingGameTutorial()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
+            <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
             <TextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
             <TextIconButton onPress={() => navigation.navigate("RevisitOnboarding", {signedIn: true})} text="Help" icon={require("../assets/help-icon.png")} />
         </View>)
