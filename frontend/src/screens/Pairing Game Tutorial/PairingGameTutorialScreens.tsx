@@ -23,6 +23,9 @@ interface PairingGameTutorialScreenProps {
     gameType: string;
 }
 
+// TO DO: abstract tutorial screens for pairing and selecting screens (might have
+// to refactor some stuff)
+
 // export default function PairingGameTutorialScreens({ navigation, route: { params } }: PairingGameTutorialScreenProps) {
 export default function PairingGameTutorialScreens({
     gameType,
