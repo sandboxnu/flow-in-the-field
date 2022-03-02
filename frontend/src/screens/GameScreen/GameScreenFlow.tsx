@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import FirebaseInteractor from "../firebase/firebaseInteractor"
+import FirebaseInteractor from "../../firebase/firebaseInteractor"
 import PairingGameScreen, { GameScreenProps } from "./pairingGameScreen";
 import SelectingGameScreen from "./selectingGameScreen";
 
