@@ -8,6 +8,8 @@ import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
+import PairingGameScreen from "./pairingGameScreen";
+import { GameScreenProps } from "./pairingGameScreen";
 
 const fi = new FirebaseInteractor();
 
@@ -17,11 +19,7 @@ interface MaybeWordPair {
     correctEnglishWord: string;
 }
 
-export interface GameScreenProps {
-    route: any;
-}
-
-export default function PairingGameScreen(props: GameScreenProps) {
+export default function SelectingGameScreen(props: GameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
@@ -32,14 +30,13 @@ export default function PairingGameScreen(props: GameScreenProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        console.log("sessionId = " + sessionId)
         if (currentRoundId == "") {
             fi.startRound(sessionId).then(result => setCurrentRoundId(result));
         } else {
             fi.getUser().then(user => {
                 setUser(user);
                 fi.getRoundPairs(currentRoundId).then(words => {
-                    setEnglishWords(durstenfeldShuffle(words.map((word, i) => word.english))); // pairing case
+                    setEnglishWords(durstenfeldShuffle([words.map((word, i) => word.english)[0]])); // selecting case
                     setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
                     setSubmitted(false)
                     setIsLoading(false)
@@ -69,12 +66,11 @@ export default function PairingGameScreen(props: GameScreenProps) {
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
-    const topScreen = <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
-    const shouldNotFlexWrap = submitted
+    const topScreen = <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={{ ...styles.topContainer, flex: 6, flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap" }}>
+                <View style={{ ...styles.topContainer, flex: 6, flexWrap: "nowrap"}}>
                     {submitted ? topScreen :
                         englishWords?.map(word => {
                             if (turkishWords?.some(({ english }) => english === word) ?? false) {
@@ -115,7 +111,7 @@ export default function PairingGameScreen(props: GameScreenProps) {
                                     newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
                                     setTurkishWords(newTurkishWords)
                                 }}
-                            isPairing={true}
+                            isPairing={false}
                         />))}
                 </View>
                 <View style={styles.doneContainer}>
