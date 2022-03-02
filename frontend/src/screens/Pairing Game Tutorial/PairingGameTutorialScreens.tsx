@@ -72,6 +72,7 @@ export default function PairingGameTutorialScreens({
                 hasNavButton={true}
                 navButtonTitle={"start session"}
                 // TO DO: Need to close the modal to show the game screen here
+                // Can remove this route prop once we do this the right way
                 route={"HomeScreen"} />
         </Swiper>
     )

@@ -4,8 +4,10 @@ export type GameType = "pairing" | "selecting";
 
 export type UID = string;
 
+export type FirstSession = boolean;
+
 export interface User {
-    email:    string;
+    email: string;
     testDate: Date;
     numPairs: NumPairs;
     gameType: GameType;
@@ -17,20 +19,20 @@ export interface Word {
 }
 
 export interface Session {
-    user:      UID;
+    user: UID;
     startTime: Date;
-    endTime:   Date | null;
+    endTime: Date | null;
 }
 
 export interface Round {
-    session:   UID;
+    session: UID;
     startTime: Date;
-    endTime:   Date | null;
-    words:     Word[];
+    endTime: Date | null;
+    words: Word[];
 }
 
 export interface Match {
-    round:   UID;
+    round: UID;
     turkish: string;
     english: string;
     correct: boolean;

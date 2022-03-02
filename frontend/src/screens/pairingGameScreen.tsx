@@ -3,7 +3,7 @@ import { Alert, Modal, Pressable } from "react-native";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { BLUE, GREY } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, Word, UID, GameType } from "../models/types";
+import { User, Word, UID, GameType, FirstSession } from "../models/types";
 import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
@@ -39,6 +39,8 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   const navigation = useNavigation();
   const { sessionId } = props.route.params;
   const [currentRoundId, setCurrentRoundId] = useState<UID>("");
+  // TO DO: Have FirstSession type here to handle this?
+  //const [firstSession, setFirstSession] = useState<FirstSession>(true);
   const [firstSession, setFirstSession] = useState(true);
 
   // ref
@@ -225,8 +227,12 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
           </TouchableOpacity>
         </View>
 
-        {/* Check if it is the user's first session
-        If so, then show the bottom sheet modal tutorial */}
+        {/* TO DO: Check if it is the user's first session.
+        If so, then show the bottom sheet modal tutorial.
+        Also, we need to use the firstSession state to
+        determine the styling for the game screen container
+        (should be grayed out when firstSession is true
+        and current styling when firstSession is false). */}
         {firstSession &&
           <BottomSheet
             ref={bottomSheetRef}

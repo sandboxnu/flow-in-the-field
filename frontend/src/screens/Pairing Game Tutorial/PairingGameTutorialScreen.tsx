@@ -1,7 +1,8 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
 import { ORANGE, LIGHTPURPLE } from '../../constants/colors';
+import { FirstSession } from '../../models/types';
 
 interface PairingGameTutorialScreenProps {
     screenContent: string;
@@ -22,6 +23,7 @@ export default function PairingGameTutorialScreen({
 }: PairingGameTutorialScreenProps): ReactElement {
 
     const navigation = useNavigation();
+    const [firstSession, setFirstSession] = useState<FirstSession>();
 
     return (
         <View style={ styles.container }>
@@ -39,6 +41,7 @@ export default function PairingGameTutorialScreen({
                 <Image style={styles.image} source={imagePath}/>}
             {hasNavButton && route &&
                 <Pressable onPress={() => {navigation.navigate(route)}} style={styles.button}>
+                {/* <Pressable onPress={() => {setFirstSession(false)}} style={styles.button}> */}
                     <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
                 </Pressable>
             }
