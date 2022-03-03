@@ -8,6 +8,8 @@ import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../../components/LoadingScreen";
+import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
 const fi = new FirebaseInteractor();
 
@@ -67,7 +69,6 @@ export default function PairingGameScreen(props: GameScreenProps) {
 
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
-    const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
     const topScreen = <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
     const shouldNotFlexWrap = submitted
@@ -118,30 +119,33 @@ export default function PairingGameScreen(props: GameScreenProps) {
                             isPairing={true}
                         />))}
                 </View>
-                <View style={styles.doneContainer}>
-                    {submitted && <TouchableOpacity
-                        style={{ ...styles.doneButton, ...(isLoading ? styles.inactiveButton : {}) }}
+
+                {submitted ?
+                    (<View style={styles.doneContainer}><PrimaryButton
                         disabled={isLoading}
                         onPress={() => {
                             setIsLoading(true);
                             restartRound()
-                        }}>
-                        <Text style={styles.doneButtonTitle}>play again</Text>
-                    </TouchableOpacity>}
-                    <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...(isLoading ? { borderColor: "#D16B5025" } : {}) }
-                        : { ...styles.doneButton, ...extraButtonStyles }} disabled={submitted ? isLoading : !canClickDoneButton} onPress={() => {
-                            if (submitted) {
+                        }}
+                        text="play again" />
+                        <SecondaryButton
+                            disabled={isLoading}
+                            text="end session"
+                            onPress={() => {
                                 fi.endRound(currentRoundId);
                                 fi.endSession(sessionId);
                                 navigation.navigate("HomeScreen");
-                            } else {
-                                setSubmitted(true)
-                            }
-                        }}><Text style={submitted ? { ...styles.endSessionButtonTitle, ...(isLoading ? { color: "#D16B5025" } : {}) }
-                         : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
-                </View>
+                            }} />
+                    </View>)
+                    : (<View style={styles.doneContainer}>
+                        <PrimaryButton
+                            disabled={!canClickDoneButton || isLoading}
+                            text="done"
+                            onPress={() => setSubmitted(true)} />
+                    </View>
+                    )}
             </View>
-        </DraxProvider>
+        </DraxProvider >
     )
 }
 
@@ -164,10 +168,6 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         paddingTop: "5%"
-    },
-    inactiveButton: {
-        backgroundColor: "#D16B5025",
-        borderColor: "#FFF"
     },
     topContainer: {
         width: "100%",
@@ -196,38 +196,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: 'row'
-    },
-    doneButton: {
-        backgroundColor: "#D16B50",
-        borderColor: "#D16B50",
-        borderWidth: 2,
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '40%',
-        paddingHorizontal: "5%",
-        marginHorizontal: '3%',
-        marginVertical: "1%",
-        paddingVertical: 10
-    },
-    doneButtonTitle: {
-        color: "white"
-    },
-    endSessionButton: {
-        backgroundColor: 'white',
-        borderColor: "#D16B50",
-        borderWidth: 2,
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '40%',
-        paddingHorizontal: "5%",
-        marginHorizontal: '3%',
-        marginVertical: "1%",
-        paddingVertical: 10
-    },
-    endSessionButtonTitle: {
-        color: "#D16B50"
     },
     scoreText: {
         color: BLUE,

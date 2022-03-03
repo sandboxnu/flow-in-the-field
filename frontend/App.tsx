@@ -8,12 +8,8 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
-import PairingGameScreen from "./src/screens/pairingGameScreen";
-import { GameScreenProps } from "./src/screens/pairingGameScreen"
 import EmailVerificationScreen from './src/screens/emailVerificationScreen';
-import FirebaseInteractor from "./src/firebase/firebaseInteractor";
-import SelectingGameScreen from "./src/screens/selectingGameScreen";
-import GameScreenFlow from "./src/screens/GameScreenFlow";
+import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
