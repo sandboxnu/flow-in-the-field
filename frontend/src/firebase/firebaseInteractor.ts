@@ -1,8 +1,9 @@
 import * as firebase from "firebase/app";
+import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
+import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
 import { User, Word, Session, Round, GameType, UID } from "../models/types";
-import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 import Constants from "expo-constants";
 
 const { manifest } = Constants;
@@ -51,6 +52,18 @@ export default class FirebaseInteractor {
         await this.auth.currentUser?.reload();
         return this.auth.currentUser?.emailVerified ?? false;
     }
+    trySignedIn() {
+        return new Promise((resolve: (value: AuthUser | null) => void, reject) => {
+            onAuthStateChanged(this.auth, user => {
+                if (user) {
+                    resolve(user)
+                } else {
+                    resolve(null)
+                }
+            })
+        })
+    }
+
     /**
     * Creates an account for a user, but does not store them in the db yet, since we don't know what we will store
     */
@@ -71,7 +84,7 @@ export default class FirebaseInteractor {
         sendEmailVerification(userAuth.user);
         this.lastEmailRequestedAt = new Date(Date.now());
         const userDoc = doc(this.db, "users", userAuth.user.uid)
-        
+
         await setDoc(userDoc, {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
@@ -159,7 +172,7 @@ export default class FirebaseInteractor {
 
             const col = collection(this.db, "rounds");
             const roundID: UID = (await addDoc(col, newRound)).id;
-            
+
             return roundID;
         }
 
@@ -193,7 +206,7 @@ export default class FirebaseInteractor {
 
             const col = collection(this.db, "sessions");
             const sessionID: UID = (await addDoc(col, newSession)).id;
-            
+
             return sessionID;
         }
 
