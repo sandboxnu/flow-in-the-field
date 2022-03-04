@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef, useImperativeHandle, forwardRef } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { BLUE, GREY } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, Word, UID, GameType } from "../models/types";
+import { User, UID } from "../models/types";
 import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
 import BottomSheet from '@gorhom/bottom-sheet';
-import PairingGameTutorialScreens from "./Pairing Game Tutorial/PairingGameTutorialScreens";
+import GameTutorialScreens from "./Game Tutorial/GameTutorialScreens";
 
 const fi = new FirebaseInteractor();
 
@@ -35,13 +35,12 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   const navigation = useNavigation();
   const { sessionId } = props.route.params;
   const [currentRoundId, setCurrentRoundId] = useState<UID>("");
-  const [finishedTutorial, setFinishedTutorial] = useState(false);
 
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   // variables
-  const snapPoints = useMemo(() => ['1%', '65%'], []);
+  const snapPoints = useMemo(() => ['25%', '65%'], []);
 
   // handle close press for bottom sheet modal
   const handleClosePress = useCallback(() => {
@@ -79,7 +78,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         })
         .catch(console.error);
     }
-  }, [currentRoundId, fi.getHasFinishedTutorial]);
+  }, [currentRoundId]);
 
   if (englishWords === undefined) {
     return <LoadingScreen />;
@@ -227,14 +226,15 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         determine the styling for the game screen container
         (should be grayed out when firstSession is true
         and current styling when firstSession is false). */}
-        {!user?.hasFinishedTutorial && !finishedTutorial &&
+        {!user?.hasFinishedTutorial &&
           <BottomSheet
             ref={bottomSheetRef}
             index={1}
             snapPoints={snapPoints}
           >
             <View style={styles.contentContainer}>
-              <PairingGameTutorialScreens gameType={"pairing"} onFinish={handleClosePress}/>
+              {/* TO DO: figure out how to pass isPairing boolean here as a prop */}
+              <GameTutorialScreens isPairing={user?.gameType === "pairing"} onFinish={handleClosePress}/>
             </View>
           </BottomSheet>}
 

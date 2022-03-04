@@ -232,4 +232,22 @@ export default class FirebaseInteractor {
             hasFinishedTutorial: true,
         });
     }
+
+    // Returns true if the game type is pairing, false if selecting
+    async isPairing() {
+        const user = this.auth.currentUser;
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        if (docData.gameType === "pairing") { return true }
+        else return false;
+    }
 }
