@@ -1,8 +1,10 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useCallback, useMemo, useRef } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
 import { ORANGE, LIGHTPURPLE } from '../../constants/colors';
-import { FirstSession } from '../../models/types';
+import FirebaseInteractor from "../../firebase/firebaseInteractor";
+
+const fi = new FirebaseInteractor();
 
 interface PairingGameTutorialScreenProps {
     screenContent: string;
@@ -11,6 +13,7 @@ interface PairingGameTutorialScreenProps {
     hasNavButton?: boolean;
     navButtonTitle?: string;
     route?: string;
+    onFinish: Function;
 }
 
 export default function PairingGameTutorialScreen({
@@ -19,11 +22,16 @@ export default function PairingGameTutorialScreen({
     imagePath,
     hasNavButton,
     navButtonTitle,
-    route
+    route,
+    onFinish
 }: PairingGameTutorialScreenProps): ReactElement {
 
     const navigation = useNavigation();
-    const [firstSession, setFirstSession] = useState<FirstSession>();
+
+    const handleTutorialFinish = useCallback(event => {
+        onFinish(true);
+        fi.updateHasFinishedTutorial();
+    }, [onFinish])
 
     return (
         <View style={ styles.container }>
@@ -40,8 +48,8 @@ export default function PairingGameTutorialScreen({
             {imagePath &&
                 <Image style={styles.image} source={imagePath}/>}
             {hasNavButton && route &&
-                <Pressable onPress={() => {navigation.navigate(route)}} style={styles.button}>
-                {/* <Pressable onPress={() => {setFirstSession(false)}} style={styles.button}> */}
+                // <Pressable onPress={() => {fi.updateHasFinishedTutorial()}} style={styles.button}>
+                <Pressable onPress={handleTutorialFinish} style={styles.button}>
                     <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
                 </Pressable>
             }

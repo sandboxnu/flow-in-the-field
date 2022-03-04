@@ -31,7 +31,7 @@ if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
 
 /**
  * A class to interact with firebase. This class stores the current state,
- * including a reference to the firestore, and the current authenticated user.
+ * including a reference to the firestore, and the current authenticated
  * This adds a level of abstraction around firebase, so that this is the only object dealing with the server.
  * Stolen from vocab buddy.
  */
@@ -66,13 +66,14 @@ export default class FirebaseInteractor {
         }
 
         sendEmailVerification(userAuth.user);
-        
+
         const userDoc = doc(this.db, "users", userAuth.user.uid)
-        
+
         await setDoc(userDoc, {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
+            hasFinishedtutorial: false,
         });
     }
 
@@ -116,7 +117,8 @@ export default class FirebaseInteractor {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
                 numPairs: docData.numPairs,
-                gameType: docData.gameType
+                gameType: docData.gameType,
+                hasFinishedTutorial: docData.hasFinishedTutorial
             }
         }
 
@@ -139,7 +141,7 @@ export default class FirebaseInteractor {
 
             const col = collection(this.db, "rounds");
             const roundID: UID = (await addDoc(col, newRound)).id;
-            
+
             return roundID;
         }
 
@@ -159,6 +161,19 @@ export default class FirebaseInteractor {
         return docData?.words ?? [];
     }
 
+    async getHasFinishedTutorial() {
+
+        const user = await this.getUser();
+
+        if (user !== null) {
+            return user.hasFinishedTutorial;
+        }
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+    }
+
     async startSession(): Promise<UID> {
 
         const user = this.auth.currentUser;
@@ -173,7 +188,7 @@ export default class FirebaseInteractor {
 
             const col = collection(this.db, "sessions");
             const sessionID: UID = (await addDoc(col, newSession)).id;
-            
+
             return sessionID;
         }
 
@@ -193,5 +208,28 @@ export default class FirebaseInteractor {
         let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({ english, turkish }) => ({ english, turkish }))
         durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
+    }
+
+    // Updates the state of hasFinishedTutorial for this user to be true
+    async updateHasFinishedTutorial() {
+        const user = this.auth.currentUser;
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+        const userDoc = doc(this.db, "users", user.uid)
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        await setDoc(userDoc, {
+            numPairs: docData.numPairs,
+            gameType: docData.gameType,
+            testDate: docData.testDate.toDate(),
+            hasFinishedTutorial: true,
+        });
     }
 }

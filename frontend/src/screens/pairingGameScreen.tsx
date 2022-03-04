@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Alert, Modal, Pressable } from "react-native";
+import React, { useEffect, useState, useCallback, useMemo, useRef, useImperativeHandle, forwardRef } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { BLUE, GREY } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, Word, UID, GameType, FirstSession } from "../models/types";
+import { User, Word, UID, GameType } from "../models/types";
 import { durstenfeldShuffle } from "../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useCallback, useMemo, useRef } from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
-import PairingGameTutorialScreen from "./Pairing Game Tutorial/PairingGameTutorialScreen";
 import PairingGameTutorialScreens from "./Pairing Game Tutorial/PairingGameTutorialScreens";
 
 const fi = new FirebaseInteractor();
@@ -39,19 +35,17 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   const navigation = useNavigation();
   const { sessionId } = props.route.params;
   const [currentRoundId, setCurrentRoundId] = useState<UID>("");
-  // TO DO: Have FirstSession type here to handle this?
-  //const [firstSession, setFirstSession] = useState<FirstSession>(true);
-  const [firstSession, setFirstSession] = useState(true);
+  const [finishedTutorial, setFinishedTutorial] = useState(false);
 
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   // variables
   const snapPoints = useMemo(() => ['1%', '65%'], []);
-  
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+
+  // handle close press for bottom sheet modal
+  const handleClosePress = useCallback(() => {
+    bottomSheetRef.current?.close();
   }, []);
 
   useEffect(() => {
@@ -85,7 +79,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         })
         .catch(console.error);
     }
-  }, [currentRoundId]);
+  }, [currentRoundId, fi.getHasFinishedTutorial]);
 
   if (englishWords === undefined) {
     return <LoadingScreen />;
@@ -233,15 +227,14 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         determine the styling for the game screen container
         (should be grayed out when firstSession is true
         and current styling when firstSession is false). */}
-        {firstSession &&
+        {!user?.hasFinishedTutorial && !finishedTutorial &&
           <BottomSheet
             ref={bottomSheetRef}
             index={1}
             snapPoints={snapPoints}
-            onChange={handleSheetChanges}
           >
             <View style={styles.contentContainer}>
-              <PairingGameTutorialScreens gameType={"pairing"}/>
+              <PairingGameTutorialScreens gameType={"pairing"} onFinish={handleClosePress}/>
             </View>
           </BottomSheet>}
 

@@ -4,13 +4,12 @@ export type GameType = "pairing" | "selecting";
 
 export type UID = string;
 
-export type FirstSession = boolean;
-
 export interface User {
     email: string;
     testDate: Date;
     numPairs: NumPairs;
     gameType: GameType;
+    hasFinishedTutorial: boolean;
 }
 
 export interface Word {

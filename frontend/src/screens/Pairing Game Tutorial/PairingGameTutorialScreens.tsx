@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import PairingGameTutorialScreen from './PairingGameTutorialScreen';
 import { LIGHTPURPLE, TURQUOISE } from '../../constants/colors';
 import Swiper from 'react-native-swiper';
-import { User, UID } from "../../models/types";
 
 const pairingTutorialImages = {
 	page1: require('../../assets/pairing-tutorial-page-1.png'),
@@ -21,6 +20,7 @@ const pairingTutorialImages = {
 
 interface PairingGameTutorialScreenProps {
     gameType: string;
+    onFinish: Function;
 }
 
 // TO DO: abstract tutorial screens for pairing and selecting screens (might have
@@ -29,6 +29,7 @@ interface PairingGameTutorialScreenProps {
 // export default function PairingGameTutorialScreens({ navigation, route: { params } }: PairingGameTutorialScreenProps) {
 export default function PairingGameTutorialScreens({
     gameType,
+    onFinish,
 }: PairingGameTutorialScreenProps): ReactElement {
 
     return (
@@ -42,33 +43,39 @@ export default function PairingGameTutorialScreens({
                 screenContent={
                     "Drag the English word into the box that matches with " +
                     "the Turkish word."}
-                imagePath={pairingTutorialImages.page1}/>
+                imagePath={pairingTutorialImages.page1}
+                onFinish={onFinish}/>
             <PairingGameTutorialScreen
                 screenContent={
                     "You can change your answer by dragging the English " +
                     "word into a different box."}
-                imagePath={pairingTutorialImages.page2}/>
+                imagePath={pairingTutorialImages.page2}
+                onFinish={onFinish}/>
             <PairingGameTutorialScreen
                 screenContent={
                     "Made a mistake? Tap the word to return it to the top."}
-                imagePath={pairingTutorialImages.page3}/>
+                imagePath={pairingTutorialImages.page3}
+                onFinish={onFinish}/>
             <PairingGameTutorialScreen
                 screenContent={
                     "Once you have matched all the words, press done to " +
                     "submit your answers."}
-                imagePath={pairingTutorialImages.page4}/>
+                imagePath={pairingTutorialImages.page4}
+                onFinish={onFinish}/>
             <PairingGameTutorialScreen
                 screenContent={
                     "Once you've submitted your answers, the game will " +
                     "give you your results.\n"}
                 secondaryScreenContent={
                     "Green means correct and red means incorrect."}
-                imagePath={pairingTutorialImages.page5}/>
+                imagePath={pairingTutorialImages.page5}
+                onFinish={onFinish}/>
             <PairingGameTutorialScreen
                 screenContent={
                     `Click "play again" to restart the game or "end session" ` +
                     `to return to the home page.`}
-                imagePath={pairingTutorialImages.page6}/>                   
+                imagePath={pairingTutorialImages.page6}
+                onFinish={onFinish}/>                   
             <PairingGameTutorialScreen
                 screenContent={
                     "Try the game out for yourself."}
@@ -76,7 +83,8 @@ export default function PairingGameTutorialScreens({
                 navButtonTitle={"start session"}
                 // TO DO: Need to close the modal to show the game screen here
                 // Can remove this route prop once we do this the right way
-                route={"HomeScreen"} />
+                route={"HomeScreen"} 
+                onFinish={onFinish}/>
         </Swiper>
     )
 }
