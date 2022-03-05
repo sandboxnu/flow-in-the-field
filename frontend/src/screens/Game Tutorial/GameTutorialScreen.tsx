@@ -41,24 +41,36 @@ export default function GameTutorialScreen({
         <View style={ styles.container }>
             {hasNavButton &&
                 <Text style={styles.startPlaying}>Let's Start Playing!</Text>}
-            {!hasNavButton &&
-                <Text style={styles.howToPlay}>How to Play</Text>}
-            {isPairing && !secondaryScreenContentPairing &&
-                <Text style={styles.content}>{ screenContent }</Text>}
-            {!isPairing && !secondaryScreenContentSelecting &&
-                <Text style={styles.content}>{ screenContent }</Text>}         
-            {isPairing && secondaryScreenContentPairing &&
-                <Text style={{...styles.content, marginBottom: 0}}>{ screenContent }</Text>}
-            {!isPairing && secondaryScreenContentSelecting &&
-                <Text style={{...styles.content, marginBottom: -5}}>{ screenContent }</Text>}
-            {isPairing && secondaryScreenContentPairing &&
-                <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: -20, marginRight: 20}}>{ secondaryScreenContentPairing }</Text>}
-            {!isPairing && secondaryScreenContentSelecting &&
-                <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: -25}}>{ secondaryScreenContentSelecting }</Text>}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>         
+                {!hasNavButton &&
+                    <Text style={styles.howToPlay}>How to Play</Text>}
+                {!hasNavButton &&
+                    <Pressable onPress={handleTutorialFinish}>
+                        <Text style={styles.skip}>Skip</Text>
+                    </Pressable>}
+            </View>
+            <View style={{ width: "95%" }}>
+                {isPairing && !secondaryScreenContentPairing && !hasNavButton &&
+                    <Text style={styles.content}>{ screenContent }</Text>}
+                {!isPairing && !secondaryScreenContentSelecting && !hasNavButton &&
+                    <Text style={styles.content}>{ screenContent }</Text>} 
+                {isPairing && secondaryScreenContentPairing &&
+                    <Text style={{...styles.content, marginBottom: 0}}>{ screenContent }</Text>}
+                {!isPairing && secondaryScreenContentSelecting &&
+                    <Text style={{...styles.content, marginBottom: -5}}>{ screenContent }</Text>}
+                {isPairing && secondaryScreenContentPairing &&
+                    <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0, marginRight: 0}}>{ secondaryScreenContentPairing }</Text>}
+                {!isPairing && secondaryScreenContentSelecting &&
+                    <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0}}>{ secondaryScreenContentSelecting }</Text>}
+            </View>                  
             {isPairing && imagePath &&
                 <Image style={styles.image} source={imagePath}/>}
             {!isPairing && imagePathSelecting &&
                 <Image style={styles.image} source={imagePathSelecting}/>}
+            {isPairing && !secondaryScreenContentPairing && hasNavButton &&
+                    <Text style={styles.content}>{ screenContent }</Text>}
+            {!isPairing && !secondaryScreenContentSelecting && hasNavButton &&
+                    <Text style={styles.content}>{ screenContent }</Text>} 
             {hasNavButton &&
                 <Pressable onPress={handleTutorialFinish} style={styles.button}>
                     <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
@@ -78,7 +90,7 @@ const styles = StyleSheet.create({
     },
     image: {
         height: 64,
-        width: '100%',
+        width: '90%',
         padding: 80,
         resizeMode: 'contain',
         marginBottom: 24
@@ -114,7 +126,14 @@ const styles = StyleSheet.create({
         color: "#5EAFDF",
         paddingTop: 12,
         paddingBottom: 32,
-        textAlign: "center",
+        marginRight: 80,
+    },
+    skip: {
+        fontSize: 18,
+        color: "#979797",
+        paddingTop: 12,
+        paddingBottom: 32,
+        marginLeft: 80,
     },
     startPlaying: {
         fontSize: 24,

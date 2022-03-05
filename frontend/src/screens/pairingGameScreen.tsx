@@ -35,6 +35,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   const navigation = useNavigation();
   const { sessionId } = props.route.params;
   const [currentRoundId, setCurrentRoundId] = useState<UID>("");
+  const [showingModal, setShowingModal] = useState(true);
 
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -220,9 +221,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
           </TouchableOpacity>
         </View>
 
-        {/* TO DO: Check if it is the user's first session.
-        If so, then show the bottom sheet modal tutorial.
-        Also, we need to use the firstSession state to
+        {/* TO DO: we need to use the firstSession state to
         determine the styling for the game screen container
         (should be grayed out when firstSession is true
         and current styling when firstSession is false). */}
@@ -233,7 +232,6 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
             snapPoints={snapPoints}
           >
             <View style={styles.contentContainer}>
-              {/* TO DO: figure out how to pass isPairing boolean here as a prop */}
               <GameTutorialScreens isPairing={user?.gameType === "pairing"} onFinish={handleClosePress}/>
             </View>
           </BottomSheet>}
