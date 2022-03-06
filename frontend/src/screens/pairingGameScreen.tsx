@@ -35,7 +35,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   const navigation = useNavigation();
   const { sessionId } = props.route.params;
   const [currentRoundId, setCurrentRoundId] = useState<UID>("");
-  const [showingModal, setShowingModal] = useState(true);
+  const [showingModal, setShowModal] = useState(true);
 
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -46,6 +46,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   // handle close press for bottom sheet modal
   const handleClosePress = useCallback(() => {
     bottomSheetRef.current?.close();
+    setShowModal(false);
   }, []);
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
         })
         .catch(console.error);
     }
-  }, [currentRoundId]);
+  }, [currentRoundId, showingModal]);
 
   if (englishWords === undefined) {
     return <LoadingScreen />;
@@ -121,110 +122,108 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
   return (
     <DraxProvider>
       <View style={styles.container}>
-        <View
-          style={{
-            ...styles.column,
-            flex: submitted ? 5 : 8,
-            flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap",
-          }}
-        >
-          {submitted
-            ? topScreen
-            : englishWords?.map((word) => {
-                if (
-                  turkishWords?.some(({ english }) => english === word) ??
-                  false
-                ) {
-                  return <View key={word} style={styles.englishUsed} />;
-                }
-                return (
-                  <DraxView
-                    payload={word}
-                    key={word}
-                    style={styles.draxView}
-                    draggingStyle={{ opacity: 0.3 }}
-                    dragReleasedStyle={{ opacity: 0.3 }}
-                    longPressDelay={100}
-                  >
-                    <Text style={styles.english}>{word}</Text>
-                  </DraxView>
-                );
-              })}
-        </View>
-        <View style={styles.turkishContainer}>
-          {turkishWords?.map((word, i) => (
-            <DroppableRow
-              key={word.turkish}
-              showingResults={submitted}
-              wordDropped={(newWord) => {
-                const newTurkishWords = turkishWords.map(
-                  ({ english, turkish, correctEnglishWord }) => {
-                    if (english === newWord) {
-                      return { turkish, correctEnglishWord };
-                    } else {
-                      return { turkish, correctEnglishWord, english };
-                    }
-                  }
-                );
-                newTurkishWords[i] = {
-                  english: newWord,
-                  turkish: word.turkish,
-                  correctEnglishWord: word.correctEnglishWord,
-                };
-                setTurkishWords(newTurkishWords);
-              }}
-              turkish={word.turkish}
-              english={word.english}
-              correctEnglish={word.correctEnglishWord}
-              removeWord={() => {
-                const newTurkishWords = [...turkishWords];
-                newTurkishWords[i] = {
-                  turkish: word.turkish,
-                  correctEnglishWord: word.correctEnglishWord,
-                };
-                setTurkishWords(newTurkishWords);
-              }}
-            />
-          ))}
-        </View>
-        <View style={styles.doneContainer}>
-          {submitted && (
-            <TouchableOpacity
-              style={styles.doneButton}
-              onPress={() => {
-                setTurkishWords(
-                  turkishWords?.map((word) => ({ ...word, english: undefined }))
-                );
-                setSubmitted(false);
-                restartRound();
-              }}
-            >
-              <Text style={styles.doneButtonTitle}>play again</Text>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity
-            style={{ ...styles.doneButton, ...extraButtonStyles }}
-            disabled={!canClickDoneButton}
-            onPress={() => {
-              if (submitted) {
-                fi.endRound(currentRoundId);
-                fi.endSession(sessionId);
-                navigation.navigate("HomeScreen");
-              } else {
-                setSubmitted(true);
-              }
+        <View style={ showingModal && !user?.hasFinishedTutorial ? styles.overlay : {}}>
+          <View
+            style={{
+              ...styles.column,
+              flex: submitted ? 5 : 8,
+              flexWrap: shouldNotFlexWrap ? "nowrap" : "wrap",
             }}
           >
-            <Text style={styles.doneButtonTitle}>
-              {submitted ? "end session" : "done"}
-            </Text>
-          </TouchableOpacity>
+            {submitted
+              ? topScreen
+              : englishWords?.map((word) => {
+                  if (
+                    turkishWords?.some(({ english }) => english === word) ??
+                    false
+                  ) {
+                    return <View key={word} style={styles.englishUsed} />;
+                  }
+                  return (
+                    <DraxView
+                      payload={word}
+                      key={word}
+                      style={styles.draxView}
+                      draggingStyle={{ opacity: 0.3 }}
+                      dragReleasedStyle={{ opacity: 0.3 }}
+                      longPressDelay={100}
+                    >
+                      <Text style={styles.english}>{word}</Text>
+                    </DraxView>
+                  );
+                })}
+          </View>
+          <View style={styles.turkishContainer}>
+            {turkishWords?.map((word, i) => (
+              <DroppableRow
+                key={word.turkish}
+                showingResults={submitted}
+                wordDropped={(newWord) => {
+                  const newTurkishWords = turkishWords.map(
+                    ({ english, turkish, correctEnglishWord }) => {
+                      if (english === newWord) {
+                        return { turkish, correctEnglishWord };
+                      } else {
+                        return { turkish, correctEnglishWord, english };
+                      }
+                    }
+                  );
+                  newTurkishWords[i] = {
+                    english: newWord,
+                    turkish: word.turkish,
+                    correctEnglishWord: word.correctEnglishWord,
+                  };
+                  setTurkishWords(newTurkishWords);
+                }}
+                turkish={word.turkish}
+                english={word.english}
+                correctEnglish={word.correctEnglishWord}
+                removeWord={() => {
+                  const newTurkishWords = [...turkishWords];
+                  newTurkishWords[i] = {
+                    turkish: word.turkish,
+                    correctEnglishWord: word.correctEnglishWord,
+                  };
+                  setTurkishWords(newTurkishWords);
+                }}
+              />
+            ))}
+          </View>
+          <View style={styles.doneContainer}>
+            {submitted && (
+              <TouchableOpacity
+                style={styles.doneButton}
+                onPress={() => {
+                  setTurkishWords(
+                    turkishWords?.map((word) => ({ ...word, english: undefined }))
+                  );
+                  setSubmitted(false);
+                  restartRound();
+                }}
+              >
+                <Text style={styles.doneButtonTitle}>play again</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              style={{ ...styles.doneButton, ...extraButtonStyles }}
+              disabled={!canClickDoneButton}
+              onPress={() => {
+                if (submitted) {
+                  fi.endRound(currentRoundId);
+                  fi.endSession(sessionId);
+                  navigation.navigate("HomeScreen");
+                } else {
+                  setSubmitted(true);
+                }
+              }}
+            >
+              <Text style={styles.doneButtonTitle}>
+                {submitted ? "end session" : "done"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
-        {/* TO DO: we need to use the firstSession state to
-        determine the styling for the game screen container
-        (should be grayed out when firstSession is true
-        and current styling when firstSession is false). */}
         {!user?.hasFinishedTutorial &&
           <BottomSheet
             ref={bottomSheetRef}
@@ -322,9 +321,15 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     borderRadius: 0.0001,
   },
-  // Styles for bottom sheet modal
+  // Styles associated with bottom sheet modal for game tutorial
   contentContainer: {
     flex: 1,
     alignItems: 'center',
   },
+  overlay: {
+    opacity: 0.4,
+    backgroundColor: BLUE,
+    width: "100%",
+    height: "100%",
+  } 
 });

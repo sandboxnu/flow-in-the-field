@@ -4,6 +4,7 @@ import GameTutorialScreen from './GameTutorialScreen';
 import { LIGHTPURPLE, TURQUOISE } from '../../constants/colors';
 import Swiper from 'react-native-swiper';
 
+// Images to display on pairing and selecting tutorial pages
 const tutorialImages = {
 	page1: require('../../assets/tutorial-page-1.png'),
 	page2: require('../../assets/tutorial-page-2.png'),

@@ -27,7 +27,7 @@ export default function GameTutorialScreen({
     hasNavButton,
     navButtonTitle,
     isPairing,
-    onFinish
+    onFinish,
 }: GameTutorialScreenProps): ReactElement {
 
     const navigation = useNavigation();
