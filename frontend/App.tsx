@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User, Word, UID, GameType } from "./src/models/types";
 import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
-import { initializeApp } from "firebase/app";
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';

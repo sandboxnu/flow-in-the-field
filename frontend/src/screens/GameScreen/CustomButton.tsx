@@ -9,7 +9,6 @@ interface CustomButtonProps {
     enabledTextStyle: StyleProp<ViewStyle>;
     disabledTextStyle: StyleProp<ViewStyle>;
     text: String
-
 }
 export default function CustomButton({ onPress, disabled, enabledStyle, disabledStyle,
     enabledTextStyle, disabledTextStyle, text }: CustomButtonProps) {
