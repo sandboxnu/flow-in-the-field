@@ -31,7 +31,7 @@ if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
 
 /**
  * A class to interact with firebase. This class stores the current state,
- * including a reference to the firestore, and the current authenticated
+ * including a reference to the firestore, and the current authenticated user.
  * This adds a level of abstraction around firebase, so that this is the only object dealing with the server.
  * Stolen from vocab buddy.
  */
@@ -73,7 +73,7 @@ export default class FirebaseInteractor {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
-            hasFinishedtutorial: false,
+            hasFinishedTutorial: false,
         });
     }
 
@@ -161,19 +161,6 @@ export default class FirebaseInteractor {
         return docData?.words ?? [];
     }
 
-    async getHasFinishedTutorial() {
-
-        const user = await this.getUser();
-
-        if (user !== null) {
-            return user.hasFinishedTutorial;
-        }
-
-        if (user === null) {
-            throw new Error("No actual user");
-        }
-    }
-
     async startSession(): Promise<UID> {
 
         const user = this.auth.currentUser;
@@ -231,23 +218,5 @@ export default class FirebaseInteractor {
             testDate: docData.testDate.toDate(),
             hasFinishedTutorial: true,
         });
-    }
-
-    // Returns true if the game type is pairing, false if selecting
-    async isPairing() {
-        const user = this.auth.currentUser;
-
-        if (user === null) {
-            throw new Error("No actual user");
-        }
-
-        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
-
-        if (docData === undefined) {
-            throw new Error("No data found")
-        }
-
-        if (docData.gameType === "pairing") { return true }
-        else return false;
     }
 }
