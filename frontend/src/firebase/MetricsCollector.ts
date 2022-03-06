@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, Firestore, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, Firestore, getDoc, updateDoc } from "firebase/firestore";
 import { Round, Session, UID } from "../models/types";
 
 /**
@@ -28,10 +28,14 @@ export default class _MetricsCollector {
      * Records end of round metrics
      * @param roundId the id of the round to end
      */
-    async endRound(roundId: UID) {
+    async endRound(roundId: UID, points: number) {
         const roundRef = collection(this.db, "rounds");
-        await updateDoc(doc(roundRef, roundId), {
-            endTime: new Date()
+        const roundDoc = doc(roundRef, roundId);
+        const docData = (await getDoc(roundDoc)).data();
+        const oldPoints = docData?.points ?? 0;
+        await updateDoc(roundDoc, {
+            endTime: new Date(),
+            points: oldPoints + points
         })
     }
 

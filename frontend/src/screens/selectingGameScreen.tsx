@@ -29,9 +29,13 @@ export default function SelectingGameScreen(props: GameScreenProps) {
     const [currentRoundId, setCurrentRoundId] = useState<UID>("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const startRound = () => {
+        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+    }
+
     useEffect(() => {
         if (currentRoundId == "") {
-            fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+            startRound();
         } else {
             fi.getUser().then(user => {
                 setUser(user);
@@ -49,17 +53,13 @@ export default function SelectingGameScreen(props: GameScreenProps) {
         return <LoadingScreen />
     }
 
-    const startRound = () => {
-        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
-    }
-
     const restartRound = () => {
-        fi.endRound(currentRoundId);
-        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        endRound();
+        startRound();
     }
 
     const endRound = () => {
-        fi.endRound(currentRoundId);
+        fi.endRound(currentRoundId, correctValues);
     }
 
     const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
@@ -127,7 +127,7 @@ export default function SelectingGameScreen(props: GameScreenProps) {
                     <TouchableOpacity style={submitted ? { ...styles.endSessionButton, ...(isLoading ? { borderColor: "#D16B5025" } : {}) }
                         : { ...styles.doneButton, ...extraButtonStyles }} disabled={submitted ? isLoading : !canClickDoneButton} onPress={() => {
                             if (submitted) {
-                                fi.endRound(currentRoundId);
+                                endRound();
                                 fi.endSession(sessionId);
                                 navigation.navigate("HomeScreen");
                             } else {

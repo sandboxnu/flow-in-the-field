@@ -170,6 +170,7 @@ export default class FirebaseInteractor {
                 startTime: new Date(),
                 endTime: null,
                 words: await this.getXRandomPairs(user.numPairs),
+                points: null
             }
 
             const roundID: UID = await this.metricsCollector.startRound(newRound);
@@ -179,8 +180,8 @@ export default class FirebaseInteractor {
         throw new Error("No user found")
     }
 
-    async endRound(roundId: UID) {
-        await this.metricsCollector.endRound(roundId);
+    async endRound(roundId: UID, points: number) {
+        await this.metricsCollector.endRound(roundId, points);
     }
 
     async getRoundPairs(roundId: UID) {
