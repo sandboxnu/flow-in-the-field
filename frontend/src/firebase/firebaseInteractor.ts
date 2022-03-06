@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPas
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
 import { User, Word, Session, Round, GameType, UID } from "../models/types";
 import Constants from "expo-constants";
+import _MetricsCollector from "./MetricsCollector";
 
 const { manifest } = Constants;
 
@@ -43,6 +44,7 @@ export default class FirebaseInteractor {
     lastEmailRequestedAt?: Date;
     db = db;
     auth = auth;
+    metricsCollector = new _MetricsCollector(db);
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exist";
@@ -170,9 +172,7 @@ export default class FirebaseInteractor {
                 words: await this.getXRandomPairs(user.numPairs),
             }
 
-            const col = collection(this.db, "rounds");
-            const roundID: UID = (await addDoc(col, newRound)).id;
-
+            const roundID: UID = await this.metricsCollector.startRound(newRound);
             return roundID;
         }
 
@@ -180,10 +180,7 @@ export default class FirebaseInteractor {
     }
 
     async endRound(roundId: UID) {
-        const roundRef = collection(this.db, "rounds");
-        await updateDoc(doc(roundRef, roundId), {
-            endTime: new Date()
-        })
+        await this.metricsCollector.endRound(roundId);
     }
 
     async getRoundPairs(roundId: UID) {
@@ -204,9 +201,7 @@ export default class FirebaseInteractor {
                 endTime: null,
             }
 
-            const col = collection(this.db, "sessions");
-            const sessionID: UID = (await addDoc(col, newSession)).id;
-
+            const sessionID: UID = await this.metricsCollector.startSession(newSession);
             return sessionID;
         }
 
@@ -214,10 +209,7 @@ export default class FirebaseInteractor {
     }
 
     async endSession(sessionId: UID) {
-        const sessionsRef = collection(this.db, "sessions");
-        await updateDoc(doc(sessionsRef, sessionId), {
-            endTime: new Date()
-        })
+        await this.metricsCollector.endSession(sessionId);
     }
 
     async getXRandomPairs(num: number): Promise<Word[]> {
