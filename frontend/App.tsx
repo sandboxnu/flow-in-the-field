@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import FirebaseInteractor from "./src/firebase/firebaseInteractor";
 import SelectingGameScreen from "./src/screens/selectingGameScreen";
 import GameScreenFlow from "./src/screens/GameScreenFlow";
+import TestScreen from "./src/screens/TestScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -61,6 +62,7 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} />
+          <Stack.Screen name="TestScreen" component={TestScreen} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
