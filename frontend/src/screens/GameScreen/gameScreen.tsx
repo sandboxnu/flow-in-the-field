@@ -8,8 +8,8 @@ import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../../components/LoadingScreen";
-import PrimaryButton from "./PrimaryButton";
-import SecondaryButton from "./SecondaryButton";
+import PrimaryButton from "../../components/Button/PrimaryButton";
+import SecondaryButton from "../../components/Button/SecondaryButton";
 
 const fi = new FirebaseInteractor();
 
@@ -20,7 +20,7 @@ interface MaybeWordPair {
 }
 
 export interface GameScreenProps {
-  route: any;
+    route: any;
 }
 
 export interface SpecificGameScreenProps {
@@ -32,7 +32,7 @@ export interface SpecificGameScreenProps {
 
 export default function GameScreen(props: SpecificGameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
-    const [turkishWords, setTurkishWords] = useState<MaybeWordPair[]>()
+    const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
     const [submitted, setSubmitted] = useState(false);
     const navigation = useNavigation()
     const { sessionId } = props.route.params;
@@ -47,7 +47,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             fi.getUser().then(user => {
                 fi.getRoundPairs(currentRoundId).then(words => {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
-                    setTurkishWords(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
+                    setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
                     setSubmitted(false)
                     setIsLoading(false)
                 }).catch(console.error);
@@ -64,65 +64,51 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         fi.startRound(sessionId).then(result => setCurrentRoundId(result));
     }
 
-    const renderEnglishOptions = () => {
-        return englishWords?.map(word => {
-            if (turkishWords?.some(({ english }) => english === word) ?? false) {
-                return (<View key={word} style={styles.englishUsed} />)
-            }
-            return (<DraxView payload={word} key={word}
-                style={styles.draxView}
-                draggingStyle={{ opacity: 0.3 }}
-                dragReleasedStyle={{ opacity: 0.3 }}
-                longPressDelay={100}>
-                <Text style={styles.english}>{word}</Text>
-            </DraxView>)
-        })
-    }
-
-    const wordDroppedFunction = (turkishWords: MaybeWordPair[], word: MaybeWordPair, i : number) => {
-      return (newWord : string) => {
-      const newTurkishWords = turkishWords.map(({ english, turkish, correctEnglishWord }) => {
-            if (english === newWord) {
-                return { turkish, correctEnglishWord }
-            } else {
-                return { turkish, correctEnglishWord, english }
-            }
-        })
-        newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
-        setTurkishWords(newTurkishWords)
-      }
+    const wordDroppedFunction = (turkishWords: MaybeWordPair[], word: MaybeWordPair, i: number) => {
+        return (newWord: string) => {
+            const newTurkishWords = turkishWords.map(({ english, turkish, correctEnglishWord }) => {
+                if (english === newWord) {
+                    return { turkish, correctEnglishWord }
+                } else {
+                    return { turkish, correctEnglishWord, english }
+                }
+            })
+            newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
+            setCurrentPairs(newTurkishWords)
+        }
     }
 
     const removeWordFunction = (turkishWords: MaybeWordPair[], word: MaybeWordPair, i: number) => {
-      return () => {
-        const newTurkishWords = [...turkishWords]
-        newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
-        setTurkishWords(newTurkishWords)
-    }
+        return () => {
+            const newTurkishWords = [...turkishWords]
+            newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
+            setCurrentPairs(newTurkishWords)
+        }
     }
 
     const renderTurkishWords = () => {
-        return turkishWords?.map((word, i) => (
+        return currentPairs?.map((word, i) => (
             <DroppableRow
                 key={word.turkish}
                 showingResults={submitted}
-                wordDropped={wordDroppedFunction(turkishWords, word, i)}
+                wordDropped={wordDroppedFunction(currentPairs, word, i)}
                 turkish={word.turkish}
                 english={word.english}
                 correctEnglish={word.correctEnglishWord}
-                removeWord={removeWordFunction(turkishWords, word, i)}
+                removeWord={removeWordFunction(currentPairs, word, i)}
                 isPairing={props.isPairing}
             />))
     }
 
     const renderSubmittedButtons = () => {
-        return (<View style={styles.doneContainer}><PrimaryButton
-            disabled={isLoading}
-            onPress={() => {
-                setIsLoading(true);
-                restartRound()
-            }}
-            text="play again" />
+        return (<View style={styles.doneContainer}>
+            <PrimaryButton
+                disabled={isLoading}
+                onPress={() => {
+                    setIsLoading(true);
+                    restartRound()
+                }}
+                text="play again" />
             <SecondaryButton
                 disabled={isLoading}
                 text="end session"
@@ -144,17 +130,32 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         )
     }
 
-    const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
-    const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
+    const renderEnglishOptions = () => {
+        return englishWords?.map(word => {
+            if (currentPairs?.some(({ english }) => english === word) ?? false) {
+                return (<View key={word} style={styles.englishUsed} />)
+            }
+            return (<DraxView payload={word} key={word}
+                style={styles.draxView}
+                draggingStyle={{ opacity: 0.3 }}
+                dragReleasedStyle={{ opacity: 0.3 }}
+                longPressDelay={100}>
+                <Text style={styles.english}>{word}</Text>
+            </DraxView>)
+        })
+    }
 
-    const scoreText = props.topScreenRenderFunction(correctValues, turkishWords?.length ?? 0)
+    const numCorrectPairs = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
+    const canClickDoneButton = englishWords.every((word) => currentPairs?.some(({ english }) => english === word))
+
+    const scoreText = props.topScreenRenderFunction(numCorrectPairs, currentPairs?.length ?? 0)
     const shouldFlexWrap = props.isPairing && !submitted
 
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer }>
-                    {submitted ? scoreText : renderEnglishOptions() }
+                <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
+                    {submitted ? scoreText : renderEnglishOptions()}
                 </View>
                 <View style={styles.bottomContainer}>
                     {renderTurkishWords()}
@@ -164,17 +165,6 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         </DraxProvider >
     )
 }
-
-
-const defaultStyle = StyleSheet.create({
-    default: {
-        color: "white",
-        borderRadius: 5,
-        textAlign: "center",
-        alignItems: "center",
-        paddingVertical: "4%",
-    }
-});
 
 const styles = StyleSheet.create({
     container: {
@@ -207,7 +197,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     english: {
-        ...defaultStyle.default,
+        color: "white",
+        borderRadius: 5,
+        textAlign: "center",
+        alignItems: "center",
+        paddingVertical: "4%",
     },
     draxView: {
         width: "40%",

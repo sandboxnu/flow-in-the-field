@@ -7,7 +7,7 @@ interface SecondaryButtonProps {
     disabled: boolean;
     text: String;
 }
-export default function PrimaryButton(props: SecondaryButtonProps) {
+export default function SecondaryButton(props: SecondaryButtonProps) {
     return CustomButton({
         ...props,
         enabledStyle: styles.enabledStyle,

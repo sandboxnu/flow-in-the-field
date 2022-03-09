@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 import { BLUE } from "../../constants/colors";
-import GameScreen, { GameScreenProps }  from "./gameScreen";
+import GameScreen, { GameScreenProps } from "./gameScreen";
 
 export default function PairingGameScreen(props: GameScreenProps) {
 
@@ -12,7 +12,7 @@ export default function PairingGameScreen(props: GameScreenProps) {
     const pairingShuffleFunction = (words: any[]) => {
         return words.map((word) => word.english);
     }
-    
+
     return GameScreen({
         route: props.route,
         isPairing: true,
