@@ -2,8 +2,8 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import TextIconButton from "../components/TextIconButton";
-import SmallTextIconButton from "../components/SmallTextIconButton";
+import TextIconButton from "../components/Button/TextIconButton";
+import SmallTextIconButton from "../components/Button/SmallTextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
 
