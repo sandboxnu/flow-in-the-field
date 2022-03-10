@@ -9,7 +9,7 @@ import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
 import BottomSheet from '@gorhom/bottom-sheet';
-import GameTutorialScreens from "./Game Tutorial/GameTutorialScreens";
+import GameTutorialScreens from "./GameTutorial/GameTutorialScreens";
 
 const fi = new FirebaseInteractor();
 
@@ -231,7 +231,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
             snapPoints={snapPoints}
           >
             <View style={styles.contentContainer}>
-              <GameTutorialScreens isPairing={user?.gameType === "pairing"} onFinish={handleClosePress}/>
+              <GameTutorialScreens isPairing={true} onFinish={handleClosePress}/>
             </View>
           </BottomSheet>}
 
