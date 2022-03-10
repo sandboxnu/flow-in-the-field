@@ -59,14 +59,29 @@ export default function SelectingGameScreen(props: GameScreenProps) {
     }
 
     const endRound = () => {
-        fi.endRound(currentRoundId, correctValues);
+        fi.endRound(currentRoundId, getCorrectWords());
     }
 
-    const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
+    const getCorrectWords = () => {
+        if (!submitted) {
+            return null
+        }
+
+        const correctWords = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
+            .map((maybeWordPair) => ({
+                turkish: maybeWordPair.turkish,
+                english: maybeWordPair.correctEnglishWord
+            })) ?? null
+
+        return correctWords
+    }
+
+    const getNumCorrectWords = () => getCorrectWords()?.length ?? 0;
+
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
-    const topScreen = <Text style={styles.correctText}>{correctValues === 1 ? "correct" : "incorrect"}</Text>
+    const topScreen = <Text style={styles.correctText}>{getNumCorrectWords() === 1 ? "correct" : "incorrect"}</Text>
     return (
         <DraxProvider>
             <View style={styles.container}>

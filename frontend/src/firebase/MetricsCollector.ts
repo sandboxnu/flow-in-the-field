@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, Firestore, getDoc, updateDoc } from "firebase/firestore";
-import { Round, Session, UID } from "../models/types";
+import { Round, Session, UID, Word } from "../models/types";
 
 /**
  * Tool to be used internally in the Firebase Interactor to manage metrics-specific data handling.
@@ -28,14 +28,12 @@ export default class _MetricsCollector {
      * Records end of round metrics
      * @param roundId the id of the round to end
      */
-    async endRound(roundId: UID, points: number) {
+    async endRound(roundId: UID, correctWords: Word[] | null) {
         const roundRef = collection(this.db, "rounds");
         const roundDoc = doc(roundRef, roundId);
-        const docData = (await getDoc(roundDoc)).data();
-        const oldPoints = docData?.points ?? 0;
         await updateDoc(roundDoc, {
             endTime: new Date(),
-            points: oldPoints + points
+            correctWords: correctWords
         })
     }
 

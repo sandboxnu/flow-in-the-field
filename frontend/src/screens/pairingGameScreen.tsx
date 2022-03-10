@@ -61,14 +61,29 @@ export default function PairingGameScreen(props: GameScreenProps) {
     }
 
     const endRound = () => {
-        fi.endRound(currentRoundId, correctValues);
+        fi.endRound(currentRoundId, getCorrectWords());
     }
 
-    const correctValues = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
+    const getCorrectWords = () => {
+        if (!submitted) {
+            return null
+        }
+
+        const correctWords = turkishWords?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
+            .map((maybeWordPair) => ({
+                turkish: maybeWordPair.turkish,
+                english: maybeWordPair.correctEnglishWord
+            })) ?? null
+
+        return correctWords
+    }
+
+    const getNumCorrectWords = () => getCorrectWords()?.length ?? 0;
+
     const canClickDoneButton = englishWords.every((word) => turkishWords?.some(({ english }) => english === word))
     const extraButtonStyles = canClickDoneButton && !isLoading ? {} : styles.inactiveButton
 
-    const topScreen = <Text style={styles.scoreText}>{correctValues}/{turkishWords?.length ?? 0}</Text>
+    const topScreen = <Text style={styles.scoreText}>{getNumCorrectWords()}/{turkishWords?.length ?? 0}</Text>
     const shouldNotFlexWrap = submitted
     return (
         <DraxProvider>
@@ -137,7 +152,7 @@ export default function PairingGameScreen(props: GameScreenProps) {
                                 setSubmitted(true)
                             }
                         }}><Text style={submitted ? { ...styles.endSessionButtonTitle, ...(isLoading ? { color: "#D16B5025" } : {}) }
-                         : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
+                            : styles.doneButtonTitle}>{submitted ? "end session" : "done"}</Text></TouchableOpacity>
                 </View>
             </View>
         </DraxProvider>
