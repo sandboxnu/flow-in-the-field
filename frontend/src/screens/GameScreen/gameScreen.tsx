@@ -64,25 +64,33 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         fi.startRound(sessionId).then(result => setCurrentRoundId(result));
     }
 
-    const wordDroppedFunction = (turkishWords: MaybeWordPair[], word: MaybeWordPair, i: number) => {
+    //Returns a function that updates the state of the player's current pairs by
+    //adding their current guess to the pair at the given index
+    const getWordDroppedHandler = (currentPairs: MaybeWordPair[], word: MaybeWordPair, i: number) => {
         return (newWord: string) => {
-            const newTurkishWords = turkishWords.map(({ english, turkish, correctEnglishWord }) => {
+
+            //This map is required because it allows words to be dragged from
+            //one row to another. It clears the dropped word from all pairs so
+            //that it can be properly placed into the new one.
+            const newPairs = currentPairs.map(({ english, turkish, correctEnglishWord }) => {
                 if (english === newWord) {
                     return { turkish, correctEnglishWord }
                 } else {
                     return { turkish, correctEnglishWord, english }
                 }
             })
-            newTurkishWords[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
-            setCurrentPairs(newTurkishWords)
+            newPairs[i] = { english: newWord, turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
+            setCurrentPairs(newPairs)
         }
     }
 
-    const removeWordFunction = (turkishWords: MaybeWordPair[], word: MaybeWordPair, i: number) => {
+    //Returns a function that updates the state of the player's current pairs by
+    //removing their current guess of the given pair
+    const getRemoveWordHandler = (currentPairs: MaybeWordPair[], word: MaybeWordPair, i: number) => {
         return () => {
-            const newTurkishWords = [...turkishWords]
-            newTurkishWords[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
-            setCurrentPairs(newTurkishWords)
+            const newPairs = [...currentPairs]
+            newPairs[i] = { turkish: word.turkish, correctEnglishWord: word.correctEnglishWord }
+            setCurrentPairs(newPairs)
         }
     }
 
@@ -91,11 +99,11 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             <DroppableRow
                 key={word.turkish}
                 showingResults={submitted}
-                wordDropped={wordDroppedFunction(currentPairs, word, i)}
+                wordDropped={getWordDroppedHandler(currentPairs, word, i)}
                 turkish={word.turkish}
                 english={word.english}
                 correctEnglish={word.correctEnglishWord}
-                removeWord={removeWordFunction(currentPairs, word, i)}
+                removeWord={getRemoveWordHandler(currentPairs, word, i)}
                 isPairing={props.isPairing}
             />))
     }
