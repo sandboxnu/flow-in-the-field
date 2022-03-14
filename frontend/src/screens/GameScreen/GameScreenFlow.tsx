@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import FirebaseInteractor from "../firebase/firebaseInteractor"
-import PairingGameScreen, { GameScreenProps } from "./pairingGameScreen";
+import FirebaseInteractor from "../../firebase/firebaseInteractor"
+import { GameScreenProps } from "./gameScreen";
+import PairingGameScreen from "./pairingGameScreen";
 import SelectingGameScreen from "./selectingGameScreen";
 
 const fi = new FirebaseInteractor();
