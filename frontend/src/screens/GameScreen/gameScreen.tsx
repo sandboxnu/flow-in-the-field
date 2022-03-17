@@ -40,7 +40,6 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        console.log("sessionId = " + sessionId)
         if (currentRoundId == "") {
             fi.startRound(sessionId).then(result => setCurrentRoundId(result));
         } else {
@@ -60,7 +59,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     }
 
     const restartRound = () => {
-        fi.endRound(currentRoundId);
+        fi.endRound(currentRoundId, getCorrectWords());
         fi.startRound(sessionId).then(result => setCurrentRoundId(result));
     }
 
@@ -121,7 +120,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 disabled={isLoading}
                 text="end session"
                 onPress={() => {
-                    fi.endRound(currentRoundId);
+                    fi.endRound(currentRoundId, getCorrectWords());
                     fi.endSession(sessionId);
                     navigation.navigate("HomeScreen");
                 }} />
@@ -153,10 +152,25 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         })
     }
 
-    const numCorrectPairs = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord).length ?? 0;
+    const getCorrectWords = () => {
+        if (!submitted) {
+            return null
+        }
+
+        const correctWords = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
+            .map((maybeWordPair) => ({
+                turkish: maybeWordPair.turkish,
+                english: maybeWordPair.correctEnglishWord
+            })) ?? null
+
+        return correctWords
+    }
+
+    const getNumCorrectWords = () => getCorrectWords()?.length ?? 0;
+
     const canClickDoneButton = englishWords.every((word) => currentPairs?.some(({ english }) => english === word))
 
-    const scoreText = props.topScreenRenderFunction(numCorrectPairs, currentPairs?.length ?? 0)
+    const scoreText = props.topScreenRenderFunction(getNumCorrectWords(), currentPairs?.length ?? 0)
     const shouldFlexWrap = props.isPairing && !submitted
 
     return (

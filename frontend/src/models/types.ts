@@ -27,6 +27,7 @@ export interface Round {
     startTime: Date;
     endTime:   Date | null;
     words:     Word[];
+    correctWords:    Word[] | null;
 }
 
 export interface Match {
