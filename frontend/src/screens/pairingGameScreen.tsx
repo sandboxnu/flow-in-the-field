@@ -231,7 +231,7 @@ export default function PairingGameScreen(props: PairingGameScreenProps) {
             snapPoints={snapPoints}
           >
             <View style={styles.contentContainer}>
-              <GameTutorialScreens isPairing={true} onFinish={handleClosePress}/>
+              <GameTutorialScreens isPairing={user?.gameType === "pairing"} onFinish={handleClosePress}/>
             </View>
           </BottomSheet>}
 
