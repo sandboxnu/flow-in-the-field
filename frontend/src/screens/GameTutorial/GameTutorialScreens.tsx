@@ -61,7 +61,7 @@ export default function GameTutorialScreens({
                     "give you your results.\n"}
                 secondaryScreenContent={isPairing ? 
                     "Green means correct and red means incorrect." :
-                    "Green means correct and red means incorrect. Words" + 
+                    "Green means correct and red means incorrect. Words " + 
                     "that were unmatched remain blue."}
                 imagePath={isPairing ? tutorialImages.page5Pairing : tutorialImages.page5Selecting}
                 onFinish={onFinish}/>
