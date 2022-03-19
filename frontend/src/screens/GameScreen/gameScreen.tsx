@@ -295,8 +295,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     overlay: {
-        opacity: 0.4,
-        backgroundColor: BLUE,
+        opacity: 0.8,
+        backgroundColor: "#6E81E7A6",
         width: "100%",
         height: "100%",
     } 
