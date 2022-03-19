@@ -1,9 +1,11 @@
 import * as firebase from "firebase/app";
+import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
+import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
 import { User, Word, Session, Round, GameType, UID } from "../models/types";
-import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
 import Constants from "expo-constants";
+import _MetricsCollector from "./MetricsCollector";
 
 const { manifest } = Constants;
 
@@ -29,6 +31,9 @@ if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
     connectAuthEmulator(auth, `http://${ip}:9099`,);
 }
 
+// Firebase Auth delay in email verification
+const AUTH_DELAY = 60000 // in ms, equal to 1 minute
+
 /**
  * A class to interact with firebase. This class stores the current state,
  * including a reference to the firestore, and the current authenticated user.
@@ -36,9 +41,10 @@ if (manifest?.packagerOpts?.dev && manifest.debuggerHost) {
  * Stolen from vocab buddy.
  */
 export default class FirebaseInteractor {
-
-    auth = getAuth(app);
-    db = getFirestore(app);
+    lastEmailRequestedAt?: Date;
+    db = db;
+    auth = auth;
+    metricsCollector = new _MetricsCollector(db);
 
     get email() {
         return this.auth.currentUser?.email ?? "Current user does not exist";
@@ -48,6 +54,18 @@ export default class FirebaseInteractor {
         await this.auth.currentUser?.reload();
         return this.auth.currentUser?.emailVerified ?? false;
     }
+    trySignedIn() {
+        return new Promise((resolve: (value: AuthUser | null) => void, reject) => {
+            onAuthStateChanged(this.auth, user => {
+                if (user) {
+                    resolve(user)
+                } else {
+                    resolve(null)
+                }
+            })
+        })
+    }
+
     /**
     * Creates an account for a user, but does not store them in the db yet, since we don't know what we will store
     */
@@ -66,7 +84,7 @@ export default class FirebaseInteractor {
         }
 
         sendEmailVerification(userAuth.user);
-
+        this.lastEmailRequestedAt = new Date(Date.now());
         const userDoc = doc(this.db, "users", userAuth.user.uid)
 
         await setDoc(userDoc, {
@@ -75,6 +93,23 @@ export default class FirebaseInteractor {
             testDate: Timestamp.fromDate(getTestDate()),
             hasFinishedTutorial: false,
         });
+    }
+
+    // Delays resending the verification email to avoid Firebase too-many-requests error
+    async resendEmailVerification() {
+        const user = this.auth.currentUser;
+        let now = new Date(Date.now());
+        let timeDifference = this.lastEmailRequestedAt ? now.getTime() - this.lastEmailRequestedAt.getTime() : 0;
+        timeDifference = timeDifference < 0 ? 0 : timeDifference; // sanity check that difference is nonnegative
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        this.lastEmailRequestedAt = new Date(Date.now());
+        setTimeout(() => {
+            sendEmailVerification(user);
+        }, AUTH_DELAY - timeDifference);
     }
 
     async signInWithUsernameAndPassword(username: string, password: string) {
@@ -137,22 +172,18 @@ export default class FirebaseInteractor {
                 startTime: new Date(),
                 endTime: null,
                 words: await this.getXRandomPairs(user.numPairs),
+                correctWords: null
             }
 
-            const col = collection(this.db, "rounds");
-            const roundID: UID = (await addDoc(col, newRound)).id;
-
+            const roundID: UID = await this.metricsCollector.startRound(newRound);
             return roundID;
         }
 
         throw new Error("No user found")
     }
 
-    async endRound(roundId: UID) {
-        const roundRef = collection(this.db, "rounds");
-        await updateDoc(doc(roundRef, roundId), {
-            endTime: new Date()
-        })
+    async endRound(roundId: UID, correctWords: Word[] | null) {
+        await this.metricsCollector.endRound(roundId, correctWords);
     }
 
     async getRoundPairs(roundId: UID) {
@@ -173,9 +204,7 @@ export default class FirebaseInteractor {
                 endTime: null,
             }
 
-            const col = collection(this.db, "sessions");
-            const sessionID: UID = (await addDoc(col, newSession)).id;
-
+            const sessionID: UID = await this.metricsCollector.startSession(newSession);
             return sessionID;
         }
 
@@ -183,10 +212,7 @@ export default class FirebaseInteractor {
     }
 
     async endSession(sessionId: UID) {
-        const sessionsRef = collection(this.db, "sessions");
-        await updateDoc(doc(sessionsRef, sessionId), {
-            endTime: new Date()
-        })
+        await this.metricsCollector.endSession(sessionId);
     }
 
     async getXRandomPairs(num: number): Promise<Word[]> {

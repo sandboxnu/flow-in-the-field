@@ -1,5 +1,7 @@
-import { useNavigation } from "@react-navigation/core"
-import React, { useState } from "react"
+import { useFocusEffect, useNavigation } from "@react-navigation/core"
+import { User } from "firebase/auth"
+import React, { useEffect, useState } from "react"
+import { LoadingScreen } from "../../components/LoadingScreen"
 import FirebaseInteractor from "../../firebase/firebaseInteractor"
 import AccountSettings from "./accountSettings"
 import LoginPage from "./login"
@@ -20,15 +22,28 @@ export default function SignInFlow() {
     };
 
     const [currentPage, setCurrentPage] = useState<CurrentPage>("signUp")
+    const [currentUser, setCurrentUser] = useState<User | null | "unknown">("unknown")
     const navigation = useNavigation();
-    if (currentPage == 'signIn') {
-        return (<LoginPage
-            goToSignUp={() => setCurrentPage("signUp")}
-            goToRecoveryScreen={() => setCurrentPage("recoverPassword")}
-            goToAccountSettings={userSignedIn} />)
-    } else if (currentPage == "recoverPassword") {
-        return (<RecoverPasswordPage goToSignIn={() => setCurrentPage("signIn")} />)
+
+    useFocusEffect(() => {
+        fi.trySignedIn().then(user => {
+            setCurrentUser(user)
+            if (fi.auth.currentUser) userSignedIn();
+        });
+    })
+
+    if (currentUser) {
+        return <LoadingScreen />
     } else {
-        return (<SignUpPage goToSignIn={() => setCurrentPage("signIn")} goToAccountSettings={userSignedIn} />)
+        if (currentPage == 'signIn') {
+            return (<LoginPage
+                goToSignUp={() => setCurrentPage("signUp")}
+                goToRecoveryScreen={() => setCurrentPage("recoverPassword")}
+                goToAccountSettings={userSignedIn} />)
+        } else if (currentPage == "recoverPassword") {
+            return (<RecoverPasswordPage goToSignIn={() => setCurrentPage("signIn")} />)
+        } else {
+            return (<SignUpPage goToSignIn={() => setCurrentPage("signIn")} goToAccountSettings={userSignedIn} />)
+        }
     }
 }

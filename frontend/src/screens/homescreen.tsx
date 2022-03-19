@@ -2,7 +2,8 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import TextIconButton from "../components/TextIconButton";
+import TextIconButton from "../components/Button/TextIconButton";
+import SmallTextIconButton from "../components/Button/SmallTextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
 
@@ -26,7 +27,20 @@ export default function Homescreen() {
     }
 
     const startSession = () => {
-        fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", {sessionId: sessionId}))
+        fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", { sessionId: sessionId }))
+    }
+
+    const testAvailable = () => {
+        let now = new Date(Date.now());
+        let timeUntilTest = user.testDate.getTime() - now.getTime();
+
+        return timeUntilTest <= 0;
+    }
+
+    const startTest = () => {
+        if (testAvailable()) {
+            navigation.navigate("TestScreen");
+        }
     }
 
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
@@ -46,8 +60,11 @@ export default function Homescreen() {
                 </View>
             </View>
             <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("RevisitOnboarding", {signedIn: true})} text="Help" icon={require("../assets/help-icon.png")} />
+            <TextIconButton onPress={() => startTest()} text="Take the test" icon={require("../assets/flow-icon-test.png")} testNotAvailable={!testAvailable()} />
+            <View style={{ flexDirection: "row" }}>
+                <SmallTextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
+                <SmallTextIconButton onPress={() => navigation.navigate("RevisitOnboarding", { signedIn: true })} text="Help" icon={require("../assets/help-icon.png")} />
+            </View>
         </View>)
 }
 

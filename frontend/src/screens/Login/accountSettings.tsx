@@ -5,7 +5,7 @@ import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import ErrorText from "../../components/ErrorText";
 import { mapErrorCodeToMessage } from "../../utils/utils";
 import { useNavigation } from "@react-navigation/core";
-import { BLUE, ORANGE, PURPLE } from "../../constants/colors"
+import { BLUE, ORANGE, PURPLE } from "../../constants/colors";
 
 const fi = new FirebaseInteractor();
 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 32,
         color: BLUE,
-        marginBottom: 16
+        marginBottom: 16,
     },
     horizontalScroller: {
         flexDirection: "row",
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: BLUE,
         fontWeight: "600",
-        marginBottom: 16
+        marginBottom: 16,
     },
     button: {
         backgroundColor: ORANGE,
@@ -139,12 +139,11 @@ const styles = StyleSheet.create({
         fontWeight: '400'
     },
     logOutButton: {
-        marginTop: 11
+        marginTop: 11,
     },
     logOutText: {
         textDecorationLine: "underline",
         color: PURPLE,
-        fontSize: 18
-
+        fontSize: 18,
     },
 });
