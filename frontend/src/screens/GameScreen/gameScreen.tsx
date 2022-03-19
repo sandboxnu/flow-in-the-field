@@ -34,6 +34,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
     const [submitted, setSubmitted] = useState(false);
+    const [showAnswers, setShowAnswers] = useState(false);
     const navigation = useNavigation()
     const { sessionId } = props.route.params;
     const [currentRoundId, setCurrentRoundId] = useState<UID>("");
@@ -48,6 +49,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
                     setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
                     setSubmitted(false)
+                    setShowAnswers(false)
                     setIsLoading(false)
                 }).catch(console.error);
             }).catch(console.error);
@@ -98,6 +100,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             <DroppableRow
                 key={word.turkish}
                 showingResults={submitted}
+                showingAnswers={showAnswers}
                 wordDropped={getWordDroppedHandler(currentPairs, word, i)}
                 turkish={word.turkish}
                 english={word.english}
@@ -108,23 +111,36 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     }
 
     const renderSubmittedButtons = () => {
+      if (showAnswers) {
         return (<View style={styles.doneContainer}>
-            <PrimaryButton
-                disabled={isLoading}
-                onPress={() => {
-                    setIsLoading(true);
-                    restartRound()
-                }}
-                text="play again" />
-            <SecondaryButton
-                disabled={isLoading}
-                text="end session"
-                onPress={() => {
-                    fi.endRound(currentRoundId, getCorrectWords());
-                    fi.endSession(sessionId);
-                    navigation.navigate("HomeScreen");
-                }} />
+          <PrimaryButton
+              disabled={isLoading}
+              onPress={() => {
+                  setIsLoading(true);
+                  restartRound();
+                  // setSubmitted(false);
+                  // setShowAnswers(false);
+              }}
+              text="play again" />
+          <SecondaryButton
+              disabled={isLoading}
+              text="end session"
+              onPress={() => {
+                  fi.endRound(currentRoundId, getCorrectWords());
+                  fi.endSession(sessionId);
+                  navigation.navigate("HomeScreen");
+              }} />
+      </View>)
+      } else {
+        return (<View style={styles.doneContainer}>
+          <PrimaryButton
+          disabled={false}
+          onPress={() => {
+              setShowAnswers(true);
+          }}
+          text="next" />
         </View>)
+      }
     }
 
     const renderInProgressButtons = () => {
