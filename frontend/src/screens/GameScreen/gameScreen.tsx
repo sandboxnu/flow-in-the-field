@@ -43,13 +43,13 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [showingModal, setShowModal] = useState(true);
 
-    // ref
+    // ref for tutorial modal
     const bottomSheetRef = useRef<BottomSheet>(null);
 
-    // variables
+    // variables --> snap points for tutorial modal
     const snapPoints = useMemo(() => ['25%', '65%'], []);
 
-    // handle close press for bottom sheet modal
+    // handle close press for tutorial modal
     const handleClosePress = useCallback(() => {
         bottomSheetRef.current?.close();
         setShowModal(false);
@@ -60,6 +60,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             fi.startRound(sessionId).then(result => setCurrentRoundId(result));
         } else {
             fi.getUser().then(user => {
+                setUser(user);
                 fi.getRoundPairs(currentRoundId).then(words => {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
                     setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
