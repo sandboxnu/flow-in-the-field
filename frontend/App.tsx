@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { User, Word, UID, GameType } from "./src/models/types";
-import { StyleSheet, Text, View, Image, ViewStyle } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
@@ -12,6 +12,8 @@ import { HAS_SEEN_ONBOARDING } from './src/constants/startingStates';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
 import TestScreen from "./src/screens/TestScreen";
+import BackButton from './src/components/Button/BackButton';
+import FirebaseInteractor from './src/firebase/firebaseInteractor';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -40,7 +42,7 @@ export default function App() {
   };
 
   const [startingState, setStartingState] = useState<string>();
-
+  const fi = new FirebaseInteractor();
 
   useEffect(() => {
     AsyncStorage.getItem(HAS_SEEN_ONBOARDING).then(val => setStartingState(val ? "SignInFlow" : "Onboarding"));
@@ -56,7 +58,11 @@ export default function App() {
           <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
-          <Stack.Screen name="GameScreen" component={GameScreenFlow} />
+          <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
+            headerLeft: () => <BackButton onPress={() => {
+              // TODO this may have to live elsewhere to get roundId
+            }}/>
+          }}/>
           <Stack.Screen name="TestScreen" component={TestScreen} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
