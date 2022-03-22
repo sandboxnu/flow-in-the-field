@@ -4,6 +4,7 @@ import { DraxView } from "react-native-drax";
 import { BLUE, GREY, ORANGE } from "../constants/colors";
 interface DroppableRowProps {
     turkish: string,
+    englishSelectingWord?: string,
     english?: string,
     correctEnglish: string,
     removeWord: () => void;
@@ -13,13 +14,20 @@ interface DroppableRowProps {
     isPairing: boolean
 }
 
-export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, showingAnswers, correctEnglish, isPairing }: DroppableRowProps) {
+export default function DroppableRow({ turkish, englishSelectingWord, english, removeWord, wordDropped, showingResults, showingAnswers, correctEnglish, isPairing }: DroppableRowProps) {
     const correct = english === correctEnglish;
     const unusedSelectingWord = !english && !isPairing;
 
     let extraTurkishInfo;
     let extraEnglishInfo;
-    if (showingResults) {
+
+    if (showingAnswers) {
+        if (isPairing && !correct || !isPairing && !correct && englishSelectingWord === correctEnglish) {
+            extraEnglishInfo = {...styles.englishTextContainer, borderColor: "#5BBAB7"};
+        }
+        extraTurkishInfo = showingResultsStyles.correctTurkishWord;
+    }
+    else if (showingResults) {
         if (correct) {
             extraTurkishInfo = showingResultsStyles.correctTurkishWord;
             extraEnglishInfo = styles.englishTextContainer;

@@ -96,18 +96,37 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     }
 
     const renderTurkishWords = () => {
-        return currentPairs?.map((word, i) => (
-            <DroppableRow
-                key={word.turkish}
-                showingResults={submitted}
-                showingAnswers={showAnswers}
-                wordDropped={getWordDroppedHandler(currentPairs, word, i)}
-                turkish={word.turkish}
-                english={word.english}
-                correctEnglish={word.correctEnglishWord}
-                removeWord={getRemoveWordHandler(currentPairs, word, i)}
-                isPairing={props.isPairing}
+        if (props.isPairing) {
+            return currentPairs?.map((word, i) => (
+                <DroppableRow
+                    key={word.turkish}
+                    showingResults={submitted}
+                    showingAnswers={showAnswers}
+                    wordDropped={getWordDroppedHandler(currentPairs, word, i)}
+                    turkish={word.turkish}
+                    english={word.english}
+                    correctEnglish={word.correctEnglishWord}
+                    removeWord={getRemoveWordHandler(currentPairs, word, i)}
+                    isPairing={props.isPairing}
             />))
+        }
+        else {
+            return currentPairs?.map((word, i) => 
+                    englishWords.map((englishWord) => (
+                        <DroppableRow
+                            key={word.turkish}
+                            showingResults={submitted}
+                            showingAnswers={showAnswers}
+                            wordDropped={getWordDroppedHandler(currentPairs, word, i)}
+                            turkish={word.turkish}
+                            englishSelectingWord={englishWord}
+                            english={word.english}
+                            correctEnglish={word.correctEnglishWord}
+                            removeWord={getRemoveWordHandler(currentPairs, word, i)}
+                            isPairing={props.isPairing}
+                    />))
+                )
+        }
     }
 
     const renderSubmittedButtons = () => {
