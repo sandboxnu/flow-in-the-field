@@ -13,6 +13,7 @@ const tutorialImages = {
     page5Pairing: require('../../assets/pairing-tutorial-page-5.png'),
     page5Selecting: require('../../assets/selecting-tutorial-page-5.png'),
     page6: require('../../assets/tutorial-page-6.png'),
+    page7: require('../../assets/tutorial-page-7.png')
 };
 
 interface GameTutorialScreenProps {
@@ -67,9 +68,16 @@ export default function GameTutorialScreens({
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
+                    "When you've pressed next, the correct answers " +
+                    "to the turkish word you matched incorrectly will " +
+                    "be outlined in green."}
+                imagePath={tutorialImages.page6}
+                onFinish={onFinish}/>
+            <GameTutorialScreen
+                screenContent={
                     `Click "play again" to restart the game or "end session" ` +
                     `to return to the home page.`}
-                imagePath={tutorialImages.page6}
+                imagePath={tutorialImages.page7}
                 onFinish={onFinish}/>                   
             <GameTutorialScreen
                 screenContent={
