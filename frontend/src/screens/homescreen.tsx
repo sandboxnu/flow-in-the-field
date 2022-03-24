@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import TextIconButton from "../components/Button/TextIconButton";
 import SmallTextIconButton from "../components/Button/SmallTextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
@@ -10,11 +9,13 @@ import { User, UID } from "../models/types";
 import "intl";
 import 'intl/locale-data/jsonp/en';
 import { LoadingScreen } from "../components/LoadingScreen";
+import { GameStateContext } from "../utils/context";
 
 const fi = new FirebaseInteractor();
 
 export default function Homescreen() {
     const [user, setUser] = useState<User>();
+    const gameStateContext = useContext(GameStateContext);
 
     useEffect(() => {
         fi.getUser().then(setUser).catch(console.error);
@@ -27,7 +28,10 @@ export default function Homescreen() {
     }
 
     const startSession = () => {
-        fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", { sessionId: sessionId }))
+        fi.startSession().then((sessionId: UID) => {
+            navigation.navigate("GameScreen", { sessionId: sessionId });
+            gameStateContext.updateSessionId(sessionId);
+        })
     }
 
     const testAvailable = () => {

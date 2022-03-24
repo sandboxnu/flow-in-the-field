@@ -16,3 +16,6 @@ export default function BackButton(props: BackButtonProps) {
         }}
         title="Back" /> // TODO: Change Back to chevron
 }
+
+// TODO: Disable being able to swipe to go back
+// TODO: Edge case: Android hardware back button

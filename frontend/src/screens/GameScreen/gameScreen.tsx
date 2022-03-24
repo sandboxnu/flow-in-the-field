@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { UID } from "../../models/types";
 import { durstenfeldShuffle } from "../../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../../components/DroppableRow";
@@ -10,6 +9,7 @@ import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../../components/LoadingScreen";
 import PrimaryButton from "../../components/Button/PrimaryButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
+import { GameStateContext } from "../../utils/context";
 
 const fi = new FirebaseInteractor();
 
@@ -35,16 +35,15 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
     const [submitted, setSubmitted] = useState(false);
     const navigation = useNavigation()
-    const { sessionId } = props.route.params;
-    const [currentRoundId, setCurrentRoundId] = useState<UID>("");
     const [isLoading, setIsLoading] = useState(false);
+    const gameStateContext = useContext(GameStateContext);
 
     useEffect(() => {
-        if (currentRoundId == "") {
-            fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        if (gameStateContext.roundId == "") {
+            fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
         } else {
             fi.getUser().then(user => {
-                fi.getRoundPairs(currentRoundId).then(words => {
+                fi.getRoundPairs(gameStateContext.roundId).then(words => {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
                     setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
                     setSubmitted(false)
@@ -52,15 +51,15 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 }).catch(console.error);
             }).catch(console.error);
         }
-    }, [currentRoundId]);
+    }, [gameStateContext.roundId]); // TODO: Ensure this doesn't break anything effect-wise
 
     if (englishWords === undefined) {
         return <LoadingScreen />
     }
 
     const restartRound = () => {
-        fi.endRound(currentRoundId, getCorrectWords());
-        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        fi.endRound(gameStateContext.roundId, getCorrectWords());
+        fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
     }
 
     //Returns a function that updates the state of the player's current pairs by
@@ -120,8 +119,8 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 disabled={isLoading}
                 text="end session"
                 onPress={() => {
-                    fi.endRound(currentRoundId, getCorrectWords());
-                    fi.endSession(sessionId);
+                    fi.endRound(gameStateContext.roundId, getCorrectWords());
+                    fi.endSession(gameStateContext.sessionId);
                     navigation.navigate("HomeScreen");
                 }} />
         </View>)
