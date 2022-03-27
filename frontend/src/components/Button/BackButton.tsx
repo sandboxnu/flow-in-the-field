@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Button } from "react-native";
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 interface BackButtonProps {
     onPress: () => void;
 }
@@ -9,12 +8,15 @@ interface BackButtonProps {
 export default function BackButton(props: BackButtonProps) {
     let navigation = useNavigation();
 
-    return <Button
+    return <Icon.Button
         onPress={() => {
             props.onPress();
             navigation.goBack();
         }}
-        title="Back" /> // TODO: Change Back to chevron
+        name='chevron-left'
+        color='#D16B50'
+        backgroundColor='transparent'
+    />
 }
 
 // TODO: Disable being able to swipe to go back
