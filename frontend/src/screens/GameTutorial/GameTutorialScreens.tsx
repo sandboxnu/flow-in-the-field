@@ -9,7 +9,6 @@ const tutorialImages = {
 	page1: require('../../assets/tutorial-page-1.png'),
 	page2: require('../../assets/tutorial-page-2.png'),
 	page3: require('../../assets/tutorial-page-3.png'),
-    page4: require('../../assets/tutorial-page-4.png'),
     page5Pairing: require('../../assets/pairing-tutorial-page-5.png'),
     page5Selecting: require('../../assets/selecting-tutorial-page-5.png'),
     page6: require('../../assets/tutorial-page-6.png'),
@@ -54,7 +53,7 @@ export default function GameTutorialScreens({
                 screenContent={
                     "Once you have matched all the words, press done to " +
                     "submit your answers."}
-                imagePath={tutorialImages.page4}
+                doneButton={true}
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={

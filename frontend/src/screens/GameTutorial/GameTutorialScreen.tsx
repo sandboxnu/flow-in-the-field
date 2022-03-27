@@ -9,6 +9,7 @@ const fi = new FirebaseInteractor();
 interface GameTutorialScreenProps {
     screenContent: string;
     secondaryScreenContent?: string;
+    doneButton?: boolean;
     imagePath?: Object;
     hasNavButton?: boolean;
     navButtonTitle?: string;
@@ -19,6 +20,7 @@ interface GameTutorialScreenProps {
 export default function GameTutorialScreen({
     screenContent,
     secondaryScreenContent,
+    doneButton,
     imagePath,
     hasNavButton,
     navButtonTitle,
@@ -57,6 +59,11 @@ export default function GameTutorialScreen({
             {/* Places image for all pages that have it (all but final page) */}
             {imagePath &&
                 <Image style={styles.image} source={imagePath}/>}
+            {/* Places done button (no behavior on press) on page */}
+            {doneButton &&
+                <Pressable style={styles.button}>
+                    <Text style={styles.buttonContent}>{ "done" }</Text>
+                </Pressable>}
             {/* Places screen content for final page */}
             {hasNavButton &&
                     <Text style={styles.content}>{ screenContent }</Text>} 
