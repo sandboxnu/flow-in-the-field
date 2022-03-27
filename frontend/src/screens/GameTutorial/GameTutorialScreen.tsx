@@ -69,6 +69,90 @@ export default function GameTutorialScreen({
     )
 }
 
+// const styles = StyleSheet.create({
+//     container: {
+//         // flex: 1,
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//         justifyContent: 'flex-start',
+//         backgroundColor: '#FFF',
+//         paddingLeft: "6%",
+//         paddingRight: "6%",
+//     },
+//     imageContainer: {
+//         // flex: 0,
+//         // marginTop: "10%",
+//         // justifyContent: 'center',
+//         // alignItems: 'center',
+//         height: "70%"
+//     },
+//     image: {
+//         // position: 'absolute',
+//         // height: "20%",
+//         flex: 0,
+//         maxHeight: "25%",
+//         width: '90%',
+//         // marginTop: "15%",
+//         // padding: "22%",
+//         resizeMode: 'contain',
+//         // marginBottom: "8%",
+//     },
+//     contentView: {
+//         flex: 1
+//     },
+//     secondaryContentView: {
+//         flex: 1.5
+//     },
+//     content: {
+//         fontFamily: 'Avenir Next',
+//         fontWeight: '500',
+//         fontSize: 18,
+//         // marginBottom: "15%",
+//         color: '#000000',
+//         textAlign: 'left'
+//     },
+//     button: {
+//         // flex: 1,
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//         backgroundColor: ORANGE,
+//         width: "38%",
+//         maxHeight: "6%",
+//         marginTop: "7%",
+//         borderRadius: 8,
+//         overflow: 'hidden'
+//     },
+//     buttonContent: {
+//         backgroundColor: ORANGE,
+//         fontFamily: 'Futura',
+//         fontSize: 20,
+//         color: '#FFF',
+//     },
+//     howToPlay: {
+//         fontSize: 24,
+//         fontWeight: "bold",
+//         color: "#5EAFDF",
+//         paddingTop: "3%",
+//         paddingBottom: "10%",
+//         marginRight: "46%",
+//     },
+//     skip: {
+//         fontSize: 18,
+//         color: "#979797",
+//         paddingTop: "3%",
+//         paddingBottom: "10%",
+//     },
+//     startPlaying: {
+//         fontSize: 24,
+//         fontWeight: "bold",
+//         color: "#5EAFDF",
+//         paddingTop: "4%",
+//         paddingBottom: "10%",
+//         textAlign: "center",
+//     }
+// });
+
+// old styling
 const styles = StyleSheet.create({
     container: {
         flex: 1,

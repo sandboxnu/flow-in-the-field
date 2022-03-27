@@ -47,7 +47,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const bottomSheetRef = useRef<BottomSheet>(null);
 
     // variables --> snap points for tutorial modal
-    const snapPoints = useMemo(() => ['25%', '65%'], []);
+    const snapPoints = useMemo(() => ['25%', '80%'], []);
 
     // handle close press for tutorial modal
     const handleClosePress = useCallback(() => {
