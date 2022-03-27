@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 import GameTutorialScreen from './GameTutorialScreen';
-import { LIGHTPURPLE, TURQUOISE } from '../../constants/colors';
+import { LIGHTPURPLE } from '../../constants/colors';
 import Swiper from 'react-native-swiper';
 
 // Images to display on pairing and selecting tutorial pages
