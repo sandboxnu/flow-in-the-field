@@ -5,11 +5,11 @@ import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { UID } from "../../models/types";
 import { durstenfeldShuffle } from "../../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
-import DroppableRow from "../../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../../components/LoadingScreen";
 import PrimaryButton from "../../components/Button/PrimaryButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
+import CustomRow from "../../components/CustomRow";
 
 const fi = new FirebaseInteractor();
 
@@ -98,7 +98,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const renderTurkishWords = () => {
         if (props.isPairing) {
             return currentPairs?.map((word, i) => (
-                <DroppableRow
+                <CustomRow
                     key={word.turkish}
                     showingResults={submitted}
                     showingAnswers={showAnswers}
@@ -113,7 +113,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         else {
             return currentPairs?.map((word, i) => 
                     englishWords.map((englishWord) => (
-                        <DroppableRow
+                        <CustomRow
                             key={word.turkish}
                             showingResults={submitted}
                             showingAnswers={showAnswers}
@@ -137,8 +137,6 @@ export default function GameScreen(props: SpecificGameScreenProps) {
               onPress={() => {
                   setIsLoading(true);
                   restartRound();
-                  // setSubmitted(false);
-                  // setShowAnswers(false);
               }}
               text="play again" />
           <SecondaryButton
@@ -167,7 +165,12 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             <PrimaryButton
                 disabled={!canClickDoneButton || isLoading}
                 text="done"
-                onPress={() => setSubmitted(true)} />
+                onPress={() => {
+                  setSubmitted(true)
+                  if (getNumCorrectWords() > 0 && !props.isPairing || getNumCorrectWords() == currentPairs?.length && props.isPairing) {
+                    setShowAnswers(true);
+                  }
+                }} />
         </View>
         )
     }
@@ -188,10 +191,6 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     }
 
     const getCorrectWords = () => {
-        if (!submitted) {
-            return null
-        }
-
         const correctWords = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
             .map((maybeWordPair) => ({
                 turkish: maybeWordPair.turkish,

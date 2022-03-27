@@ -4,51 +4,25 @@ import { DraxView } from "react-native-drax";
 import { BLUE, GREY, ORANGE } from "../constants/colors";
 interface DroppableRowProps {
     turkish: string,
-    englishSelectingWord?: string,
     english?: string,
-    correctEnglish: string,
     removeWord: () => void;
     wordDropped: (word: string) => void;
-    showingResults: boolean,
-    showingAnswers: boolean, 
     isPairing: boolean
 }
 
-export default function DroppableRow({ turkish, englishSelectingWord, english, removeWord, wordDropped, showingResults, showingAnswers, correctEnglish, isPairing }: DroppableRowProps) {
-    const correct = english === correctEnglish;
+export default function DroppableRow({ turkish, english, removeWord, wordDropped, isPairing }: DroppableRowProps) {
     const unusedSelectingWord = !english && !isPairing;
 
-    let extraTurkishInfo;
-    let extraEnglishInfo;
-
-    if (showingAnswers) {
-        if (isPairing && !correct || !isPairing && !correct && englishSelectingWord === correctEnglish) {
-            extraEnglishInfo = {...styles.englishTextContainer, borderColor: "#5BBAB7"};
-        }
-        extraTurkishInfo = showingResultsStyles.correctTurkishWord;
-    }
-    else if (showingResults) {
-        if (correct) {
-            extraTurkishInfo = showingResultsStyles.correctTurkishWord;
-            extraEnglishInfo = styles.englishTextContainer;
-        } else if (unusedSelectingWord) {
-            extraTurkishInfo = showingResultsStyles.unusedTurkishWord;
-            extraEnglishInfo = styles.englishTextContainer;
-        } else {
-            extraTurkishInfo = showingResultsStyles.incorrectTurkishWord
-            extraEnglishInfo = showingResultsStyles.incorrectEnglishWord;
-        }
-    }
 
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
-        <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
-            <Text style={{ ...styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
+        <View style={{ ...styles.turkishContainer}}>
+            <Text style={{ ...styles.turkishText}}>{turkish}</Text>
         </View>
-        {(english || showingResults) ?
-            <DraxView style={{...styles.englishTextContainer, ...extraEnglishInfo}}
-                dragPayload={showingResults ? undefined : english} 
-                draggable={!showingResults}
+        {(english) ?
+            <DraxView style={{ ...styles.englishTextContainer }}
+                dragPayload={english} 
+                draggable={true}
                 draggingStyle={{opacity: 0.3}} 
                 dragReleasedStyle={{opacity: 0.3}} 
                 key={1}
@@ -66,9 +40,7 @@ export default function DroppableRow({ turkish, englishSelectingWord, english, r
                     setDragging(false)
                 }} // This is a hack since there is no way to interact draxview with a touch handler
                 longPressDelay={1}>
-                <Text style={styles.englishText}>
-                    {showingAnswers ? correctEnglish : english}
-                </Text>
+                <Text style={styles.englishText}>{english}</Text>
             </DraxView>
             
             : <DraxView style={styles.draxView}
@@ -81,10 +53,6 @@ export default function DroppableRow({ turkish, englishSelectingWord, english, r
 
 const showingResultsStyles = StyleSheet.create({
     incorrectTurkishWord: {
-        backgroundColor: ORANGE,
-        borderColor: "transparent"
-    },
-    incorrectEnglishWord: {
         backgroundColor: ORANGE,
         borderColor: "transparent"
     },
