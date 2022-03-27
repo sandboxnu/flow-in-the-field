@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import GameTutorialScreen from './GameTutorialScreen';
 import { LIGHTPURPLE, TURQUOISE } from '../../constants/colors';
 import Swiper from 'react-native-swiper';
@@ -20,6 +20,70 @@ interface GameTutorialScreenProps {
     onFinish: Function;
 }
 
+const customRenderPagination = (index: number, total: number, context: any) => {
+
+  const defaultStyles = StyleSheet.create({
+    dots: {
+      width: 16,
+      height: 16,
+      borderRadius: 16,
+      marginLeft: 3,
+      marginRight: 3,
+      marginTop: 3,
+      marginBottom: 3
+    }
+  })
+
+  const styles = StyleSheet.create({
+    seenDots: {
+      ...defaultStyles.dots,
+      backgroundColor: LIGHTPURPLE,
+    },
+    unseenDots: {
+      ...defaultStyles.dots,
+      backgroundColor: 'white',
+      borderWidth: 2,
+      borderColor: LIGHTPURPLE,
+    },
+    pagination: {
+      position: 'absolute',
+      bottom: 25,
+      left: 0,
+      right: 0,
+      flexDirection: 'row',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'transparent'
+    }
+  });
+
+  // By default, dots only show when `total` >= 2
+  if (total <= 1) return null
+
+  const SeenDot = <View style={styles.seenDots}/>;
+
+  const UnseenDot = <View style={styles.unseenDots}/>;
+
+  let dots = [];
+  for (let i = 0; i < context.state.total; i++) {
+    dots.push(
+      i <= index
+        ? React.cloneElement(SeenDot, { key: i })
+        : React.cloneElement(UnseenDot, { key: i })
+    )
+  }
+
+  return (
+    <View
+      pointerEvents="none"
+      style={styles.pagination}
+    >
+      {dots}
+    </View>
+  )
+}
+
 export default function GameTutorialScreens({
     isPairing,
     onFinish,
@@ -30,8 +94,7 @@ export default function GameTutorialScreens({
             showsButtons={false}
             loop={false}
             pagingEnabled={true}
-            dotStyle={styles.dots}
-            activeDotStyle={styles.activeDots}>
+            renderPagination={customRenderPagination}>
             <GameTutorialScreen
                 screenContent={
                     "Drag the English word into the box that matches with " +
@@ -87,18 +150,3 @@ export default function GameTutorialScreens({
         </Swiper>
     )
 }
-
-const styles = StyleSheet.create({
-    dots: {
-        backgroundColor: LIGHTPURPLE,
-        width: 16,
-        height: 16,
-        borderRadius: 16
-    },
-    activeDots: {
-        backgroundColor: TURQUOISE,
-        width: 16,
-        height: 16,
-        borderRadius: 16
-    }
-});
