@@ -43,8 +43,8 @@ export default function App() {
   };
 
   const [startingState, setStartingState] = useState<string>();
-  const [currentRoundId, setCurrentRoundId] = useState<UID>()
-  const [currentSessionId, setCurrentSessionId] = useState<UID>();
+  const [currentRoundId, setCurrentRoundId] = useState("")
+  const [currentSessionId, setCurrentSessionId] = useState("");
   const fi = new FirebaseInteractor();
 
   function onRoundChange(newRoundId: UID) {
@@ -63,8 +63,8 @@ export default function App() {
   } else {
     return (
       <GameStateContext.Provider value={{
-        sessionId: "",
-        roundId: "",
+        sessionId: currentSessionId,
+        roundId: currentRoundId,
         updateRoundId: onRoundChange,
         updateSessionId: onSessionChange
       }}>
@@ -77,7 +77,8 @@ export default function App() {
             <Stack.Screen name="SettingsScreen" component={AccountSettings} />
             <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
               headerLeft: () => <BackButton onPress={() => {
-                // TODO this may have to live elsewhere to get roundId
+                fi.endRound(currentRoundId, null);
+                fi.endSession(currentSessionId);
               }} />
             }} />
             <Stack.Screen name="TestScreen" component={TestScreen} />

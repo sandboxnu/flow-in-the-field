@@ -40,7 +40,9 @@ export default function GameScreen(props: SpecificGameScreenProps) {
 
     useEffect(() => {
         if (gameStateContext.roundId == "") {
-            fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
+            fi.startRound(gameStateContext.sessionId).then(async result => {
+                gameStateContext.updateRoundId(result)
+            });
         } else {
             fi.getUser().then(user => {
                 fi.getRoundPairs(gameStateContext.roundId).then(words => {
@@ -51,7 +53,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 }).catch(console.error);
             }).catch(console.error);
         }
-    }, [gameStateContext.roundId]); // TODO: Ensure this doesn't break anything effect-wise
+    }, [gameStateContext.roundId]);
 
     if (englishWords === undefined) {
         return <LoadingScreen />
