@@ -19,5 +19,4 @@ export default function BackButton(props: BackButtonProps) {
     />
 }
 
-// TODO: Disable being able to swipe to go back
-// TODO: Edge case: Android hardware back button
+// TODO: Edge case: Android hardware back button (bottom of screen)

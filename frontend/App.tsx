@@ -76,10 +76,15 @@ export default function App() {
             <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
             <Stack.Screen name="SettingsScreen" component={AccountSettings} />
             <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-              headerLeft: () => <BackButton onPress={() => {
-                fi.endRound(currentRoundId, null);
-                fi.endSession(currentSessionId);
-              }} />
+              headerLeft: () =>
+                <BackButton
+                  onPress={() => {
+                    fi.endRound(currentRoundId, null);
+                    fi.endSession(currentSessionId);
+                  }}
+                />,
+              headerBackVisible: false,
+              gestureEnabled: false,
             }} />
             <Stack.Screen name="TestScreen" component={TestScreen} />
             <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
