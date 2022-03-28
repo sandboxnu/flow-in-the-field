@@ -12,6 +12,7 @@ import { HAS_SEEN_ONBOARDING } from './src/constants/startingStates';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
 import TestScreen from "./src/screens/TestScreen";
+import AdminScreen from './src/screens/adminScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -58,6 +59,7 @@ export default function App() {
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} />
           <Stack.Screen name="TestScreen" component={TestScreen} />
+          <Stack.Screen name="AdminScreen" component={AdminScreen} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

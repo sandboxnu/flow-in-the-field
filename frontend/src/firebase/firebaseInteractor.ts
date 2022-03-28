@@ -6,6 +6,7 @@ import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addD
 import { User, Word, Session, Round, GameType, UID } from "../models/types";
 import Constants from "expo-constants";
 import _MetricsCollector from "./MetricsCollector";
+import { Role } from "../constants/role";
 
 const { manifest } = Constants;
 
@@ -91,6 +92,7 @@ export default class FirebaseInteractor {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
+            role: Role.PARTICIPANT
         });
     }
 
@@ -151,7 +153,8 @@ export default class FirebaseInteractor {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
                 numPairs: docData.numPairs,
-                gameType: docData.gameType
+                gameType: docData.gameType,
+                role: docData.role as Role ?? Role.PARTICIPANT
             }
         }
 
