@@ -93,6 +93,7 @@ export default class FirebaseInteractor {
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
             role: Role.PARTICIPANT
+            hasFinishedTutorial: false,
         });
     }
 
@@ -155,6 +156,7 @@ export default class FirebaseInteractor {
                 numPairs: docData.numPairs,
                 gameType: docData.gameType,
                 role: docData.role as Role ?? Role.PARTICIPANT
+                hasFinishedTutorial: docData.hasFinishedTutorial
             }
         }
 
@@ -222,5 +224,28 @@ export default class FirebaseInteractor {
         let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({ english, turkish }) => ({ english, turkish }))
         durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
+    }
+
+    // Updates the state of hasFinishedTutorial for this user to be true
+    async updateHasFinishedTutorial() {
+        const user = this.auth.currentUser;
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+        const userDoc = doc(this.db, "users", user.uid)
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        await setDoc(userDoc, {
+            numPairs: docData.numPairs,
+            gameType: docData.gameType,
+            testDate: docData.testDate.toDate(),
+            hasFinishedTutorial: true,
+        });
     }
 }
