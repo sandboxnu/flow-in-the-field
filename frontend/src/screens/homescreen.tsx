@@ -38,9 +38,11 @@ export default function Homescreen() {
     }
 
     const startTest = () => {
-        if (testAvailable()) {
-            navigation.navigate("TestScreen");
-        }
+        // if (testAvailable()) {
+        //     navigation.navigate("TestScreen");
+        // }
+
+        navigation.navigate("TestWelcomeScreen");
     }
 
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
