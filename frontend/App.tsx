@@ -15,6 +15,7 @@ import TestScreen from "./src/screens/TestScreen";
 import BackButton from './src/components/Button/BackButton';
 import FirebaseInteractor from './src/firebase/firebaseInteractor';
 import { GameStateContext } from './src/utils/context';
+import AdminScreen from './src/screens/adminScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -87,6 +88,7 @@ export default function App() {
               gestureEnabled: false,
             }} />
             <Stack.Screen name="TestScreen" component={TestScreen} />
+            <Stack.Screen name="AdminScreen" component={AdminScreen} />
             <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>

@@ -10,6 +10,8 @@ import "intl";
 import 'intl/locale-data/jsonp/en';
 import { LoadingScreen } from "../components/LoadingScreen";
 import { GameStateContext } from "../utils/context";
+import { Role } from "../constants/role";
+import PrimaryButton from "../components/Button/PrimaryButton";
 
 const fi = new FirebaseInteractor();
 
@@ -65,6 +67,7 @@ export default function Homescreen() {
             </View>
             <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
             <TextIconButton onPress={() => startTest()} text="Take the test" icon={require("../assets/flow-icon-test.png")} testNotAvailable={!testAvailable()} />
+            {user.role == Role.ADMIN ? <PrimaryButton onPress={() => navigation.navigate("AdminScreen")} text="Admin" disabled={false} /> : <View />}
             <View style={{ flexDirection: "row" }}>
                 <SmallTextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
                 <SmallTextIconButton onPress={() => navigation.navigate("RevisitOnboarding", { signedIn: true })} text="Help" icon={require("../assets/help-icon.png")} />
