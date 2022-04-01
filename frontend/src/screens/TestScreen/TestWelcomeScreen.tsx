@@ -18,10 +18,10 @@ const TEST_WELCOME_HEADER_OPTIONS = {
     headerTintColor: '#D16B50',
     headerBackTitle: '',
     headerStyle: {
-      backgroundColor: '#FFF',
-      elevation: 0,
-      shadowOpacity: 0,
-      borderBottomWidth: 0,
+        backgroundColor: '#6E81E7',
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0,
     }
   }
 
@@ -36,14 +36,7 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
     const navigation = useNavigation();
 
     React.useLayoutEffect(() => {
-        navigation.setOptions({
-          ...TEST_WELCOME_HEADER_OPTIONS, headerStyle: {
-                                        backgroundColor: '#6E81E7',
-                                        elevation: 0,
-                                        shadowOpacity: 0,
-                                        borderBottomWidth: 0,
-                                    }
-        });
+        navigation.setOptions(TEST_WELCOME_HEADER_OPTIONS);
       }, [navigation]);
 
       const startTest= () => {
