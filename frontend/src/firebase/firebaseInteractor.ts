@@ -92,8 +92,8 @@ export default class FirebaseInteractor {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
-            role: Role.PARTICIPANT
-            hasFinishedTutorial: false,
+            role: Role.PARTICIPANT,
+            hasFinishedTutorial: false
         });
     }
 
@@ -155,8 +155,8 @@ export default class FirebaseInteractor {
                 testDate: docData.testDate.toDate(),
                 numPairs: docData.numPairs,
                 gameType: docData.gameType,
-                role: docData.role as Role ?? Role.PARTICIPANT
-                hasFinishedTutorial: docData.hasFinishedTutorial
+                role: docData.role as Role ?? Role.PARTICIPANT,
+                hasFinishedTutorial: docData.hasFinishedTutorial as boolean ?? false
             }
         }
 
