@@ -9,9 +9,8 @@ import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
 import PrimaryButton from "../components/Button/PrimaryButton";
-import { jsonToCSV } from "react-native-csv";
 import { collection } from "firebase/firestore";
-import { wow } from "../firebase/csvExporter";
+import { promptExportEmail } from "../firebase/csvExporter";
 
 const fi = new FirebaseInteractor();
 
@@ -25,7 +24,7 @@ export default function AdminScreen(props: AdminScreenProps) {
         <DraxProvider>
             <Text>This is admin placeholder hooray</Text>
             <PrimaryButton onPress={() => {
-                wow().then(console.log);
+                promptExportEmail();
             }} disabled={false} text="create csv" />
         </DraxProvider>
     )
