@@ -39,6 +39,7 @@ export default function Homescreen() {
         return timeUntilTest <= 0;
     }
 
+    // TODO: Uncomment this once done testing the test flow
     const startTest = () => {
         // if (testAvailable()) {
         //     navigation.navigate("TestScreen");

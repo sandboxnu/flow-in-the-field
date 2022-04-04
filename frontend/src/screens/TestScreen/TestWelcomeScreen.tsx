@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import TextIconButton from "../../components/Button/TextIconButton";
-import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { User, Word, UID, GameType } from "../../models/types";
-import { durstenfeldShuffle } from "../../utils/utils";
-import { DraxView, DraxProvider } from "react-native-drax";
-import DroppableRow from "../../components/DroppableRow";
+import { DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
-import { LoadingScreen } from "../../components/LoadingScreen";
 
 const TEST_WELCOME_HEADER_OPTIONS = {
-    headerTitle: () => { return <Image style={styles.mainImage} source={require('../../assets/flow-icon.png')} /> },
+    headerTitle: () => { return <Image style={styles.mainImage} source={require('../../assets/flow-icon-light.png')} /> },
     title: '',
     headerTitleAlign: "center" as "center",
     headerShadowVisible: false,

@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
-import { BLUE, GREY } from "../../constants/colors";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { User, Word, UID, GameType } from "../../models/types";
-import { durstenfeldShuffle } from "../../utils/utils";
-import { DraxView, DraxProvider } from "react-native-drax";
-import DroppableRow from "../../components/DroppableRow";
+import { DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
-import { LoadingScreen } from "../../components/LoadingScreen";
-import { NavigationContainer } from "@react-navigation/native";
 import AnimatedBar from "react-native-animated-bar";
 
 const fi = new FirebaseInteractor();
@@ -40,7 +34,7 @@ export default function TestScreen(props: TestScreenProps) {
     const numQuestions = 50;
     const TESTWORDS = require('./testWords.json');
     const [answer, setAnswer] = useState<string>("");
-    const[answers, setAnswers] = useState<string[]>([]);
+    const [answers, setAnswers] = useState<string[]>([]);
     const answerKey = ['no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes'];
 
     const gradeAnswers = () => {
@@ -58,14 +52,21 @@ export default function TestScreen(props: TestScreenProps) {
       }, [navigation]);
 
     const testButtonOnPress = () => {
-        setAnswers([...answers, answer])
         if (page < numQuestions) {
-            setAnswer("");
             setPage(page + 1);
         } else {
-            navigation.navigate("TestResultsScreen", { correct: gradeAnswers(), total: 50 })
+            navigation.navigate("TestResultsScreen", { correct: gradeAnswers(), total: numQuestions });
         }
     }
+
+    useEffect(() => {
+        // if (answer === "yes" || answer === "no") {
+            setAnswers([...answers, answer]);
+            let qAnswer = answer;
+            console.log(qAnswer);
+            setAnswer("");
+        // }
+    }, [page]);
 
 
     return (
