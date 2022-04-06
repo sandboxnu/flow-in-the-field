@@ -40,7 +40,7 @@ export default function TestScreen(props: TestScreenProps) {
     const gradeAnswers = () => {
         let correctAnswers = 0;
         for (let question = 1; question <= numQuestions; question++) {
-            if (answers[question - 1] === answerKey[question - 1]) {
+            if (answers && answers[question - 1] === answerKey[question - 1]) {
                 correctAnswers++;
             }
         }
@@ -51,23 +51,19 @@ export default function TestScreen(props: TestScreenProps) {
         navigation.setOptions(TEST_HEADER_OPTIONS);
       }, [navigation]);
 
+      useEffect(() => {
+        if (answers.length == numQuestions) {
+            navigation.navigate("TestResultsScreen", { correct: gradeAnswers(), total: numQuestions });
+        } 
+      }, [answers])
+
     const testButtonOnPress = () => {
+        setAnswers([...answers, answer]);
+        setAnswer("");
         if (page < numQuestions) {
             setPage(page + 1);
-        } else {
-            navigation.navigate("TestResultsScreen", { correct: gradeAnswers(), total: numQuestions });
         }
     }
-
-    useEffect(() => {
-        // if (answer === "yes" || answer === "no") {
-            setAnswers([...answers, answer]);
-            let qAnswer = answer;
-            console.log(qAnswer);
-            setAnswer("");
-        // }
-    }, [page]);
-
 
     return (
         <DraxProvider>
