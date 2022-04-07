@@ -42,7 +42,7 @@ export default function Homescreen() {
     // TODO: Uncomment this once done testing the test flow
     const startTest = () => {
         // if (testAvailable()) {
-        //     navigation.navigate("TestScreen");
+        //     navigation.navigate("TestWelcomeScreen");
         // }
 
         navigation.navigate("TestWelcomeScreen");

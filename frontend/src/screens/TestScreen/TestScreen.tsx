@@ -30,6 +30,7 @@ export interface TestScreenProps {
 export default function TestScreen(props: TestScreenProps) {
 
     const navigation = useNavigation();
+    const { testId } = props.route.params;
     const [page, setPage] = useState<number>(1);
     const numQuestions = 50;
     const TESTWORDS = require('./testWords.json');
@@ -47,13 +48,37 @@ export default function TestScreen(props: TestScreenProps) {
         return correctAnswers;
     }
 
+    const getCorrectWords = () => {
+        // const correctWords = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
+        //     .map((maybeWordPair) => ({
+        //         turkish: maybeWordPair.turkish,
+        //         english: maybeWordPair.correctEnglishWord
+        //     })) ?? null
+
+        let correctWordsArray = [];
+
+        for (let question = 1; question <= numQuestions; question++) {
+            if (answers && answers[question - 1] === answerKey[question - 1]) {
+                correctWordsArray.push({
+                    english: ,
+                    turkish: ,
+                    answer: answerKey[question - 1]
+                })
+            }
+        }
+
+        return correctWordsArray;
+    }
+
     React.useLayoutEffect(() => {
         navigation.setOptions(TEST_HEADER_OPTIONS);
       }, [navigation]);
 
       useEffect(() => {
         if (answers.length == numQuestions) {
-            navigation.navigate("TestResultsScreen", { correct: gradeAnswers(), total: numQuestions });
+            let score = gradeAnswers();
+            fi.endTest(testId, score, getCorrectWords());
+            navigation.navigate("TestResultsScreen", { correct: score, total: numQuestions });
         } 
       }, [answers])
 

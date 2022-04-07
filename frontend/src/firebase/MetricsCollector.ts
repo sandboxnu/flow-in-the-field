@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, Firestore, getDoc, updateDoc } from "firebase/firestore";
-import { Round, Session, UID, Word } from "../models/types";
+import { Round, Session, UID, Word, Test } from "../models/types";
 
 /**
  * Tool to be used internally in the Firebase Interactor to manage metrics-specific data handling.
@@ -56,6 +56,29 @@ export default class _MetricsCollector {
         const sessionsRef = collection(this.db, "sessions");
         await updateDoc(doc(sessionsRef, sessionId), {
             endTime: new Date()
+        })
+    }
+
+    /**
+ * Records start of test session metrics
+ * @param test the Test whose metrics to track
+ * @returns the Firestore id of the stored test session
+ */
+    async startTest(test: Test): Promise<UID> {
+        const col = collection(this.db, "tests");
+        const doc = await addDoc(col, test);
+        return doc.id;
+    }
+
+    /**
+ * Records end of test session metrics
+ * @param testId the id of the test session to end
+ */
+    async endTest(testId: UID) {
+        const testsRef = collection(this.db, "tests");
+        await updateDoc(doc(testsRef, testId), {
+            endTime: new Date()
+            score: 
         })
     }
 }

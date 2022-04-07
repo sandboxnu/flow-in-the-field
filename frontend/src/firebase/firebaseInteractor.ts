@@ -3,7 +3,7 @@ import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } 
 import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
-import { User, Word, Session, Round, GameType, UID } from "../models/types";
+import { User, Word, Session, Round, GameType, UID, Test } from "../models/types";
 import Constants from "expo-constants";
 import _MetricsCollector from "./MetricsCollector";
 import { Role } from "../constants/role";
@@ -216,6 +216,31 @@ export default class FirebaseInteractor {
 
     async endSession(sessionId: UID) {
         await this.metricsCollector.endSession(sessionId);
+    }
+
+    async startTest(): Promise<UID> {
+
+        const user = this.auth.currentUser;
+
+        if (user !== null) {
+
+            const newTestSession: Test = {
+                user: user.uid,
+                startTime: new Date(),
+                endTime: null,
+                score: null,
+                correctWords: null,
+            }
+
+            const testID: UID = await this.metricsCollector.startTest(newTestSession);
+            return testID;
+        }
+
+        throw new Error("No user found")
+    }
+
+    async endTest(testId: UID) {
+        await this.metricsCollector.endTest(testId);
     }
 
     async getXRandomPairs(num: number): Promise<Word[]> {

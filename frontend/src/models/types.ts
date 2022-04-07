@@ -40,3 +40,11 @@ export interface Match {
     english: string;
     correct: boolean;
 }
+
+export interface Test {
+    user: UID;
+    startTime: Date;
+    endTime: Date | null;
+    score: number | null;
+    correctWords: Word[] | null;
+}
