@@ -39,13 +39,11 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
       }
 
     return (
-        <DraxProvider>
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.startButton} onPress={() => startTest()}>
-                    <Text style={{color: "#FFF", fontSize: 22}}>start</Text>
-                </TouchableOpacity>
-            </View>
-        </DraxProvider>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.startButton} onPress={() => startTest()}>
+                <Text style={{color: "#FFF", fontSize: 22}}>start</Text>
+            </TouchableOpacity>
+        </View>
     )
 }
 
@@ -75,7 +73,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: "5%",
         marginHorizontal: '3%',
         marginVertical: "1%",
-        paddingVertical: 10,
         marginTop: "160%"
     }
 })
