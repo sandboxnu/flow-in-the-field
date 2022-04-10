@@ -49,12 +49,6 @@ export default function TestScreen(props: TestScreenProps) {
     }
 
     const getCorrectWords = () => {
-        // const correctWords = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
-        //     .map((maybeWordPair) => ({
-        //         turkish: maybeWordPair.turkish,
-        //         english: maybeWordPair.correctEnglishWord
-        //     })) ?? null
-
         let correctWordsArray = [];
 
         for (let question = 1; question <= numQuestions; question++) {
