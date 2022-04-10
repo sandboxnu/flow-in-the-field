@@ -45,8 +45,7 @@ export default function Homescreen(props: HomescreenProps) {
         let now = new Date(Date.now());
         let timeUntilTest = user.testDate.getTime() - now.getTime();
 
-        // **************** TODO: CHANGE FOR THE REAL THING !!!!!!! ******************
-        return !hasFinishedTest(); // && timeUntilTest <= 0;
+        return !hasFinishedTest() && timeUntilTest <= 0;
     }
 
     const startTest = () => {
