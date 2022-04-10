@@ -189,6 +189,17 @@ export default class FirebaseInteractor {
         await this.metricsCollector.endRound(roundId, correctWords);
     }
 
+    // Gets the correct words for a given round ID at a given moment from Firestore
+    // This is necessary so that back button behavior does not overwrite correct answers
+    // if a user exits on the feedback screen
+    async getCorrectWords(roundId: UID) {
+        const roundRef = collection(this.db, "rounds");
+        const roundDoc = doc(roundRef, roundId);
+        const correctWords = (await getDoc(roundDoc)).data()?.correctWords
+
+        return correctWords ? correctWords : null
+    }
+
     async getRoundPairs(roundId: UID) {
         const roundsRef = collection(this.db, "rounds");
         const docData = (await getDoc(doc(roundsRef, roundId))).data();

@@ -73,13 +73,14 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         }
     }, [gameStateContext.roundId, showingModal]);
 
+    useEffect(() => {
+        if (submitted) {
+            fi.endRound(gameStateContext.roundId, getCorrectWords());
+        }
+    }, [submitted])
+
     if (englishWords === undefined) {
         return <LoadingScreen />
-    }
-
-    const restartRound = () => {
-        fi.endRound(gameStateContext.roundId, getCorrectWords());
-        fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
     }
 
     //Returns a function that updates the state of the player's current pairs by
@@ -132,17 +133,16 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 disabled={isLoading}
                 onPress={() => {
                     setIsLoading(true);
-                    restartRound()
+                    fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
                 }}
                 text="play again" />
             <SecondaryButton
                 disabled={isLoading}
                 text="end session"
                 onPress={() => {
-                    fi.endRound(gameStateContext.roundId, getCorrectWords());
                     fi.endSession(gameStateContext.sessionId);
-                    gameStateContext.updateRoundId("");
                     gameStateContext.updateSessionId("");
+                    gameStateContext.updateRoundId("");
                     navigation.navigate("HomeScreen");
                 }} />
         </View>)
@@ -153,7 +153,9 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             <PrimaryButton
                 disabled={!canClickDoneButton || isLoading}
                 text="done"
-                onPress={() => setSubmitted(true)} />
+                onPress={() => {
+                    setSubmitted(true);
+                }} />
         </View>
         )
     }
@@ -197,7 +199,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={ showingModal && !user?.hasFinishedTutorial ? styles.overlay : {}}>
+                <View style={showingModal && !user?.hasFinishedTutorial ? styles.overlay : {}}>
                     <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
                         {submitted ? scoreText : renderEnglishOptions()}
                     </View>
@@ -207,15 +209,15 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                     {submitted ? renderSubmittedButtons() : renderInProgressButtons()}
                 </View>
                 {!user?.hasFinishedTutorial &&
-                <BottomSheet
-                    ref={bottomSheetRef}
-                    index={1}
-                    snapPoints={snapPoints}
-                >
-                    <View style={styles.contentContainer}>
-                    <GameTutorialScreens isPairing={props.isPairing} onFinish={handleClosePress}/>
-                    </View>
-                </BottomSheet>}
+                    <BottomSheet
+                        ref={bottomSheetRef}
+                        index={1}
+                        snapPoints={snapPoints}
+                    >
+                        <View style={styles.contentContainer}>
+                            <GameTutorialScreens isPairing={props.isPairing} onFinish={handleClosePress} />
+                        </View>
+                    </BottomSheet>}
             </View>
         </DraxProvider>
     )
@@ -303,5 +305,5 @@ const styles = StyleSheet.create({
         backgroundColor: "#6E81E7A6",
         width: "100%",
         height: "100%",
-    } 
+    }
 })

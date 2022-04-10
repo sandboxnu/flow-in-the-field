@@ -79,8 +79,9 @@ export default function App() {
             <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
               headerLeft: () =>
                 <BackButton
-                  onPress={() => {
-                    fi.endRound(currentRoundId, null);
+                  onPress={async () => {
+                    const currentWords = await fi.getCorrectWords(currentRoundId);
+                    fi.endRound(currentRoundId, currentWords);
                     fi.endSession(currentSessionId);
                     onRoundChange("")
                     onSessionChange("")
