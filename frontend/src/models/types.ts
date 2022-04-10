@@ -15,7 +15,6 @@ export interface User {
     hasFinishedTutorial: boolean;
     testScore: number | null;
     testId: string | null;
-
 }
 
 export interface Word {

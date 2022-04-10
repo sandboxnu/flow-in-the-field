@@ -22,7 +22,6 @@ const TEST_HEADER_OPTIONS = {
     }
   }
 
-
 export interface TestScreenProps {
     route: any;
 }
@@ -49,12 +48,6 @@ export default function TestScreen(props: TestScreenProps) {
     }
 
     const getCorrectWords = () => {
-        // const correctWords = currentPairs?.filter(({ english, correctEnglishWord }) => english === correctEnglishWord)
-        //     .map((maybeWordPair) => ({
-        //         turkish: maybeWordPair.turkish,
-        //         english: maybeWordPair.correctEnglishWord
-        //     })) ?? null
-
         let correctWordsArray = [];
 
         for (let question = 1; question <= numQuestions; question++) {
@@ -128,11 +121,6 @@ export default function TestScreen(props: TestScreenProps) {
         </DraxProvider>
     )
 }
-
-
-const defaultStyle = StyleSheet.create({
-
-});
 
 const styles = StyleSheet.create({
    container: {

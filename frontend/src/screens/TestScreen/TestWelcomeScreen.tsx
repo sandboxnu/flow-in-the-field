@@ -35,7 +35,6 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
       }, [navigation]);
 
       const startTest = () => {
-        //   navigation.navigate("TestScreen");
           fi.startTest().then((testId: UID) => navigation.navigate("TestScreen", { testId: testId }))
       }
 

@@ -13,8 +13,6 @@ import { LoadingScreen } from "../components/LoadingScreen";
 import { Role } from "../constants/role";
 import PrimaryButton from "../components/Button/PrimaryButton";
 
-
-
 const fi = new FirebaseInteractor();
 
 export interface HomescreenProps {
@@ -47,11 +45,10 @@ export default function Homescreen(props: HomescreenProps) {
         let now = new Date(Date.now());
         let timeUntilTest = user.testDate.getTime() - now.getTime();
 
-        // **************** CHANGE FOR THE REAL THING !!!!!!! ******************
+        // **************** TODO: CHANGE FOR THE REAL THING !!!!!!! ******************
         return !hasFinishedTest(); // && timeUntilTest <= 0;
     }
 
-    // TODO: Uncomment this once done testing the test flow
     const startTest = () => {
         if (testAvailable()) {
             navigation.navigate("TestWelcomeScreen");
