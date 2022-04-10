@@ -141,6 +141,8 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 onPress={() => {
                     fi.endRound(gameStateContext.roundId, getCorrectWords());
                     fi.endSession(gameStateContext.sessionId);
+                    gameStateContext.updateRoundId("");
+                    gameStateContext.updateSessionId("");
                     navigation.navigate("HomeScreen");
                 }} />
         </View>)

@@ -31,8 +31,8 @@ export default function Homescreen() {
 
     const startSession = () => {
         fi.startSession().then((sessionId: UID) => {
-            navigation.navigate("GameScreen", { sessionId: sessionId });
             gameStateContext.updateSessionId(sessionId);
+            navigation.navigate("GameScreen", { sessionId: sessionId });
         })
     }
 

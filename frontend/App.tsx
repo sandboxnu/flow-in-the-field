@@ -82,6 +82,8 @@ export default function App() {
                   onPress={() => {
                     fi.endRound(currentRoundId, null);
                     fi.endSession(currentSessionId);
+                    onRoundChange("")
+                    onSessionChange("")
                   }}
                 />,
               headerBackVisible: false,
