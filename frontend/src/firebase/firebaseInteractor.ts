@@ -151,7 +151,7 @@ export default class FirebaseInteractor {
             if (docData === undefined) {
                 throw new Error("No data found")
             }
-            
+
             return {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
