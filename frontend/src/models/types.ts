@@ -13,6 +13,9 @@ export interface User {
     gameType: GameType;
     role: Role
     hasFinishedTutorial: boolean;
+    testScore: number | null;
+    testId: string | null;
+
 }
 
 export interface Word {

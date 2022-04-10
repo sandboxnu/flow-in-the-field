@@ -60,8 +60,8 @@ export default function TestScreen(props: TestScreenProps) {
         for (let question = 1; question <= numQuestions; question++) {
             if (answers && answers[question - 1] === answerKey[question - 1]) {
                 correctWordsArray.push({
-                    english: ,
-                    turkish: ,
+                    english: TESTWORDS.testWords[question - 1]["english"],
+                    turkish: TESTWORDS.testWords[question - 1]["turkish"],
                     answer: answerKey[question - 1]
                 })
             }
@@ -77,8 +77,7 @@ export default function TestScreen(props: TestScreenProps) {
       useEffect(() => {
         if (answers.length == numQuestions) {
             let score = gradeAnswers();
-            fi.endTest(testId, score, getCorrectWords());
-            navigation.navigate("TestResultsScreen", { correct: score, total: numQuestions });
+            fi.endTest(testId, score, getCorrectWords()).then(() => navigation.navigate("TestResultsScreen", { correct: score, total: numQuestions }));
         } 
       }, [answers])
 

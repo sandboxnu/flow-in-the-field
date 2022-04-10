@@ -94,6 +94,8 @@ export default class FirebaseInteractor {
             testDate: Timestamp.fromDate(getTestDate()),
             role: Role.PARTICIPANT,
             hasFinishedTutorial: false,
+            testScore: null,
+            testId: null,
         });
     }
 
@@ -149,7 +151,7 @@ export default class FirebaseInteractor {
             if (docData === undefined) {
                 throw new Error("No data found")
             }
-
+            
             return {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
@@ -157,6 +159,8 @@ export default class FirebaseInteractor {
                 gameType: docData.gameType,
                 role: docData.role as Role ?? Role.PARTICIPANT,
                 hasFinishedTutorial: docData.hasFinishedTutorial,
+                testScore: docData.testScore,
+                testId: docData.testId,
             }
         }
 
@@ -239,8 +243,25 @@ export default class FirebaseInteractor {
         throw new Error("No user found")
     }
 
-    async endTest(testId: UID) {
-        await this.metricsCollector.endTest(testId);
+    async endTest(testId: UID, score: number, correctWords: Array<Object>) {
+        await this.metricsCollector.endTest(testId, score, correctWords);
+        const user = this.auth.currentUser;
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+        const userDoc = doc(this.db, "users", user.uid)
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        await updateDoc(userDoc, {
+            testScore: score,
+            testId: testId,
+        });
     }
 
     async getXRandomPairs(num: number): Promise<Word[]> {
@@ -266,10 +287,7 @@ export default class FirebaseInteractor {
             throw new Error("No data found")
         }
 
-        await setDoc(userDoc, {
-            numPairs: docData.numPairs,
-            gameType: docData.gameType,
-            testDate: docData.testDate.toDate(),
+        await updateDoc(userDoc, {
             hasFinishedTutorial: true,
         });
     }

@@ -13,13 +13,20 @@ import { LoadingScreen } from "../components/LoadingScreen";
 import { Role } from "../constants/role";
 import PrimaryButton from "../components/Button/PrimaryButton";
 
+
+
 const fi = new FirebaseInteractor();
 
-export default function Homescreen() {
+export interface HomescreenProps {
+    route: any;
+}
+
+export default function Homescreen(props: HomescreenProps) {
     const [user, setUser] = useState<User>();
+    const testFinished = props.route.params ? props.route.params["testFinished"] : false;
 
     useEffect(() => {
-        fi.getUser().then(setUser).catch(console.error);
+        fi.getUser().then((user) => setUser(user)).catch(console.error);
     }, []);
 
     const navigation = useNavigation();
@@ -32,20 +39,23 @@ export default function Homescreen() {
         fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", { sessionId: sessionId }))
     }
 
+    const hasFinishedTest = () =>  {
+        return testFinished || user.testScore != null;
+    }
+
     const testAvailable = () => {
         let now = new Date(Date.now());
         let timeUntilTest = user.testDate.getTime() - now.getTime();
 
-        return timeUntilTest <= 0;
+        // **************** CHANGE FOR THE REAL THING !!!!!!! ******************
+        return !hasFinishedTest(); // && timeUntilTest <= 0;
     }
 
     // TODO: Uncomment this once done testing the test flow
     const startTest = () => {
-        // if (testAvailable()) {
-        //     navigation.navigate("TestWelcomeScreen");
-        // }
-
-        navigation.navigate("TestWelcomeScreen");
+        if (testAvailable()) {
+            navigation.navigate("TestWelcomeScreen");
+        }
     }
 
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })

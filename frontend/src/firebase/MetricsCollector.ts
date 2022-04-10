@@ -74,11 +74,13 @@ export default class _MetricsCollector {
  * Records end of test session metrics
  * @param testId the id of the test session to end
  */
-    async endTest(testId: UID) {
+    async endTest(testId: UID, score: number, correctWords: Array<Object>) {
         const testsRef = collection(this.db, "tests");
         await updateDoc(doc(testsRef, testId), {
-            endTime: new Date()
-            score: 
+            endTime: new Date(),
+            score: score,
+            correctWords: correctWords,
         })
+        
     }
 }

@@ -43,7 +43,7 @@ export default function TestResultsScreen(props: TestResultsScreenProps) {
                     <Text style={styles.scoreText}>{correct}/{total}</Text>
                     <Text style={styles.resultText}>correct!</Text>
                 </View>
-                <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate("HomeScreen")}>
+                <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate("HomeScreen", {testFinished: true})}>
                     <Text style={{color: "#FFF", fontSize: 22}}>done</Text>
                 </TouchableOpacity>
             </View>
