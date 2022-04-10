@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef, useContext, } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { User, UID } from "../../models/types";
@@ -54,6 +54,22 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         bottomSheetRef.current?.close();
         setShowModal(false);
     }, []);
+
+    useEffect(() => {
+        const backAction = () => {
+            fi.getCorrectWords(gameStateContext.roundId).then(correctWords => {
+                fi.endRound(gameStateContext.roundId, correctWords);
+                fi.endSession(gameStateContext.sessionId);
+                gameStateContext.updateRoundId("")
+                gameStateContext.updateSessionId("")
+            });
+            return false;
+        }
+
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+        return () => backHandler.remove();
+    })
 
     useEffect(() => {
         if (gameStateContext.roundId == "") {
