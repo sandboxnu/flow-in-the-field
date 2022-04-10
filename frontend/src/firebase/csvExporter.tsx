@@ -65,5 +65,5 @@ export async function promptExportEmail() {
         console.log(`written to ${cacheURI}`)
     })
     sendEmail(cacheURI).then(() => console.log('email sent'));
-    // return getDocs(collection(fi.db, "rounds"));
+    // TODO: Delete file after sending email
 }
