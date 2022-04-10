@@ -10,6 +10,7 @@ import { LoadingScreen } from "../../components/LoadingScreen";
 import PrimaryButton from "../../components/Button/PrimaryButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
 import CustomRow from "../../components/CustomRow";
+import CustomButton from "../../components/Button/CustomButton";
 
 const fi = new FirebaseInteractor();
 
@@ -150,13 +151,17 @@ export default function GameScreen(props: SpecificGameScreenProps) {
       </View>)
       } else {
         return (<View style={styles.doneContainer}>
-          <PrimaryButton
-          disabled={false}
-          onPress={() => {
-              setShowAnswers(true);
-          }}
-          text="next" />
-        </View>)
+           <CustomButton
+                onPress={() => {
+                    setShowAnswers(true);
+                }}
+                disabled={false}
+                enabledStyle={styles.seeCorrectButton}
+                disabledStyle={styles.seeCorrectButton}
+                enabledTextStyle={styles.buttonText}
+                disabledTextStyle={styles.buttonText}
+                text={"see correct answers"}/>
+            </View>)
       }
     }
 
@@ -167,9 +172,9 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 text="done"
                 onPress={() => {
                   setSubmitted(true)
-                  if (getNumCorrectWords() > 0 && !props.isPairing || getNumCorrectWords() == currentPairs?.length && props.isPairing) {
-                    setShowAnswers(true);
-                  }
+                //   if (getNumCorrectWords() > 0 && !props.isPairing || getNumCorrectWords() == currentPairs?.length && props.isPairing) {
+                //     setShowAnswers(true);
+                //   }
                 }} />
         </View>
         )
@@ -205,13 +210,14 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const canClickDoneButton = englishWords.every((word) => currentPairs?.some(({ english }) => english === word))
 
     const scoreText = props.topScreenRenderFunction(getNumCorrectWords(), currentPairs?.length ?? 0)
+    const correctAnswersText = <Text style={styles.correctAnswersText}>Correct Answers</Text>
     const shouldFlexWrap = props.isPairing && !submitted
 
     return (
         <DraxProvider>
             <View style={styles.container}>
                 <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
-                    {submitted ? scoreText : renderEnglishOptions()}
+                    {submitted ? (showAnswers ? correctAnswersText : scoreText) : renderEnglishOptions()}
                 </View>
                 <View style={styles.bottomContainer}>
                     {renderTurkishWords()}
@@ -250,7 +256,9 @@ const styles = StyleSheet.create({
     bottomContainer: {
         width: "100%",
         flex: 12,
+        flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center"
     },
     english: {
         color: "white",
@@ -284,6 +292,11 @@ const styles = StyleSheet.create({
         fontSize: 64,
         textAlign: "center"
     },
+    correctAnswersText: {
+        color: BLUE,
+        fontSize: 40,
+        textAlign: "center"
+    }, 
     englishUsed: {
         borderColor: BLUE,
         borderWidth: 1,
@@ -293,5 +306,22 @@ const styles = StyleSheet.create({
         marginVertical: "2%",
         marginHorizontal: "5%",
         borderRadius: 0.0001
-    }
+    },
+    seeCorrectButton: {
+        backgroundColor: "#6E81E7",
+        borderColor: "#6E81E7",
+        borderWidth: 2,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '65%',
+        paddingHorizontal: "5%",
+        marginHorizontal: '3%',
+        marginVertical: "1%",
+        paddingVertical: 10
+    },
+    buttonText: {
+        color: "white",
+        backgroundColor: "transparent"
+    },
 })

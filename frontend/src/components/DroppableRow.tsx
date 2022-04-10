@@ -108,8 +108,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: 'center',
-        width: "100%",
+        width: "90%",
         height: "12.5%",
-        paddingVertical: "1.5%"
+        paddingVertical: "1.5%",
+        marginVertical: "1%",
     }
 });

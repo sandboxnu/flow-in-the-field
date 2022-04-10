@@ -16,17 +16,21 @@ export default function ResultRow({ turkish, englishSelectingWord, english, show
     
     let extraTurkishInfo;
     let extraEnglishInfo;
+    let extraContainerInfo;
+    let textStyle;
 
     if (showingAnswers) {
         if (isPairing && !correct || !isPairing && !correct && englishSelectingWord === correctEnglish) {
-            extraEnglishInfo = showingResultsStyles.correctedEnglishWord;
-        }
-        if (correctEnglish == englishSelectingWord || isPairing) {
-          extraTurkishInfo = showingResultsStyles.correctTurkishWord;
+            extraContainerInfo = showingResultsStyles.correctedRow;
+            textStyle = styles.whiteText;
         } else {
-          extraTurkishInfo = showingResultsStyles.unusedTurkishWord;
+            extraContainerInfo = showingResultsStyles.userCorrectRow;
+            textStyle = styles.blackText;
         }
+        extraTurkishInfo = showingResultsStyles.answersWord;
+        extraEnglishInfo = showingResultsStyles.answersWord;
     } else {
+        textStyle = styles.whiteText;
         if (correct) {
           extraTurkishInfo = showingResultsStyles.correctTurkishWord;
         } else if (unusedSelectingWord) {
@@ -36,12 +40,12 @@ export default function ResultRow({ turkish, englishSelectingWord, english, show
         }
     }
 
-    return (<View style={styles.container}>
+    return (<View style={{...styles.container, ...extraContainerInfo}}>
         <View style={{...styles.turkishContainer,  ...extraTurkishInfo }}>
-            <Text style={{ ...styles.turkishText, ...extraTurkishInfo }}>{turkish}</Text>
+            <Text style={textStyle}>{turkish}</Text>
         </View>
             <View style={unusedSelectingWord && !showingAnswers ? undefined : {...styles.englishTextContainer, ...extraEnglishInfo}}>
-                <Text style={styles.englishText}>
+                <Text style={textStyle}>
                     {showingAnswers ? correctEnglish : english}
                 </Text>
             </View>
@@ -65,9 +69,14 @@ const showingResultsStyles = StyleSheet.create({
         backgroundColor: BLUE,
         borderColor: "transparent"
     },
-    correctedEnglishWord: {
-      borderColor: "#5BBAB7",
-      borderWidth: 2,
+    answersWord: {
+        backgroundColor: "transparent",
+    },
+    correctedRow: {
+        backgroundColor: "#5BBAB7",
+    },
+    userCorrectRow: {
+        backgroundColor: "#5BBAB725",
     }
 })
 
@@ -86,12 +95,11 @@ const styles = StyleSheet.create({
         width: "40%",
         height: "100%",
         backgroundColor: BLUE,
-        marginHorizontal: "5%"
+        marginHorizontal: "5%",
     },
-    turkishText: {
+    whiteText: {
         textAlign: "center",
         color: "white",
-        backgroundColor: BLUE,
     },
     englishTextContainer: {
         width: "40%",
@@ -103,15 +111,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderRadius: 0.000001
     },
-    englishText: {
-        color: 'white',
+    blackText: {
+        color: 'black',
         textAlign: 'center',
     },
     container: {
         flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: 'center',
-        width: "100%",
+        width: "90%",
         height: "12.5%",
-        paddingVertical: "1.5%"
+        paddingVertical: "1.5%",
+        marginVertical: "1%",
     }
 });
