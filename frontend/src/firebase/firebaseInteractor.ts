@@ -6,6 +6,7 @@ import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addD
 import { User, Word, Session, Round, GameType, UID } from "../models/types";
 import Constants from "expo-constants";
 import _MetricsCollector from "./MetricsCollector";
+import { Role } from "../constants/role";
 
 const { manifest } = Constants;
 
@@ -91,6 +92,8 @@ export default class FirebaseInteractor {
             numPairs: getRandomPairing(),
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
+            role: Role.PARTICIPANT,
+            hasFinishedTutorial: false
         });
     }
 
@@ -151,7 +154,9 @@ export default class FirebaseInteractor {
                 email: user.email!,
                 testDate: docData.testDate.toDate(),
                 numPairs: docData.numPairs,
-                gameType: docData.gameType
+                gameType: docData.gameType,
+                role: docData.role as Role ?? Role.PARTICIPANT,
+                hasFinishedTutorial: docData.hasFinishedTutorial as boolean ?? false
             }
         }
 
@@ -182,6 +187,17 @@ export default class FirebaseInteractor {
 
     async endRound(roundId: UID, correctWords: Word[] | null) {
         await this.metricsCollector.endRound(roundId, correctWords);
+    }
+
+    // Gets the correct words for a given round ID at a given moment from Firestore
+    // This is necessary so that back button behavior does not overwrite correct answers
+    // if a user exits on the feedback screen
+    async getCorrectWords(roundId: UID) {
+        const roundRef = collection(this.db, "rounds");
+        const roundDoc = doc(roundRef, roundId);
+        const correctWords = (await getDoc(roundDoc)).data()?.correctWords
+
+        return correctWords ? correctWords : null
     }
 
     async getRoundPairs(roundId: UID) {
@@ -219,5 +235,28 @@ export default class FirebaseInteractor {
         let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({ english, turkish }) => ({ english, turkish }))
         durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
+    }
+
+    // Updates the state of hasFinishedTutorial for this user to be true
+    async updateHasFinishedTutorial() {
+        const user = this.auth.currentUser;
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+        const userDoc = doc(this.db, "users", user.uid)
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        await setDoc(userDoc, {
+            numPairs: docData.numPairs,
+            gameType: docData.gameType,
+            testDate: docData.testDate.toDate(),
+            hasFinishedTutorial: true,
+        });
     }
 }
