@@ -138,6 +138,14 @@ export default class FirebaseInteractor {
         await signOut(this.auth);
     }
 
+    async getUserById(userId: UID): Promise<User> {
+        return (await getDoc(doc(this.db, "users", userId))).data() as User;
+    }
+
+    async getSessionById(sessionId: UID): Promise<Session> {
+        return (await getDoc(doc(this.db, "sessions", sessionId))).data() as Session;
+    }
+
     async getUser(): Promise<User> {
 
         const user = this.auth.currentUser;
@@ -191,6 +199,13 @@ export default class FirebaseInteractor {
         const roundsRef = collection(this.db, "rounds");
         const docData = (await getDoc(doc(roundsRef, roundId))).data();
         return docData?.words ?? [];
+    }
+
+    async getAllRounds() {
+        const allRounds = await getDocs(collection(this.db, "rounds"));
+
+        // TODO: Convert to dict of id to data
+        return allRounds;
     }
 
     async startSession(): Promise<UID> {

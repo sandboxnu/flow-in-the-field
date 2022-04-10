@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
 import PrimaryButton from "../components/Button/PrimaryButton";
 import { collection } from "firebase/firestore";
-import { promptExportEmail } from "../firebase/csvExporter";
+import { generateRoundsCSV, promptExportEmail, testJson } from "../firebase/csvExporter";
 
 const fi = new FirebaseInteractor();
 
@@ -24,7 +24,8 @@ export default function AdminScreen(props: AdminScreenProps) {
         <DraxProvider>
             <Text>This is admin placeholder hooray</Text>
             <PrimaryButton onPress={() => {
-                promptExportEmail();
+                generateRoundsCSV();
+                // promptExportEmail(generateRoundsCSV());
             }} disabled={false} text="create csv" />
         </DraxProvider>
     )

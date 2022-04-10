@@ -1,13 +1,28 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, DocumentData, getDocs, QueryDocumentSnapshot } from "firebase/firestore";
 import FirebaseInteractor from "./firebaseInteractor";
 import Papa from 'papaparse';
 import * as FileSystem from 'expo-file-system';
 import * as MailComposer from 'expo-mail-composer';
 import { MailComposerOptions } from "expo-mail-composer";
+import { Round } from "../models/types";
+
+interface RoundData {
+    "User Id": string,
+    "Game Type": string,
+    "Number of Words": string,
+    "Session Id": string,
+    "Round Id": string,
+    "Round number in session": string,
+    "Start time": string,
+    "End time": string,
+    "Duration": string,
+    "Score": string
+}
 
 const fi = new FirebaseInteractor();
 
-const testJson = [
+// TODO: remove this when actual data is usable
+export const testJson = [
     {
         "Column 1": "1-1",
         "Column 2": "1-2",
@@ -36,11 +51,37 @@ const testJson = [
 
 const cacheURI = `${FileSystem.cacheDirectory}/export.csv`
 
+export async function generateRoundsCSV() {
+    const roundData = await fi.getAllRounds();
+    const assembledRoundData: RoundData[] = [];
+    roundData.docs.forEach(async (roundDocSnapShot: QueryDocumentSnapshot<DocumentData>) => { // TODO: This is leaky
+        const roundDoc = roundDocSnapShot.data() as Round;
+        const currentSession = await fi.getSessionById(roundDoc.session)
+        const userId = currentSession.user;
+        const currentUser = await fi.getUserById(userId)
+        const currentRound: RoundData = {
+            "User Id": userId,
+            "Game Type": currentUser.gameType,
+            "Number of Words": currentUser.numPairs.toString(),
+            "Session Id": roundDoc.session,
+            "Round Id": roundDocSnapShot.id,
+            "Round number in session": "", // TODO: Pull this out into a cache-type thing
+            "Start time": roundDoc.startTime.toString(),
+            "End time": roundDoc.endTime?.toString() ?? "null",
+            "Duration": "", // TODO
+            "Score": roundDoc.correctWords?.length.toString() ?? "0"
+        }
+        console.log(currentRound);
+        assembledRoundData.push(currentRound)
+    });
+    return assembledRoundData;
+}
+
 const sendEmail = async (file: string) => {
     var options: MailComposerOptions = {
-        subject: "Sending email with attachment",
+        subject: "Flow in the Field Exported Data",
         recipients: [],
-        body: "its a test!",
+        body: "Please add some indication of what data you are exporting here!",
         attachments: [file]
     }
     let promise = new Promise((resolve, reject) => {
@@ -58,8 +99,8 @@ const sendEmail = async (file: string) => {
     )
 }
 
-export async function promptExportEmail() {
-    const parsed = Papa.unparse(testJson, { newline: "\n" });
+export async function promptExportEmail(toUnparse: Object[]) {
+    const parsed = Papa.unparse(toUnparse, { newline: "\n" });
     console.log(parsed);
     FileSystem.writeAsStringAsync(cacheURI, parsed).then(() => {
         console.log(`written to ${cacheURI}`)
