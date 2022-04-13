@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
         width: "90%",
         height: "12.5%",
         paddingVertical: "1.5%",
-        marginVertical: "1%",
+        marginVertical: "0.5%",
     }
 });
