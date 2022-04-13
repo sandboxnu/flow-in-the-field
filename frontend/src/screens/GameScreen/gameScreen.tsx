@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState, useCallback, useMemo, useRef, useContext, } from "react";
+import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { UID } from "../../models/types";
@@ -11,6 +11,7 @@ import PrimaryButton from "../../components/Button/PrimaryButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
 import CustomRow from "../../components/CustomRow";
 import CustomButton from "../../components/Button/CustomButton";
+import { GameStateContext } from "../../utils/context";
 
 const fi = new FirebaseInteractor();
 
@@ -36,14 +37,33 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
     const [submitted, setSubmitted] = useState(false);
     const [showAnswers, setShowAnswers] = useState(false);
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+    const gameStateContext = useContext(GameStateContext);
     const { sessionId } = props.route.params;
     const [currentRoundId, setCurrentRoundId] = useState<UID>("");
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (currentRoundId == "") {
-            fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        const backAction = () => {
+            fi.getCorrectWords(gameStateContext.roundId).then(correctWords => {
+                fi.endRound(gameStateContext.roundId, correctWords);
+                fi.endSession(gameStateContext.sessionId);
+                gameStateContext.updateRoundId("")
+                gameStateContext.updateSessionId("")
+            });
+            return false;
+        }
+
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+        return () => backHandler.remove();
+    })
+
+    useEffect(() => {
+        if (gameStateContext.roundId == "") {
+            fi.startRound(gameStateContext.sessionId).then(async result => {
+                gameStateContext.updateRoundId(result)
+            });
         } else {
             fi.getUser().then(user => {
                 fi.getRoundPairs(currentRoundId).then(words => {
