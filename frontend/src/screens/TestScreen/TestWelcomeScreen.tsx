@@ -54,9 +54,11 @@ const styles = StyleSheet.create({
         height: 51
       },
     container: {
+        flexDirection: "column",
         flex: 1,
         backgroundColor: '#6E81E7',
         alignItems: "center",
+        justifyContent: "space-around",
         width: "100%",
         height: "100%",
         paddingTop: "5%"
@@ -70,9 +72,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: '7.5%',
         width: '75%',
-        paddingHorizontal: "5%",
-        marginHorizontal: '3%',
-        marginVertical: "1%",
-        marginTop: "160%"
     }
 })
