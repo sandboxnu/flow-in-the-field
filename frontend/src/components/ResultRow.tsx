@@ -84,30 +84,30 @@ const styles = StyleSheet.create({
     draxView: {
         borderColor: "#5BBAB7",
         borderWidth: 3,
-        width: "40%",
+        width: "45%",
         borderStyle: "dashed",
         height: "100%",
-        marginHorizontal: "5%",
+        // marginHorizontal: "5%",
         borderRadius: 0.0001
     },
     turkishContainer: {
         justifyContent: "center",
-        width: "40%",
+        width: "45%",
         height: "100%",
         backgroundColor: BLUE,
-        marginHorizontal: "5%",
+        // marginHorizontal: "5%",
     },
     whiteText: {
         textAlign: "center",
         color: "white",
     },
     englishTextContainer: {
-        width: "40%",
+        width: "45%",
         textAlign: "center",
         backgroundColor: GREY,
         height: "100%",
         color: "white",
-        marginHorizontal: "5%",
+        // marginHorizontal: "5%",
         justifyContent: "center",
         borderRadius: 0.000001
     },
@@ -119,9 +119,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: 'center',
-        width: "90%",
-        height: "12.5%",
-        paddingVertical: "1.5%",
-        marginVertical: "0.5%",
+        width: "80%",
+        height: "10%",
+        marginVertical: "1%",
     }
 });
