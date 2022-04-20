@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState, useCallback, useMemo, useRef, useContext, } from "react";
+import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { UID } from "../../models/types";
+import { User, UID } from "../../models/types";
 import { durstenfeldShuffle } from "../../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../../components/DroppableRow";
@@ -10,6 +10,9 @@ import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../../components/LoadingScreen";
 import PrimaryButton from "../../components/Button/PrimaryButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
+import { GameStateContext } from "../../utils/context";
+import BottomSheet from '@gorhom/bottom-sheet';
+import GameTutorialScreens from "../GameTutorial/GameTutorialScreens";
 
 const fi = new FirebaseInteractor();
 
@@ -33,18 +36,50 @@ export interface SpecificGameScreenProps {
 export default function GameScreen(props: SpecificGameScreenProps) {
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
+    const [user, setUser] = useState<User>();
     const [submitted, setSubmitted] = useState(false);
     const navigation = useNavigation()
-    const { sessionId } = props.route.params;
-    const [currentRoundId, setCurrentRoundId] = useState<UID>("");
     const [isLoading, setIsLoading] = useState(false);
+    const gameStateContext = useContext(GameStateContext);
+    const [showingModal, setShowModal] = useState(true);
+
+    // ref for tutorial modal
+    const bottomSheetRef = useRef<BottomSheet>(null);
+
+    // variables --> snap points for tutorial modal
+    const snapPoints = useMemo(() => ['25%', '80%'], []);
+
+    // handle close press for tutorial modal
+    const handleClosePress = useCallback(() => {
+        bottomSheetRef.current?.close();
+        setShowModal(false);
+    }, []);
 
     useEffect(() => {
-        if (currentRoundId == "") {
-            fi.startRound(sessionId).then(result => setCurrentRoundId(result));
+        const backAction = () => {
+            fi.getCorrectWords(gameStateContext.roundId).then(correctWords => {
+                fi.endRound(gameStateContext.roundId, correctWords);
+                fi.endSession(gameStateContext.sessionId);
+                gameStateContext.updateRoundId("")
+                gameStateContext.updateSessionId("")
+            });
+            return false;
+        }
+
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+        return () => backHandler.remove();
+    })
+
+    useEffect(() => {
+        if (gameStateContext.roundId == "") {
+            fi.startRound(gameStateContext.sessionId).then(async result => {
+                gameStateContext.updateRoundId(result)
+            });
         } else {
             fi.getUser().then(user => {
-                fi.getRoundPairs(currentRoundId).then(words => {
+                setUser(user);
+                fi.getRoundPairs(gameStateContext.roundId).then(words => {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
                     setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
                     setSubmitted(false)
@@ -52,15 +87,16 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 }).catch(console.error);
             }).catch(console.error);
         }
-    }, [currentRoundId]);
+    }, [gameStateContext.roundId, showingModal]);
+
+    useEffect(() => {
+        if (submitted) {
+            fi.endRound(gameStateContext.roundId, getCorrectWords());
+        }
+    }, [submitted])
 
     if (englishWords === undefined) {
         return <LoadingScreen />
-    }
-
-    const restartRound = () => {
-        fi.endRound(currentRoundId, getCorrectWords());
-        fi.startRound(sessionId).then(result => setCurrentRoundId(result));
     }
 
     //Returns a function that updates the state of the player's current pairs by
@@ -113,15 +149,16 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 disabled={isLoading}
                 onPress={() => {
                     setIsLoading(true);
-                    restartRound()
+                    fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
                 }}
                 text="play again" />
             <SecondaryButton
                 disabled={isLoading}
                 text="end session"
                 onPress={() => {
-                    fi.endRound(currentRoundId, getCorrectWords());
-                    fi.endSession(sessionId);
+                    fi.endSession(gameStateContext.sessionId);
+                    gameStateContext.updateSessionId("");
+                    gameStateContext.updateRoundId("");
                     navigation.navigate("HomeScreen");
                 }} />
         </View>)
@@ -132,7 +169,9 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             <PrimaryButton
                 disabled={!canClickDoneButton || isLoading}
                 text="done"
-                onPress={() => setSubmitted(true)} />
+                onPress={() => {
+                    setSubmitted(true);
+                }} />
         </View>
         )
     }
@@ -176,15 +215,27 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
-                    {submitted ? scoreText : renderEnglishOptions()}
+                <View style={showingModal && !user?.hasFinishedTutorial ? styles.overlay : {}}>
+                    <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
+                        {submitted ? scoreText : renderEnglishOptions()}
+                    </View>
+                    <View style={styles.bottomContainer}>
+                        {renderTurkishWords()}
+                    </View>
+                    {submitted ? renderSubmittedButtons() : renderInProgressButtons()}
                 </View>
-                <View style={styles.bottomContainer}>
-                    {renderTurkishWords()}
-                </View>
-                {submitted ? renderSubmittedButtons() : renderInProgressButtons()}
+                {!user?.hasFinishedTutorial &&
+                    <BottomSheet
+                        ref={bottomSheetRef}
+                        index={1}
+                        snapPoints={snapPoints}
+                    >
+                        <View style={styles.contentContainer}>
+                            <GameTutorialScreens isPairing={props.isPairing} onFinish={handleClosePress} />
+                        </View>
+                    </BottomSheet>}
             </View>
-        </DraxProvider >
+        </DraxProvider>
     )
 }
 
@@ -259,5 +310,16 @@ const styles = StyleSheet.create({
         marginVertical: "2%",
         marginHorizontal: "5%",
         borderRadius: 0.0001
+    },
+    // Styles associated with bottom sheet modal for game tutorial
+    contentContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    overlay: {
+        opacity: 0.8,
+        backgroundColor: "#6E81E7A6",
+        width: "100%",
+        height: "100%",
     }
 })
