@@ -25,7 +25,7 @@ export async function generateRoundsCSV() {
     const orderedRoundsInSessions: { [sessionId: string]: RoundWithId[] } = await fi.getOrderedRoundsInSessions();
     const assembledRoundData: RoundData[] = [];
 
-   await Promise.all(Object.keys(orderedRoundsInSessions).map(async (sessionId: string) => {
+    await Promise.all(Object.keys(orderedRoundsInSessions).map(async (sessionId: string) => {
         const allRoundsInSession = orderedRoundsInSessions[sessionId];
         await Promise.all(allRoundsInSession.map(async (roundWithId: RoundWithId, index: number) => {
             const currentSession = await fi.getSessionById(sessionId)
@@ -46,7 +46,7 @@ export async function generateRoundsCSV() {
             assembledRoundData.push(currentRound);
         }));
     }));
-    
+
     return assembledRoundData;
 }
 
