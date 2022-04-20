@@ -23,9 +23,8 @@ export default function AdminScreen(props: AdminScreenProps) {
     return (
         <DraxProvider>
             <Text>This is admin placeholder hooray</Text>
-            <PrimaryButton onPress={() => {
-                generateRoundsCSV();
-                // promptExportEmail(generateRoundsCSV());
+            <PrimaryButton onPress={async () => {
+                await promptExportEmail(await generateRoundsCSV());
             }} disabled={false} text="create csv" />
         </DraxProvider>
     )
