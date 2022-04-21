@@ -20,7 +20,8 @@ export default function ResultRow({ turkish, englishSelectingWord, english, show
     let textStyle;
 
     if (showingAnswers) {
-        if (isPairing && !correct || !isPairing && !correct && englishSelectingWord === correctEnglish) {
+        // highlights incorrect pairs and incorrectly selected TURKISH row
+        if (isPairing && !correct || !isPairing && !correct && english) {
             extraContainerInfo = showingResultsStyles.correctedRow;
             textStyle = styles.whiteText;
         } else {

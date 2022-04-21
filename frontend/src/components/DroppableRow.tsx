@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     turkishText: {
         textAlign: "center",
         color: "white",
-        backgroundColor: BLUE,
+        backgroundColor: "transparent",
     },
     englishTextContainer: {
         width: "45%",
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
         backgroundColor: GREY,
         height: "100%",
         color: "white",
-        // marginHorizontal: "5%",
         justifyContent: "center",
         borderRadius: 0.000001
     },

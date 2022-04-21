@@ -234,10 +234,12 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={showingModal && !user?.hasFinishedTutorial ? styles.overlay : { width: "100%", height: "100%" }}>
-                    <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
-                        {submitted ? (showAnswers ? correctAnswersText : scoreText) : renderEnglishOptions()}
-                    </View>
+                <View style={showingModal && !user?.hasFinishedTutorial ? styles.overlay : styles.finishedTutorial}>
+                    {/* <View style={styles.testWrap}> */}
+                        <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
+                            {submitted ? (showAnswers ? correctAnswersText : scoreText) : renderEnglishOptions()}
+                        </View>
+                    {/* </View> */}
                     <View style={styles.bottomContainer}>
                         {renderTurkishWords()}
                     </View>
@@ -268,18 +270,25 @@ const styles = StyleSheet.create({
         paddingTop: "5%"
     },
     noWrapTopContainer: {
-        width: "100%",
-        alignItems: "center",
+        justifyContent: "space-around",
+        alignItems: 'center',
+        width: "90%",
         flexDirection: "row",
-        justifyContent: "center",
         flex: 6,
         flexWrap: "nowrap",
     },
+    // testWrap: {
+    //     alignItems: 'center',
+    //     width: "100%",
+    //     height: "100%",
+    //     flex: 6,
+    //     flexDirection: "row",
+    // },
     wrapTopContainer: {
-        width: "100%",
-        alignItems: "center",
+        justifyContent: "space-around",
+        alignItems: 'center',
+        width: "90%",
         flexDirection: "row",
-        justifyContent: "center",
         flex: 6,
         flexWrap: "wrap",
     },
@@ -299,7 +308,6 @@ const styles = StyleSheet.create({
     },
     draxView: {
         width: "40%",
-        marginHorizontal: "5%",
         height: "15%",
         marginVertical: "2%",
         backgroundColor: GREY,
@@ -320,12 +328,14 @@ const styles = StyleSheet.create({
     correctText: {
         color: BLUE,
         fontSize: 64,
-        textAlign: "center"
+        textAlign: "center",
+        width: "100%",
     },
     correctAnswersText: {
         color: BLUE,
         fontSize: 40,
-        textAlign: "center"
+        textAlign: "center",
+        width: "100%",
     }, 
     englishUsed: {
         borderColor: BLUE,
@@ -334,7 +344,6 @@ const styles = StyleSheet.create({
         borderStyle: "dashed",
         height: "15%",
         marginVertical: "2%",
-        marginHorizontal: "5%",
         borderRadius: 0.0001
     },
     seeCorrectButton: {
@@ -364,5 +373,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#6E81E7A6",
         width: "100%",
         height: "100%",
+    },
+    finishedTutorial: {
+        width: "100%",
+        height: "100%", 
+        alignItems: 'center',
     }
 })
