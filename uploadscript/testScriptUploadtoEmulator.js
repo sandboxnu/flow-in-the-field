@@ -1,14 +1,13 @@
-require('dotenv').config();
 const admin = require('firebase-admin');
-const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS)
 
 const TESTWORDS = require('./words/testWords.json');
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
+// initialization
+const projectId = 'flowinthefield';
+process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
+admin.initializeApp({ projectId });
 
-let db = admin.firestore();
+const db = admin.firestore();
 
 async function uploadTestWords() {
     for (let word of TESTWORDS.testWords) {

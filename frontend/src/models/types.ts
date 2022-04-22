@@ -14,7 +14,7 @@ export interface User {
     role: Role
     hasFinishedTutorial: boolean;
     testScore: number | null;
-    testId: string | null;
+    testSessionId: string | null;
 }
 
 export interface Word {
@@ -43,10 +43,26 @@ export interface Match {
     correct: boolean;
 }
 
-export interface Test {
+export interface TestWord {
+    turkish: string;
+    english: string;
+    correctlyPaired: string;
+    question: number;
+}
+
+export interface TestSession {
     user: UID;
     startTime: Date;
     endTime: Date | null;
     score: number | null;
-    correctWords: Word[] | null;
+    correctWords: TestWord[] | null;
+}
+
+export interface TestRound {
+    testSession: UID;
+    startTime: Date;
+    endTime: Date | null;
+    testWord: TestWord;
+    questionNum: number;
+    correct: boolean | null;
 }

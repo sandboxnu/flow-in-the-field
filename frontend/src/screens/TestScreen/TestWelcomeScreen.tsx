@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { UID } from "../../models/types";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
 
 const TEST_WELCOME_HEADER_OPTIONS = {
@@ -35,7 +34,7 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
       }, [navigation]);
 
       const startTest = () => {
-          fi.startTest().then((testId: UID) => navigation.navigate("TestScreen", { testId: testId }))
+          fi.startTestSession().then((testSessionId: UID) => navigation.navigate("TestScreen", { testSessionId: testSessionId }))
       }
 
     return (

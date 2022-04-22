@@ -4,6 +4,7 @@ import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
 import AnimatedBar from "react-native-animated-bar";
+import { TestWord, UID } from "../../models/types";
 
 const fi = new FirebaseInteractor();
 
@@ -27,60 +28,70 @@ export interface TestScreenProps {
 }
 
 export default function TestScreen(props: TestScreenProps) {
-
     const navigation = useNavigation();
-    const { testId } = props.route.params;
+    const { testSessionId } = props.route.params;
+    const [currentTestRoundId, setCurrentTestRoundId] = useState<UID>("");
     const [page, setPage] = useState<number>(1);
     const numQuestions = 50;
-    const TESTWORDS = require('./testWords.json');
+    const [testQuestion, setTestQuestion] = useState<TestWord>();
+    const [testQuestions, setTestQuestions] = useState<TestWord[]>();
     const [answer, setAnswer] = useState<string>("");
     const [answers, setAnswers] = useState<string[]>([]);
-    const answerKey = ['no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes'];
+
+    useEffect(() => {
+        if (currentTestRoundId == "") {
+            fi.startTestRound(testSessionId, page).then(result => setCurrentTestRoundId(result));
+        } else if (answers.length == numQuestions) {
+            let testGradingInfo = gradeAnswers();
+            fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
+            fi.endTestSession(testSessionId, testGradingInfo.score, testGradingInfo.correctAnswers).then(() => navigation.navigate("TestResultsScreen", { correct: testGradingInfo.score, total: numQuestions }));
+        } else {
+            fi.getTestWord(page).then(testWord => {
+                setTestQuestion(testWord)
+            }).catch(console.error);
+            fi.getTestQuestions().then(testWords => {
+                setTestQuestions(testWords)
+            })
+        }
+    }, [currentTestRoundId, answers])
 
     const gradeAnswers = () => {
-        let correctAnswers = 0;
-        for (let question = 1; question <= numQuestions; question++) {
-            if (answers && answers[question - 1] === answerKey[question - 1]) {
-                correctAnswers++;
-            }
-        }
-        return correctAnswers;
-    }
-
-    const getCorrectWords = () => {
-        let correctWordsArray = [];
+        let numCorrectTestAnswers = 0;
+        let correctTestAnswersList = [];
 
         for (let question = 1; question <= numQuestions; question++) {
-            if (answers && answers[question - 1] === answerKey[question - 1]) {
-                correctWordsArray.push({
-                    english: TESTWORDS.testWords[question - 1]["english"],
-                    turkish: TESTWORDS.testWords[question - 1]["turkish"],
-                    answer: answerKey[question - 1]
-                })
+            let testWord = getTestWord(question);
+
+            if (answers && answers[question - 1] === testWord.correctlyPaired) {
+                numCorrectTestAnswers++;
+                correctTestAnswersList.push(testWord);
             }
         }
-
-        return correctWordsArray;
+        return { score: numCorrectTestAnswers, correctAnswers: correctTestAnswersList };
     }
 
-    React.useLayoutEffect(() => {
-        navigation.setOptions(TEST_HEADER_OPTIONS);
-      }, [navigation]);
+    const getTestWord = (question: number) => {
+        let testWordList: TestWord[] = testQuestions?.filter(testWord => testWord.question === question) ?? []
+        return testWordList[0]
+    }
 
-      useEffect(() => {
-        if (answers.length == numQuestions) {
-            let score = gradeAnswers();
-            fi.endTest(testId, score, getCorrectWords()).then(() => navigation.navigate("TestResultsScreen", { correct: score, total: numQuestions }));
-        } 
-      }, [answers])
-
-    const testButtonOnPress = () => {
+    const continueButtonOnPress = () => {
+        fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
         setAnswers([...answers, answer]);
         setAnswer("");
         if (page < numQuestions) {
             setPage(page + 1);
         }
+        fi.startTestRound(testSessionId, page).then(result => setCurrentTestRoundId(result));
     }
+
+    const determineIfRoundAnswerCorrect = () => {
+        return answer === testQuestion?.correctlyPaired;
+    }
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions(TEST_HEADER_OPTIONS);
+      }, [navigation]);
 
     return (
         <DraxProvider>
@@ -103,8 +114,8 @@ export default function TestScreen(props: TestScreenProps) {
                 </View>
                 <Text style={{fontSize: 36}}>Do these words share the same meaning?</Text>
                 <View style={styles.wordsContainer}>
-                    <Text style={styles.wordsText}>{TESTWORDS.testWords[page - 1]["turkish"]}</Text>
-                    <Text style={styles.wordsText}>{TESTWORDS.testWords[page - 1]["english"]}</Text>
+                    <Text style={styles.wordsText}>{ testQuestion?.turkish }</Text>
+                    <Text style={styles.wordsText}>{ testQuestion?.english }</Text>
                 </View>
                 <View style={styles.answerContainer}>
                     <TouchableOpacity onPress={() => setAnswer("yes")} style={answer === "yes" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
@@ -114,7 +125,7 @@ export default function TestScreen(props: TestScreenProps) {
                         <Text style={answer === "no" ? styles.selectedAnswerText : styles.unselectedAnswerText}>No</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity disabled={!answer} onPress={testButtonOnPress} style={answer ? styles.continueButton : {...styles.continueButton, opacity: 0.5}}>
+                <TouchableOpacity disabled={!answer} onPress={continueButtonOnPress} style={answer ? styles.continueButton : {...styles.continueButton, opacity: 0.5}}>
                     <Text style={{color: "#6E81E7", fontSize: 22}}>continue ></Text>
                 </TouchableOpacity>
             </View>

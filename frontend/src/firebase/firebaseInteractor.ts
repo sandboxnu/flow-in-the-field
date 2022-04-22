@@ -3,7 +3,7 @@ import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } 
 import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
-import { User, Word, Session, Round, GameType, UID, Test } from "../models/types";
+import { User, Word, Session, Round, GameType, UID, TestWord, TestSession, TestRound } from "../models/types";
 import Constants from "expo-constants";
 import _MetricsCollector from "./MetricsCollector";
 import { Role } from "../constants/role";
@@ -95,7 +95,7 @@ export default class FirebaseInteractor {
             role: Role.PARTICIPANT,
             hasFinishedTutorial: false,
             testScore: null,
-            testId: null,
+            testSessionId: null,
         });
     }
 
@@ -160,7 +160,7 @@ export default class FirebaseInteractor {
                 role: docData.role as Role ?? Role.PARTICIPANT,
                 hasFinishedTutorial: docData.hasFinishedTutorial,
                 testScore: docData.testScore,
-                testId: docData.testId,
+                testSessionId: docData.testSessionId,
             }
         }
 
@@ -222,13 +222,46 @@ export default class FirebaseInteractor {
         await this.metricsCollector.endSession(sessionId);
     }
 
-    async startTest(): Promise<UID> {
+    async startTestRound(testSessionId: string, page: number): Promise<UID> {
+
+        const user = this.auth.currentUser;
+
+        if (user !== null) {
+            const user = await this.getUser()
+
+            const newTestRound: TestRound = {
+                testSession: testSessionId,
+                startTime: new Date(),
+                endTime: null,
+                testWord: await this.getTestWord(page),
+                questionNum: page,
+                correct: null
+            }
+
+            const testRoundID: UID = await this.metricsCollector.startTestRound(newTestRound);
+            return testRoundID;
+        }
+
+        throw new Error("No user found")
+    }
+
+    async endTestRound(testRoundId: UID, correct: boolean) {
+        await this.metricsCollector.endTestRound(testRoundId, correct);
+    }
+
+    async getTestRoundPair(testRoundId: UID) {
+        const testRoundsRef = collection(this.db, "testRounds");
+        const docData = (await getDoc(doc(testRoundsRef, testRoundId))).data();
+        return docData?.testWord;
+    }
+
+    async startTestSession(): Promise<UID> {
 
         const user = this.auth.currentUser;
 
         if (user !== null) {
 
-            const newTestSession: Test = {
+            const newTestSession: TestSession = {
                 user: user.uid,
                 startTime: new Date(),
                 endTime: null,
@@ -236,15 +269,31 @@ export default class FirebaseInteractor {
                 correctWords: null,
             }
 
-            const testID: UID = await this.metricsCollector.startTest(newTestSession);
-            return testID;
+            const testSessionID: UID = await this.metricsCollector.startTestSession(newTestSession);
+            return testSessionID;
         }
 
         throw new Error("No user found")
     }
 
-    async endTest(testId: UID, score: number, correctWords: Array<Object>) {
-        await this.metricsCollector.endTest(testId, score, correctWords);
+    async getTestQuestions(): Promise<TestWord[]> {
+        const testWords = collection(this.db, "testWords")
+        const docs = await getDocs(testWords)
+        let allTestWords: TestWord[] = docs.docs.map((doc) => doc.data()).map(({ turkish, english, correctlyPaired, question }) => ({ turkish, english, correctlyPaired, question }))
+        return allTestWords
+    }
+
+    async getTestWord(question: number): Promise<TestWord> {
+        const col = collection(this.db, "testWords")
+        const docs = await getDocs(col)
+        let allTestWords: TestWord[] = docs.docs.map((doc) => doc.data()).map(({ correctlyPaired, english, question, turkish }) => ({ correctlyPaired, english, question, turkish }))
+        let questionWord: TestWord[] = allTestWords.filter(testWord => testWord.question === question)
+        return questionWord[0]
+    }
+
+    async endTestSession(testSessionId: UID, score: number, correctWords: TestWord[]) {
+        await this.metricsCollector.endTestSession(testSessionId, score, correctWords);
+
         const user = this.auth.currentUser;
 
         if (user === null) {
@@ -260,7 +309,7 @@ export default class FirebaseInteractor {
 
         await updateDoc(userDoc, {
             testScore: score,
-            testId: testId,
+            testSessionId: testSessionId,
         });
     }
 
