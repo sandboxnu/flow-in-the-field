@@ -201,7 +201,9 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const renderEnglishOptions = () => {
         return englishWords?.map(word => {
             if (currentPairs?.some(({ english }) => english === word) ?? false) {
-                return (<View key={word} style={styles.englishUsed} />)
+                return (<View key={word} style={styles.englishUsed}>
+                     <Text style={styles.english}>{word}</Text>
+                </View>)
             }
             return (<DraxView payload={word} key={word}
                 style={styles.draxView}
@@ -235,11 +237,11 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         <DraxProvider>
             <View style={styles.container}>
                 <View style={showingModal && !user?.hasFinishedTutorial ? styles.overlay : styles.finishedTutorial}>
-                    {/* <View style={styles.testWrap}> */}
+                    <View style={styles.testWrap}>
                         <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
                             {submitted ? (showAnswers ? correctAnswersText : scoreText) : renderEnglishOptions()}
                         </View>
-                    {/* </View> */}
+                    </View>
                     <View style={styles.bottomContainer}>
                         {renderTurkishWords()}
                     </View>
@@ -274,16 +276,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: "90%",
         flexDirection: "row",
+        height: "100%",
+        flexWrap: "nowrap",
+    },
+    testWrap: {
+        justifyContent: "space-around",
+        alignItems: 'center',
+        width: "90%",
+        flexDirection: "row",
         flex: 6,
         flexWrap: "nowrap",
     },
-    // testWrap: {
-    //     alignItems: 'center',
-    //     width: "100%",
-    //     height: "100%",
-    //     flex: 6,
-    //     flexDirection: "row",
-    // },
     wrapTopContainer: {
         justifyContent: "space-around",
         alignItems: 'center',
@@ -311,7 +314,8 @@ const styles = StyleSheet.create({
         height: "15%",
         marginVertical: "2%",
         backgroundColor: GREY,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: "center",
     },
     doneContainer: {
         flex: 3,
@@ -339,6 +343,7 @@ const styles = StyleSheet.create({
     }, 
     englishUsed: {
         borderColor: BLUE,
+        backgroundColor: "#FFF",
         borderWidth: 1,
         width: "40%",
         borderStyle: "dashed",
@@ -373,6 +378,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#6E81E7A6",
         width: "100%",
         height: "100%",
+        alignItems: "center",
     },
     finishedTutorial: {
         width: "100%",
