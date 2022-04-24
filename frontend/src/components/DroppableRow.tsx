@@ -5,37 +5,24 @@ import { BLUE, GREY, ORANGE } from "../constants/colors";
 interface DroppableRowProps {
     turkish: string,
     english?: string,
-    correctEnglish: string,
     removeWord: () => void;
     wordDropped: (word: string) => void;
-    showingResults: boolean,
     isPairing: boolean
 }
 
-export default function DroppableRow({ turkish, english, removeWord, wordDropped, showingResults, correctEnglish, isPairing }: DroppableRowProps) {
-    const correct = english === correctEnglish;
+export default function DroppableRow({ turkish, english, removeWord, wordDropped, isPairing }: DroppableRowProps) {
     const unusedSelectingWord = !english && !isPairing;
 
-    let extraTurkishInfo;
-    if (showingResults) {
-        if (correct) {
-            extraTurkishInfo = showingResultsStyles.correctTurkishWord;
-        } else if (unusedSelectingWord) {
-            extraTurkishInfo = showingResultsStyles.unusedTurkishWord;
-        } else {
-            extraTurkishInfo = showingResultsStyles.incorrectTurkishWord
-        }
-    }
 
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
-        <View style={{ ...styles.turkishContainer, ...extraTurkishInfo }}>
-            <Text style={{ ...styles.turkishText, ...extraTurkishInfo}}>{turkish}</Text>
+        <View style={{ ...styles.turkishContainer}}>
+            <Text style={{ ...styles.turkishText}}>{turkish}</Text>
         </View>
-        {(english || showingResults) ?
+        {(english) ?
             <DraxView style={{ ...styles.englishTextContainer }}
-                dragPayload={showingResults ? undefined : english} 
-                draggable={!showingResults}
+                dragPayload={english} 
+                draggable={true}
                 draggingStyle={{opacity: 0.3}} 
                 dragReleasedStyle={{opacity: 0.3}} 
                 key={1}
@@ -53,7 +40,7 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
                     setDragging(false)
                 }} // This is a hack since there is no way to interact draxview with a touch handler
                 longPressDelay={1}>
-                <Text style={styles.englishText}>{showingResults ? correctEnglish : english}</Text>
+                <Text style={styles.englishText}>{english}</Text>
             </DraxView>
             
             : <DraxView style={styles.draxView}
@@ -64,45 +51,30 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
     </View>)
 }
 
-const showingResultsStyles = StyleSheet.create({
-    incorrectTurkishWord: {
-        backgroundColor: ORANGE,
-        borderColor: "transparent"
-    },
-    correctTurkishWord: {
-        backgroundColor: "#5BBAB7",
-        borderColor: "transparent"
-    },
-    unusedTurkishWord: {
-        backgroundColor: BLUE,
-        borderColor: "transparent"
-    }
-})
-
 const styles = StyleSheet.create({
     draxView: {
         borderColor: "#5BBAB7",
         borderWidth: 3,
-        width: "40%",
+        width: "45%",
         borderStyle: "dashed",
         height: "100%",
-        marginHorizontal: "5%",
+        // marginHorizontal: "5%",
         borderRadius: 0.0001
     },
     turkishContainer: {
         justifyContent: "center",
-        width: "40%",
+        width: "45%",
         height: "100%",
         backgroundColor: BLUE,
-        marginHorizontal: "5%"
+        // marginHorizontal: "5%"
     },
     turkishText: {
         textAlign: "center",
         color: "white",
-        backgroundColor: BLUE,
+        backgroundColor: "transparent",
     },
     englishTextContainer: {
-        width: "40%",
+        width: "45%",
         textAlign: "center",
         borderColor: "white",
         borderStyle: "dashed",
@@ -110,7 +82,6 @@ const styles = StyleSheet.create({
         backgroundColor: GREY,
         height: "100%",
         color: "white",
-        marginHorizontal: "5%",
         justifyContent: "center",
         borderRadius: 0.000001
     },
@@ -121,8 +92,10 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: 'center',
-        width: "100%",
-        height: "12.5%",
-        paddingVertical: "1.5%"
+        justifyContent: 'space-between',
+        width: "80%",
+        height: "10%",
+        // paddingVertical: "1%",
+        marginVertical: "1%",
     }
 });

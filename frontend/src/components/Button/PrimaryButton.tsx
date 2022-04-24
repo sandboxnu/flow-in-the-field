@@ -22,8 +22,8 @@ export default function PrimaryButton(props: PrimaryButtonProps) {
 
 const styles = StyleSheet.create({
     enabledStyle: {
-        backgroundColor: "#D16B50",
-        borderColor: "#D16B50",
+        backgroundColor: "#6E81E7",
+        borderColor: "#6E81E7",
         borderWidth: 2,
         borderRadius: 12,
         justifyContent: 'center',
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10
     },
     additionalDisabledStyle: {
-        backgroundColor: "#D16B5025",
+        backgroundColor: "#6E81E725",
         borderColor: "#FFF"
     },
     enabledTextStyle: {
