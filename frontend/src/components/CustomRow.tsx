@@ -13,14 +13,12 @@ interface CustomRowProps {
     isPairing: boolean
 }
 
-export default function CustomRow({ turkish, englishSelectingWord, english, removeWord, wordDropped, showingResults, showingAnswers, correctEnglish, isPairing }: CustomRowProps) {
+export default function CustomRow({ turkish, english, removeWord, wordDropped, showingResults, showingAnswers, correctEnglish, isPairing }: CustomRowProps) {
     if (showingResults) {
       return (<ResultRow
         key={turkish}
         showingAnswers={showingAnswers}
         turkish={turkish}
-        showingResults={showingResults}
-        englishSelectingWord={englishSelectingWord}
         english={english}
         correctEnglish={correctEnglish} 
         isPairing={isPairing}

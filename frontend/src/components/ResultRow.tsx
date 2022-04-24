@@ -3,49 +3,48 @@ import React from "react";
 import { BLUE, GREY, ORANGE } from "../constants/colors";
 interface ResultRowProps {
     turkish: string,
-    englishSelectingWord?: string,
     english?: string,
     correctEnglish: string,
     showingAnswers: boolean, 
     isPairing: boolean
 }
 
-export default function ResultRow({ turkish, englishSelectingWord, english, showingAnswers, correctEnglish, isPairing }: ResultRowProps) {
+export default function ResultRow({ turkish, english, showingAnswers, correctEnglish, isPairing }: ResultRowProps) {
     const correct = english === correctEnglish;
     const unusedSelectingWord = (!english) && !isPairing;
     
-    let extraTurkishInfo;
-    let extraEnglishInfo;
-    let extraContainerInfo;
+    let additionalTurkishStyling;
+    let additionalEnglishStyling;
+    let additionalContainerStyling;
     let textStyle;
 
     if (showingAnswers) {
         // highlights incorrect pairs and incorrectly selected TURKISH row
         if (isPairing && !correct || !isPairing && !correct && english) {
-            extraContainerInfo = showingResultsStyles.correctedRow;
+            additionalContainerStyling = showingResultsStyles.correctedRow;
             textStyle = styles.whiteText;
         } else {
-            extraContainerInfo = showingResultsStyles.userCorrectRow;
+            additionalContainerStyling = showingResultsStyles.userCorrectRow;
             textStyle = styles.blackText;
         }
-        extraTurkishInfo = showingResultsStyles.answersWord;
-        extraEnglishInfo = showingResultsStyles.answersWord;
+        additionalTurkishStyling = showingResultsStyles.answersWord;
+        additionalEnglishStyling = showingResultsStyles.answersWord;
     } else {
         textStyle = styles.whiteText;
         if (correct) {
-          extraTurkishInfo = showingResultsStyles.correctTurkishWord;
+          additionalTurkishStyling = showingResultsStyles.correctTurkishWord;
         } else if (unusedSelectingWord) {
-          extraTurkishInfo = showingResultsStyles.unusedTurkishWord;
+          additionalTurkishStyling = showingResultsStyles.unusedTurkishWord;
         } else {
-            extraTurkishInfo = showingResultsStyles.incorrectTurkishWord;
+            additionalTurkishStyling = showingResultsStyles.incorrectTurkishWord;
         }
     }
 
-    return (<View style={{...styles.container, ...extraContainerInfo}}>
-        <View style={{...styles.turkishContainer,  ...extraTurkishInfo }}>
+    return (<View style={{...styles.container, ...additionalContainerStyling}}>
+        <View style={{...styles.turkishContainer,  ...additionalTurkishStyling }}>
             <Text style={textStyle}>{turkish}</Text>
         </View>
-            <View style={unusedSelectingWord && !showingAnswers ? undefined : {...styles.englishTextContainer, ...extraEnglishInfo}}>
+            <View style={unusedSelectingWord && !showingAnswers ? undefined : {...styles.englishTextContainer, ...additionalEnglishStyling}}>
                 <Text style={textStyle}>
                     {showingAnswers ? correctEnglish : english}
                 </Text>

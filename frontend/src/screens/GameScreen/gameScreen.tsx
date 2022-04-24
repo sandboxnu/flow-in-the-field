@@ -152,49 +152,53 @@ export default function GameScreen(props: SpecificGameScreenProps) {
 
     const renderSubmittedButtons = () => {
       if (showAnswers) {
-        return (<View style={styles.doneContainer}>
-          <PrimaryButton
-              disabled={isLoading}
-              onPress={() => {
-                  setIsLoading(true);
-                  fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
-              }}
-              text="play again" />
-          <SecondaryButton
-              disabled={isLoading}
-              text="end session"
-              onPress={() => {
-                    fi.endSession(gameStateContext.sessionId);
-                    gameStateContext.updateSessionId("");
-                    gameStateContext.updateRoundId("");
-                    navigation.navigate("HomeScreen");
-              }} />
-      </View>)
-      } else {
-        return (<View style={styles.doneContainer}>
-           <CustomButton
+        return (
+            <View style={styles.doneContainer}>
+            <PrimaryButton
+                disabled={isLoading}
                 onPress={() => {
-                    setShowAnswers(true);
+                    setIsLoading(true);
+                    fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
                 }}
-                disabled={false}
-                enabledStyle={styles.seeCorrectButton}
-                disabledStyle={styles.seeCorrectButton}
-                enabledTextStyle={styles.buttonText}
-                disabledTextStyle={styles.buttonText}
-                text={"see correct answers"}/>
+                text="play again" />
+            <SecondaryButton
+                disabled={isLoading}
+                text="end session"
+                onPress={() => {
+                        fi.endSession(gameStateContext.sessionId);
+                        gameStateContext.updateSessionId("");
+                        gameStateContext.updateRoundId("");
+                        navigation.navigate("HomeScreen");
+                }} />
+        </View>)
+      } else {
+        return (
+            <View style={styles.doneContainer}>
+                <CustomButton
+                    onPress={() => {
+                        setShowAnswers(true);
+                    }}
+                    disabled={false}
+                    enabledStyle={styles.seeCorrectButton}
+                    disabledStyle={styles.seeCorrectButton}
+                    enabledTextStyle={styles.buttonText}
+                    disabledTextStyle={styles.buttonText}
+                    text={"see correct answers"}
+                />
             </View>)
       }
     }
 
     const renderInProgressButtons = () => {
-        return (<View style={styles.doneContainer}>
-            <PrimaryButton
-                disabled={!canClickDoneButton || isLoading}
-                text="done"
-                onPress={() => {
-                  setSubmitted(true)
-                }} />
-        </View>
+        return (
+            <View style={styles.doneContainer}>
+                <PrimaryButton
+                    disabled={!canClickDoneButton || isLoading}
+                    text="done"
+                    onPress={() => {
+                    setSubmitted(true)
+                    }} />
+            </View>
         )
     }
 

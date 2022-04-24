@@ -51,21 +51,6 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
     </View>)
 }
 
-const showingResultsStyles = StyleSheet.create({
-    incorrectTurkishWord: {
-        backgroundColor: ORANGE,
-        borderColor: "transparent"
-    },
-    correctTurkishWord: {
-        backgroundColor: "#5BBAB7",
-        borderColor: "transparent"
-    },
-    unusedTurkishWord: {
-        backgroundColor: BLUE,
-        borderColor: "transparent"
-    }
-})
-
 const styles = StyleSheet.create({
     draxView: {
         borderColor: "#5BBAB7",
