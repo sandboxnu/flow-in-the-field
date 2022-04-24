@@ -45,7 +45,8 @@ export default function TestScreen(props: TestScreenProps) {
             let testGradingInfo = gradeAnswers();
             fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
             fi.endTestSession(testSessionId, testGradingInfo.score, testGradingInfo.correctAnswers).then(
-                () => navigation.navigate("TestResultsScreen", { correct: testGradingInfo.score, total: numQuestions }));
+                () => navigation.navigate("TestResultsScreen", 
+                        { correct: testGradingInfo.score, total: numQuestions }));
         } else {
             fi.getTestWord(page).then(testWord => {
                 setTestQuestion(testWord)
