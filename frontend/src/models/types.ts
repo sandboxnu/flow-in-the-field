@@ -66,3 +66,8 @@ export interface TestRound {
     questionNum: number;
     correct: boolean | null;
 }
+
+export interface RoundWithId {
+    id: string,
+    round: Round
+}

@@ -8,6 +8,9 @@ import { DraxView, DraxProvider } from "react-native-drax";
 import DroppableRow from "../components/DroppableRow";
 import { useNavigation } from "@react-navigation/core";
 import { LoadingScreen } from "../components/LoadingScreen";
+import PrimaryButton from "../components/Button/PrimaryButton";
+import { collection } from "firebase/firestore";
+import { generateRoundsCSV, promptExportEmail, testJson } from "../firebase/csvExporter";
 
 const fi = new FirebaseInteractor();
 
@@ -20,6 +23,9 @@ export default function AdminScreen(props: AdminScreenProps) {
     return (
         <DraxProvider>
             <Text>This is admin placeholder hooray</Text>
+            <PrimaryButton onPress={async () => {
+                await promptExportEmail(await generateRoundsCSV());
+            }} disabled={false} text="create csv" />
         </DraxProvider>
     )
 }
@@ -30,5 +36,5 @@ const defaultStyle = StyleSheet.create({
 });
 
 const styles = StyleSheet.create({
-   
+
 })

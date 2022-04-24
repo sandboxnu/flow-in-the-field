@@ -23,7 +23,7 @@ export default function SecondaryButton(props: SecondaryButtonProps) {
 const styles = StyleSheet.create({
     enabledStyle: {
         backgroundColor: 'white',
-        borderColor: "#D16B50",
+        borderColor: "#6E81E7",
         borderWidth: 2,
         borderRadius: 12,
         justifyContent: 'center',
@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
         marginVertical: "1%",
         paddingVertical: 10
     },
-    additionalDisabledStyle: { borderColor: "#D16B5025" },
+    additionalDisabledStyle: { borderColor: "#6E81E7" },
     enabledTextStyle: {
-        color: "#D16B50",
+        color: "#6E81E7",
         backgroundColor: "transparent"
     },
     disabledTextStyle: {
-        color: "#D16B5025",
+        color: "#6E81E7",
         backgroundColor: "transparent"
     }
 });

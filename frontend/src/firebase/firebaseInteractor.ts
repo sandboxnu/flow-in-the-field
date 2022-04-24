@@ -1,9 +1,9 @@
 import * as firebase from "firebase/app";
-import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType } from "../utils/utils";
+import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType, insertRoundInOrder } from "../utils/utils";
 import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, addDoc, updateDoc, connectFirestoreEmulator, Firestore } from "firebase/firestore";
-import { User, Word, Session, Round, GameType, UID, TestWord, TestSession, TestRound } from "../models/types";
+import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, updateDoc, connectFirestoreEmulator, QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+import { User, Word, Session, Round, UID, TestWord, TestSession, TestRound, RoundWithId } from "../models/types";
 import Constants from "expo-constants";
 import _MetricsCollector from "./MetricsCollector";
 import { Role } from "../constants/role";
@@ -141,6 +141,14 @@ export default class FirebaseInteractor {
         await signOut(this.auth);
     }
 
+    async getUserById(userId: UID): Promise<User> {
+        return (await getDoc(doc(this.db, "users", userId))).data() as User;
+    }
+
+    async getSessionById(sessionId: UID): Promise<Session> {
+        return (await getDoc(doc(this.db, "sessions", sessionId))).data() as Session;
+    }
+
     async getUser(): Promise<User> {
 
         const user = this.auth.currentUser;
@@ -208,6 +216,44 @@ export default class FirebaseInteractor {
         const roundsRef = collection(this.db, "rounds");
         const docData = (await getDoc(doc(roundsRef, roundId))).data();
         return docData?.words ?? [];
+    }
+
+    async getAllRounds(): Promise<RoundWithId[]> {
+        const allRounds = await getDocs(collection(this.db, "rounds"));
+        const roundsWithIds: RoundWithId[] = [];
+
+        allRounds.docs.forEach(async (roundDocSnapShot: QueryDocumentSnapshot<DocumentData>) => {
+            roundsWithIds.push({
+                id: roundDocSnapShot.id,
+                round: this.correctTimeStamps(roundDocSnapShot.data())
+            })
+        })
+
+        return roundsWithIds;
+    }
+
+    // Firestore stores timestamps with more precision. This method returns the Round with proper Date objects to avoid casting errors
+    correctTimeStamps(data: DocumentData): Round {
+        return {
+            session: data["session"],
+            startTime: data["startTime"].toDate() as Date,
+            endTime: data["endTime"] ? data["endTime"].toDate() as Date : null,
+            words: data["words"],
+            correctWords: data["correctWords"]
+        }
+    }
+
+    // Returns a map of session id to an array of RoundWithIds in sorted order of start time of the rounds in that session
+    async getOrderedRoundsInSessions(): Promise<{ [sessionId: string]: RoundWithId[] }> {
+        const allRounds: RoundWithId[] = await this.getAllRounds();
+        const roundsInSession: { [sessionId: string]: RoundWithId[] } = {}
+
+        allRounds.forEach((roundWithId: RoundWithId) => {
+            const currentSessionRounds: RoundWithId[] = roundsInSession[roundWithId.round.session] ?? []
+            roundsInSession[roundWithId.round.session] = insertRoundInOrder(currentSessionRounds, roundWithId);
+        })
+
+        return roundsInSession;
     }
 
     async startSession(): Promise<UID> {

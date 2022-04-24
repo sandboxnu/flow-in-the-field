@@ -1,4 +1,4 @@
-import { NumPairs, GameType } from "../models/types";
+import { NumPairs, GameType, RoundWithId } from "../models/types";
 
 export function getRandomPairing(): NumPairs {
     let choice = Math.floor(Math.random() * 3);
@@ -51,4 +51,32 @@ export function durstenfeldShuffle(array: any[]) {
 export function getRandomGameType(): GameType {
     const gameTypes: GameType[] = ["pairing", "selecting"];
     return gameTypes[Math.floor(Math.random() * gameTypes.length)];
+}
+
+/**
+ * Returns the given list of rounds with the given round inserted in order of start time
+ * 
+ * @param currentRounds sorted list of rounds to insert new round into
+ * @param toInsert round to insert into list
+ */
+export function insertRoundInOrder(currentRounds: RoundWithId[], toInsert: RoundWithId): RoundWithId[] {
+    if (currentRounds.length == 0) {
+        currentRounds.push(toInsert);
+        return currentRounds;
+    }
+    
+    let lowIndex = 0;
+    let highIndex = currentRounds.length - 1;
+
+    while (currentRounds[lowIndex].round.startTime < currentRounds[highIndex].round.startTime) {
+        let midIndex = Math.floor((lowIndex + highIndex) / 2)
+        if (currentRounds[midIndex].round.startTime < toInsert.round.startTime) {
+            lowIndex = midIndex + 1
+        } else {
+            highIndex = midIndex;
+        }
+    }
+
+    currentRounds.splice(lowIndex, 0, toInsert)
+    return currentRounds;
 }
