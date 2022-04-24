@@ -12629,12 +12629,12 @@ react-native-screens@~3.4.0:
   dependencies:
     warn-once "^0.1.0"
 
-react-native-swiper@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.6.0.tgz#59fdbdf95addee49630312f27077622c27776819"
-  integrity sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ==
+"react-native-swiper@https://github.com/Octillerysnacker/react-native-swiper.git":
+  version "1.6.0-rc.2"
+  resolved "https://github.com/Octillerysnacker/react-native-swiper.git#cbb5956dfef2be702e29006828444f987d8b70a2"
   dependencies:
     prop-types "^15.5.10"
+    react-native-gesture-handler "^1.10.3"
 
 react-native-vector-icons@^9.1.0:
   version "9.1.0"
