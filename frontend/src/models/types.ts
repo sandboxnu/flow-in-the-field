@@ -40,3 +40,8 @@ export interface Match {
     english: string;
     correct: boolean;
 }
+
+export interface RoundWithId {
+    id: string,
+    round: Round
+}
