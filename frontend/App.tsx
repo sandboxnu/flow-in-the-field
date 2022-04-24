@@ -8,8 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
 import EmailVerificationScreen from './src/screens/emailVerificationScreen';
-import { HAS_SEEN_ONBOARDING } from './src/constants/startingStates';
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
 import TestScreen from "./src/screens/TestScreen";
 import BackButton from './src/components/Button/BackButton';
@@ -57,9 +55,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    // TODO: finalize this
     setStartingState("SignInFlow");
-    // AsyncStorage.getItem(HAS_SEEN_ONBOARDING).then(val => setStartingState(val ? "SignInFlow" : "Onboarding"));
   }, [])
   if (!startingState) {
     return null;
