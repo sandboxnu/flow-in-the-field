@@ -37,7 +37,7 @@
     "react-native-screens": "~3.4.0",
     "react-native-swiper": "^1.6.0",
     "svg": "^0.1.0",
-    "use-state-with-callback": "^2.0.3"
+    "use-state-with-callback": "^2.0.3",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "~0.13.12"
   },
