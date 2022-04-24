@@ -57,7 +57,9 @@ export default function App() {
   }
 
   useEffect(() => {
-    AsyncStorage.getItem(HAS_SEEN_ONBOARDING).then(val => setStartingState(val ? "SignInFlow" : "Onboarding"));
+    // TODO: finalize this
+    setStartingState("SignInFlow");
+    // AsyncStorage.getItem(HAS_SEEN_ONBOARDING).then(val => setStartingState(val ? "SignInFlow" : "Onboarding"));
   }, [])
   if (!startingState) {
     return null;
