@@ -44,7 +44,8 @@ export default function TestScreen(props: TestScreenProps) {
         } else if (answers.length == numQuestions) {
             let testGradingInfo = gradeAnswers();
             fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
-            fi.endTestSession(testSessionId, testGradingInfo.score, testGradingInfo.correctAnswers).then(() => navigation.navigate("TestResultsScreen", { correct: testGradingInfo.score, total: numQuestions }));
+            fi.endTestSession(testSessionId, testGradingInfo.score, testGradingInfo.correctAnswers).then(
+                () => navigation.navigate("TestResultsScreen", { correct: testGradingInfo.score, total: numQuestions }));
         } else {
             fi.getTestWord(page).then(testWord => {
                 setTestQuestion(testWord)
@@ -118,14 +119,25 @@ export default function TestScreen(props: TestScreenProps) {
                     <Text style={styles.wordsText}>{ testQuestion?.english }</Text>
                 </View>
                 <View style={styles.answerContainer}>
-                    <TouchableOpacity onPress={() => setAnswer("yes")} style={answer === "yes" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
-                        <Text style={answer === "yes" ? styles.selectedAnswerText : styles.unselectedAnswerText}>Yes</Text>
+                    <TouchableOpacity
+                        onPress={() => setAnswer("yes")} 
+                        style={answer === "yes" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
+                        <Text style={answer === "yes" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
+                            Yes
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setAnswer("no")} style={answer === "no" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
-                        <Text style={answer === "no" ? styles.selectedAnswerText : styles.unselectedAnswerText}>No</Text>
+                    <TouchableOpacity 
+                    onPress={() => setAnswer("no")} 
+                    style={answer === "no" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
+                        <Text style={answer === "no" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
+                            No
+                        </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity disabled={!answer} onPress={continueButtonOnPress} style={answer ? styles.continueButton : {...styles.continueButton, opacity: 0.5}}>
+                <TouchableOpacity 
+                    disabled={!answer} 
+                    onPress={continueButtonOnPress} 
+                    style={answer ? styles.continueButton : {...styles.continueButton, opacity: 0.5}}>
                     <Text style={{color: "#6E81E7", fontSize: 22}}>continue ></Text>
                 </TouchableOpacity>
             </View>
