@@ -8,8 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homescreen from './src/screens/homescreen';
 import AccountSettings from './src/screens/Login/accountSettings';
 import EmailVerificationScreen from './src/screens/emailVerificationScreen';
-import { HAS_SEEN_ONBOARDING } from './src/constants/startingStates';
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
 import TestWelcomeScreen from "./src/screens/TestScreen/TestWelcomeScreen";
 import TestScreen from "./src/screens/TestScreen/TestScreen";
@@ -45,7 +43,6 @@ export default function App() {
     },
   };
 
-  const [startingState, setStartingState] = useState<string>();
   const [currentRoundId, setCurrentRoundId] = useState("")
   const [currentSessionId, setCurrentSessionId] = useState("");
   const fi = new FirebaseInteractor();
@@ -58,50 +55,41 @@ export default function App() {
     setCurrentSessionId(newSessionId);
   }
 
-  useEffect(() => {
-    AsyncStorage.getItem(HAS_SEEN_ONBOARDING).then(val => setStartingState(val ? "SignInFlow" : "Onboarding"));
-  }, [])
-  if (!startingState) {
-    return null;
-  } else {
-    return (
-      <GameStateContext.Provider value={{
-        sessionId: currentSessionId,
-        roundId: currentRoundId,
-        updateRoundId: onRoundChange,
-        updateSessionId: onSessionChange
-      }}>
-        <NavigationContainer theme={NAV_THEME}>
-          <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS} initialRouteName={startingState}>
-            <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
-            <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
-            <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
-            <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
-            <Stack.Screen name="SettingsScreen" component={AccountSettings} />
-            <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-              headerLeft: () =>
-                <BackButton
-                  onPress={async () => {
-                    const currentWords = await fi.getCorrectWords(currentRoundId);
-                    fi.endRound(currentRoundId, currentWords);
-                    fi.endSession(currentSessionId);
-                    onRoundChange("")
-                    onSessionChange("")
-                  }}
-                />,
-              headerBackVisible: false,
-              gestureEnabled: false,
-            }} />
-            <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
-            <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
-            <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
-            <Stack.Screen name="AdminScreen" component={AdminScreen} />
-            <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GameStateContext.Provider>
-    );
-  }
+  return (
+    <GameStateContext.Provider value={{
+      sessionId: currentSessionId,
+      roundId: currentRoundId,
+      updateRoundId: onRoundChange,
+      updateSessionId: onSessionChange
+    }}>
+      <NavigationContainer theme={NAV_THEME}>
+        <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS} initialRouteName={"SignInFlow"}>
+          <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
+          <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
+          <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
+          <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
+          <Stack.Screen name="SettingsScreen" component={AccountSettings} />
+          <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
+            headerLeft: () =>
+              <BackButton
+                onPress={async () => {
+                  const currentWords = await fi.getCorrectWords(currentRoundId);
+                  fi.endRound(currentRoundId, currentWords);
+                  fi.endSession(currentSessionId);
+                  onRoundChange("")
+                  onSessionChange("")
+                }}
+              />,
+            headerBackVisible: false,
+            gestureEnabled: false,
+          }} />
+          <Stack.Screen name="TestScreen" component={TestScreen} />
+          <Stack.Screen name="AdminScreen" component={AdminScreen} />
+          <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GameStateContext.Provider>
+  );
 }
 
 const styles = StyleSheet.create({
