@@ -15,12 +15,17 @@ import PrimaryButton from "../components/Button/PrimaryButton";
 
 const fi = new FirebaseInteractor();
 
-export default function Homescreen() {
+export interface HomescreenProps {
+    route: any;
+}
+
+export default function Homescreen(props: HomescreenProps) {
     const [user, setUser] = useState<User>();
+    const testFinished = props.route.params ? props.route.params["testFinished"] : false;
     const gameStateContext = useContext(GameStateContext);
 
     useEffect(() => {
-        fi.getUser().then(setUser).catch(console.error);
+        fi.getUser().then((user) => setUser(user)).catch(console.error);
     }, []);
 
     const navigation = useNavigation();
@@ -36,16 +41,20 @@ export default function Homescreen() {
         })
     }
 
+    const hasFinishedTest = () =>  {
+        return testFinished || user.testScore != null;
+    }
+
     const testAvailable = () => {
         let now = new Date(Date.now());
         let timeUntilTest = user.testDate.getTime() - now.getTime();
 
-        return timeUntilTest <= 0;
+        return !hasFinishedTest() && timeUntilTest <= 0;
     }
 
     const startTest = () => {
         if (testAvailable()) {
-            navigation.navigate("TestScreen");
+            navigation.navigate("TestWelcomeScreen");
         }
     }
 

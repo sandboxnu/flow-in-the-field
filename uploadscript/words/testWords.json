@@ -1,0 +1,304 @@
+{
+    "testWords": [
+        {
+            "turkish": "Ayak",
+            "english": "Father",
+            "correctlyPaired": "no",
+            "question": 1
+        },
+        {
+            "turkish": "El",
+            "english": "Foot",
+            "correctlyPaired": "no",
+            "question": 2
+        },
+        {
+            "turkish": "Fabrika",
+            "english": "Price",
+            "correctlyPaired": "no",
+            "question": 3
+        },
+        {
+            "turkish": "Ağaç",
+            "english": "Arm",
+            "correctlyPaired": "no",
+            "question": 4
+        },
+        {
+            "turkish": "Ye",
+            "english": "Eat",
+            "correctlyPaired": "yes",
+            "question": 5
+        },
+        {
+            "turkish": "Zaman",
+            "english": "Time",
+            "correctlyPaired": "yes",
+            "question": 6
+        },
+        {
+            "turkish": "Genç",
+            "english": "Young",
+            "correctlyPaired": "yes",
+            "question": 7
+        },
+        {
+            "turkish": "Baba",
+            "english": "Father",
+            "correctlyPaired": "yes",
+            "question": 8
+        },
+        {
+            "turkish": "Dağ",
+            "english": "Mountain",
+            "correctlyPaired": "yes",
+            "question": 9
+        },
+        {
+            "turkish": "Ananas",
+            "english": "Drink",
+            "correctlyPaired": "no",
+            "question": 10
+        },
+        {
+            "turkish": "Sormak",
+            "english": "Ask",
+            "correctlyPaired": "yes",
+            "question": 11
+        },
+        {
+            "turkish": "Fabrika",
+            "english": "Factory",
+            "correctlyPaired": "yes",
+            "question": 12
+        },
+        {
+            "turkish": "Iç",
+            "english": "Pineapple",
+            "correctlyPaired": "no",
+            "question": 13
+        },
+        {
+            "turkish": "Ilk",
+            "english": "Now",
+            "correctlyPaired": "no",
+            "question": 14
+        },
+        {
+            "turkish": "Ye",
+            "english": "Mistake",
+            "correctlyPaired": "no",
+            "question": 15
+        },
+        {
+            "turkish": "Bitki",
+            "english": "Plant",
+            "correctlyPaired": "yes",
+            "question": 16
+        },
+        {
+            "turkish": "Arazi",
+            "english": "Land",
+            "correctlyPaired": "yes",
+            "question": 17
+        },
+        {
+            "turkish": "Artık",
+            "english": "Eat",
+            "correctlyPaired": "no",
+            "question": 18
+        },
+        {
+            "turkish": "Sormak",
+            "english": "No",
+            "correctlyPaired": "no",
+            "question": 19
+        },
+        {
+            "turkish": "Fırın",
+            "english": "Oven",
+            "correctlyPaired": "yes",
+            "question": 20
+        },
+        {
+            "turkish": "Iç",
+            "english": "Drink",
+            "correctlyPaired": "yes",
+            "question": 21
+        },
+        {
+            "turkish": "Ayak",
+            "english": "Foot",
+            "correctlyPaired": "yes",
+            "question": 22
+        },
+        {
+            "turkish": "Kadın",
+            "english": "Woman",
+            "correctlyPaired": "yes",
+            "question": 23
+        },
+        {
+            "turkish": "Burada",
+            "english": "Store",
+            "correctlyPaired": "no",
+            "question": 24
+        },
+        {
+            "turkish": "Artık",
+            "english": "Now",
+            "correctlyPaired": "yes",
+            "question": 25
+        },
+        {
+            "turkish": "Fiyat",
+            "english": "Oven",
+            "correctlyPaired": "no",
+            "question": 26
+        },
+        {
+            "turkish": "Fırın",
+            "english": "First",
+            "correctlyPaired": "no",
+            "question": 27
+        },
+        {
+            "turkish": "Hata",
+            "english": "Mistake",
+            "correctlyPaired": "yes",
+            "question": 28
+        },
+        {
+            "turkish": "Başka",
+            "english": "Another",
+            "correctlyPaired": "yes",
+            "question": 29
+        },
+        {
+            "turkish": "Arazi",
+            "english": "Hand",
+            "correctlyPaired": "no",
+            "question": 30
+        },
+        {
+            "turkish": "Burada",
+            "english": "Here",
+            "correctlyPaired": "yes",
+            "question": 31
+        },
+        {
+            "turkish": "Ananas",
+            "english": "Pineapple",
+            "correctlyPaired": "yes",
+            "question": 32
+        },
+        {
+            "turkish": "Kol",
+            "english": "Arm",
+            "correctlyPaired": "yes",
+            "question": 33
+        },
+        {
+            "turkish": "Genç",
+            "english": "Time",
+            "correctlyPaired": "no",
+            "question": 34
+        },
+        {
+            "turkish": "Fiyat",
+            "english": "Price",
+            "correctlyPaired": "yes",
+            "question": 35
+        },
+        {
+            "turkish": "Bitki",
+            "english": "Mountain",
+            "correctlyPaired": "no",
+            "question": 36
+        },
+        {
+            "turkish": "El",
+            "english": "Hand",
+            "correctlyPaired": "yes",
+            "question": 37
+        },
+        {
+            "turkish": "Dağ",
+            "english": "Ask",
+            "correctlyPaired": "no",
+            "question": 38
+        },
+        {
+            "turkish": "Ilk",
+            "english": "First",
+            "correctlyPaired": "yes",
+            "question": 39
+        },
+        {
+            "turkish": "Bakkal",
+            "english": "Store",
+            "correctlyPaired": "yes",
+            "question": 40
+        },
+        {
+            "turkish": "Kadın",
+            "english": "Young",
+            "correctlyPaired": "no",
+            "question": 41
+        },
+        {
+            "turkish": "Hayır",
+            "english": "Factory",
+            "correctlyPaired": "no",
+            "question": 42
+        },
+        {
+            "turkish": "Ağaç",
+            "english": "Tree",
+            "correctlyPaired": "yes",
+            "question": 43
+        },
+        {
+            "turkish": "Zaman",
+            "english": "Land",
+            "correctlyPaired": "no",
+            "question": 44
+        },
+        {
+            "turkish": "Başka",
+            "english": "Here",
+            "correctlyPaired": "no",
+            "question": 45
+        },
+        {
+            "turkish": "Kol",
+            "english": "Another",
+            "correctlyPaired": "no",
+            "question": 46
+        },
+        {
+            "turkish": "Baba",
+            "english": "Plant",
+            "correctlyPaired": "no",
+            "question": 47
+        },
+        {
+            "turkish": "Hata",
+            "english": "Woman",
+            "correctlyPaired": "no",
+            "question": 48
+        },
+        {
+            "turkish": "Hayır",
+            "english": "No",
+            "correctlyPaired": "yes",
+            "question": 49
+        },
+        {
+            "turkish": "Bakkal",
+            "english": "Tree",
+            "correctlyPaired": "no",
+            "question": 50
+        }
+    ]
+}

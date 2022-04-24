@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, Firestore, getDoc, updateDoc } from "firebase/firestore";
-import { Round, Session, UID, Word } from "../models/types";
+import { Round, Session, UID, Word, TestRound, TestSession, TestWord } from "../models/types";
 
 /**
  * Tool to be used internally in the Firebase Interactor to manage metrics-specific data handling.
@@ -56,6 +56,54 @@ export default class _MetricsCollector {
         const sessionsRef = collection(this.db, "sessions");
         await updateDoc(doc(sessionsRef, sessionId), {
             endTime: new Date()
+        })
+    }
+
+    /**
+     * Records start of test round metrics
+     * @param testRound the TestRound whose metrics to track
+     * @returns the Firestore id of the stored test round
+     */
+    async startTestRound(testRound: TestRound): Promise<UID> {
+        const col = collection(this.db, "testRounds");
+        const doc = await addDoc(col, testRound)
+        return doc.id
+    }
+
+    /**
+     * Records end of test round metrics
+     * @param testRoundId the id of the test round to end
+     */
+    async endTestRound(testRoundId: UID, correct: boolean) {
+        const testRoundRef = collection(this.db, "testRounds");
+        const testRoundDoc = doc(testRoundRef, testRoundId);
+        await updateDoc(testRoundDoc, {
+            endTime: new Date(),
+            correct: correct
+        })
+    }
+
+    /**
+     * Records start of test session metrics
+     * @param testSession the TestSession whose metrics to track
+     * @returns the Firestore id of the stored test session
+     */
+    async startTestSession(testSession: TestSession): Promise<UID> {
+        const col = collection(this.db, "testSessions");
+        const doc = await addDoc(col, testSession);
+        return doc.id;
+    }
+
+    /**
+     * Records end of test session metrics
+     * @param testSessionId the id of the test session to end
+     */
+    async endTestSession(testSessionId: UID, score: number, correctWords: TestWord[]) {
+        const testSessionsRef = collection(this.db, "testSessions");
+        await updateDoc(doc(testSessionsRef, testSessionId), {
+            endTime: new Date(),
+            score: score,
+            correctWords: correctWords
         })
     }
 }

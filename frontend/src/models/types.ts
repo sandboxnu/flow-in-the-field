@@ -13,6 +13,8 @@ export interface User {
     gameType: GameType;
     role: Role
     hasFinishedTutorial: boolean;
+    testScore: number | null;
+    testSessionId: string | null;
 }
 
 export interface Word {
@@ -39,6 +41,30 @@ export interface Match {
     turkish: string;
     english: string;
     correct: boolean;
+}
+
+export interface TestWord {
+    turkish: string;
+    english: string;
+    correctlyPaired: string;
+    question: number;
+}
+
+export interface TestSession {
+    user: UID;
+    startTime: Date;
+    endTime: Date | null;
+    score: number | null;
+    correctWords: TestWord[] | null;
+}
+
+export interface TestRound {
+    testSession: UID;
+    startTime: Date;
+    endTime: Date | null;
+    testWord: TestWord;
+    questionNum: number;
+    correct: boolean | null;
 }
 
 export interface RoundWithId {

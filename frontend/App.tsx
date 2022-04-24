@@ -11,7 +11,9 @@ import EmailVerificationScreen from './src/screens/emailVerificationScreen';
 import { HAS_SEEN_ONBOARDING } from './src/constants/startingStates';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
-import TestScreen from "./src/screens/TestScreen";
+import TestWelcomeScreen from "./src/screens/TestScreen/TestWelcomeScreen";
+import TestScreen from "./src/screens/TestScreen/TestScreen";
+import TestResultsScreen from "./src/screens/TestScreen/TestResultsScreen";
 import BackButton from './src/components/Button/BackButton';
 import FirebaseInteractor from './src/firebase/firebaseInteractor';
 import { GameStateContext } from './src/utils/context';
@@ -90,7 +92,9 @@ export default function App() {
               headerBackVisible: false,
               gestureEnabled: false,
             }} />
-            <Stack.Screen name="TestScreen" component={TestScreen} />
+            <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
+            <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
+            <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
             <Stack.Screen name="AdminScreen" component={AdminScreen} />
             <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
           </Stack.Navigator>
