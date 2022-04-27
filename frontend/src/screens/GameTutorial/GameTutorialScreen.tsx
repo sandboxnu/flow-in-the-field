@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
-import { ORANGE, LIGHTPURPLE } from '../../constants/colors';
+import { LIGHTPURPLE } from '../../constants/colors';
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 const fi = new FirebaseInteractor();
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: ORANGE,
+        backgroundColor: LIGHTPURPLE,
         width: "38%",
         maxHeight: "6%",
         marginTop: "7%",
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     buttonContent: {
-        backgroundColor: ORANGE,
+        backgroundColor: LIGHTPURPLE,
         fontFamily: 'Futura',
         fontSize: 20,
         color: '#FFF',

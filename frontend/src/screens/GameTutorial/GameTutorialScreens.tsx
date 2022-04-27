@@ -9,10 +9,10 @@ const tutorialImages = {
 	page1: require('../../assets/tutorial-page-1.png'),
 	page2: require('../../assets/tutorial-page-2.png'),
 	page3: require('../../assets/tutorial-page-3.png'),
-    page5Pairing: require('../../assets/pairing-tutorial-page-5.png'),
-    page5Selecting: require('../../assets/selecting-tutorial-page-5.png'),
-    page6: require('../../assets/tutorial-page-6.png'),
-    page7: require('../../assets/tutorial-page-7.png')
+  page5Pairing: require('../../assets/pairing-tutorial-page-5.png'),
+  page5Selecting: require('../../assets/selecting-tutorial-page-5.png'),
+  page6: require('../../assets/tutorial-page-6.png'),
+  page7: require('../../assets/tutorial-page-7.png')
 };
 
 interface GameTutorialScreenProps {
@@ -114,13 +114,19 @@ export default function GameTutorialScreens({
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
+                    isPairing ? 
                     "Once you have matched all the words, press done to " +
+                    "submit your answers." :
+                    "Once you have matched the word, press done to " +
                     "submit your answers."}
                 doneButton={true}
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
+                    isPairing ?
                     "Once you've submitted your answers, the game will " +
+                    "give you your results.\n" :
+                    "Once you've submitted your answer, the game will " +
                     "give you your results.\n"}
                 secondaryScreenContent={isPairing ? 
                     "Green means correct and red means incorrect." :
@@ -130,9 +136,10 @@ export default function GameTutorialScreens({
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
-                    "When you've pressed next, the correct answers " +
-                    "to the turkish word you matched incorrectly will " +
-                    "be outlined in green."}
+                    "When you've pressed next, the Turkish word that you've " +
+                    "matched incorrectly will be matched with the correct English " +
+                    "word and highlighted in dark green. The light green highlighted " +
+                    "words are the ones you got correct before."}
                 imagePath={tutorialImages.page6}
                 onFinish={onFinish}/>
             <GameTutorialScreen
