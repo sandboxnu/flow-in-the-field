@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     image: {
         height: "20%",
-        width: '90%',
+        width: '85%',
         padding: "22%",
         resizeMode: 'contain',
         marginBottom: "8%",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Avenir Next',
         fontWeight: '500',
         fontSize: 18,
-        marginBottom: "15%",
+        marginBottom: "10%",
         color: '#000000',
         textAlign: 'left'
     },
