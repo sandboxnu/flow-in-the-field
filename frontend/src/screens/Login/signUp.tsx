@@ -42,7 +42,7 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
                             setEmail("");
                             setPassword("");
                             setConfirmPassword("");
-                            goToAccountSettings();
+                            goToSignIn();
                         })
                         .catch(e => {
                             console.log(e.message);
