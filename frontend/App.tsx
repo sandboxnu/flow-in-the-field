@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { User, Word, UID, GameType } from "./src/models/types";
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import OnboardingScreens from './src/screens/Onboarding/OnboardingScreens';
 import signInFlow from './src/screens/Login/signInFlow';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -70,6 +70,11 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
+            headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
+            headerRight: () => { return <TouchableOpacity onPress={() => console.log(6)}>
+              <Image style = {{resizeMode: "contain", maxWidth: 40,maxHeight: 40, marginRight: 5 }} source={require('./src/assets/tutorial_icon.png')}/>
+            </TouchableOpacity>},
+            headerTintColor: "#FFF",
             headerLeft: () =>
               <BackButton
                 onPress={async () => {

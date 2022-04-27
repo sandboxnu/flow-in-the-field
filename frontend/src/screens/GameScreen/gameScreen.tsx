@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef, useContext, } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { User, UID } from "../../models/types";
@@ -35,12 +35,12 @@ export interface SpecificGameScreenProps {
 }
 
 export default function GameScreen(props: SpecificGameScreenProps) {
+    const navigation = useNavigation();
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
     const [submitted, setSubmitted] = useState(false);
     const [showAnswers, setShowAnswers] = useState(false);
-    const navigation = useNavigation()
     const [isLoading, setIsLoading] = useState(false);
     const gameStateContext = useContext(GameStateContext);
     const [showingModal, setShowModal] = useState(true);
