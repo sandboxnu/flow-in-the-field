@@ -56,9 +56,11 @@ export default function GameTutorialScreen({
                 {secondaryScreenContent &&
                     <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0, marginRight: 0}}>{ secondaryScreenContent }</Text>}
             </View>
-            {/* Places image for all pages that have it (all but final page) */}
-            {imagePath &&
-                <Image style={styles.image} source={imagePath}/>}
+                {/* Places image for all pages that have it (all but final page) */}
+                {imagePath &&
+                <View style={styles.imageContainer}>
+                    <Image style={styles.image} source={imagePath}/>
+                </View>}
             {/* Places done button (no behavior on press) on page */}
             {doneButton &&
                 <Pressable style={styles.button}>
@@ -91,11 +93,20 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: "8%",
     },
+    imageContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: "100%",
+        width: "100%",
+        marginTop: "15%"
+    },
     content: {
         fontFamily: 'Avenir Next',
         fontWeight: '500',
         fontSize: 18,
-        marginBottom: "10%",
+        // marginBottom: "10%",
         color: '#000000',
         textAlign: 'left'
     },
@@ -106,7 +117,7 @@ const styles = StyleSheet.create({
         backgroundColor: LIGHTPURPLE,
         width: "38%",
         maxHeight: "6%",
-        marginTop: "7%",
+        marginTop: "17.5%",
         borderRadius: 8,
         overflow: 'hidden'
     },
