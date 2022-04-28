@@ -43,7 +43,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const navigation = useNavigation()
     const [isLoading, setIsLoading] = useState(false);
     const gameStateContext = useContext(GameStateContext);
-    const [showingModal, setShowModal] = useState(true);
+    const [showingModal, setShowingModal] = useState(true);
 
     // ref for tutorial modal
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -54,7 +54,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     // handle close press for tutorial modal
     const handleClosePress = useCallback(() => {
         bottomSheetRef.current?.close();
-        setShowModal(false);
+        setShowingModal(false);
     }, []);
 
     useEffect(() => {
@@ -74,7 +74,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 }).catch(console.error);
             }).catch(console.error);
         }
-    }, [gameStateContext.roundId, showingModal]);
+    }, [gameStateContext.roundId]);
 
     useEffect(() => {
         if (submitted) {
