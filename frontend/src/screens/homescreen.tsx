@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import TextIconButton from "../components/Button/TextIconButton";
-import SmallTextIconButton from "../components/Button/SmallTextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
 
@@ -53,18 +52,16 @@ export default function Homescreen() {
     const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" })
     return (
         <View style={styles.main}>
-            <Text style={styles.testDay}>
-                Your test date is:
-            </Text>
-            <View style={styles.calendar}>
-                <Text style={styles.monthNameText}>
-                    {monthFormatter.format(user.testDate).toLowerCase()}
-                </Text>
-                <View style={styles.line} />
-                <View style={styles.evenSpaced}>
-                    <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
+            <ImageBackground style={styles.backgroundImageBox} source={require("../assets/lines.png")} imageStyle={styles.backgroundImage}>
+                <View style={styles.testDayBox}>
+                    <Text style={styles.testDayHeader}>
+                        Your test date is:
+                    </Text>
+                    <Text style={styles.testDay}>
+                        {monthFormatter.format(user.testDate) + " " + dayFormatter.format(user.testDate)}
+                    </Text>
                 </View>
-            </View>
+            </ImageBackground>
             <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
             <TextIconButton onPress={() => startTest()} text="Take the test" icon={require("../assets/flow-icon-test.png")} testNotAvailable={!testAvailable()} />
             {user.role == Role.ADMIN ? <PrimaryButton onPress={() => navigation.navigate("AdminScreen")} text="Admin" disabled={false} /> : <View />}
@@ -109,8 +106,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     testDay: {
-        fontSize: 36,
+        fontSize: 50,
         color: "#5EAFDF",
-        marginBottom: "5%"
+        paddingTop: "3%",
+        alignSelf: "center"
+    },
+    testDayHeader: {
+        fontSize: 30,
+        color: "#D16B50",
+        marginLeft: "7%",
+        alignSelf: "flex-start"
+    },
+    testDayBox: {
+        justifyContent: "center",
+        paddingBottom: "12%"
+    },
+    backgroundImageBox: {
+        width: "100%",
+        height: "50%",
+        justifyContent: "center"
+    },
+    backgroundImage: {
+        resizeMode: "contain",
+        width: "100%",
+        height: "100%",
     }
 })
