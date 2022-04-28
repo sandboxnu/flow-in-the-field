@@ -38,7 +38,12 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
                     setError("Passwords do not match.")
                 } else {
                     interactor.createAccount(email, password)
-                        .then(goToAccountSettings)
+                        .then(() => {
+                            setEmail("");
+                            setPassword("");
+                            setConfirmPassword("");
+                            goToSignIn();
+                        })
                         .catch(e => {
                             console.log(e.message);
                             setError(mapErrorCodeToMessage(e.code))
