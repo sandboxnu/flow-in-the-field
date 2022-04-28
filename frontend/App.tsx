@@ -71,9 +71,6 @@ export default function App() {
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
             headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
-            headerRight: () => { return <TouchableOpacity onPress={() => console.log(6)}>
-              <Image style = {{resizeMode: "contain", maxWidth: 40,maxHeight: 40, marginRight: 5 }} source={require('./src/assets/tutorial_icon.png')}/>
-            </TouchableOpacity>},
             headerTintColor: "#FFF",
             headerLeft: () =>
               <BackButton
