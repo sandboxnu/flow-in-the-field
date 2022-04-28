@@ -64,7 +64,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     // handle close press for tutorial modal
     const handleClosePress = useCallback(() => {
         bottomSheetRef.current?.close();
-        setShowModal(false);
+        setShowingModal(false);
     }, []);
 
     useEffect(() => {

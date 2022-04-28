@@ -9,10 +9,10 @@ const tutorialImages = {
 	page1: require('../../assets/tutorial-page-1.png'),
 	page2: require('../../assets/tutorial-page-2.png'),
 	page3: require('../../assets/tutorial-page-3.png'),
-    page5Pairing: require('../../assets/pairing-tutorial-page-5.png'),
-    page5Selecting: require('../../assets/selecting-tutorial-page-5.png'),
-    page6: require('../../assets/tutorial-page-6.png'),
-    page7: require('../../assets/tutorial-page-7.png')
+  page5Pairing: require('../../assets/pairing-tutorial-page-5.png'),
+  page5Selecting: require('../../assets/selecting-tutorial-page-5.png'),
+  page6: require('../../assets/tutorial-page-6.png'),
+  page7: require('../../assets/tutorial-page-7.png')
 };
 
 interface GameTutorialScreenProps {
