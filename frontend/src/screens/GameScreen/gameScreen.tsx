@@ -43,10 +43,10 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [showAnswers, setShowAnswers] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const gameStateContext = useContext(GameStateContext);
-    const [showingModal, setShowModal] = useState(false);
+    const [showingModal, setShowingModal] = useState(false);
 
     const gameHeaderOptions = {
-        headerRight: () => { return <TouchableOpacity onPress={() => setShowModal(true)}>
+        headerRight: () => { return <TouchableOpacity onPress={() => setShowingModal(true)}>
         <Image style = {{resizeMode: "contain", maxWidth: 40,maxHeight: 40, marginRight: 5 }} source={require('../../assets/tutorial_icon.png')}/>
       </TouchableOpacity>},
     }
@@ -75,7 +75,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         } else {
             fi.getUser().then(user => {
                 setUser(user);
-                setShowModal(!user.hasFinishedTutorial);
+                setShowingModal(!user.hasFinishedTutorial);
                 fi.getRoundPairs(gameStateContext.roundId).then(words => {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
                     setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
