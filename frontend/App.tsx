@@ -71,7 +71,7 @@ export default function App() {
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
             headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
-            headerTintColor: "#FFF",
+            headerTintColor: "#000",
             headerLeft: () =>
               <BackButton
                 onPress={async () => {
@@ -82,6 +82,7 @@ export default function App() {
                   onSessionChange("")
                 }}
               />,
+            headerShadowVisible: true,
             headerBackVisible: false,
             gestureEnabled: false,
           }} />

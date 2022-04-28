@@ -16,8 +16,8 @@ export default function BackButton(props: BackButtonProps) {
             navigation.goBack();
         }}>
             <View style={{flexDirection: 'row'}}>
-                <Image style={{resizeMode: "contain", maxWidth: 20,maxHeight: 20, marginRight: 5}} source={require('../../assets/back_arrow.png')}/>
-                <Image style={{resizeMode: "contain", maxWidth: 20,maxHeight: 20}} source={require('../../assets/home_icon.png')}/>
+                <Image style={{resizeMode: "contain", width: 20, height: 20, marginRight: 2}} source={require('../../assets/back-arrow.png')}/>
+                <Image style={{resizeMode: "contain", width: 20, height: 20}} source={require('../../assets/home-icon.png')}/>
             </View>
         </TouchableOpacity>
 }

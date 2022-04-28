@@ -47,7 +47,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
 
     const gameHeaderOptions = {
         headerRight: () => { return <TouchableOpacity onPress={() => setShowingModal(true)}>
-        <Image style = {{resizeMode: "contain", maxWidth: 40,maxHeight: 40, marginRight: 5 }} source={require('../../assets/tutorial_icon.png')}/>
+        <Image style = {{resizeMode: "contain", width: 20,height: 20, marginRight: 5 }} source={require('../../assets/tutorial-icon.png')}/>
       </TouchableOpacity>},
     }
 
