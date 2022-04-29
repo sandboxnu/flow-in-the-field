@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: LIGHTPURPLE,
-        width: "38%",
-        height: "8%",
+        width: "42%",
+        height: "11%",
         borderRadius: 8,
         overflow: 'hidden'
     },
