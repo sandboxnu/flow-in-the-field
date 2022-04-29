@@ -114,13 +114,19 @@ export default function GameTutorialScreens({
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
+                    isPairing ? 
                     "Once you have matched all the words, press done to " +
+                    "submit your answers." :
+                    "Once you have matched the word, press done to " +
                     "submit your answers."}
                 doneButton={true}
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
+                    isPairing ?
                     "Once you've submitted your answers, the game will " +
+                    "give you your results.\n" :
+                    "Once you've submitted your answer, the game will " +
                     "give you your results.\n"}
                 secondaryScreenContent={isPairing ? 
                     "Green means correct and red means incorrect." :
@@ -130,9 +136,10 @@ export default function GameTutorialScreens({
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
-                    "When you've pressed next, the correct answers " +
-                    "to the turkish word you matched incorrectly will " +
-                    "be outlined in green."}
+                    "When you've pressed next, the Turkish word that you've " +
+                    "matched incorrectly will be matched with the correct English " +
+                    "word and highlighted in dark green. The light green highlighted " +
+                    "words are the ones you got correct before."}
                 imagePath={tutorialImages.page6}
                 onFinish={onFinish}/>
             <GameTutorialScreen
