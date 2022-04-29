@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef, useContext, } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { User, UID } from "../../models/types";
@@ -35,15 +35,25 @@ export interface SpecificGameScreenProps {
 }
 
 export default function GameScreen(props: SpecificGameScreenProps) {
+    const navigation = useNavigation();
     const [englishWords, setEnglishWords] = useState<string[]>()
     const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>()
     const [user, setUser] = useState<User>();
     const [submitted, setSubmitted] = useState(false);
     const [showAnswers, setShowAnswers] = useState(false);
-    const navigation = useNavigation()
     const [isLoading, setIsLoading] = useState(false);
     const gameStateContext = useContext(GameStateContext);
-    const [showingModal, setShowingModal] = useState(true);
+    const [showingModal, setShowingModal] = useState(false);
+
+    const gameHeaderOptions = {
+        headerRight: () => { return <TouchableOpacity onPress={() => setShowingModal(true)}>
+        <Image style = {{resizeMode: "contain", width: 20,height: 20, marginRight: 5 }} source={require('../../assets/tutorial-icon.png')}/>
+      </TouchableOpacity>},
+    }
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions(gameHeaderOptions);
+      }, [navigation]);
 
     // ref for tutorial modal
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -65,6 +75,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         } else {
             fi.getUser().then(user => {
                 setUser(user);
+                setShowingModal(!user.hasFinishedTutorial);
                 fi.getRoundPairs(gameStateContext.roundId).then(words => {
                     setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
                     setCurrentPairs(durstenfeldShuffle(words.map((word, i) => ({ turkish: word.turkish, correctEnglishWord: word.english, english: undefined }))));
@@ -240,7 +251,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     return (
         <DraxProvider>
             <View style={styles.container}>
-                <View style={showingModal && !user?.hasFinishedTutorial ? styles.overlay : styles.finishedTutorial}>
+                <View style={showingModal ? styles.overlay : styles.finishedTutorial}>
                     <View style={styles.testWrap}>
                         <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
                             {submitted ? (showAnswers ? correctAnswersText : scoreText) : renderEnglishOptions()}
@@ -251,7 +262,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                     </View>
                     {submitted ? renderSubmittedButtons() : renderInProgressButtons()}
                 </View>
-                {!user?.hasFinishedTutorial &&
+                {showingModal &&
                     <BottomSheet
                         ref={bottomSheetRef}
                         index={1}
