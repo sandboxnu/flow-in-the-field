@@ -9,8 +9,6 @@ import { startActivityAsync } from "expo-intent-launcher";
 
 const fi = new FirebaseInteractor();
 
-
-
 export default function EmailVerificationScreen() {
 
     const navigation = useNavigation();
@@ -32,7 +30,7 @@ export default function EmailVerificationScreen() {
             <TouchableOpacity style={styles.verifiedButton} onPress={() => {
                 fi.checkIfVerified().then(emailVerified => {
                     if (emailVerified) {
-                        navigation.navigate("HomeScreen")
+                        navigation.navigate("Onboarding", { route: "HomeScreen" })
                     } else {
                         setErrorMessage("Email has not been verified. Please check your email.")
                     }

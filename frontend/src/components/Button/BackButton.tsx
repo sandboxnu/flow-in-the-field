@@ -1,5 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Text, Image, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
 interface BackButtonProps {
     onPress: () => void;
@@ -8,15 +10,16 @@ interface BackButtonProps {
 export default function BackButton(props: BackButtonProps) {
     let navigation = useNavigation();
 
-    return <Icon.Button
+    return <TouchableOpacity 
         onPress={() => {
             props.onPress();
             navigation.goBack();
-        }}
-        name='chevron-left'
-        color='#D16B50'
-        backgroundColor='transparent'
-    />
+        }}>
+            <View style={{flexDirection: 'row'}}>
+                <Image style={{resizeMode: "contain", width: 20, height: 20, marginRight: 2}} source={require('../../assets/back-arrow.png')}/>
+                <Image style={{resizeMode: "contain", width: 20, height: 20}} source={require('../../assets/home-icon.png')}/>
+            </View>
+        </TouchableOpacity>
 }
 
 // TODO: Edge case: Android hardware back button (bottom of screen)

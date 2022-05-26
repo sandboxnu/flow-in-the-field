@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
-import { ORANGE, LIGHTPURPLE } from '../../constants/colors';
+import { LIGHTPURPLE } from '../../constants/colors';
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 
 const fi = new FirebaseInteractor();
@@ -37,41 +37,49 @@ export default function GameTutorialScreen({
     return (
         <View style={ styles.container }>
             {hasNavButton &&
-                <Text style={styles.startPlaying}>Let's Start Playing!</Text>}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>         
-                {!hasNavButton &&
-                    <Text style={styles.howToPlay}>How to Play</Text>}
-                {!hasNavButton &&
+                <View>
+                    <Text style={styles.startPlaying}>Let's Start Playing!</Text>
+                </View>}
+
+            {!hasNavButton &&
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>         
+                    <Text style={styles.howToPlay}>How to Play</Text>
                     <Pressable onPress={handleTutorialFinish}>
                         <Text style={styles.skip}>Skip</Text>
+                    </Pressable>
+                </View>}
+            
+            <View style={styles.contentContainer}>
+                <View style={{ width: "95%" }}>
+                    {/* Places screen content for all but last page */}
+                    {!hasNavButton && 
+                        <Text style={!secondaryScreenContent ? 
+                            styles.content : 
+                            {...styles.content, marginBottom: 0}}>{ screenContent }</Text>}
+                    {/* Places secondary screen (lower) content for all pages that have it */}
+                    {secondaryScreenContent &&
+                        <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0, marginRight: 0}}>{ secondaryScreenContent }</Text>}
+                    {/* Places screen content for final page */}
+                    {hasNavButton &&
+                            <Text style={{...styles.content, textAlign: 'center'}}>{ screenContent }</Text>} 
+                </View>
+            </View>
+
+            <View style={styles.imageAndButtonContainer}>
+                {/* Places image for all pages that have it (all but final page) */}
+                {imagePath &&
+                    <Image style={styles.image} source={imagePath}/>}
+                {/* Places done button (no behavior on press) on page */}
+                {doneButton &&
+                    <Pressable style={styles.button}>
+                        <Text style={styles.buttonContent}>{ "done" }</Text>
+                    </Pressable>}
+                {/* Button to start session at end of tutorial */}
+                {hasNavButton &&
+                    <Pressable onPress={handleTutorialFinish} style={styles.button}>
+                        <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
                     </Pressable>}
             </View>
-            <View style={{ width: "95%" }}>
-                {/* Places screen content for all but last page */}
-                {!hasNavButton && 
-                    <Text style={!secondaryScreenContent ? 
-                        styles.content : 
-                        {...styles.content, marginBottom: 0}}>{ screenContent }</Text>}
-                {/* Places secondary screen (lower) content for all pages that have it */}
-                {secondaryScreenContent &&
-                    <Text style={{...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0, marginRight: 0}}>{ secondaryScreenContent }</Text>}
-            </View>
-            {/* Places image for all pages that have it (all but final page) */}
-            {imagePath &&
-                <Image style={styles.image} source={imagePath}/>}
-            {/* Places done button (no behavior on press) on page */}
-            {doneButton &&
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonContent}>{ "done" }</Text>
-                </Pressable>}
-            {/* Places screen content for final page */}
-            {hasNavButton &&
-                    <Text style={styles.content}>{ screenContent }</Text>} 
-            {/* Button to start session at end of tutorial */}
-            {hasNavButton &&
-                <Pressable onPress={handleTutorialFinish} style={styles.button}>
-                    <Text style={styles.buttonContent}>{ navButtonTitle }</Text>
-                </Pressable>}
         </View>
     )
 }
@@ -84,34 +92,44 @@ const styles = StyleSheet.create({
         paddingLeft: "6%",
         paddingRight: "6%",
     },
+    contentContainer: {
+        flex: 0,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: "100%",
+        marginTop: "5%",
+    },
+    imageAndButtonContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+        marginBottom: "20%"
+    },
     image: {
         height: "20%",
-        width: '90%',
+        width: '85%',
         padding: "22%",
         resizeMode: 'contain',
-        marginBottom: "8%",
     },
     content: {
         fontFamily: 'Avenir Next',
         fontWeight: '500',
         fontSize: 18,
-        marginBottom: "15%",
         color: '#000000',
         textAlign: 'left'
     },
     button: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: ORANGE,
-        width: "38%",
-        maxHeight: "6%",
-        marginTop: "7%",
+        backgroundColor: LIGHTPURPLE,
+        width: "42%",
+        height: "11%",
         borderRadius: 8,
         overflow: 'hidden'
     },
     buttonContent: {
-        backgroundColor: ORANGE,
+        backgroundColor: LIGHTPURPLE,
         fontFamily: 'Futura',
         fontSize: 20,
         color: '#FFF',
