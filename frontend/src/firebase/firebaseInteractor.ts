@@ -3,7 +3,7 @@ import { getRandomPairing, getTestDate, durstenfeldShuffle, getRandomGameType, i
 import { onAuthStateChanged, User as AuthUser } from "firebase/auth";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, EmailAuthProvider, reauthenticateWithCredential, updatePassword, signOut, Auth, connectAuthEmulator } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, Timestamp, collection, getDocs, updateDoc, connectFirestoreEmulator, QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
-import { User, Word, Session, Round, UID, TestWord, TestSession, TestRound, RoundWithId } from "../models/types";
+import { User, Word, Session, Round, UID, TestWord, TestSession, TestRound, RoundWithId, TestRoundWithId } from "../models/types";
 import Constants from "expo-constants";
 import _MetricsCollector from "./MetricsCollector";
 import { Role } from "../constants/role";
@@ -230,6 +230,32 @@ export default class FirebaseInteractor {
         })
 
         return roundsWithIds;
+    }
+
+    async getAllTestRounds(): Promise<TestRoundWithId[]> {
+        const allRounds = await getDocs(collection(this.db, "testRounds"));
+
+        const roundsWithIds: TestRoundWithId[] = allRounds.docs.map(roundDocSnapshot => ({
+            id: roundDocSnapshot.id,
+            ...this.correctTestRoundTimeStamps(roundDocSnapshot.data())
+        }));
+
+        return roundsWithIds;
+    }
+
+    async getTestSessionById(id: string) {
+        return (await (getDoc(doc(this.db, "testSessions", id)))).data() as TestSession;
+    }
+
+    correctTestRoundTimeStamps(data: DocumentData): TestRound {
+        return {
+            testSession: data["testSession"],
+            startTime: data["startTime"].toDate() as Date,
+            endTime: data["endTime"]?.toDate() as Date ?? null,
+            testWord: data["testWord"],
+            questionNum: data["questionNum"],
+            correct: data["correct"]
+        }
     }
 
     // Firestore stores timestamps with more precision. This method returns the Round with proper Date objects to avoid casting errors

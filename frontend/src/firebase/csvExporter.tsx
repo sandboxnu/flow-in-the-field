@@ -18,6 +18,17 @@ interface RoundData {
     "Score": string
 }
 
+interface TestRoundData {
+    "Participant ID": string,
+    "Game Type": string,
+    "Question Number": number,
+    "Start Time": Date,
+    "End Time": Date | null,
+    "Duration": number | null,
+    "Answer": string,
+    "Correctness": string | null
+}
+
 const fi = new FirebaseInteractor();
 const cacheURI = `${FileSystem.cacheDirectory}/export.csv`
 
@@ -48,6 +59,31 @@ export async function generateRoundsCSV() {
     }));
 
     return assembledRoundData;
+}
+
+export async function generateTestCSV() {
+    const allRounds = await fi.getAllTestRounds();
+    return Promise.all(allRounds.map(async round => {
+        const session = await fi.getSessionById(round.testSession);
+        const user = await fi.getUserById(session.user);
+        const result: TestRoundData = {
+            "Participant ID": session.user,
+            "Game Type": user.gameType,
+            "Question Number": round.questionNum,
+            "Start Time": round.startTime,
+            "End Time": round.endTime,
+            "Duration": round.endTime ? round.endTime.getTime() - round.startTime.getTime() : null,
+            "Answer": round.testWord.correctlyPaired,
+            "Correctness": optionalBoolToString(round.correct)
+        }
+        return result;
+    }));
+}
+
+function optionalBoolToString(value: boolean | null) {
+    if (value === null) return null;
+    if (value) return "Correct";
+    return "Incorrect";
 }
 
 const sendEmail = async (file: string) => {
