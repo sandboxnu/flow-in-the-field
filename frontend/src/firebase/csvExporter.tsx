@@ -61,7 +61,7 @@ export async function generateRoundsCSV() {
     return assembledRoundData;
 }
 
-export async function generateTestCSV() {
+export async function generateTestRoundsCSV() {
     const allRounds = await fi.getAllTestRounds();
     return Promise.all(allRounds.map(async round => {
         const session = await fi.getSessionById(round.testSession);

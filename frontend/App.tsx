@@ -70,7 +70,7 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-            headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
+            headerTitle: () => { return <Text style={{ color: "#5eafdf", fontSize: 20 }}>Vocabulary Practice</Text> },
             headerTintColor: "#000",
             headerLeft: () =>
               <BackButton
@@ -87,7 +87,13 @@ export default function App() {
             gestureEnabled: false,
           }} />
           <Stack.Screen name="TestScreen" component={TestScreen} />
-          <Stack.Screen name="AdminScreen" component={AdminScreen} />
+          <Stack.Screen name="AdminScreen" component={AdminScreen} options={{
+            headerTitle: () => <Text style={{ color: "#5eafdf", fontSize: 20 }}>Admin</Text>,
+            headerLeft: () => <BackButton onPress={() => { }} />,
+            headerShadowVisible: true,
+            headerBackVisible: false,
+            gestureEnabled: false,
+          }} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
