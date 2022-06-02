@@ -86,7 +86,6 @@ export default function App() {
             headerBackVisible: false,
             gestureEnabled: false,
           }} />
-          <Stack.Screen name="TestScreen" component={TestScreen} />
           <Stack.Screen name="AdminScreen" component={AdminScreen} options={{
             headerTitle: () => <Text style={{ color: "#5eafdf", fontSize: 20 }}>Admin</Text>,
             headerLeft: () => <BackButton onPress={() => { }} />,
@@ -94,6 +93,9 @@ export default function App() {
             headerBackVisible: false,
             gestureEnabled: false,
           }} />
+          <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
+          <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
