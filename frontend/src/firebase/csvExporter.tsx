@@ -22,8 +22,8 @@ interface TestRoundData {
     "Participant ID": string,
     "Game Type": string,
     "Question Number": number,
-    "Start Time": Date,
-    "End Time": Date | null,
+    "Start Time": string,
+    "End Time": string | null,
     "Duration": number | null,
     "Answer": string,
     "Correctness": string | null
@@ -64,14 +64,15 @@ export async function generateRoundsCSV() {
 export async function generateTestRoundsCSV() {
     const allRounds = await fi.getAllTestRounds();
     return Promise.all(allRounds.map(async round => {
-        const session = await fi.getSessionById(round.testSession);
+        const session = await fi.getTestSessionById(round.testSession);
+        console.log(round);
         const user = await fi.getUserById(session.user);
         const result: TestRoundData = {
             "Participant ID": session.user,
             "Game Type": user.gameType,
             "Question Number": round.questionNum,
-            "Start Time": round.startTime,
-            "End Time": round.endTime,
+            "Start Time": round.startTime.toISOString(),
+            "End Time": round.endTime?.toISOString() ?? null,
             "Duration": round.endTime ? round.endTime.getTime() - round.startTime.getTime() : null,
             "Answer": round.testWord.correctlyPaired,
             "Correctness": optionalBoolToString(round.correct)

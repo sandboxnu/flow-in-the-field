@@ -23,6 +23,7 @@ export default function AdminScreen(props: AdminScreenProps) {
             await promptExportEmail(await func());
         } catch (e: any) {
             setError("There was a problem while exporting. There might be faulty data, or there is something wrong with your network connection. Error: " + e.toString());
+            throw e;
         } finally {
             setIsLoading(false);
         }
