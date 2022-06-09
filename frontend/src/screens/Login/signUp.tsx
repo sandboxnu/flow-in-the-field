@@ -15,7 +15,6 @@ interface SignUpPageProps {
 }
 
 export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
-    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -24,7 +23,6 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <SignInFlowCustomTextInput value={name} setValue={setName} placeholderText="Name" secureText={false} />
             <SignInFlowCustomTextInput value={email} setValue={setEmail} placeholderText="Email" secureText={false} />
             <SignInFlowCustomTextInput value={password} secureText setValue={setPassword} placeholderText="Password" />
             <SignInFlowCustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="Re-enter Password" />
