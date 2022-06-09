@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: BLUE,
         marginBottom: 16,
+        fontFamily: "Montserrat_700Bold"
     },
     horizontalScroller: {
         flexDirection: "row",
@@ -113,11 +114,13 @@ const styles = StyleSheet.create({
         minHeight: 36
     },
     paragraph: {
+        fontFamily: 'Montserrat_400Regular',
         fontSize: 18,
         color: BLUE,
         marginBottom: 8
     },
     subheader: {
+        fontFamily: 'Montserrat_400Regular',
         fontSize: 18,
         color: BLUE,
         fontWeight: "600",
@@ -132,6 +135,7 @@ const styles = StyleSheet.create({
         paddingBottom: 6
     },
     buttonText: {
+        fontFamily: "Montserrat_700Bold",
         color: 'white',
         paddingHorizontal: 20,
         paddingVertical: 3,
@@ -142,6 +146,7 @@ const styles = StyleSheet.create({
         marginTop: 11,
     },
     logOutText: {
+        fontFamily: "Montserrat_700Bold",
         textDecorationLine: "underline",
         color: PURPLE,
         fontSize: 18,

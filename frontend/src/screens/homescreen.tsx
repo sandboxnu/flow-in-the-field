@@ -49,7 +49,8 @@ export default function Homescreen(props: HomescreenProps) {
         let now = new Date(Date.now());
         let timeUntilTest = user.testDate.getTime() - now.getTime();
 
-        return !hasFinishedTest() && timeUntilTest <= 0;
+        // return !hasFinishedTest() && timeUntilTest <= 0;
+        return true;
     }
 
     const startTest = () => {
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
     },
     monthNameText: {
         fontSize: 48,
-        color: "#5EAFDF"
+        color: "#5EAFDF",
+        fontFamily: 'Montserrat_500Medium'
     },
     line: {
         height: 2,
@@ -113,7 +115,8 @@ const styles = StyleSheet.create({
     dayText: {
         fontSize: 68,
         textAlign: 'center',
-        color: "#5EAFDF"
+        color: "#5EAFDF",
+        fontFamily: 'Montserrat_500Medium'
     },
     evenSpaced: {
         flex: 1,
@@ -122,6 +125,7 @@ const styles = StyleSheet.create({
     testDay: {
         fontSize: 36,
         color: "#5EAFDF",
-        marginBottom: "5%"
+        marginBottom: "5%",
+        fontFamily: 'Montserrat_500Medium'
     }
 })

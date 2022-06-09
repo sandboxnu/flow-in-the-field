@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     whiteText: {
         textAlign: "center",
         color: "white",
+        fontFamily: 'Montserrat_400Regular',
     },
     englishTextContainer: {
         width: "45%",
@@ -114,6 +115,7 @@ const styles = StyleSheet.create({
     blackText: {
         color: 'black',
         textAlign: 'center',
+        fontFamily: 'Montserrat_400Regular',
     },
     container: {
         flexDirection: "row",

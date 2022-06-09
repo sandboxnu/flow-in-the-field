@@ -17,7 +17,7 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
         <View style={{ ...styles.turkishContainer}}>
-            <Text style={{ ...styles.turkishText}}>{turkish}</Text>
+            <Text style={{ ...styles.turkishText }}>{turkish}</Text>
         </View>
         {(english) ?
             <DraxView style={{ ...styles.englishTextContainer }}
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     turkishText: {
         textAlign: "center",
         color: "white",
+        fontFamily: 'Montserrat_400Regular',
         backgroundColor: "transparent",
     },
     englishTextContainer: {
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
     },
     englishText: {
         color: 'white',
+        fontFamily: 'Montserrat_400Regular',
         textAlign: 'center',
     },
     container: {

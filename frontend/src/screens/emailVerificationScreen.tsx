@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
         marginHorizontal: "10%",
         fontSize: 18,
         color: BLUE,
-        fontWeight: "600"
+        fontWeight: "600",
+        fontFamily: 'Montserrat_400Regular'
     },
 
     resendButton: {
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
+        fontFamily: 'Montserrat_400Regular'
     },
 
     verifiedButton: {
@@ -117,7 +119,8 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         width: "100%",
         textAlign: "center",
-        paddingVertical: 15
+        paddingVertical: 15,
+        fontFamily: 'Montserrat_400Regular'
     },
 
     mailButton: {
@@ -131,5 +134,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
+        fontFamily: 'Montserrat_400Regular'
     }
 })

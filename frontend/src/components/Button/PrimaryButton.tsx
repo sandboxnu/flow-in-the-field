@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     },
     enabledTextStyle: {
         color: "white",
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        fontFamily: 'Montserrat_700Bold'
     },
 })

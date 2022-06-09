@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
         margin: "auto",
         textAlign: "center",
         flex: 1,
-        color: "white"
+        color: "white",
+        fontFamily: 'Montserrat_500Medium'
     },
     image: {
         resizeMode: "contain",

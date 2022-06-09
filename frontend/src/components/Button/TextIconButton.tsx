@@ -7,6 +7,7 @@ interface TextIconButtonProps {
     onPress: () => void;
     testNotAvailable?: boolean;
 }
+
 export default function TextIconButton({ text, icon, onPress, testNotAvailable }: TextIconButtonProps) {
     return (
         <TouchableOpacity onPress={onPress}>
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
         margin: "auto",
         textAlign: "center",
         flex: 1,
-        color: "white"
+        color: "white",
+        fontFamily: 'Montserrat_500Medium'
     },
     image: {
         resizeMode: "contain",

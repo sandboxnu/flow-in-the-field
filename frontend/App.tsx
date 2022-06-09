@@ -16,6 +16,12 @@ import BackButton from './src/components/Button/BackButton';
 import FirebaseInteractor from './src/firebase/firebaseInteractor';
 import { GameStateContext } from './src/utils/context';
 import AdminScreen from './src/screens/adminScreen';
+import { LoadingScreen } from "./src/components/LoadingScreen";
+import { 
+  useFonts, 
+  Montserrat_400Regular, 
+  Montserrat_500Medium,
+  Montserrat_700Bold } from "@expo-google-fonts/montserrat";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -55,6 +61,16 @@ export default function App() {
     setCurrentSessionId(newSessionId);
   }
 
+  let [fontsLoaded] = useFonts({
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
     <GameStateContext.Provider value={{
       sessionId: currentSessionId,
@@ -70,7 +86,7 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-            headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
+            headerTitle: () => { return <Text style={{ color: "#5eafdf", fontFamily: "Montserrat_500Medium", fontSize: 20 }}>Vocabulary Practice</Text> },
             headerTintColor: "#000",
             headerLeft: () =>
               <BackButton

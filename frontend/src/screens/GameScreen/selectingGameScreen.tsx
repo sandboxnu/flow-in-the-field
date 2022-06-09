@@ -24,6 +24,7 @@ export default function SelectingGameScreen(props: GameScreenProps) {
 const styles = StyleSheet.create({
     correctText: {
         color: BLUE,
+        fontFamily: 'Montserrat_700Bold',
         fontSize: 64,
         textAlign: "center"
     },

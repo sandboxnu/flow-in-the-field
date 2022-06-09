@@ -319,6 +319,7 @@ const styles = StyleSheet.create({
     },
     english: {
         color: "white",
+        fontFamily: 'Montserrat_400Regular',
         borderRadius: 5,
         textAlign: "center",
         alignItems: "center",
@@ -381,7 +382,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        fontFamily: 'Montserrat_700Bold'
     },
     // Styles associated with bottom sheet modal for game tutorial
     contentContainer: {

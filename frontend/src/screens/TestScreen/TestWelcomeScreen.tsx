@@ -40,7 +40,7 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.startButton} onPress={() => startTest()}>
-                <Text style={{color: "#FFF", fontSize: 22}}>start</Text>
+                <Text style={{color: "#FFF", fontSize: 22, fontFamily: 'Montserrat_500Medium'}}>start</Text>
             </TouchableOpacity>
         </View>
     )

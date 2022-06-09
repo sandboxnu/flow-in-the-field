@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
+
 const FLOW_ICON = '../../assets/flow-icon-light.png'
 
 interface OnboardingScreenProps {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
         marginBottom: 24
     },
     content: {
-        fontFamily: 'Avenir Next',
+        fontFamily: 'Montserrat_400Regular',
         fontWeight: '500',
         fontSize: 18,
         color: '#FFF',
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     },
     buttonContent: {
         backgroundColor: '#FFF',
-        fontFamily: 'Futura',
+        fontFamily: 'Montserrat_500Medium',
         fontSize: 20,
         color: '#D16B50'
     }

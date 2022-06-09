@@ -44,7 +44,7 @@ export default function TestResultsScreen(props: TestResultsScreenProps) {
                     <Text style={styles.resultText}>correct!</Text>
                 </View>
                 <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate("HomeScreen", {testFinished: true})}>
-                    <Text style={{color: "#FFF", fontSize: 22}}>done</Text>
+                    <Text style={{color: "#FFF", fontSize: 22, fontFamily: "Montserrat_700Bold"}}>done</Text>
                 </TouchableOpacity>
             </View>
         </DraxProvider>
@@ -88,10 +88,12 @@ const styles = StyleSheet.create({
     },
     resultText: {
         color: "#FFF",
-         fontSize: 48
+         fontSize: 48,
+         fontFamily: 'Montserrat_400Regular'
     },
     scoreText: {
         color: "#FFF",
-        fontSize: 96
+        fontSize: 96,
+        fontFamily: 'Montserrat_400Regular'
     }
 })

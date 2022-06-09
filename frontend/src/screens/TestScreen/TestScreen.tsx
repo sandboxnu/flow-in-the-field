@@ -9,7 +9,7 @@ import { TestWord, UID } from "../../models/types";
 const fi = new FirebaseInteractor();
 
 const TEST_HEADER_OPTIONS = {
-    headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Test Your Knowledge</Text> },
+    headerTitle: () => { return <Text style={{color: "#5eafdf", fontSize: 20, fontFamily: 'Montserrat_500Medium'}}>Test Your Knowledge</Text> },
     title: '',
     headerTitleAlign: "center" as "center",
     headerShadowVisible: false,
@@ -112,9 +112,9 @@ export default function TestScreen(props: TestScreenProps) {
                         row
                     >
                     </AnimatedBar>
-                    <Text style={{color: "#5eafdf", fontSize: 16, paddingLeft: 8}}>{page} / {numQuestions}</Text>
+                    <Text style={{color: "#5eafdf", fontSize: 16, paddingLeft: 8, fontFamily: 'Montserrat_400Regular'}}>{page} / {numQuestions}</Text>
                 </View>
-                <Text style={{fontSize: 36}}>Do these words share the same meaning?</Text>
+                <Text style={{fontSize: 36, fontFamily: 'Montserrat_400Regular'}}>Do these words share the same meaning?</Text>
                 <View style={styles.wordsContainer}>
                     <Text style={styles.wordsText}>{ testQuestion?.turkish }</Text>
                     <Text style={styles.wordsText}>{ testQuestion?.english }</Text>
@@ -139,7 +139,7 @@ export default function TestScreen(props: TestScreenProps) {
                     disabled={!answer} 
                     onPress={continueButtonOnPress} 
                     style={answer ? styles.continueButton : {...styles.continueButton, opacity: 0.5}}>
-                    <Text style={{color: "#6E81E7", fontSize: 22}}>continue ></Text>
+                    <Text style={{color: "#6E81E7", fontSize: 22, fontFamily: 'Montserrat_400Regular'}}>continue ></Text>
                 </TouchableOpacity>
             </View>
         </DraxProvider>
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     wordsText: {
         fontSize: 40,
         color: "#5EAFDF",
+        fontFamily: 'Montserrat_400Regular'
     },
     answerContainer: {
         width: "100%",
@@ -204,10 +205,12 @@ const styles = StyleSheet.create({
     selectedAnswerText: {
         color: "#FFF", 
         fontSize: 24,
+        fontFamily: 'Montserrat_500Medium'
     },
     unselectedAnswerText: {
         color: "#6E81E7", 
-        fontSize: 24
+        fontSize: 24,
+        fontFamily: 'Montserrat_500Medium'
     },
     continueButton: {
         flex: 1,

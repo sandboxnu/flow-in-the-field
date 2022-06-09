@@ -37,10 +37,12 @@ const styles = StyleSheet.create({
     additionalDisabledStyle: { borderColor: "#6E81E7" },
     enabledTextStyle: {
         color: "#6E81E7",
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        fontFamily: 'Montserrat_700Bold'
     },
     disabledTextStyle: {
         color: "#6E81E7",
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        fontFamily: 'Montserrat_700Bold'
     }
 });

@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 3,
         fontSize: 18,
-        fontWeight: '400'
+        fontWeight: '400',
+        fontFamily: "Montserrat_700Bold"
     },
     mainImage: {
         width: "60%",
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     signUpText: {
         textDecorationLine: "underline",
         color: PURPLE,
-        fontSize: 18
-
+        fontSize: 18,
+        fontFamily: "Montserrat_700Bold",
     },
 })
