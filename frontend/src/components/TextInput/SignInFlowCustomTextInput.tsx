@@ -1,29 +1,28 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
-interface CustomTextInputProps {
+interface SignInFlowCustomTextInputProps {
     value: string;
     setValue: (value: string) => void;
     placeholderText: string;
     secureText: boolean;
 }
 
-export default function CustomTextInput({ value, setValue, placeholderText, secureText }: CustomTextInputProps) {
+export default function SignInFlowCustomTextInput({ value, setValue, placeholderText, secureText }: SignInFlowCustomTextInputProps) {
     return <TextInput placeholderTextColor="#4D4661" value={value} onChangeText={setValue} secureTextEntry={secureText} style={styles.textInput} placeholder={placeholderText} />;
 }
 
 const styles = StyleSheet.create({
     textInput: {
-        borderWidth: 1,
-        borderColor: "#4D4661",
-        paddingHorizontal: 9,
+        borderBottomWidth: 1,
+        borderBottomColor: "#000000",
         height: 36,
-        width: "60%",
+        width: "85%",
         marginVertical: "4%",
-        fontSize: 24,
+        fontSize: 18,
         fontStyle: "normal",
         fontWeight: "400",
-        lineHeight: 35,
+        lineHeight: 22,
         letterSpacing: 0,
         textAlign: "left"
     }
