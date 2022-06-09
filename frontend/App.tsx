@@ -16,6 +16,8 @@ import BackButton from './src/components/Button/BackButton';
 import FirebaseInteractor from './src/firebase/firebaseInteractor';
 import { GameStateContext } from './src/utils/context';
 import AdminScreen from './src/screens/adminScreen';
+import SettingsScreen from './src/screens/Login/settings';
+import ChangePasswordScreen from './src/screens/Login/changePassword';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -68,9 +70,22 @@ export default function App() {
           <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
-          <Stack.Screen name="SettingsScreen" component={AccountSettings} />
+          <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{
+            headerTitle: () => <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>,
+            headerLeft: () => <BackButton onPress={() => { }} />,
+            headerShadowVisible: true,
+            headerBackVisible: false,
+            gestureEnabled: false,
+          }} />
+          <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{
+            headerTitle: () => <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>,
+            headerLeft: () => <BackButton onPress={() => { }} />,
+            headerShadowVisible: true,
+            headerBackVisible: false,
+            gestureEnabled: false,
+          }} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-            headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
+            headerTitle: () => { return <Text style={{ color: "#5eafdf", fontSize: 20 }}>Vocabulary Practice</Text> },
             headerTintColor: "#000",
             headerLeft: () =>
               <BackButton
@@ -86,9 +101,9 @@ export default function App() {
             headerBackVisible: false,
             gestureEnabled: false,
           }} />
-            <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
-            <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
-            <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
+          <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
           <Stack.Screen name="AdminScreen" component={AdminScreen} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
