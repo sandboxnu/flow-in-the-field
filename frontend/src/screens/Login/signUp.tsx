@@ -49,11 +49,11 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
                             setError(mapErrorCodeToMessage(e.code))
                         })
                 }
-            }} style={styles.loginButton}>
-                <Text style={styles.loginText}>sign up</Text>
+            }} style={styles.signUpButton}>
+                <Text style={styles.signUpText}>sign up</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={goToSignIn} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>log in</Text>
+            <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
+                <Text style={styles.loginText}>log in</Text>
             </TouchableOpacity>
         </View>
     )
@@ -65,18 +65,18 @@ const styles = StyleSheet.create({
         height: "100%",
         paddingTop: "15%"
     },
-    loginButton: {
+    signUpButton: {
         backgroundColor: TURQUOISE,
         borderRadius: 8,
         marginTop: 5
     },
-    loginText: {
+    signUpText: {
         color: 'white',
         paddingHorizontal: 20,
-        paddingVertical: 3,
+        paddingVertical: 4,
         fontSize: 18,
         fontWeight: '400',
-        fontFamily: "Montserrat_700Bold"
+        fontFamily: 'Montserrat_500Medium'
     },
     mainImage: {
         width: "60%",
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
         maxHeight: 158,
         marginBottom: "10%"
     },
-    signUpButton: {
+    loginButton: {
         margin: 11
     },
-    signUpText: {
+    loginText: {
         color: PURPLE,
         textDecorationLine: "underline",
         fontSize: 18,
-        fontFamily: "Montserrat_700Bold"
+        fontFamily: 'Montserrat_500Medium'
     }
 })

@@ -1,6 +1,5 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { PURPLE, TURQUOISE } from "../../constants/colors";
 import ErrorText from "../../components/ErrorText";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
@@ -58,20 +57,6 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
     )
 }
 const styles = StyleSheet.create({
-    textInput: {
-        borderWidth: 1,
-        borderColor: "#4D4661",
-        paddingHorizontal: 9,
-        height: 36,
-        width: "60%",
-        marginVertical: "4%",
-        fontSize: 24,
-        fontStyle: "normal",
-        fontWeight: "400",
-        lineHeight: 35,
-        letterSpacing: 0,
-        textAlign: "left"
-    },
     container: {
         display: "flex",
         alignItems: 'center',
@@ -86,10 +71,10 @@ const styles = StyleSheet.create({
     loginText: {
         color: 'white',
         paddingHorizontal: 20,
-        paddingVertical: 3,
+        paddingVertical: 4,
         fontSize: 18,
         fontWeight: '400',
-        fontFamily: "Montserrat_700Bold"
+        fontFamily: 'Montserrat_500Medium'
     },
     mainImage: {
         width: "60%",
@@ -104,6 +89,6 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         color: PURPLE,
         fontSize: 18,
-        fontFamily: "Montserrat_700Bold",
+        fontFamily: 'Montserrat_500Medium'
     },
 })

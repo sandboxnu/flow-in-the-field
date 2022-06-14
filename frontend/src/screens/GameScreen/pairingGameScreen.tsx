@@ -24,9 +24,9 @@ export default function PairingGameScreen(props: GameScreenProps) {
 const styles = StyleSheet.create({
     scoreText: {
         color: BLUE,
-        fontFamily: 'Montserrat_700Bold',
         fontSize: 124,
         textAlign: "center",
-        width: "100%"
+        width: "100%",
+        fontFamily: 'Montserrat_500Medium'
     }
 })

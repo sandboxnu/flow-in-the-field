@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
     recoverPasswordText: {
         color: 'white',
         paddingHorizontal: 20,
-        paddingVertical: 3,
+        paddingVertical: 4,
         fontSize: 18,
         fontWeight: '400',
-        fontFamily: "Montserrat_700Bold"
+        fontFamily: 'Montserrat_500Medium'
     },
     mainImage: {
         width: "60%",
@@ -88,6 +88,6 @@ const styles = StyleSheet.create({
         color: PURPLE,
         textDecorationLine: "underline",
         fontSize: 18,
-        fontFamily: "Montserrat_700Bold"
+        fontFamily: 'Montserrat_500Medium'
     }
 })

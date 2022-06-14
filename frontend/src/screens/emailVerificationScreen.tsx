@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
-        fontFamily: 'Montserrat_400Regular'
+        fontFamily: 'Montserrat_500Medium'
     },
 
     verifiedButton: {
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         width: "100%",
         textAlign: "center",
         paddingVertical: 15,
-        fontFamily: 'Montserrat_400Regular'
+        fontFamily: 'Montserrat_500Medium'
     },
 
     mailButton: {
@@ -134,6 +134,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         textDecorationLine: "underline",
         fontWeight: "300",
-        fontFamily: 'Montserrat_400Regular'
+        fontFamily: 'Montserrat_500Medium'
     }
 })

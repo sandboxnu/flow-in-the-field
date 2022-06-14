@@ -17,7 +17,7 @@ const TEST_RESULTS_HEADER_OPTIONS = {
         shadowOpacity: 0,
         borderBottomWidth: 0,
     }
-  }
+}
 
 const fi = new FirebaseInteractor();
 
@@ -28,12 +28,12 @@ export interface TestResultsScreenProps {
 export default function TestResultsScreen(props: TestResultsScreenProps) {
 
     const navigation = useNavigation();
-    const correct =  props.route.params.correct;
-    const total =  props.route.params.total;
+    const correct = props.route.params.correct;
+    const total = props.route.params.total;
 
     React.useLayoutEffect(() => {
         navigation.setOptions(TEST_RESULTS_HEADER_OPTIONS);
-      }, [navigation]);
+    }, [navigation]);
 
     return (
         <DraxProvider>
@@ -43,8 +43,8 @@ export default function TestResultsScreen(props: TestResultsScreenProps) {
                     <Text style={styles.scoreText}>{correct}/{total}</Text>
                     <Text style={styles.resultText}>correct!</Text>
                 </View>
-                <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate("HomeScreen", {testFinished: true})}>
-                    <Text style={{color: "#FFF", fontSize: 22, fontFamily: "Montserrat_700Bold"}}>done</Text>
+                <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate("HomeScreen", { testFinished: true })}>
+                    <Text style={{ color: "#FFF", fontSize: 22, fontFamily: "Montserrat_500Medium" }}>done</Text>
                 </TouchableOpacity>
             </View>
         </DraxProvider>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         width: 94,
         resizeMode: 'contain',
         height: 51
-      },
+    },
     container: {
         flexDirection: "column",
         justifyContent: "space-around",
@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
     },
     resultText: {
         color: "#FFF",
-         fontSize: 48,
-         fontFamily: 'Montserrat_400Regular'
+        fontSize: 48,
+        fontFamily: 'Montserrat_400Regular'
     },
     scoreText: {
         color: "#FFF",
         fontSize: 96,
-        fontFamily: 'Montserrat_400Regular'
+        fontFamily: 'Montserrat_500Medium'
     }
 })

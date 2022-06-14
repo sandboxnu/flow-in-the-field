@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 import { BLUE } from "../../constants/colors";
-import GameScreen, { GameScreenProps }  from "./gameScreen";
+import GameScreen, { GameScreenProps } from "./gameScreen";
 
 export default function SelectingGameScreen(props: GameScreenProps) {
 
@@ -12,7 +12,7 @@ export default function SelectingGameScreen(props: GameScreenProps) {
     const selectingShuffleFunction = (words: any[]) => {
         return [words.map((word, i) => word.english)[0]];
     }
-    
+
     return GameScreen({
         route: props.route,
         isPairing: false,
@@ -24,8 +24,8 @@ export default function SelectingGameScreen(props: GameScreenProps) {
 const styles = StyleSheet.create({
     correctText: {
         color: BLUE,
-        fontFamily: 'Montserrat_700Bold',
         fontSize: 64,
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: 'Montserrat_500Medium',
     },
 })

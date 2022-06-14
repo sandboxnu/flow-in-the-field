@@ -17,7 +17,7 @@ const TEST_WELCOME_HEADER_OPTIONS = {
         shadowOpacity: 0,
         borderBottomWidth: 0,
     }
-  }
+}
 
 const fi = new FirebaseInteractor();
 
@@ -31,16 +31,16 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions(TEST_WELCOME_HEADER_OPTIONS);
-      }, [navigation]);
+    }, [navigation]);
 
-      const startTest = () => {
-          fi.startTestSession().then((testSessionId: UID) => navigation.navigate("TestScreen", { testSessionId: testSessionId }))
-      }
+    const startTest = () => {
+        fi.startTestSession().then((testSessionId: UID) => navigation.navigate("TestScreen", { testSessionId: testSessionId }))
+    }
 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.startButton} onPress={() => startTest()}>
-                <Text style={{color: "#FFF", fontSize: 22, fontFamily: 'Montserrat_500Medium'}}>start</Text>
+                <Text style={{ color: "#FFF", fontSize: 22, fontFamily: 'Montserrat_500Medium' }}>start</Text>
             </TouchableOpacity>
         </View>
     )
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         width: 94,
         resizeMode: 'contain',
         height: 51
-      },
+    },
     container: {
         flexDirection: "column",
         flex: 1,

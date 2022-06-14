@@ -16,18 +16,18 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
 
     const [dragging, setDragging] = useState(false)
     return (<View style={styles.container}>
-        <View style={{ ...styles.turkishContainer}}>
+        <View style={{ ...styles.turkishContainer }}>
             <Text style={{ ...styles.turkishText }}>{turkish}</Text>
         </View>
         {(english) ?
             <DraxView style={{ ...styles.englishTextContainer }}
-                dragPayload={english} 
+                dragPayload={english}
                 draggable={true}
-                draggingStyle={{opacity: 0.3}} 
-                dragReleasedStyle={{opacity: 0.3}} 
+                draggingStyle={{ opacity: 0.3 }}
+                dragReleasedStyle={{ opacity: 0.3 }}
                 key={1}
                 onDragStart={() => setDragging(false)}
-                hoverDraggingStyle={{borderColor: "transparent"}}
+                hoverDraggingStyle={{ borderColor: "transparent" }}
                 onDrag={event => {
                     if (Math.abs(event.dragTranslation.x) > 1 || Math.abs(event.dragTranslation.y) > 1) {
                         setDragging(true)
@@ -42,7 +42,7 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
                 longPressDelay={1}>
                 <Text style={styles.englishText}>{english}</Text>
             </DraxView>
-            
+
             : <DraxView style={styles.draxView}
                 onReceiveDragDrop={({ dragged: { payload } }: { dragged: { payload: string } }) => {
                     wordDropped(payload);
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     turkishText: {
         textAlign: "center",
         color: "white",
-        fontFamily: 'Montserrat_400Regular',
         backgroundColor: "transparent",
+        fontFamily: 'Montserrat_400Regular'
     },
     englishTextContainer: {
         width: "45%",
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     },
     englishText: {
         color: 'white',
-        fontFamily: 'Montserrat_400Regular',
         textAlign: 'center',
+        fontFamily: 'Montserrat_400Regular'
     },
     container: {
         flexDirection: "row",

@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
         marginBottom: 24
     },
     content: {
-        fontFamily: 'Montserrat_400Regular',
         fontWeight: '500',
         fontSize: 18,
         color: '#FFF',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'Montserrat_400Regular'
     },
     button: {
         flex: 1,
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     },
     buttonContent: {
         backgroundColor: '#FFF',
-        fontFamily: 'Montserrat_500Medium',
         fontSize: 20,
-        color: '#D16B50'
+        color: '#D16B50',
+        fontFamily: 'Montserrat_500Medium'
     }
 });

@@ -9,19 +9,19 @@ import { TestWord, UID } from "../../models/types";
 const fi = new FirebaseInteractor();
 
 const TEST_HEADER_OPTIONS = {
-    headerTitle: () => { return <Text style={{color: "#5eafdf", fontSize: 20, fontFamily: 'Montserrat_500Medium'}}>Test Your Knowledge</Text> },
+    headerTitle: () => { return <Text style={{ color: "#5eafdf", fontSize: 20, fontFamily: 'Montserrat_500Medium' }}>Test Your Knowledge</Text> },
     title: '',
     headerTitleAlign: "center" as "center",
     headerShadowVisible: false,
     headerTintColor: '#FFF',
     headerBackTitle: '',
     headerStyle: {
-      backgroundColor: '#FFF',
-      elevation: 0,
-      shadowOpacity: 0,
-      borderBottomWidth: 0,
+        backgroundColor: '#FFF',
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0,
     }
-  }
+}
 
 export interface TestScreenProps {
     route: any;
@@ -45,8 +45,8 @@ export default function TestScreen(props: TestScreenProps) {
             let testGradingInfo = gradeAnswers();
             fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
             fi.endTestSession(testSessionId, testGradingInfo.score, testGradingInfo.correctAnswers).then(
-                () => navigation.navigate("TestResultsScreen", 
-                        { correct: testGradingInfo.score, total: numQuestions }));
+                () => navigation.navigate("TestResultsScreen",
+                    { correct: testGradingInfo.score, total: numQuestions }));
         } else {
             fi.getTestWord(page).then(testWord => {
                 setTestQuestion(testWord)
@@ -93,7 +93,7 @@ export default function TestScreen(props: TestScreenProps) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions(TEST_HEADER_OPTIONS);
-      }, [navigation]);
+    }, [navigation]);
 
     return (
         <DraxProvider>
@@ -105,41 +105,41 @@ export default function TestScreen(props: TestScreenProps) {
                         borderColor="#FFF"
                         barColor="#5EAFDF"
                         fillColor="#5EAFDF20"
-                        fillStyle={{borderRadius: 10}}
-                        barStyle={{borderRadius: 10}}
+                        fillStyle={{ borderRadius: 10 }}
+                        barStyle={{ borderRadius: 10 }}
                         animate={false}
                         duration={500}
                         row
                     >
                     </AnimatedBar>
-                    <Text style={{color: "#5eafdf", fontSize: 16, paddingLeft: 8, fontFamily: 'Montserrat_400Regular'}}>{page} / {numQuestions}</Text>
+                    <Text style={{ color: "#5eafdf", fontSize: 16, paddingLeft: 8, fontFamily: 'Montserrat_500Medium' }}>{page} / {numQuestions}</Text>
                 </View>
-                <Text style={{fontSize: 36, fontFamily: 'Montserrat_400Regular'}}>Do these words share the same meaning?</Text>
+                <Text style={{ fontSize: 36, fontFamily: 'Montserrat_400Regular' }}>Do these words share the same meaning?</Text>
                 <View style={styles.wordsContainer}>
-                    <Text style={styles.wordsText}>{ testQuestion?.turkish }</Text>
-                    <Text style={styles.wordsText}>{ testQuestion?.english }</Text>
+                    <Text style={styles.wordsText}>{testQuestion?.turkish}</Text>
+                    <Text style={styles.wordsText}>{testQuestion?.english}</Text>
                 </View>
                 <View style={styles.answerContainer}>
                     <TouchableOpacity
-                        onPress={() => setAnswer("yes")} 
+                        onPress={() => setAnswer("yes")}
                         style={answer === "yes" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
                         <Text style={answer === "yes" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
                             Yes
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
-                    onPress={() => setAnswer("no")} 
-                    style={answer === "no" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
+                    <TouchableOpacity
+                        onPress={() => setAnswer("no")}
+                        style={answer === "no" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
                         <Text style={answer === "no" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
                             No
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity 
-                    disabled={!answer} 
-                    onPress={continueButtonOnPress} 
-                    style={answer ? styles.continueButton : {...styles.continueButton, opacity: 0.5}}>
-                    <Text style={{color: "#6E81E7", fontSize: 22, fontFamily: 'Montserrat_400Regular'}}>continue ></Text>
+                <TouchableOpacity
+                    disabled={!answer}
+                    onPress={continueButtonOnPress}
+                    style={answer ? styles.continueButton : { ...styles.continueButton, opacity: 0.5 }}>
+                    <Text style={{ color: "#6E81E7", fontSize: 22, fontFamily: 'Montserrat_500Medium' }}>continue ></Text>
                 </TouchableOpacity>
             </View>
         </DraxProvider>
@@ -147,7 +147,7 @@ export default function TestScreen(props: TestScreenProps) {
 }
 
 const styles = StyleSheet.create({
-   container: {
+    container: {
         flexDirection: "column",
         justifyContent: 'space-between',
         backgroundColor: '#FFF',
@@ -157,14 +157,14 @@ const styles = StyleSheet.create({
         paddingTop: "5%",
         paddingLeft: "5%",
         paddingRight: "5%",
-   },
-   rowText: {
+    },
+    rowText: {
         marginRight: 20,
-  },
-  row: {
+    },
+    row: {
         flexDirection: "row",
         alignItems: "center",
-  },
+    },
     wordsContainer: {
         width: "100%",
         flexDirection: "row",
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     wordsText: {
         fontSize: 40,
         color: "#5EAFDF",
-        fontFamily: 'Montserrat_400Regular'
+        fontFamily: 'Montserrat_500Medium'
     },
     answerContainer: {
         width: "100%",
@@ -203,12 +203,12 @@ const styles = StyleSheet.create({
         paddingLeft: "10%",
     },
     selectedAnswerText: {
-        color: "#FFF", 
+        color: "#FFF",
         fontSize: 24,
         fontFamily: 'Montserrat_500Medium'
     },
     unselectedAnswerText: {
-        color: "#6E81E7", 
+        color: "#6E81E7",
         fontSize: 24,
         fontFamily: 'Montserrat_500Medium'
     },

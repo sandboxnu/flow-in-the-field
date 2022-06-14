@@ -5,14 +5,14 @@ interface ResultRowProps {
     turkish: string,
     english?: string,
     correctEnglish: string,
-    showingAnswers: boolean, 
+    showingAnswers: boolean,
     isPairing: boolean
 }
 
 export default function ResultRow({ turkish, english, showingAnswers, correctEnglish, isPairing }: ResultRowProps) {
     const correct = english === correctEnglish;
     const unusedSelectingWord = (!english) && !isPairing;
-    
+
     let additionalTurkishStyling;
     let additionalEnglishStyling;
     let additionalContainerStyling;
@@ -32,23 +32,23 @@ export default function ResultRow({ turkish, english, showingAnswers, correctEng
     } else {
         textStyle = styles.whiteText;
         if (correct) {
-          additionalTurkishStyling = showingResultsStyles.correctTurkishWord;
+            additionalTurkishStyling = showingResultsStyles.correctTurkishWord;
         } else if (unusedSelectingWord) {
-          additionalTurkishStyling = showingResultsStyles.unusedTurkishWord;
+            additionalTurkishStyling = showingResultsStyles.unusedTurkishWord;
         } else {
             additionalTurkishStyling = showingResultsStyles.incorrectTurkishWord;
         }
     }
 
-    return (<View style={{...styles.container, ...additionalContainerStyling}}>
-        <View style={{...styles.turkishContainer,  ...additionalTurkishStyling }}>
+    return (<View style={{ ...styles.container, ...additionalContainerStyling }}>
+        <View style={{ ...styles.turkishContainer, ...additionalTurkishStyling }}>
             <Text style={textStyle}>{turkish}</Text>
         </View>
-            <View style={unusedSelectingWord && !showingAnswers ? undefined : {...styles.englishTextContainer, ...additionalEnglishStyling}}>
-                <Text style={textStyle}>
-                    {showingAnswers ? correctEnglish : english}
-                </Text>
-            </View>
+        <View style={unusedSelectingWord && !showingAnswers ? undefined : { ...styles.englishTextContainer, ...additionalEnglishStyling }}>
+            <Text style={textStyle}>
+                {showingAnswers ? correctEnglish : english}
+            </Text>
+        </View>
     </View>)
 }
 
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     whiteText: {
         textAlign: "center",
         color: "white",
-        fontFamily: 'Montserrat_400Regular',
+        fontFamily: 'Montserrat_400Regular'
     },
     englishTextContainer: {
         width: "45%",
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     blackText: {
         color: 'black',
         textAlign: 'center',
-        fontFamily: 'Montserrat_400Regular',
+        fontFamily: 'Montserrat_400Regular'
     },
     container: {
         flexDirection: "row",

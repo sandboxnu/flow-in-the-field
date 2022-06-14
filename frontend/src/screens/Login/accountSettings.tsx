@@ -53,15 +53,17 @@ export default function AccountSettings() {
                     </ScrollView>
                 </View>
                 <CustomTextInput
+                    value={currentPassword}
+                    setValue={setCurrentPassword}
                     secureText
                     placeholderText="current password"
-                    value={currentPassword}
-                    setValue={setCurrentPassword} />
+                    width="100%" />
                 <CustomTextInput
+                    value={newPassword}
+                    setValue={setNewPassword}
                     secureText
                     placeholderText="new password"
-                    value={newPassword}
-                    setValue={setNewPassword} />
+                    width="100%" />
                 <ErrorText message={error} />
                 <Text>{successMessage}</Text>
                 <TouchableOpacity style={styles.button} onPress={() => updatePassword()}>
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
     half: {
         flex: 1,
         height: "50%",
+        width: "100%",
         justifyContent: 'center',
         alignItems: "center",
         padding: 64
@@ -114,17 +117,17 @@ const styles = StyleSheet.create({
         minHeight: 36
     },
     paragraph: {
-        fontFamily: 'Montserrat_400Regular',
         fontSize: 18,
         color: BLUE,
-        marginBottom: 8
+        marginBottom: 8,
+        fontFamily: 'Montserrat_400Regular'
     },
     subheader: {
-        fontFamily: 'Montserrat_400Regular',
         fontSize: 18,
         color: BLUE,
         fontWeight: "600",
         marginBottom: 16,
+        fontFamily: 'Montserrat_400Regular'
     },
     button: {
         backgroundColor: ORANGE,
@@ -135,20 +138,20 @@ const styles = StyleSheet.create({
         paddingBottom: 6
     },
     buttonText: {
-        fontFamily: "Montserrat_700Bold",
         color: 'white',
         paddingHorizontal: 20,
         paddingVertical: 3,
         fontSize: 18,
-        fontWeight: '400'
+        fontWeight: '400',
+        fontFamily: 'Montserrat_500Medium'
     },
     logOutButton: {
         marginTop: 11,
     },
     logOutText: {
-        fontFamily: "Montserrat_700Bold",
         textDecorationLine: "underline",
         color: PURPLE,
         fontSize: 18,
+        fontFamily: 'Montserrat_500Medium'
     },
 });

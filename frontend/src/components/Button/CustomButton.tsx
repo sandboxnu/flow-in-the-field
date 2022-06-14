@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { TouchableOpacity, Text, StyleSheet, View, StyleSheetProperties, StyleProp, ViewStyle } from "react-native";
+import React from "react";
+import { TouchableOpacity, Text, StyleProp, ViewStyle } from "react-native";
 
 interface CustomButtonProps {
     onPress: () => void;

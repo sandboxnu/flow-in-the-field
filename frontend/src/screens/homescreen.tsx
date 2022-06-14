@@ -41,7 +41,7 @@ export default function Homescreen(props: HomescreenProps) {
         })
     }
 
-    const hasFinishedTest = () =>  {
+    const hasFinishedTest = () => {
         return testFinished || user.testScore != null;
     }
 
@@ -49,8 +49,7 @@ export default function Homescreen(props: HomescreenProps) {
         let now = new Date(Date.now());
         let timeUntilTest = user.testDate.getTime() - now.getTime();
 
-        // return !hasFinishedTest() && timeUntilTest <= 0;
-        return true;
+        return !hasFinishedTest() && timeUntilTest <= 0;
     }
 
     const startTest = () => {
