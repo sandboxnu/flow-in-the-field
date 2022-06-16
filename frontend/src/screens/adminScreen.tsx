@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import PrimaryButton from "../components/Button/PrimaryButton";
 import { generateRoundsCSV, generateTestRoundsCSV, promptExportEmail } from "../firebase/csvExporter";
@@ -72,6 +72,12 @@ export default function AdminScreen(props: AdminScreenProps) {
             <View style={styles.error}>
                 <ErrorText message={errorState} />
             </View>
+            {
+                isLoading &&
+                <View style={styles.loading}>
+                    <ActivityIndicator />
+                </View>
+            }
         </View>
     )
 }
@@ -100,5 +106,14 @@ const styles = StyleSheet.create({
     },
     error: {
         marginTop: 30
+    },
+    loading: {
+        position: 'absolute',
+        width: '110%',
+        height: '110%',
+        zIndex: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#00000099'
     }
 })
