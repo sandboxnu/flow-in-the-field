@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { PURPLE, TURQUOISE } from "../../constants/colors";
+import { LIGHTPURPLE } from "../../constants/colors";
 import ErrorText from "../../components/ErrorText";
-import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import SignInFlowCustomTextInput from "../../components/TextInput/SignInFlowCustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { mapErrorCodeToMessage } from "../../utils/utils";
 
@@ -23,9 +23,9 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
-            <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
-            <CustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="re-enter password" />
+            <SignInFlowCustomTextInput value={email} setValue={setEmail} placeholderText="Email" secureText={false} />
+            <SignInFlowCustomTextInput value={password} secureText setValue={setPassword} placeholderText="Password" />
+            <SignInFlowCustomTextInput value={confirmPassword} secureText setValue={setConfirmPassword} placeholderText="Re-enter Password" />
             <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
                 if (!email) {
@@ -49,11 +49,11 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
                             setError(mapErrorCodeToMessage(e.code))
                         })
                 }
-            }} style={styles.loginButton}>
-                <Text style={styles.loginText}>sign up</Text>
+            }} style={styles.signUpButton}>
+                <Text style={styles.signUpText}>Sign Up</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={goToSignIn} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>log in</Text>
+            <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
+                <Text style={styles.loginText}>Log In</Text>
             </TouchableOpacity>
         </View>
     )
@@ -65,17 +65,28 @@ const styles = StyleSheet.create({
         height: "100%",
         paddingTop: "15%"
     },
+    signUpButton: {
+        backgroundColor: LIGHTPURPLE,
+        width: "85%",
+        height: "5.5%",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 12,
+        marginTop: "5%"
+    },
+    signUpText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: '500'
+    },
     loginButton: {
-        backgroundColor: TURQUOISE,
-        borderRadius: 8,
-        marginTop: 5
+        margin: 11
     },
     loginText: {
-        color: 'white',
-        paddingHorizontal: 20,
-        paddingVertical: 3,
+        color: LIGHTPURPLE,
         fontSize: 18,
-        fontWeight: '400'
+        fontWeight: '500',
+        marginTop: "2%"
     },
     mainImage: {
         width: "60%",
@@ -83,13 +94,4 @@ const styles = StyleSheet.create({
         maxHeight: 158,
         marginBottom: "10%"
     },
-    signUpButton: {
-        margin: 11
-    },
-    signUpText: {
-        color: PURPLE,
-        textDecorationLine: "underline",
-        fontSize: 18
-
-    }
 })
