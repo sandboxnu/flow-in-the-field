@@ -47,7 +47,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@babel/eslint-parser": "^7.18.2",
     "@babel/preset-typescript": "^7.16.7",
     "@types/intl": "^1.2.0",
     "@types/papaparse": "^5.3.2",
@@ -67,16 +66,20 @@
   },
   "private": true,
   "lint-staged": {
-    "*": "yarn run eslint"
+    "*.ts": "yarn run eslint --fix",
+    "*.tsx": "yarn run eslint --fix",
+    "*.d.ts": "yarn run eslint --fix"
   },
   "eslintConfig": {
     "extends": [
       "universe/native",
       "universe/shared/typescript-analysis"
     ],
+    "rules": {
+      "import/namespace": 0
+    },
     "overrides": [
       {
-        "parser": "@babel/eslint-parser",
         "files": [
           "*.ts",
           "*.tsx",
