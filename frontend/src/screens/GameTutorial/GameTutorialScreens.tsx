@@ -136,15 +136,13 @@ export default function GameTutorialScreens({
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
-                    "When you've pressed next, the Turkish word that you've " +
-                    "matched incorrectly will be matched with the correct English " +
-                    "word and highlighted in dark green. The light green highlighted " +
-                    "words are the ones you got correct before."}
+                    "On the next page, you will view the English and Turkish words from " +
+                    "the game round in their correct pairs."}
                 imagePath={tutorialImages.page6}
                 onFinish={onFinish}/>
             <GameTutorialScreen
                 screenContent={
-                    `Click "play again" to restart the game or "end session" ` +
+                    `Click "next round" to play another game or "end session" ` +
                     `to return to the home page.`}
                 imagePath={tutorialImages.page7}
                 onFinish={onFinish}/>                   

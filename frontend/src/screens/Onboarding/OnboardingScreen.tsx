@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
-import AsyncStorage from "@react-native-async-storage/async-storage"
 const FLOW_ICON = '../../assets/flow-icon-light.png'
 
 interface OnboardingScreenProps {
