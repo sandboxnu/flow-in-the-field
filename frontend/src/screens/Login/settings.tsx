@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { BLUE, GREY, LIGHTPURPLE, PURPLE } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-
+import RNFadedScrollView from 'expo-faded-scrollview';
 const fi = new FirebaseInteractor();
 export default function SettingsScreen() {
 
@@ -13,7 +14,15 @@ export default function SettingsScreen() {
         <View style={styles.container}>
             <View style={styles.row}>
                 <Text style={styles.label}>Email</Text>
-                <Text style={styles.value}>{fi.email}</Text>
+                <View style={styles.scroll}>
+                    <RNFadedScrollView
+                        horizontal={true}
+                        allowStartFade={true}
+                        fadeColors={['transparent', 'white']}
+                        fadeSize={80}>
+                        <Text style={styles.value}>{fi.email}</Text>
+                    </RNFadedScrollView>
+                </View>
             </View>
             <View style={styles.divider}></View>
             <View style={styles.row}>
@@ -77,5 +86,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 21,
         textAlign: 'center'
+    },
+    scroll: {
+        flex: 1
+    },
+    gradient: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        zIndex: 10,
     }
 });
