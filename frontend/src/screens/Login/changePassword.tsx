@@ -27,6 +27,9 @@ export default function ChangePasswordScreen() {
         } else {
             fi.updatePassword(currPass, newPass).then(() => {
                 setSuccessMessage("Successfully changed password.")
+                setCurrPass('')
+                setNewPass('')
+                setConfirmPass('')
             }).catch(e => setError(mapErrorCodeToMessage(e.code)))
         }
     }
