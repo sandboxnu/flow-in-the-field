@@ -15,6 +15,7 @@ interface SignUpPageProps {
 }
 
 export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPageProps) {
+    const navigation = useNavigation();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -37,17 +38,22 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
                 } else if (password !== confirmPassword) {
                     setError("Passwords do not match.")
                 } else {
-                    interactor.createAccount(email, password)
-                        .then(() => {
-                            setEmail("");
-                            setPassword("");
-                            setConfirmPassword("");
-                            goToSignIn();
-                        })
-                        .catch(e => {
-                            console.log(e.message);
-                            setError(mapErrorCodeToMessage(e.code))
-                        })
+                    setEmail("");
+                    setPassword("");
+                    setConfirmPassword("");
+                    goToSignIn();
+                    navigation.navigate("ConsentScreen", { email: email, password: password })
+                    // interactor.createAccount(email, password)
+                    //     .then(() => {
+                    //         setEmail("");
+                    //         setPassword("");
+                    //         setConfirmPassword("");
+                    //         goToSignIn();
+                    //     })
+                    //     .catch(e => {
+                    //         console.log(e.message);
+                    //         setError(mapErrorCodeToMessage(e.code))
+                    //     })
                 }
             }} style={styles.signUpButton}>
                 <Text style={styles.signUpText}>Sign Up</Text>

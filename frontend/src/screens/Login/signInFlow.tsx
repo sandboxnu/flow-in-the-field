@@ -1,9 +1,8 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/core"
 import { User } from "firebase/auth"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { LoadingScreen } from "../../components/LoadingScreen"
 import FirebaseInteractor from "../../firebase/firebaseInteractor"
-import AccountSettings from "./accountSettings"
 import LoginPage from "./login"
 import RecoverPasswordPage from "./recoverPassword"
 import SignUpPage from "./signUp"
@@ -17,7 +16,9 @@ export default function SignInFlow() {
         if (fi.auth.currentUser?.emailVerified) {
             navigation.navigate("HomeScreen")
         } else {
-            navigation.navigate("EmailVerification")
+            // TODO: navigate to consent screen only if the user is a participant
+            // if they are an admin, go to email verification
+            // navigation.navigate("ConsentScreen")
         }
     };
 

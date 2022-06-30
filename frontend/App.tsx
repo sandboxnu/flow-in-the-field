@@ -16,6 +16,7 @@ import BackButton from './src/components/Button/BackButton';
 import FirebaseInteractor from './src/firebase/firebaseInteractor';
 import { GameStateContext } from './src/utils/context';
 import AdminScreen from './src/screens/adminScreen';
+import ConsentScreen from './src/screens/consentScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -66,11 +67,12 @@ export default function App() {
         <Stack.Navigator screenOptions={HOME_HEADER_OPTIONS} initialRouteName={"SignInFlow"}>
           <Stack.Screen name="Onboarding" component={OnboardingScreens} options={{ headerShown: false }} />
           <Stack.Screen name="SignInFlow" component={signInFlow} options={{ headerShown: false, gestureEnabled: false }} />
+          <Stack.Screen name="ConsentScreen" component={ConsentScreen} options={{ headerBackVisible: false }} />
           <Stack.Screen name="EmailVerification" component={EmailVerificationScreen} options={{ headerShown: false, gestureEnabled: false, animation: "none" }} />
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-            headerTitle: () => { return <Text style={{color:"#5eafdf", fontSize:20}}>Vocabulary Practice</Text> },
+            headerTitle: () => { return <Text style={{ color: "#5eafdf", fontSize: 20 }}>Vocabulary Practice</Text> },
             headerTintColor: "#000",
             headerLeft: () =>
               <BackButton
@@ -86,9 +88,9 @@ export default function App() {
             headerBackVisible: false,
             gestureEnabled: false,
           }} />
-            <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
-            <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
-            <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
+          <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
           <Stack.Screen name="AdminScreen" component={AdminScreen} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>
