@@ -79,7 +79,7 @@ export default function App() {
           }} />
           <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{
             headerTitle: () => <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>,
-            headerLeft: () => <BackButton onPress={() => { }} />,
+            headerLeft: () => <BackButton onPress={() => { }} isHome={false} />,
             headerShadowVisible: true,
             headerBackVisible: false,
             gestureEnabled: false,
