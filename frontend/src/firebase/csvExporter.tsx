@@ -65,7 +65,6 @@ export async function generateTestRoundsCSV() {
     const allRounds = await fi.getAllTestRounds();
     return Promise.all(allRounds.map(async round => {
         const session = await fi.getTestSessionById(round.testSession);
-        console.log(round);
         const user = await fi.getUserById(session.user);
         const result: TestRoundData = {
             "Participant ID": session.user,
@@ -113,8 +112,7 @@ const sendEmail = async (file: string) => {
 
 export async function promptExportEmail(toUnparse: Object[]) {
     const parsed = Papa.unparse(toUnparse, { newline: "\n" });
-    FileSystem.writeAsStringAsync(cacheURI, parsed).then(async () => {
-        console.log(`written to ${cacheURI}`)
-    })
-    sendEmail(cacheURI);
+    await FileSystem.writeAsStringAsync(cacheURI, parsed)
+    console.log(`written to ${cacheURI}`)
+    await sendEmail(cacheURI);
 }
