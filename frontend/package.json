@@ -9,7 +9,8 @@
     "emulate": "yarn run firebase emulators:start --import=./../db",
     "export": "yarn run firebase emulators:export ./../db",
     "startlan": "expo start --lan",
-    "postinstall": "cd .. && husky install frontend/.husky"
+    "postinstall": "cd .. && husky install frontend/.husky",
+    "fix-hooks": "chmod +x .husky/pre-commit"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
