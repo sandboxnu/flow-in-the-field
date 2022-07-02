@@ -93,6 +93,7 @@ export default class FirebaseInteractor {
             gameType: getRandomGameType(),
             testDate: Timestamp.fromDate(getTestDate()),
             role: Role.PARTICIPANT,
+            hasGivenConsent: false,
             hasFinishedTutorial: false,
             testScore: null,
             testSessionId: null,
@@ -166,6 +167,7 @@ export default class FirebaseInteractor {
                 numPairs: docData.numPairs,
                 gameType: docData.gameType,
                 role: docData.role as Role ?? Role.PARTICIPANT,
+                hasGivenConsent: docData.hasGivenConsent,
                 hasFinishedTutorial: docData.hasFinishedTutorial,
                 testScore: docData.testScore,
                 testSessionId: docData.testSessionId,
@@ -376,6 +378,47 @@ export default class FirebaseInteractor {
         let allWords: Word[] = docs.docs.map((doc) => doc.data()).map(({ english, turkish }) => ({ english, turkish }))
         durstenfeldShuffle(allWords)
         return allWords.slice(0, num)
+    }
+
+    // Updates the state of hasGivenConsent for this user to be true
+    async updateHasGivenConsent() {
+        const user = this.auth.currentUser;
+
+        if (user === null) {
+            throw new Error("No actual user");
+        }
+
+        const docData = (await getDoc(doc(this.db, "users", user.uid))).data();
+        const userDoc = doc(this.db, "users", user.uid)
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        await updateDoc(userDoc, {
+            hasGivenConsent: true,
+        });
+    }
+
+    // Get the consent text that is listed in Firestore
+    async getConsentText(): Promise<string> {
+        const copyTextRef = collection(this.db, "copyText");
+        const docData = (await getDoc(doc(copyTextRef, "consentText"))).data();
+        return docData?.text;
+    }
+
+    // Set the consent text that is listed in Firestore
+    async setConsentText(consentText: string) {
+        const docData = (await getDoc(doc(this.db, "copyText", "consentText"))).data();
+        const consentTextDoc = doc(this.db, "copyText", "consentText")
+
+        if (docData === undefined) {
+            throw new Error("No data found")
+        }
+
+        await updateDoc(consentTextDoc, {
+            text: consentText,
+        });
     }
 
     // Updates the state of hasFinishedTutorial for this user to be true

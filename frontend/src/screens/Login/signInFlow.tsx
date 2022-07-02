@@ -14,11 +14,16 @@ export default function SignInFlow() {
 
     const userSignedIn = () => {
         if (fi.auth.currentUser?.emailVerified) {
-            navigation.navigate("HomeScreen")
+            fi.getUser().then((user) => {
+                if (user.hasGivenConsent) {
+                    navigation.navigate("HomeScreen")
+                }
+                else {
+                    navigation.navigate("ConsentScreen")
+                }
+            })
         } else {
-            // TODO: navigate to consent screen only if the user is a participant
-            // if they are an admin, go to email verification
-            // navigation.navigate("ConsentScreen")
+            navigation.navigate("EmailVerification")
         }
     };
 

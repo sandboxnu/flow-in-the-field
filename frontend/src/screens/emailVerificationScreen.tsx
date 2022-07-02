@@ -30,7 +30,7 @@ export default function EmailVerificationScreen() {
             <TouchableOpacity style={styles.verifiedButton} onPress={() => {
                 fi.checkIfVerified().then(emailVerified => {
                     if (emailVerified) {
-                        navigation.navigate("Onboarding", { route: "HomeScreen" })
+                        navigation.navigate("ConsentScreen")
                     } else {
                         setErrorMessage("Email has not been verified. Please check your email.")
                     }

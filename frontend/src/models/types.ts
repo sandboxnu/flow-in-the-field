@@ -11,7 +11,8 @@ export interface User {
     testDate: Date;
     numPairs: NumPairs;
     gameType: GameType;
-    role: Role
+    role: Role;
+    hasGivenConsent: boolean;
     hasFinishedTutorial: boolean;
     testScore: number | null;
     testSessionId: string | null;
