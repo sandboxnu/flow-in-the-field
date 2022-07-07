@@ -76,7 +76,7 @@ export default function AdminScreen(props: AdminScreenProps) {
         style={styles.button}
       />
 
-      <Text style={styles.header}>Round Data</Text>
+      <Text style={styles.header}>Test Data</Text>
 
       <View style={styles.paragraph}>
         <Text>
