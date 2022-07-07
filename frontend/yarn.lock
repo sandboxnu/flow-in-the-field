@@ -11769,10 +11769,10 @@ react-native-csv@^0.2.0:
     "@types/papaparse" "^5.2.5"
     papaparse "^5.3.0"
 
-react-native-drax@^0.9.1:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/react-native-drax/-/react-native-drax-0.9.3.tgz#8cf186e70aaba4262f0d56253fa7fe0e21ba3549"
-  integrity sha512-+yxMJFS9Nhs5oofnjyMI+FVaSI82fmUO2s7wxzlMBkfoXHUYoeBigw1lT0YLLYEWXJ4J21ftgTWJ2M4gmYknaA==
+react-native-drax@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/react-native-drax/-/react-native-drax-0.10.2.tgz#25d23c92070d8cc8b9ea0c5978924bacca80c68e"
+  integrity sha512-1i4ZBCeSyDqytAmTeRFDwsa3IFf9VOmy+GhpVDydjJeCT3VzG1eClBYaTNIyOF8qDkSKIa4pjj6Y6yhU+wmSTw==
   dependencies:
     lodash.isequal "^4.5.0"
     lodash.throttle "^4.1.1"

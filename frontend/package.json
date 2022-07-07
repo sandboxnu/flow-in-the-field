@@ -30,7 +30,7 @@
     "react-native": "0.68.2",
     "react-native-animated-bar": "^0.2.0",
     "react-native-csv": "^0.2.0",
-    "react-native-drax": "^0.9.1",
+    "react-native-drax": "^0.10.2",
     "react-native-gesture-handler": "~2.2.1",
     "react-native-paper": "^4.12.0",
     "react-native-progress": "^5.0.0",
