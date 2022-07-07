@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import TextIconButton from "../components/Button/TextIconButton";
-import SmallTextIconButton from "../components/Button/SmallTextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
 
@@ -62,35 +61,35 @@ export default function Homescreen(props: HomescreenProps) {
     const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" })
     return (
         <View style={styles.main}>
-            <Text style={styles.testDay}>
-                Your test date is:
-            </Text>
-            <View style={styles.calendar}>
-                <Text style={styles.monthNameText}>
-                    {monthFormatter.format(user.testDate).toLowerCase()}
-                </Text>
-                <View style={styles.line} />
-                <View style={styles.evenSpaced}>
-                    <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
+            <ImageBackground style={styles.backgroundImageBox} source={require("../assets/lines.png")} imageStyle={styles.backgroundImage}>
+                <View style={styles.testDayBox}>
+                    <Text style={styles.testDayHeader}>
+                        Your test date is:
+                    </Text>
+                    <Text style={styles.testDay}>
+                        {monthFormatter.format(user.testDate) + " " + dayFormatter.format(user.testDate)}
+                    </Text>
                 </View>
-            </View>
-            <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
-            <TextIconButton onPress={() => startTest()} text="Take the test" icon={require("../assets/flow-icon-test.png")} testNotAvailable={!testAvailable()} />
-            {user.role == Role.ADMIN ? <PrimaryButton onPress={() => navigation.navigate("AdminScreen")} text="Admin" disabled={false} /> : <View />}
-            <View style={{ flexDirection: "row" }}>
-                <SmallTextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
-                <SmallTextIconButton onPress={() => navigation.navigate("RevisitOnboarding", { signedIn: true })} text="Help" icon={require("../assets/help-icon.png")} />
+            </ImageBackground>
+            <View style={styles.buttonBox}>
+                <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
+                <TextIconButton onPress={() => startTest()} text="Take the test" icon={require("../assets/flow-icon-test.png")} testNotAvailable={!testAvailable()} />
+                {user.role == Role.ADMIN && <TextIconButton onPress={() => navigation.navigate("AdminScreen")} text="Admin" icon={require("../assets/admin-icon.png")}/>}
+                <TextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Settings" icon={require("../assets/settings-icon.png")} />
+                <TextIconButton onPress={() => navigation.navigate("RevisitOnboarding", { signedIn: true })} text="About" icon={require("../assets/about-icon.png")} />
             </View>
         </View>)
 }
 
 const styles = StyleSheet.create({
     main: {
+        display: 'flex',
         width: "100%",
         height: "100%",
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FFF'
+        flexDirection: "column",
+        justifyContent: 'space-evenly',
+        backgroundColor: '#FFF',
+        alignItems: "center",
     },
     calendar: {
         aspectRatio: 1,
@@ -120,8 +119,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     testDay: {
-        fontSize: 36,
+        fontSize: 50,
         color: "#5EAFDF",
-        marginBottom: "5%"
+        paddingTop: "3%",
+        alignSelf: "center"
+    },
+    testDayHeader: {
+        fontSize: 30,
+        color: "#D16B50",
+        marginLeft: "7%",
+        alignSelf: "flex-start"
+    },
+    testDayBox: {
+        justifyContent: "center",
+        paddingBottom: "12%"
+    },
+    backgroundImageBox: {
+        width: "100%",
+        height: "30%",
+        justifyContent: "center"
+    },
+    backgroundImage: {
+        resizeMode: "stretch",
+        width: "100%",
+        height: "100%",
+    },
+    buttonBox: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        width: "100%",
+        alignItems: "center"
     }
 })

@@ -8,7 +8,9 @@
     "eject": "expo eject",
     "emulate": "yarn run firebase emulators:start --import=./../db",
     "export": "yarn run firebase emulators:export ./../db",
-    "startlan": "expo start --lan"
+    "startlan": "expo start --lan",
+    "postinstall": "cd .. && husky install frontend/.husky",
+    "fix-hooks": "chmod +x .husky/pre-commit"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
@@ -52,9 +54,42 @@
     "@types/react": "~17.0.21",
     "@types/react-native": "^0.67.7",
     "@types/react-native-vector-icons": "^6.4.10",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "eslint": "^8.18.0",
+    "eslint-config-universe": "^11.0.0",
     "expo-cli": "^5.4.7",
     "firebase-tools": "^10.1.4",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.2",
+    "prettier": "^2.7.1",
     "typescript": "~4.3.5"
   },
-  "private": true
+  "private": true,
+  "lint-staged": {
+    "*.ts": "yarn run eslint --fix",
+    "*.tsx": "yarn run eslint --fix",
+    "*.d.ts": "yarn run eslint --fix"
+  },
+  "eslintConfig": {
+    "extends": [
+      "universe/native",
+      "universe/shared/typescript-analysis"
+    ],
+    "rules": {
+      "import/namespace": 0
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx",
+          "*.d.ts"
+        ],
+        "parserOptions": {
+          "project": "./tsconfig.json"
+        }
+      }
+    ]
+  }
 }

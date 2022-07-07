@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { DraxView } from "react-native-drax";
 import { BLUE, GREY, ORANGE } from "../constants/colors";
+
 interface DroppableRowProps {
     turkish: string,
     english?: string,
