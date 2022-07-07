@@ -171,7 +171,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                     setIsLoading(true);
                     fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
                 }}
-                text="play again" />
+                text="next round" />
             <SecondaryButton
                 disabled={isLoading}
                 text="end session"

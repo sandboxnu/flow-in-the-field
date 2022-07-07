@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { BLUE, GREY, ORANGE } from "../constants/colors";
+
 interface ResultRowProps {
     turkish: string,
     english?: string,
@@ -19,14 +20,9 @@ export default function ResultRow({ turkish, english, showingAnswers, correctEng
     let textStyle;
 
     if (showingAnswers) {
-        // highlights incorrect pairs and incorrectly selected TURKISH row
-        if (isPairing && !correct || !isPairing && !correct && english) {
-            additionalContainerStyling = showingResultsStyles.correctedRow;
-            textStyle = styles.whiteText;
-        } else {
-            additionalContainerStyling = showingResultsStyles.userCorrectRow;
-            textStyle = styles.blackText;
-        }
+        // use the light green styling on all words on the correct answers screen
+        additionalContainerStyling = showingResultsStyles.answerRow;
+        textStyle = styles.blackText;
         additionalTurkishStyling = showingResultsStyles.answersWord;
         additionalEnglishStyling = showingResultsStyles.answersWord;
     } else {
@@ -72,10 +68,7 @@ const showingResultsStyles = StyleSheet.create({
     answersWord: {
         backgroundColor: "transparent",
     },
-    correctedRow: {
-        backgroundColor: "#5BBAB7",
-    },
-    userCorrectRow: {
+    answerRow: {
         backgroundColor: "#5BBAB725",
     }
 })

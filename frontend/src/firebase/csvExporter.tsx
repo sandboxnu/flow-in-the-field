@@ -41,7 +41,7 @@ export async function generateRoundsCSV() {
                 "Start time": roundWithId.round.startTime.toISOString(),
                 "End time": roundWithId.round.endTime ? roundWithId.round.endTime.toISOString() : "null",
                 "Duration (in seconds)": roundWithId.round.endTime ? ((roundWithId.round.endTime.getTime() - roundWithId.round.startTime.getTime()) / 1000).toString() : "null",
-                "Score": roundWithId.round.correctWords?.length.toString() ?? "0"
+                "Score": roundWithId.round.correctWords?.length.toString() ?? "null"
             }
             assembledRoundData.push(currentRound);
         }));
