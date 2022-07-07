@@ -71,3 +71,7 @@ export interface RoundWithId {
     id: string,
     round: Round
 }
+
+export interface TestRoundWithId extends TestRound {
+    id: string
+}

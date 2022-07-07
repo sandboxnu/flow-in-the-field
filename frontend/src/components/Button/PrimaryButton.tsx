@@ -6,14 +6,20 @@ interface PrimaryButtonProps {
     onPress: () => void;
     disabled: boolean;
     text: String;
+    style?: StyleProp<ViewStyle>;
 }
 export default function PrimaryButton(props: PrimaryButtonProps) {
+    const overrideStyles = (typeof (props.style) === "object" ? props.style : {});
     return CustomButton({
         ...props,
-        enabledStyle: styles.enabledStyle,
+        enabledStyle: {
+            ...styles.enabledStyle,
+            ...overrideStyles
+        },
         disabledStyle: {
             ...styles.enabledStyle,
-            ...styles.additionalDisabledStyle
+            ...styles.additionalDisabledStyle,
+            ...overrideStyles
         },
         enabledTextStyle: styles.enabledTextStyle,
         disabledTextStyle: styles.enabledTextStyle
