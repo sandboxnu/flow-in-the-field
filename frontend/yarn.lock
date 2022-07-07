@@ -6099,11 +6099,6 @@ expo-error-recovery@~3.1.0:
   resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-3.1.0.tgz#c841772e11ed55180e30ebf809580ab051b70535"
   integrity sha512-qUxCW7kPB6AVX5h3ZPVnxw4LLZWsRwAPBtRDlh1UDN7GWZ+CQN1SNk0w0BPotjNtSlXEZSFDqKqtoDDAUYjNmg==
 
-expo-faded-scrollview@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/expo-faded-scrollview/-/expo-faded-scrollview-1.0.11.tgz#52adbc93450b47aaa8b782c9c54f348bd5f18c7b"
-  integrity sha512-WcGlHV6YKvWrJ+T7Pis7Q7UBJDXU9nG+EIMd9pPNC8vEWLNrIdtqm8ZXP0JnCUuXJpV7tv487vELnhqWOgRy2w==
-
 expo-file-system@~14.0.0:
   version "14.0.0"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-14.0.0.tgz#8367af10969a486fcba2f1e1c7cc0148f855e962"
@@ -6128,11 +6123,6 @@ expo-keep-awake@~10.1.1:
   version "10.1.1"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.1.1.tgz#03023c130f7e3824b738e3fdd5353b8a2c0c1980"
   integrity sha512-9zC0sdhQljUeMr2yQ7o4kzEZXVAy82fFOAZE1+TwPL7qR0b0sphe7OJ5T1GX1qLcwuVaJ8YewaPoLSHRk79+Rg==
-
-expo-linear-gradient@^11.3.0:
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-11.3.0.tgz#855f470c9684f5b979c3c1be0ed1fe1943d57158"
-  integrity sha512-gm0cULqE5cTP39HZHi+eCGgQ2qMcwym92DwSzRpA5nA4Ah5oKksV+PwD7zzo6YJt3X3lgqrTYEqts9VQISCTgw==
 
 expo-mail-composer@~11.2.0:
   version "11.2.0"
