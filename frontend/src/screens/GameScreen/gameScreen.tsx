@@ -14,6 +14,7 @@ import CustomButton from "../../components/Button/CustomButton";
 import { GameStateContext } from "../../utils/context";
 import BottomSheet from '@gorhom/bottom-sheet';
 import GameTutorialScreens from "../GameTutorial/GameTutorialScreens";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const fi = new FirebaseInteractor();
 
@@ -46,14 +47,16 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const [showingModal, setShowingModal] = useState(false);
 
     const gameHeaderOptions = {
-        headerRight: () => { return <TouchableOpacity onPress={() => setShowingModal(true)}>
-        <Image style = {{resizeMode: "contain", width: 20,height: 20, marginRight: 5 }} source={require('../../assets/tutorial-icon.png')}/>
-      </TouchableOpacity>},
+        headerRight: () => {
+            return <TouchableOpacity onPress={() => setShowingModal(true)}>
+                <Image style={{ resizeMode: "contain", width: 20, height: 20, marginRight: 5 }} source={require('../../assets/tutorial-icon.png')} />
+            </TouchableOpacity>
+        },
     }
 
     React.useLayoutEffect(() => {
         navigation.setOptions(gameHeaderOptions);
-      }, [navigation]);
+    }, [navigation]);
 
     // ref for tutorial modal
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -140,64 +143,64 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                     correctEnglish={word.correctEnglishWord}
                     removeWord={getRemoveWordHandler(currentPairs, word, i)}
                     isPairing={props.isPairing}
-            />))
+                />))
         }
         else {
-            return currentPairs?.map((word, i) => 
-                    englishWords.map((englishWord) => (
-                        <CustomRow
-                            key={word.turkish}
-                            showingResults={submitted}
-                            showingAnswers={showAnswers}
-                            wordDropped={getWordDroppedHandler(currentPairs, word, i)}
-                            turkish={word.turkish}
-                            englishSelectingWord={englishWord}
-                            english={word.english}
-                            correctEnglish={word.correctEnglishWord}
-                            removeWord={getRemoveWordHandler(currentPairs, word, i)}
-                            isPairing={props.isPairing}
+            return currentPairs?.map((word, i) =>
+                englishWords.map((englishWord) => (
+                    <CustomRow
+                        key={word.turkish}
+                        showingResults={submitted}
+                        showingAnswers={showAnswers}
+                        wordDropped={getWordDroppedHandler(currentPairs, word, i)}
+                        turkish={word.turkish}
+                        englishSelectingWord={englishWord}
+                        english={word.english}
+                        correctEnglish={word.correctEnglishWord}
+                        removeWord={getRemoveWordHandler(currentPairs, word, i)}
+                        isPairing={props.isPairing}
                     />))
-                )
+            )
         }
     }
 
     const renderSubmittedButtons = () => {
-      if (showAnswers) {
-        return (
-            <View style={styles.doneContainer}>
-            <PrimaryButton
-                disabled={isLoading}
-                onPress={() => {
-                    setIsLoading(true);
-                    fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
-                }}
-                text="next round" />
-            <SecondaryButton
-                disabled={isLoading}
-                text="end session"
-                onPress={() => {
-                        fi.endSession(gameStateContext.sessionId);
-                        gameStateContext.updateSessionId("");
-                        gameStateContext.updateRoundId("");
-                        navigation.navigate("HomeScreen");
-                }} />
-        </View>)
-      } else {
-        return (
-            <View style={styles.doneContainer}>
-                <CustomButton
-                    onPress={() => {
-                        setShowAnswers(true);
-                    }}
-                    disabled={false}
-                    enabledStyle={styles.seeCorrectButton}
-                    disabledStyle={styles.seeCorrectButton}
-                    enabledTextStyle={styles.buttonText}
-                    disabledTextStyle={styles.buttonText}
-                    text={"see correct answers"}
-                />
-            </View>)
-      }
+        if (showAnswers) {
+            return (
+                <View style={styles.doneContainer}>
+                    <PrimaryButton
+                        disabled={isLoading}
+                        onPress={() => {
+                            setIsLoading(true);
+                            fi.startRound(gameStateContext.sessionId).then(result => gameStateContext.updateRoundId(result));
+                        }}
+                        text="next round" />
+                    <SecondaryButton
+                        disabled={isLoading}
+                        text="end session"
+                        onPress={() => {
+                            fi.endSession(gameStateContext.sessionId);
+                            gameStateContext.updateSessionId("");
+                            gameStateContext.updateRoundId("");
+                            navigation.navigate("HomeScreen");
+                        }} />
+                </View>)
+        } else {
+            return (
+                <View style={styles.doneContainer}>
+                    <CustomButton
+                        onPress={() => {
+                            setShowAnswers(true);
+                        }}
+                        disabled={false}
+                        enabledStyle={styles.seeCorrectButton}
+                        disabledStyle={styles.seeCorrectButton}
+                        enabledTextStyle={styles.buttonText}
+                        disabledTextStyle={styles.buttonText}
+                        text={"see correct answers"}
+                    />
+                </View>)
+        }
     }
 
     const renderInProgressButtons = () => {
@@ -207,7 +210,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                     disabled={!canClickDoneButton || isLoading}
                     text="done"
                     onPress={() => {
-                    setSubmitted(true)
+                        setSubmitted(true)
                     }} />
             </View>
         )
@@ -217,7 +220,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
         return englishWords?.map(word => {
             if (currentPairs?.some(({ english }) => english === word) ?? false) {
                 return (<View key={word} style={styles.englishUsed}>
-                     <Text style={styles.english}>{word}</Text>
+                    <Text style={styles.english}>{word}</Text>
                 </View>)
             }
             return (<DraxView payload={word} key={word}
@@ -250,7 +253,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
 
     return (
         <DraxProvider>
-            <View style={styles.container}>
+            <GestureHandlerRootView style={styles.container}>
                 <View style={showingModal ? styles.overlay : styles.finishedTutorial}>
                     <View style={styles.testWrap}>
                         <View style={shouldFlexWrap ? styles.wrapTopContainer : styles.noWrapTopContainer}>
@@ -272,7 +275,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                             <GameTutorialScreens isPairing={props.isPairing} onFinish={handleClosePress} />
                         </View>
                     </BottomSheet>}
-            </View>
+            </GestureHandlerRootView>
         </DraxProvider>
     )
 }
@@ -355,7 +358,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         textAlign: "center",
         width: "100%",
-    }, 
+    },
     englishUsed: {
         borderColor: BLUE,
         backgroundColor: "#FFF",
@@ -397,7 +400,7 @@ const styles = StyleSheet.create({
     },
     finishedTutorial: {
         width: "100%",
-        height: "100%", 
+        height: "100%",
         alignItems: 'center',
     }
 })
