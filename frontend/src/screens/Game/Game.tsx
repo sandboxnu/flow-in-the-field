@@ -21,7 +21,7 @@ import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/FirebaseInteractor";
 import { User } from "../../models/types";
 import { GameStateContext } from "../../utils/context";
-import { durstenfeldShuffle } from '../../utils/utils';
+import { durstenfeldShuffle } from "../../utils/utils";
 import GameTutorialSwiper from "../GameTutorial/GameTutorialSwiper";
 
 const fi = new FirebaseInteractor();

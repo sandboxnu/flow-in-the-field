@@ -47,11 +47,11 @@ export default function Test(props: TestScreenProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (currentTestRoundId == "") {
+    if (currentTestRoundId === "") {
       fi.startTestRound(testSessionId, page).then((result) =>
         setCurrentTestRoundId(result)
       );
-    } else if (answers.length == numQuestions) {
+    } else if (answers.length === numQuestions) {
       const testGradingInfo = gradeAnswers();
       fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
       fi.endTestSession(

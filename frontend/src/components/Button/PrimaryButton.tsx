@@ -1,13 +1,4 @@
-import React, { ReactNode } from "react";
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  View,
-  StyleSheetProperties,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 
 import CustomButton from "./CustomButton";
 
