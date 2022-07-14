@@ -115,7 +115,7 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="ChangePasswordScreen"
+            name="ChangePassword"
             component={ChangePassword}
             options={{
               headerTitle: () => (
@@ -130,7 +130,7 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="GameScreen"
+            name="Game"
             component={GameFlow}
             options={{
               headerTitle: () => {
@@ -172,14 +172,14 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
-          <Stack.Screen name="TestWelcomeScreen" component={TestWelcome} />
+          <Stack.Screen name="TestWelcome" component={TestWelcome} />
           <Stack.Screen
-            name="TestScreen"
+            name="Test"
             component={Test}
             options={{ headerBackVisible: false }}
           />
           <Stack.Screen
-            name="TestResultsScreen"
+            name="TestResults"
             component={TestResults}
             options={{ headerBackVisible: false }}
           />

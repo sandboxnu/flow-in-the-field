@@ -5,9 +5,9 @@
     "owner": "flow-in-the-field",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/flow-icon-square.png",
+    "icon": "./src/assets/logos/flow-icon-square.png",
     "splash": {
-      "image": "./src/assets/splash-screen.png",
+      "image": "./src/assets/logos/splash-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,12 +22,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/flow-icon-square.png",
+        "foregroundImage": "./src/assets/logos/flow-icon-square.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./src/assets/flow-icon-square.png"
+      "favicon": "./src/assets/logos/flow-icon-square.png"
     },
     "description": "Main branch of *Flow in the Field* - currently in development.\n\nA language learning mobile app designed to study the relationship between mutual information and flow.",
     "githubUrl": "https://github.com/sandboxnu/flow-in-the-field"

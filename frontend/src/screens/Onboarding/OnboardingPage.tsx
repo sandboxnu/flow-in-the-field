@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Image, StyleSheet, View, Text, Pressable } from "react-native";
-const FLOW_ICON = "../../assets/flow-icon-light.png";
+const FLOW_ICON = "../../assets/logos/flow-icon-light.png";
 
 interface OnboardingScreenProps {
   screenContent: string;

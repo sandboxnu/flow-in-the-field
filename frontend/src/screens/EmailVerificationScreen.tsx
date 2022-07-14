@@ -49,7 +49,7 @@ export default function EmailVerificationScreen() {
             fi.checkIfVerified()
               .then((emailVerified) => {
                 if (emailVerified) {
-                  navigation.navigate("OnboardingSwiper", {
+                  navigation.navigate("Onboarding", {
                     route: "HomeScreen",
                   });
                 } else {
