@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import FirebaseInteractor from "../../firebase/FirebaseInteractor";
 import { GameScreenProps } from "./Game";
 import PairingGame from "./PairingGame";
 import SelectingGame from "./SelectingGame";
