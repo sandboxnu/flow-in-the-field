@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 
 import CustomButton from "./CustomButton";
 

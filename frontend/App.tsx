@@ -7,7 +7,8 @@ import BackButton from "./src/components/Button/BackButton";
 import FirebaseInteractor from "./src/firebase/firebaseInteractor";
 import { UID } from "./src/models/types";
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
-import AccountSettings from "./src/screens/Login/accountSettings";
+import ChangePasswordScreen from "./src/screens/Login/changePassword";
+import SettingsScreen from "./src/screens/Login/settings";
 import signInFlow from "./src/screens/Login/signInFlow";
 import OnboardingScreens from "./src/screens/Onboarding/OnboardingScreens";
 import TestResultsScreen from "./src/screens/TestScreen/TestResultsScreen";
@@ -106,7 +107,34 @@ export default function App() {
             component={Homescreen}
             options={{ gestureEnabled: false, headerBackVisible: false }}
           />
-          <Stack.Screen name="SettingsScreen" component={AccountSettings} />
+          <Stack.Screen
+            name="SettingsScreen"
+            component={SettingsScreen}
+            options={{
+              headerTitle: () => (
+                <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>
+              ),
+              headerLeft: () => <BackButton onPress={() => {}} />,
+              headerShadowVisible: true,
+              headerBackVisible: false,
+              gestureEnabled: false,
+            }}
+          />
+          <Stack.Screen
+            name="ChangePasswordScreen"
+            component={ChangePasswordScreen}
+            options={{
+              headerTitle: () => (
+                <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>
+              ),
+              headerLeft: () => (
+                <BackButton onPress={() => {}} isHome={false} />
+              ),
+              headerShadowVisible: true,
+              headerBackVisible: false,
+              gestureEnabled: false,
+            }}
+          />
           <Stack.Screen
             name="GameScreen"
             component={GameScreenFlow}

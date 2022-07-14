@@ -3,14 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  TextInput,
 } from "react-native";
 
 import PrimaryButton from "../components/Button/PrimaryButton";
 import ErrorText from "../components/ErrorText";
-import CustomTextInput from "../components/TextInput/CustomTextInput";
 import {
   generateRoundsCSV,
   generateTestRoundsCSV,
@@ -56,88 +55,102 @@ export default function AdminScreen(props: AdminScreenProps) {
   }
 
   return (
-    <ScrollView style={styles.view}>
-      <Text>
-        Press the buttons below to export data as an email with a CSV
-        attachment.
-      </Text>
-
-      <Text style={styles.header}>Practice Data</Text>
-
-      <View style={styles.paragraph}>
+    <View style={styles.container}>
+      <ScrollView style={styles.view}>
         <Text>
-          The Practice Data CSV will contain the following information for all
-          practice rounds played by participants:
+          Press the buttons below to export data as an email with a CSV
+          attachment.
         </Text>
-        <Text> • User ID</Text>
-        <Text> • Game Type</Text>
-        <Text> • Number of Turkish Words</Text>
-        <Text> • Session ID</Text>
-        <Text> • Round ID</Text>
-        <Text> • Start Time</Text>
-        <Text> • Duration</Text>
-        <Text> • Score</Text>
-      </View>
 
-      <PrimaryButton
-        onPress={async () => {
-          await tryExport(generateRoundsCSV);
-        }}
-        disabled={isLoading}
-        text="Export Practice CSV"
-        style={styles.button}
-      />
+        <Text style={styles.header}>Practice Data</Text>
 
-      <Text style={styles.header}>Test Data</Text>
-
-      <View style={styles.paragraph}>
-        <Text>
-          The Test Data CSV will contain the following information for all test
-          questions answered by participants:
-        </Text>
-        <Text> • Participant ID</Text>
-        <Text> • Game Type</Text>
-        <Text> • Test Session ID</Text>
-        <Text> • Question Number</Text>
-        <Text> • Start Time</Text>
-        <Text> • End Time</Text>
-        <Text> • Duration</Text>
-        <Text> • Answer</Text>
-        <Text> • Correctness</Text>
-      </View>
-
-      <PrimaryButton
-        onPress={async () => {
-          await tryExport(generateTestRoundsCSV);
-        }}
-        disabled={isLoading}
-        text="Export Test CSV"
-        style={styles.button}
-      />
-      <View style={styles.error}>
-        <ErrorText message={errorState} />
-      </View>
-
-      {/* TODO: make sure this looks good, and should it be above or below the
-        isLoading component below? */}
-      <View style={styles.container}>
-        <CustomTextInput
-          placeholderText="consent text"
-          value={consentText}
-          setValue={setConsentText}
-          secureText={false}
-        />
-        <TouchableOpacity style={styles.saveButton} onPress={saveConsentText}>
-          <Text style={{ color: "#FFF", fontSize: 22 }}>Save</Text>
-        </TouchableOpacity>
-      </View>
-
-      {isLoading && (
-        <View style={styles.loading}>
-          <ActivityIndicator />
+        <View style={styles.paragraph}>
+          <Text>
+            The Practice Data CSV will contain the following information for all
+            practice rounds played by participants:
+          </Text>
+          <Text> • User ID</Text>
+          <Text> • Game Type</Text>
+          <Text> • Number of Turkish Words</Text>
+          <Text> • Session ID</Text>
+          <Text> • Round ID</Text>
+          <Text> • Start Time</Text>
+          <Text> • Duration</Text>
+          <Text> • Score</Text>
         </View>
-      )}
-    </ScrollView>
+
+        <PrimaryButton
+          onPress={async () => {
+            await tryExport(generateRoundsCSV);
+          }}
+          disabled={isLoading}
+          text="Export Practice CSV"
+          style={styles.button}
+        />
+
+        <Text style={styles.header}>Test Data</Text>
+
+        <View style={styles.paragraph}>
+          <Text>
+            The Test Data CSV will contain the following information for all
+            test questions answered by participants:
+          </Text>
+          <Text> • Participant ID</Text>
+          <Text> • Game Type</Text>
+          <Text> • Test Session ID</Text>
+          <Text> • Question Number</Text>
+          <Text> • Start Time</Text>
+          <Text> • End Time</Text>
+          <Text> • Duration</Text>
+          <Text> • Answer</Text>
+          <Text> • Correctness</Text>
+        </View>
+
+        <PrimaryButton
+          onPress={async () => {
+            await tryExport(generateTestRoundsCSV);
+          }}
+          disabled={isLoading}
+          text="Export Test CSV"
+          style={styles.button}
+        />
+        <View style={styles.error}>
+          <ErrorText message={errorState} />
+        </View>
+
+        <Text>
+          Use the input text field below to edit the text shown to participants
+          on the consent screen.
+        </Text>
+
+        <Text style={styles.header}>Consent Text</Text>
+
+        <View style={styles.consentContainer}>
+          <TextInput
+            placeholderTextColor="#4D4661"
+            value={consentText}
+            onChangeText={setConsentText}
+            secureTextEntry={false}
+            style={styles.consentTextInput}
+            placeholder="consent text"
+            multiline
+            numberOfLines={3}
+          />
+          <PrimaryButton
+            onPress={saveConsentText}
+            disabled={isLoading}
+            text="Save Consent Text"
+            style={styles.button}
+          />
+        </View>
+
+        {isLoading && (
+          <View style={styles.loading}>
+            <ActivityIndicator />
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -145,21 +158,33 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     flex: 1,
-    alignItems: "center",
     width: "100%",
     height: "100%",
-    paddingTop: "5%",
   },
-  saveButton: {
-    backgroundColor: "#5FBFF8",
-    borderRadius: 12,
-    justifyContent: "center",
+  consentContainer: {
+    flexDirection: "column",
+    flex: 1,
     alignItems: "center",
-    height: "7.5%",
-    width: "75%",
+    marginBottom: "-30%",
+  },
+  consentTextInput: {
+    width: "95%",
+    height: "40%",
+    borderWidth: 1,
+    borderColor: "#4D4661",
+    paddingHorizontal: 9,
+    marginVertical: "4%",
+    fontSize: 16,
+    fontStyle: "normal",
+    fontWeight: "400",
+    lineHeight: 25,
+    letterSpacing: 0,
+    textAlign: "left",
   },
   view: {
     padding: "5%",
+    width: "100%",
+    height: "100%",
   },
   button: {
     width: "96%",
