@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   ScrollView,
   TextInput,
+  Keyboard,
 } from "react-native";
 
 import PrimaryButton from "../components/Button/PrimaryButton";
@@ -27,6 +28,27 @@ export default function AdminScreen(props: AdminScreenProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorState, setError] = useState<string | undefined>(undefined);
   const [consentText, setConsentText] = useState("");
+  const [keyboardShow, setKeyboardShow] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardShow(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardShow(false);
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   useEffect(() => {
     fi.getConsentText().then((text) => {
@@ -120,12 +142,18 @@ export default function AdminScreen(props: AdminScreenProps) {
 
         <Text>
           Use the input text field below to edit the text shown to participants
-          on the consent screen.
+          on the consent form screen.
         </Text>
 
-        <Text style={styles.header}>Consent Text</Text>
+        <Text style={styles.header}>Edit Consent Form</Text>
 
-        <View style={styles.consentContainer}>
+        <View
+          style={
+            keyboardShow
+              ? { ...styles.consentContainer, marginBottom: "-15%" }
+              : styles.consentContainer
+          }
+        >
           <TextInput
             placeholderTextColor="#4D4661"
             value={consentText}
@@ -134,7 +162,6 @@ export default function AdminScreen(props: AdminScreenProps) {
             style={styles.consentTextInput}
             placeholder="consent text"
             multiline
-            numberOfLines={3}
           />
           <PrimaryButton
             onPress={saveConsentText}
@@ -165,7 +192,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     alignItems: "center",
-    marginBottom: "-30%",
+    marginBottom: "-95%",
   },
   consentTextInput: {
     width: "95%",

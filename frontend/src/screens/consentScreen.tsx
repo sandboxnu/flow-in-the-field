@@ -41,7 +41,7 @@ export interface ConsentScreenProps {
 
 export default function ConsentScreen(props: ConsentScreenProps) {
   const navigation = useNavigation();
-  const [copyScrollPos, setCopyScrollPos] = useState(0);
+  const [, setCopyScrollPos] = useState(0);
   const [consentText, setConsentText] = useState("");
 
   React.useLayoutEffect(() => {
@@ -69,10 +69,7 @@ export default function ConsentScreen(props: ConsentScreenProps) {
             setCopyScrollPos(event.nativeEvent.contentOffset.y);
           }}
         >
-          <Text style={{ color: "#FFF", fontSize: 20 }}>
-            {/* Lorem ipsum dolor sit amet. Est tempore nostrum sed porro minima ab assumenda error et voluptatibus nihil et enim eius. Et nobis sequi qui vitae eligendi eos magnam temporibus ea veritatis officia? In quasi adipisci facere quasi sed iusto autem. Id laboriosam earum id sint nisi et corporis suscipit ut sunt cupiditate. Est voluptas dicta et facilis assumenda et voluptatem quisquam et voluptas voluptates qui fuga facilis ut sequi voluptas At Quis deserunt. Sed accusamus nihil rem quia itaque sit maiores quia aut rerum modi ea perspiciatis nostrum aut dolorem dignissimos aut aspernatur distinctio! Et nisi facere qui totam eligendi aut omnis ratione quo labore laborum eum accusantium rerum. Et quia quae in voluptate velit ad animi dolore et earum voluptas ab aliquid iste ea voluptatibus suscipit et corporis consequatur. Aut numquam harum non deleniti placeat et alias autem vel ipsum molestias est voluptatem delectus qui fuga labore. Sit incidunt dignissimos et sint quisquam aut magni accusantium a nemo sint. Ad eligendi expedita et iusto assumenda est quis magnam sed inventore inventore quo suscipit minima est obcaecati saepe. */}
-            {consentText}
-          </Text>
+          <Text style={{ color: "#FFF", fontSize: 20 }}>{consentText}</Text>
         </ScrollView>
       </View>
       <View style={styles.buttonContainer}>
