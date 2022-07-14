@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -29,6 +29,7 @@ export default function AdminScreen(props: AdminScreenProps) {
   const [errorState, setError] = useState<string | undefined>(undefined);
   const [consentText, setConsentText] = useState("");
   const [keyboardShow, setKeyboardShow] = useState(false);
+  const scrollViewRef = useRef<any>();
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -49,6 +50,12 @@ export default function AdminScreen(props: AdminScreenProps) {
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  useEffect(() => {
+    if (keyboardShow && scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  }, [keyboardShow]);
 
   useEffect(() => {
     fi.getConsentText().then((text) => {
@@ -78,7 +85,7 @@ export default function AdminScreen(props: AdminScreenProps) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.view}>
+      <ScrollView style={styles.view} ref={scrollViewRef}>
         <Text>
           Press the buttons below to export data as an email with a CSV
           attachment.
@@ -140,17 +147,17 @@ export default function AdminScreen(props: AdminScreenProps) {
           <ErrorText message={errorState} />
         </View>
 
+        <Text style={styles.header}>Edit Consent Form</Text>
+
         <Text>
           Use the input text field below to edit the text shown to participants
           on the consent form screen.
         </Text>
 
-        <Text style={styles.header}>Edit Consent Form</Text>
-
         <View
           style={
             keyboardShow
-              ? { ...styles.consentContainer, marginBottom: "-15%" }
+              ? { ...styles.consentContainer, marginBottom: "100%" }
               : styles.consentContainer
           }
         >
@@ -192,11 +199,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     alignItems: "center",
-    marginBottom: "-95%",
+    marginBottom: "15%",
   },
   consentTextInput: {
     width: "95%",
     height: "40%",
+    flex: 1,
     borderWidth: 1,
     borderColor: "#4D4661",
     paddingHorizontal: 9,
