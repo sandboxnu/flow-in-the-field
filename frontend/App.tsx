@@ -1,23 +1,22 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text } from "react-native";
 
 import BackButton from "./src/components/Button/BackButton";
-import FirebaseInteractor from "./src/firebase/firebaseInteractor";
-import { User, Word, UID, GameType } from "./src/models/types";
-import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
-import AccountSettings from "./src/screens/Login/accountSettings";
-import ChangePasswordScreen from "./src/screens/Login/changePassword";
-import SettingsScreen from "./src/screens/Login/settings";
-import signInFlow from "./src/screens/Login/signInFlow";
-import OnboardingScreens from "./src/screens/Onboarding/OnboardingScreens";
-import TestWelcomeScreen from "./src/screens/TestScreen/TestWelcomeScreen";
-import AdminScreen from "./src/screens/adminScreen";
-import EmailVerificationScreen from "./src/screens/emailVerificationScreen";
-import Homescreen from "./src/screens/homescreen";
-import TestScreen from "./src/screens/TestScreen/TestScreen";
-import TestResultsScreen from "./src/screens/TestScreen/TestResultsScreen";
+import FirebaseInteractor from "./src/firebase/FirebaseInteractor";
+import { UID } from "./src/models/types";
+import AdminScreen from "./src/screens/AdminScreen";
+import EmailVerificationScreen from "./src/screens/EmailVerificationScreen";
+import GameFlow from "./src/screens/Game/GameFlow";
+import HomeScreen from "./src/screens/HomeScreen";
+import ChangePassword from "./src/screens/Login/ChangePassword";
+import SettingsScreen from "./src/screens/Login/Settings";
+import signInFlow from "./src/screens/Login/SignInFlow";
+import OnboardingSwiper from "./src/screens/Onboarding/OnboardingSwiper";
+import Test from "./src/screens/Test/Test";
+import TestResults from "./src/screens/Test/TestResults";
+import TestWelcome from "./src/screens/Test/TestWelcome";
 import { GameStateContext } from "./src/utils/context";
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +26,7 @@ export default function App() {
       return (
         <Image
           style={styles.mainImage}
-          source={require("./src/assets/flow-icon.png")}
+          source={require("./src/assets/logos/flow-icon.png")}
         />
       );
     },
@@ -80,7 +79,7 @@ export default function App() {
         >
           <Stack.Screen
             name="Onboarding"
-            component={OnboardingScreens}
+            component={OnboardingSwiper}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -99,7 +98,7 @@ export default function App() {
           />
           <Stack.Screen
             name="HomeScreen"
-            component={Homescreen}
+            component={HomeScreen}
             options={{ gestureEnabled: false, headerBackVisible: false }}
           />
           <Stack.Screen
@@ -117,7 +116,7 @@ export default function App() {
           />
           <Stack.Screen
             name="ChangePasswordScreen"
-            component={ChangePasswordScreen}
+            component={ChangePassword}
             options={{
               headerTitle: () => (
                 <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>
@@ -132,7 +131,7 @@ export default function App() {
           />
           <Stack.Screen
             name="GameScreen"
-            component={GameScreenFlow}
+            component={GameFlow}
             options={{
               headerTitle: () => {
                 return (
@@ -173,23 +172,20 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
-          <Stack.Screen
-            name="TestWelcomeScreen"
-            component={TestWelcomeScreen}
-          />
+          <Stack.Screen name="TestWelcomeScreen" component={TestWelcome} />
           <Stack.Screen
             name="TestScreen"
-            component={TestScreen}
+            component={Test}
             options={{ headerBackVisible: false }}
           />
           <Stack.Screen
             name="TestResultsScreen"
-            component={TestResultsScreen}
+            component={TestResults}
             options={{ headerBackVisible: false }}
           />
           <Stack.Screen
             name="RevisitOnboarding"
-            component={OnboardingScreens}
+            component={OnboardingSwiper}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
