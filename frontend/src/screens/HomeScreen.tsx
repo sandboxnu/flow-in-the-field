@@ -1,14 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 
-import PrimaryButton from "../components/Button/PrimaryButton";
 import TextIconButton from "../components/Button/TextIconButton";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { Role } from "../constants/role";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
-import { User, UID } from "../models/types";
-
+import FirebaseInteractor from "../firebase/FirebaseInteractor";
+import { UID, User } from "../models/types";
 import "intl";
 import "intl/locale-data/jsonp/en";
 import { GameStateContext } from "../utils/context";
@@ -19,7 +17,7 @@ export interface HomescreenProps {
   route: any;
 }
 
-export default function Homescreen(props: HomescreenProps) {
+export default function HomeScreen(props: HomescreenProps) {
   const [user, setUser] = useState<User>();
   const testFinished = props.route.params
     ? props.route.params["testFinished"]
@@ -41,7 +39,7 @@ export default function Homescreen(props: HomescreenProps) {
   const startSession = () => {
     fi.startSession().then((sessionId: UID) => {
       gameStateContext.updateSessionId(sessionId);
-      navigation.navigate("GameScreen", { sessionId });
+      navigation.navigate("Game", { sessionId });
     });
   };
 
@@ -58,7 +56,7 @@ export default function Homescreen(props: HomescreenProps) {
 
   const startTest = () => {
     if (testAvailable()) {
-      navigation.navigate("TestWelcomeScreen");
+      navigation.navigate("TestWelcome");
     }
   };
 
@@ -84,32 +82,32 @@ export default function Homescreen(props: HomescreenProps) {
         <TextIconButton
           onPress={() => startSession()}
           text="Start a new session"
-          icon={require("../assets/start-session-icon.png")}
+          icon={require("../assets/icons/start-session-icon.png")}
         />
         <TextIconButton
           onPress={() => startTest()}
           text="Take the test"
-          icon={require("../assets/flow-icon-test.png")}
+          icon={require("../assets/icons/test-icon.png")}
           testNotAvailable={!testAvailable()}
         />
-        {user.role == Role.ADMIN && (
+        {user.role === Role.ADMIN && (
           <TextIconButton
             onPress={() => navigation.navigate("AdminScreen")}
             text="Admin"
-            icon={require("../assets/admin-icon.png")}
+            icon={require("../assets/icons/admin-icon.png")}
           />
         )}
         <TextIconButton
           onPress={() => navigation.navigate("SettingsScreen")}
           text="Settings"
-          icon={require("../assets/settings-icon.png")}
+          icon={require("../assets/icons/settings-icon.png")}
         />
         <TextIconButton
           onPress={() =>
             navigation.navigate("RevisitOnboarding", { signedIn: true })
           }
           text="About"
-          icon={require("../assets/about-icon.png")}
+          icon={require("../assets/icons/about-icon.png")}
         />
       </View>
     </View>

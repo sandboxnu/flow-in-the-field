@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
   ScrollView,
 } from "react-native";
@@ -14,10 +13,7 @@ import {
   generateRoundsCSV,
   generateTestRoundsCSV,
   promptExportEmail,
-} from "../firebase/csvExporter";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
-
-const fi = new FirebaseInteractor();
+} from "../firebase/csv-export";
 
 export interface AdminScreenProps {
   route: any;
@@ -113,8 +109,6 @@ export default function AdminScreen(props: AdminScreenProps) {
     </ScrollView>
   );
 }
-
-const defaultStyle = StyleSheet.create({});
 
 const styles = StyleSheet.create({
   view: {

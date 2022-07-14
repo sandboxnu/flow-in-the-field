@@ -4,7 +4,7 @@ import { MailComposerOptions } from "expo-mail-composer";
 import Papa from "papaparse";
 
 import { RoundWithId } from "../models/types";
-import FirebaseInteractor from "./firebaseInteractor";
+import FirebaseInteractor from "./FirebaseInteractor";
 
 interface RoundData {
   "User Id": string;
