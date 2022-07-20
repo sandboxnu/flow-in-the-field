@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
+import MediumText from "../../components/Text/MediumText";
+import RegularText from "../../components/Text/RegularText";
 
 const TEST_RESULTS_HEADER_OPTIONS = {
     headerTitle: () => { return <Image style={styles.mainImage} source={require('../../assets/flow-icon-light.png')} /> },
@@ -39,12 +41,12 @@ export default function TestResultsScreen(props: TestResultsScreenProps) {
         <DraxProvider>
             <View style={styles.container}>
                 <View style={styles.scoreContainer}>
-                    <Text style={styles.resultText}>You got</Text>
-                    <Text style={styles.scoreText}>{correct}/{total}</Text>
-                    <Text style={styles.resultText}>correct!</Text>
+                    <RegularText style={styles.resultText}>You got</RegularText>
+                    <MediumText style={styles.scoreText}>{correct}/{total}</MediumText>
+                    <RegularText style={styles.resultText}>correct!</RegularText>
                 </View>
                 <TouchableOpacity style={styles.startButton} onPress={() => navigation.navigate("HomeScreen", { testFinished: true })}>
-                    <Text style={{ color: "#FFF", fontSize: 22, fontFamily: "Montserrat_500Medium" }}>done</Text>
+                    <MediumText style={{ color: "#FFF", fontSize: 22 }}>done</MediumText>
                 </TouchableOpacity>
             </View>
         </DraxProvider>
@@ -88,12 +90,10 @@ const styles = StyleSheet.create({
     },
     resultText: {
         color: "#FFF",
-        fontSize: 48,
-        fontFamily: 'Montserrat_400Regular'
+        fontSize: 48
     },
     scoreText: {
         color: "#FFF",
-        fontSize: 96,
-        fontFamily: 'Montserrat_500Medium'
+        fontSize: 96
     }
 })

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef, useContext, } from "react";
-import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Image } from "react-native";
 import { BLUE, GREY } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { User, UID } from "../../models/types";
+import { User } from "../../models/types";
 import { durstenfeldShuffle } from "../../utils/utils";
 import { DraxView, DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
@@ -14,6 +14,8 @@ import CustomButton from "../../components/Button/CustomButton";
 import { GameStateContext } from "../../utils/context";
 import BottomSheet from '@gorhom/bottom-sheet';
 import GameTutorialScreens from "../GameTutorial/GameTutorialScreens";
+import RegularText from "../../components/Text/RegularText";
+import MediumText from "../../components/Text/MediumText";
 
 const fi = new FirebaseInteractor();
 
@@ -220,7 +222,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             if (currentPairs?.some(({ english }) => english === word) ?? false) {
                 return (
                     <View key={word} style={styles.englishUsed}>
-                        <Text style={styles.english}>{word}</Text>
+                        <RegularText style={styles.english}>{word}</RegularText>
                     </View>
                 )
             }
@@ -229,7 +231,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 draggingStyle={{ opacity: 0.3 }}
                 dragReleasedStyle={{ opacity: 0.3 }}
                 longPressDelay={100}>
-                <Text style={styles.english}>{word}</Text>
+                <RegularText style={styles.english}>{word}</RegularText>
             </DraxView>)
         })
     }
@@ -249,7 +251,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     const canClickDoneButton = englishWords.every((word) => currentPairs?.some(({ english }) => english === word))
 
     const scoreText = props.topScreenRenderFunction(getNumCorrectWords(), currentPairs?.length ?? 0)
-    const correctAnswersText = <Text style={styles.correctAnswersText}>Correct Answers</Text>
+    const correctAnswersText = <MediumText style={styles.correctAnswersText}>Correct Answers</MediumText>
     const shouldFlexWrap = props.isPairing && !submitted
 
     return (
@@ -326,8 +328,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         textAlign: "center",
         alignItems: "center",
-        paddingVertical: "4%",
-        fontFamily: 'Montserrat_400Regular'
+        paddingVertical: "4%"
     },
     draxView: {
         width: "40%",
@@ -347,8 +348,7 @@ const styles = StyleSheet.create({
         color: BLUE,
         fontSize: 40,
         textAlign: "center",
-        width: "100%",
-        fontFamily: 'Montserrat_500Medium'
+        width: "100%"
     },
     englishUsed: {
         borderColor: BLUE,

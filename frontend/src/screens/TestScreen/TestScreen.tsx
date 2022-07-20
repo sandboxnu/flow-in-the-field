@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { DraxProvider } from "react-native-drax";
 import { useNavigation } from "@react-navigation/core";
 import AnimatedBar from "react-native-animated-bar";
 import { TestWord, UID } from "../../models/types";
+import MediumText from "../../components/Text/MediumText";
+import RegularText from "../../components/Text/RegularText";
 
 const fi = new FirebaseInteractor();
 
 const TEST_HEADER_OPTIONS = {
-    headerTitle: () => { return <Text style={{ color: "#5eafdf", fontSize: 20, fontFamily: 'Montserrat_500Medium' }}>Test Your Knowledge</Text> },
+    headerTitle: () => { return <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>Test Your Knowledge</MediumText> },
     title: '',
     headerTitleAlign: "center" as "center",
     headerShadowVisible: false,
@@ -112,34 +114,34 @@ export default function TestScreen(props: TestScreenProps) {
                         row
                     >
                     </AnimatedBar>
-                    <Text style={{ color: "#5eafdf", fontSize: 16, paddingLeft: 8, fontFamily: 'Montserrat_500Medium' }}>{page} / {numQuestions}</Text>
+                    <MediumText style={{ color: "#5eafdf", fontSize: 16, paddingLeft: 8 }}>{page} / {numQuestions}</MediumText>
                 </View>
-                <Text style={{ fontSize: 36, fontFamily: 'Montserrat_400Regular' }}>Do these words share the same meaning?</Text>
+                <RegularText style={{ fontSize: 36 }}>Do these words share the same meaning?</RegularText>
                 <View style={styles.wordsContainer}>
-                    <Text style={styles.wordsText}>{testQuestion?.turkish}</Text>
-                    <Text style={styles.wordsText}>{testQuestion?.english}</Text>
+                    <MediumText style={styles.wordsText}>{testQuestion?.turkish}</MediumText>
+                    <MediumText style={styles.wordsText}>{testQuestion?.english}</MediumText>
                 </View>
                 <View style={styles.answerContainer}>
                     <TouchableOpacity
                         onPress={() => setAnswer("yes")}
                         style={answer === "yes" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
-                        <Text style={answer === "yes" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
+                        <MediumText style={answer === "yes" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
                             Yes
-                        </Text>
+                        </MediumText>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => setAnswer("no")}
                         style={answer === "no" ? styles.selectedAnswerButton : styles.unselectedAnswerButton}>
-                        <Text style={answer === "no" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
+                        <MediumText style={answer === "no" ? styles.selectedAnswerText : styles.unselectedAnswerText}>
                             No
-                        </Text>
+                        </MediumText>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                     disabled={!answer}
                     onPress={continueButtonOnPress}
                     style={answer ? styles.continueButton : { ...styles.continueButton, opacity: 0.5 }}>
-                    <Text style={{ color: "#6E81E7", fontSize: 22, fontFamily: 'Montserrat_500Medium' }}>continue ></Text>
+                    <MediumText style={{ color: "#6E81E7", fontSize: 22 }}>continue ></MediumText>
                 </TouchableOpacity>
             </View>
         </DraxProvider>
@@ -172,8 +174,7 @@ const styles = StyleSheet.create({
     },
     wordsText: {
         fontSize: 40,
-        color: "#5EAFDF",
-        fontFamily: 'Montserrat_500Medium'
+        color: "#5EAFDF"
     },
     answerContainer: {
         width: "100%",
@@ -204,13 +205,11 @@ const styles = StyleSheet.create({
     },
     selectedAnswerText: {
         color: "#FFF",
-        fontSize: 24,
-        fontFamily: 'Montserrat_500Medium'
+        fontSize: 24
     },
     unselectedAnswerText: {
         color: "#6E81E7",
-        fontSize: 24,
-        fontFamily: 'Montserrat_500Medium'
+        fontSize: 24
     },
     continueButton: {
         flex: 1,

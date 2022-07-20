@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
-import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
+import { Image, StyleSheet, View, Pressable } from 'react-native';
+import MediumText from '../../components/Text/MediumText';
+import RegularText from '../../components/Text/RegularText';
 
 const FLOW_ICON = '../../assets/flow-icon-light.png'
 
@@ -28,10 +30,10 @@ export default function OnboardingScreen({
     return (
         <View style={[styles.container, backgroundStyle]}>
             <Image style={styles.image} source={require(FLOW_ICON)} />
-            <Text style={styles.content}>{screenContent}</Text>
+            <RegularText style={styles.content}>{screenContent}</RegularText>
             {hasNavButton &&
                 <Pressable onPress={() => { navigation.navigate(route); }} style={styles.button}>
-                    <Text style={styles.buttonContent}>{navButtonTitle}</Text>
+                    <MediumText style={styles.buttonContent}>{navButtonTitle}</MediumText>
                 </Pressable>
             }
         </View>
@@ -57,8 +59,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 18,
         color: '#FFF',
-        textAlign: 'center',
-        fontFamily: 'Montserrat_400Regular'
+        textAlign: 'center'
     },
     button: {
         flex: 1,
@@ -74,7 +75,6 @@ const styles = StyleSheet.create({
     buttonContent: {
         backgroundColor: '#FFF',
         fontSize: 20,
-        color: '#D16B50',
-        fontFamily: 'Montserrat_500Medium'
+        color: '#D16B50'
     }
 });

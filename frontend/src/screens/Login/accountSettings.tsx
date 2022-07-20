@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import ErrorText from "../../components/ErrorText";
+import ErrorText from "../../components/Text/ErrorText";
 import { mapErrorCodeToMessage } from "../../utils/utils";
 import { useNavigation } from "@react-navigation/core";
 import { BLUE, ORANGE, PURPLE } from "../../constants/colors";
+import BoldText from "../../components/Text/BoldText";
+import RegularText from "../../components/Text/RegularText";
+import MediumText from "../../components/Text/MediumText";
 
 const fi = new FirebaseInteractor();
 
@@ -38,9 +41,9 @@ export default function AccountSettings() {
     return (
         <View style={styles.container}>
             <View style={styles.half}>
-                <Text style={styles.header}>Account Settings</Text>
+                <BoldText style={styles.header}>Account Settings</BoldText>
                 <View style={styles.horizontalScroller}>
-                    <Text style={styles.paragraph}>email: </Text>
+                    <RegularText style={styles.paragraph}>email: </RegularText>
                     <ScrollView
                         style={styles.horizontalScrollerSubject}
                         onScroll={(event) => { setEmailScrollPos(event.nativeEvent.contentOffset.x) }}
@@ -67,20 +70,20 @@ export default function AccountSettings() {
                 <ErrorText message={error} />
                 <Text>{successMessage}</Text>
                 <TouchableOpacity style={styles.button} onPress={() => updatePassword()}>
-                    <Text style={styles.buttonText}>change password</Text>
+                    <MediumText style={styles.buttonText}>change password</MediumText>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                     fi.logout().then(() => {
                         navigation.navigate("SignInFlow");
                     });
                 }} style={styles.logOutButton}>
-                    <Text style={styles.logOutText}>log out</Text>
+                    <MediumText style={styles.logOutText}>log out</MediumText>
                 </TouchableOpacity>
             </View>
             <View style={styles.half}>
-                <Text style={styles.subheader}>contact us!</Text>
-                <Text style={styles.paragraph}>email: xxxx@gmail.com</Text>
-                <Text style={styles.paragraph}>phone: (123)-456-7890</Text>
+                <RegularText style={styles.subheader}>contact us!</RegularText>
+                <RegularText style={styles.paragraph}>email: xxxx@gmail.com</RegularText>
+                <RegularText style={styles.paragraph}>phone: (123)-456-7890</RegularText>
             </View>
         </View>
     );
@@ -107,8 +110,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 32,
         color: BLUE,
-        marginBottom: 16,
-        fontFamily: "Montserrat_700Bold"
+        marginBottom: 16
     },
     horizontalScroller: {
         flexDirection: "row",
@@ -126,8 +128,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: BLUE,
         fontWeight: "600",
-        marginBottom: 16,
-        fontFamily: 'Montserrat_400Regular'
+        marginBottom: 16
     },
     button: {
         backgroundColor: ORANGE,
@@ -142,8 +143,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 3,
         fontSize: 18,
-        fontWeight: '400',
-        fontFamily: 'Montserrat_500Medium'
+        fontWeight: '400'
     },
     logOutButton: {
         marginTop: 11,
@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
     logOutText: {
         textDecorationLine: "underline",
         color: PURPLE,
-        fontSize: 18,
-        fontFamily: 'Montserrat_500Medium'
+        fontSize: 18
     },
 });

@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity, Text, Image, StyleSheet, View } from "react-native";
+import { TouchableOpacity, Image, StyleSheet, View } from "react-native";
+import MediumText from "../Text/MediumText";
 
 interface SmallTextIconButtonProps {
     text: string;
@@ -11,7 +12,7 @@ export default function TextIconButton({ text, icon, onPress }: SmallTextIconBut
         <View style={styles.container}>
             <TouchableOpacity onPress={onPress}>
                 <View style={styles.main}>
-                    <Text style={styles.text}>{text}</Text>
+                    <MediumText style={styles.text}>{text}</MediumText>
                     <Image source={icon} style={styles.image} />
                 </View>
             </TouchableOpacity>
@@ -39,8 +40,7 @@ const styles = StyleSheet.create({
         margin: "auto",
         textAlign: "center",
         flex: 1,
-        color: "white",
-        fontFamily: 'Montserrat_500Medium'
+        color: "white"
     },
     image: {
         resizeMode: "contain",

@@ -1,12 +1,13 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import MediumText from "../../components/Text/MediumText";
 import { BLUE } from "../../constants/colors";
 import GameScreen, { GameScreenProps } from "./gameScreen";
 
 export default function SelectingGameScreen(props: GameScreenProps) {
 
     const selectingTopRenderer = (numCorrect: number, numTotal: number) => {
-        return <Text style={styles.correctText}>{numCorrect === 1 ? "correct" : "incorrect"}</Text>;
+        return <MediumText style={styles.correctText}>{numCorrect === 1 ? "correct" : "incorrect"}</MediumText>;
     }
 
     const selectingShuffleFunction = (words: any[]) => {
@@ -25,7 +26,6 @@ const styles = StyleSheet.create({
     correctText: {
         color: BLUE,
         fontSize: 64,
-        textAlign: "center",
-        fontFamily: 'Montserrat_500Medium',
+        textAlign: "center"
     },
 })

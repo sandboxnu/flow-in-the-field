@@ -1,12 +1,13 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import MediumText from "../../components/Text/MediumText";
 import { BLUE } from "../../constants/colors";
 import GameScreen, { GameScreenProps } from "./gameScreen";
 
 export default function PairingGameScreen(props: GameScreenProps) {
 
     const pairingTopRenderer = (numCorrect: number, numTotal: number) => {
-        return <Text style={styles.scoreText}>{numCorrect}/{numTotal}</Text>
+        return <MediumText style={styles.scoreText}>{numCorrect}/{numTotal}</MediumText>
     }
 
     const pairingShuffleFunction = (words: any[]) => {
@@ -26,7 +27,6 @@ const styles = StyleSheet.create({
         color: BLUE,
         fontSize: 124,
         textAlign: "center",
-        width: "100%",
-        fontFamily: 'Montserrat_500Medium'
+        width: "100%"
     }
 })

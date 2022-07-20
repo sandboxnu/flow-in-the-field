@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { PURPLE, TURQUOISE } from "../../constants/colors";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import ErrorText from "../../components/ErrorText";
+import ErrorText from "../../components/Text/ErrorText";
 import { mapErrorCodeToMessage } from "../../utils/utils";
+import MediumText from "../../components/Text/MediumText";
 
 let interactor = new FirebaseInteractor()
 
@@ -32,10 +33,10 @@ export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProp
                     });
                 }
             }} style={styles.recoveryPasswordButton}>
-                <Text style={styles.recoverPasswordText}>recover password</Text>
+                <MediumText style={styles.recoverPasswordText}>recover password</MediumText>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
-                <Text style={styles.loginText}>log in</Text>
+                <MediumText style={styles.loginText}>log in</MediumText>
             </TouchableOpacity>
         </View>
     )
@@ -72,8 +73,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 4,
         fontSize: 18,
-        fontWeight: '400',
-        fontFamily: 'Montserrat_500Medium'
+        fontWeight: '400'
     },
     mainImage: {
         width: "60%",
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     loginText: {
         color: PURPLE,
         textDecorationLine: "underline",
-        fontSize: 18,
-        fontFamily: 'Montserrat_500Medium'
+        fontSize: 18
     }
 })

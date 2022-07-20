@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { UID } from "../../models/types";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { useNavigation } from "@react-navigation/core";
+import MediumText from "../../components/Text/MediumText";
 
 const TEST_WELCOME_HEADER_OPTIONS = {
     headerTitle: () => { return <Image style={styles.mainImage} source={require('../../assets/flow-icon-light.png')} /> },
@@ -40,7 +41,7 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.startButton} onPress={() => startTest()}>
-                <Text style={{ color: "#FFF", fontSize: 22, fontFamily: 'Montserrat_500Medium' }}>start</Text>
+                <MediumText style={{ color: "#FFF", fontSize: 22 }}>start</MediumText>
             </TouchableOpacity>
         </View>
     )

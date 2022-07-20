@@ -17,11 +17,13 @@ import FirebaseInteractor from './src/firebase/firebaseInteractor';
 import { GameStateContext } from './src/utils/context';
 import AdminScreen from './src/screens/adminScreen';
 import { LoadingScreen } from "./src/components/LoadingScreen";
-import { 
-  useFonts, 
-  Montserrat_400Regular, 
+import {
+  useFonts,
+  Montserrat_400Regular,
   Montserrat_500Medium,
-  Montserrat_700Bold } from "@expo-google-fonts/montserrat";
+  Montserrat_700Bold
+} from "@expo-google-fonts/montserrat";
+import MediumText from './src/components/Text/MediumText';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -86,7 +88,7 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={Homescreen} options={{ gestureEnabled: false, headerBackVisible: false }} />
           <Stack.Screen name="SettingsScreen" component={AccountSettings} />
           <Stack.Screen name="GameScreen" component={GameScreenFlow} options={{
-            headerTitle: () => { return <Text style={{ color: "#5eafdf", fontFamily: "Montserrat_500Medium", fontSize: 20 }}>Vocabulary Practice</Text> },
+            headerTitle: () => { return <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>Vocabulary Practice</MediumText> },
             headerTintColor: "#000",
             headerLeft: () =>
               <BackButton
@@ -102,9 +104,9 @@ export default function App() {
             headerBackVisible: false,
             gestureEnabled: false,
           }} />
-            <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
-            <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
-            <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestWelcomeScreen" component={TestWelcomeScreen} />
+          <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerBackVisible: false }} />
+          <Stack.Screen name="TestResultsScreen" component={TestResultsScreen} options={{ headerBackVisible: false }} />
           <Stack.Screen name="AdminScreen" component={AdminScreen} />
           <Stack.Screen name="RevisitOnboarding" component={OnboardingScreens} options={{ headerShown: false }} />
         </Stack.Navigator>

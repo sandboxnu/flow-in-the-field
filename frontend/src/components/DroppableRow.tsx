@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { DraxView } from "react-native-drax";
-import { BLUE, GREY, ORANGE } from "../constants/colors";
+import { BLUE, GREY } from "../constants/colors";
+import RegularText from "./Text/RegularText";
+
 interface DroppableRowProps {
     turkish: string,
     english?: string,
@@ -11,13 +13,12 @@ interface DroppableRowProps {
 }
 
 export default function DroppableRow({ turkish, english, removeWord, wordDropped, isPairing }: DroppableRowProps) {
-    const unusedSelectingWord = !english && !isPairing;
-
 
     const [dragging, setDragging] = useState(false)
+
     return (<View style={styles.container}>
         <View style={{ ...styles.turkishContainer }}>
-            <Text style={{ ...styles.turkishText }}>{turkish}</Text>
+            <RegularText style={styles.turkishText}>{turkish}</RegularText>
         </View>
         {(english) ?
             <DraxView style={{ ...styles.englishTextContainer }}
@@ -40,7 +41,7 @@ export default function DroppableRow({ turkish, english, removeWord, wordDropped
                     setDragging(false)
                 }} // This is a hack since there is no way to interact draxview with a touch handler
                 longPressDelay={1}>
-                <Text style={styles.englishText}>{english}</Text>
+                <RegularText style={styles.englishText}>{english}</RegularText>
             </DraxView>
 
             : <DraxView style={styles.draxView}
@@ -71,8 +72,7 @@ const styles = StyleSheet.create({
     turkishText: {
         textAlign: "center",
         color: "white",
-        backgroundColor: "transparent",
-        fontFamily: 'Montserrat_400Regular'
+        backgroundColor: "transparent"
     },
     englishTextContainer: {
         width: "45%",
@@ -88,8 +88,7 @@ const styles = StyleSheet.create({
     },
     englishText: {
         color: 'white',
-        textAlign: 'center',
-        fontFamily: 'Montserrat_400Regular'
+        textAlign: 'center'
     },
     container: {
         flexDirection: "row",

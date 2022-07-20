@@ -1,8 +1,11 @@
 import React, { ReactElement, useCallback } from 'react';
-import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
+import { Image, StyleSheet, View, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
 import { LIGHTPURPLE } from '../../constants/colors';
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
+import RegularText from '../../components/Text/RegularText';
+import BoldText from '../../components/Text/BoldText';
+import MediumText from '../../components/Text/MediumText';
 
 const fi = new FirebaseInteractor();
 
@@ -38,14 +41,14 @@ export default function GameTutorialScreen({
         <View style={styles.container}>
             {hasNavButton &&
                 <View>
-                    <Text style={styles.startPlaying}>Let's Start Playing!</Text>
+                    <BoldText style={styles.startPlaying}>Let's Start Playing!</BoldText>
                 </View>}
 
             {!hasNavButton &&
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={styles.howToPlay}>How to Play</Text>
+                    <BoldText style={styles.howToPlay}>How to Play</BoldText>
                     <Pressable onPress={handleTutorialFinish}>
-                        <Text style={styles.skip}>Skip</Text>
+                        <BoldText style={styles.skip}>Skip</BoldText>
                     </Pressable>
                 </View>}
 
@@ -53,15 +56,15 @@ export default function GameTutorialScreen({
                 <View style={{ width: "95%" }}>
                     {/* Places screen content for all but last page */}
                     {!hasNavButton &&
-                        <Text style={!secondaryScreenContent ?
+                        <RegularText style={!secondaryScreenContent ?
                             styles.content :
-                            { ...styles.content, marginBottom: 0 }}>{screenContent}</Text>}
+                            { ...styles.content, marginBottom: 0 }}>{screenContent}</RegularText>}
                     {/* Places secondary screen (lower) content for all pages that have it */}
                     {secondaryScreenContent &&
-                        <Text style={{ ...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0, marginRight: 0 }}>{secondaryScreenContent}</Text>}
+                        <RegularText style={{ ...styles.content, color: LIGHTPURPLE, marginBottom: 20, marginLeft: 0, marginRight: 0 }}>{secondaryScreenContent}</RegularText>}
                     {/* Places screen content for final page */}
                     {hasNavButton &&
-                        <Text style={{ ...styles.content, textAlign: 'center' }}>{screenContent}</Text>}
+                        <RegularText style={{ ...styles.content, textAlign: 'center' }}>{screenContent}</RegularText>}
                 </View>
             </View>
 
@@ -72,12 +75,12 @@ export default function GameTutorialScreen({
                 {/* Places done button (no behavior on press) on page */}
                 {doneButton &&
                     <Pressable style={styles.button}>
-                        <Text style={styles.buttonContent}>{"done"}</Text>
+                        <MediumText style={styles.buttonContent}>{"done"}</MediumText>
                     </Pressable>}
                 {/* Button to start session at end of tutorial */}
                 {hasNavButton &&
                     <Pressable onPress={handleTutorialFinish} style={styles.button}>
-                        <Text style={styles.buttonContent}>{navButtonTitle}</Text>
+                        <MediumText style={styles.buttonContent}>{navButtonTitle}</MediumText>
                     </Pressable>}
             </View>
         </View>
@@ -116,8 +119,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 18,
         color: '#000000',
-        textAlign: 'left',
-        fontFamily: 'Montserrat_400Regular'
+        textAlign: 'left'
     },
     button: {
         alignItems: 'center',
@@ -131,30 +133,26 @@ const styles = StyleSheet.create({
     buttonContent: {
         backgroundColor: LIGHTPURPLE,
         fontSize: 20,
-        color: '#FFF',
-        fontFamily: 'Montserrat_500Medium'
+        color: '#FFF'
     },
     howToPlay: {
         fontSize: 24,
         color: "#5EAFDF",
         paddingTop: "3%",
         paddingBottom: "10%",
-        marginRight: "39%",
-        fontFamily: "Montserrat_700Bold"
+        marginRight: "39%"
     },
     skip: {
         fontSize: 18,
         color: "#979797",
         paddingTop: "3%",
-        paddingBottom: "10%",
-        fontFamily: "Montserrat_700Bold"
+        paddingBottom: "10%"
     },
     startPlaying: {
         fontSize: 24,
         color: "#5EAFDF",
         paddingTop: "4%",
         paddingBottom: "10%",
-        textAlign: "center",
-        fontFamily: "Montserrat_700Bold"
+        textAlign: "center"
     }
 });

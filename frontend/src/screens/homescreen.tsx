@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import TextIconButton from "../components/Button/TextIconButton";
 import SmallTextIconButton from "../components/Button/SmallTextIconButton";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
@@ -12,6 +12,7 @@ import { LoadingScreen } from "../components/LoadingScreen";
 import { GameStateContext } from "../utils/context";
 import { Role } from "../constants/role";
 import PrimaryButton from "../components/Button/PrimaryButton";
+import MediumText from "../components/Text/MediumText";
 
 const fi = new FirebaseInteractor();
 
@@ -60,18 +61,19 @@ export default function Homescreen(props: HomescreenProps) {
 
     const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
     const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" })
+
     return (
         <View style={styles.main}>
-            <Text style={styles.testDay}>
+            <MediumText style={styles.testDay}>
                 Your test date is:
-            </Text>
+            </MediumText>
             <View style={styles.calendar}>
-                <Text style={styles.monthNameText}>
+                <MediumText style={styles.monthNameText}>
                     {monthFormatter.format(user.testDate).toLowerCase()}
-                </Text>
+                </MediumText>
                 <View style={styles.line} />
                 <View style={styles.evenSpaced}>
-                    <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
+                    <MediumText style={styles.dayText}>{dayFormatter.format(user.testDate)}</MediumText>
                 </View>
             </View>
             <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
@@ -103,8 +105,7 @@ const styles = StyleSheet.create({
     },
     monthNameText: {
         fontSize: 48,
-        color: "#5EAFDF",
-        fontFamily: 'Montserrat_500Medium'
+        color: "#5EAFDF"
     },
     line: {
         height: 2,
@@ -114,8 +115,7 @@ const styles = StyleSheet.create({
     dayText: {
         fontSize: 68,
         textAlign: 'center',
-        color: "#5EAFDF",
-        fontFamily: 'Montserrat_500Medium'
+        color: "#5EAFDF"
     },
     evenSpaced: {
         flex: 1,
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     testDay: {
         fontSize: 36,
         color: "#5EAFDF",
-        marginBottom: "5%",
-        fontFamily: 'Montserrat_500Medium'
+        marginBottom: "5%"
     }
 })

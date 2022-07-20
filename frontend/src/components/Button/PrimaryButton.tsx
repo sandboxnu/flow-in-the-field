@@ -1,5 +1,4 @@
-import React, { ReactNode } from "react";
-import { TouchableOpacity, Text, StyleSheet, View, StyleSheetProperties, StyleProp, ViewStyle } from "react-native";
+import { StyleSheet } from "react-native";
 import CustomButton from "./CustomButton";
 
 interface PrimaryButtonProps {
@@ -7,6 +6,7 @@ interface PrimaryButtonProps {
     disabled: boolean;
     text: String;
 }
+
 export default function PrimaryButton(props: PrimaryButtonProps) {
     return CustomButton({
         ...props,

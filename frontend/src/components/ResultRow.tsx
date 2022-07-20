@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import { BLUE, GREY, ORANGE } from "../constants/colors";
+import RegularText from "./Text/RegularText";
+
 interface ResultRowProps {
     turkish: string,
     english?: string,
@@ -42,12 +44,12 @@ export default function ResultRow({ turkish, english, showingAnswers, correctEng
 
     return (<View style={{ ...styles.container, ...additionalContainerStyling }}>
         <View style={{ ...styles.turkishContainer, ...additionalTurkishStyling }}>
-            <Text style={textStyle}>{turkish}</Text>
+            <RegularText style={textStyle}>{turkish}</RegularText>
         </View>
         <View style={unusedSelectingWord && !showingAnswers ? undefined : { ...styles.englishTextContainer, ...additionalEnglishStyling }}>
-            <Text style={textStyle}>
+            <RegularText style={textStyle}>
                 {showingAnswers ? correctEnglish : english}
-            </Text>
+            </RegularText>
         </View>
     </View>)
 }
@@ -99,8 +101,7 @@ const styles = StyleSheet.create({
     },
     whiteText: {
         textAlign: "center",
-        color: "white",
-        fontFamily: 'Montserrat_400Regular'
+        color: "white"
     },
     englishTextContainer: {
         width: "45%",
@@ -114,8 +115,7 @@ const styles = StyleSheet.create({
     },
     blackText: {
         color: 'black',
-        textAlign: 'center',
-        fontFamily: 'Montserrat_400Regular'
+        textAlign: 'center'
     },
     container: {
         flexDirection: "row",

@@ -1,11 +1,11 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { PURPLE, TURQUOISE } from "../../constants/colors";
-import ErrorText from "../../components/ErrorText";
+import ErrorText from "../../components/Text/ErrorText";
 import CustomTextInput from "../../components/TextInput/CustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { mapErrorCodeToMessage } from "../../utils/utils";
+import MediumText from "../../components/Text/MediumText";
 
 let interactor = new FirebaseInteractor()
 
@@ -50,10 +50,10 @@ export default function SignUpPage({ goToSignIn, goToAccountSettings }: SignUpPa
                         })
                 }
             }} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>sign up</Text>
+                <MediumText style={styles.signUpText}>sign up</MediumText>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
-                <Text style={styles.loginText}>log in</Text>
+                <MediumText style={styles.loginText}>log in</MediumText>
             </TouchableOpacity>
         </View>
     )
@@ -75,8 +75,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 4,
         fontSize: 18,
-        fontWeight: '400',
-        fontFamily: 'Montserrat_500Medium'
+        fontWeight: '400'
     },
     mainImage: {
         width: "60%",
@@ -90,7 +89,6 @@ const styles = StyleSheet.create({
     loginText: {
         color: PURPLE,
         textDecorationLine: "underline",
-        fontSize: 18,
-        fontFamily: 'Montserrat_500Medium'
+        fontSize: 18
     }
 })
