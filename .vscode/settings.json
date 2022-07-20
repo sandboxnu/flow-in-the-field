@@ -1,0 +1,7 @@
+{
+    "eslint.workingDirectories": [
+        "./frontend"
+    ],
+    "prettier.configPath": "./frontend/package.json",
+    "editor.formatOnSave": false
+}
