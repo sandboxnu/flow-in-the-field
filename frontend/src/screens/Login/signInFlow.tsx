@@ -13,7 +13,13 @@ const fi = new FirebaseInteractor();
 export default function SignInFlow() {
   const userSignedIn = () => {
     if (fi.auth.currentUser?.emailVerified) {
-      navigation.navigate("HomeScreen");
+      fi.getUser().then((user) => {
+        if (user.hasGivenConsent) {
+          navigation.navigate("HomeScreen");
+        } else {
+          navigation.navigate("ConsentScreen");
+        }
+      });
     } else {
       navigation.navigate("EmailVerification");
     }

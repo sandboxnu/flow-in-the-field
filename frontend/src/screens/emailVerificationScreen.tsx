@@ -1,128 +1,159 @@
-import FirebaseInteractor from "../firebase/firebaseInteractor";
-import React, { useState } from "react";
-import { View, Image, TouchableOpacity, StyleSheet, Linking, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { BLUE, PURPLE, TURQUOISE } from "../constants/colors";
-import ErrorText from "../components/Text/ErrorText";
 import { startActivityAsync } from "expo-intent-launcher";
-import RegularText from "../components/Text/RegularText";
-import MediumText from "../components/Text/MediumText";
+import React, { useState } from "react";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Linking,
+  Platform,
+} from "react-native";
 
+import ErrorText from "../components/Text/ErrorText";
+import MediumText from "../components/Text/MediumText";
+import RegularText from "../components/Text/RegularText";
+import { BLUE, PURPLE, TURQUOISE } from "../constants/colors";
+import FirebaseInteractor from "../firebase/firebaseInteractor";
 
 const fi = new FirebaseInteractor();
 
 export default function EmailVerificationScreen() {
+  const navigation = useNavigation();
+  const [errorMessage, setErrorMessage] = useState<string>();
 
-    const navigation = useNavigation();
-    const [errorMessage, setErrorMessage] = useState<string>();
-
-    return (<View style={styles.container}>
-        <View style={styles.containedContainer}>
-            <Image source={require("../assets/flow-icon.png")} style={styles.mainImage} />
-            <RegularText style={styles.promptText}>A verification link was sent to your email. This helps us protect your account, so that only you can access it.</RegularText>
-
-        </View>
-        <View style={styles.containedContainer}>
-            <ErrorText message={errorMessage} />
-            <TouchableOpacity style={styles.resendButton} onPress={async () => {
-                await fi.resendEmailVerification();
-            }}>
-                <MediumText style={styles.resendText}>resend verification email</MediumText>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.verifiedButton} onPress={() => {
-                fi.checkIfVerified().then(emailVerified => {
-                    if (emailVerified) {
-                        navigation.navigate("Onboarding", { route: "HomeScreen" })
-                    } else {
-                        setErrorMessage("Email has not been verified. Please check your email.")
-                    }
-                }).catch(e => {
-                    setErrorMessage("Something went wrong. Please try again later.");
-                    console.log(e)
-                })
-            }}>
-                <MediumText style={styles.verifiedText}>I have verified my email</MediumText>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.mailButton} onPress={() => {
-                if (Platform.OS === "ios") {
-                    Linking.openURL("message://")
+  return (
+    <View style={styles.container}>
+      <View style={styles.containedContainer}>
+        <Image
+          source={require("../assets/flow-icon.png")}
+          style={styles.mainImage}
+        />
+        <RegularText style={styles.promptText}>
+          A verification link was sent to your email. This helps us protect your
+          account, so that only you can access it.
+        </RegularText>
+      </View>
+      <View style={styles.containedContainer}>
+        <ErrorText message={errorMessage} />
+        <TouchableOpacity
+          style={styles.resendButton}
+          onPress={async () => {
+            await fi.resendEmailVerification();
+          }}
+        >
+          <MediumText style={styles.resendText}>
+            resend verification email
+          </MediumText>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.verifiedButton}
+          onPress={() => {
+            fi.checkIfVerified()
+              .then((emailVerified) => {
+                if (emailVerified) {
+                  navigation.navigate("ConsentScreen");
                 } else {
-                    startActivityAsync("android.intent.action.MAIN",
-                        {
-                            category: "android.intent.category.APP_EMAIL",
-                            flags: 268435456
-                        })
-                    // Linking.sendIntent("android.intent.action.MAIN", [
-                    //     { key: "category", value: "android.intent.category.APP_EMAIL" },
-                    //     { key: "flags", value: "FLAG_ACTIVITY_NEW_TASK" }])
+                  setErrorMessage(
+                    "Email has not been verified. Please check your email."
+                  );
                 }
-            }}>
-                <MediumText style={styles.mailText}>open mail</MediumText>
-            </TouchableOpacity>
-        </View>
-    </View>)
+              })
+              .catch((e) => {
+                setErrorMessage(
+                  "Something went wrong. Please try again later."
+                );
+                console.log(e);
+              });
+          }}
+        >
+          <MediumText style={styles.verifiedText}>
+            I have verified my email
+          </MediumText>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.mailButton}
+          onPress={() => {
+            if (Platform.OS === "ios") {
+              Linking.openURL("message://");
+            } else {
+              startActivityAsync("android.intent.action.MAIN", {
+                category: "android.intent.category.APP_EMAIL",
+                flags: 268435456,
+              });
+              // Linking.sendIntent("android.intent.action.MAIN", [
+              //     { key: "category", value: "android.intent.category.APP_EMAIL" },
+              //     { key: "flags", value: "FLAG_ACTIVITY_NEW_TASK" }])
+            }
+          }}
+        >
+          <MediumText style={styles.mailText}>open mail</MediumText>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        paddingVertical: "10%",
-        justifyContent: "space-between"
-    },
-    containedContainer: {
-        width: "100%",
-        height: "85%",
-        alignItems: "center"
-    },
-    mainImage: {
-        width: "60%",
-        resizeMode: 'contain',
-        maxHeight: "25%",
-        marginBottom: "10%"
-    },
-    promptText: {
-        textAlign: "center",
-        marginHorizontal: "10%",
-        fontSize: 18,
-        color: BLUE,
-        fontWeight: "600"
-    },
-    resendButton: {
-        width: "100%",
-        paddingVertical: "1%"
-    },
-    resendText: {
-        fontSize: 18,
-        color: PURPLE,
-        textAlign: "center",
-        textDecorationLine: "underline",
-        fontWeight: "300"
-    },
-    verifiedButton: {
-        width: "80%",
-        margin: "2%",
-        backgroundColor: TURQUOISE,
-        borderRadius: 10000000,
-    },
-    verifiedText: {
-        color: "white",
-        fontSize: 18,
-        fontWeight: '400',
-        width: "100%",
-        textAlign: "center",
-        paddingVertical: 15
-    },
-    mailButton: {
-        width: "100%",
-        paddingVertical: "1%"
-    },
-    mailText: {
-        fontSize: 18,
-        color: PURPLE,
-        textAlign: "center",
-        textDecorationLine: "underline",
-        fontWeight: "300"
-    }
-})
+  container: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    paddingVertical: "10%",
+    justifyContent: "space-between",
+  },
+  containedContainer: {
+    width: "100%",
+    height: "85%",
+    alignItems: "center",
+  },
+  mainImage: {
+    width: "60%",
+    resizeMode: "contain",
+    maxHeight: "25%",
+    marginBottom: "10%",
+  },
+  promptText: {
+    textAlign: "center",
+    marginHorizontal: "10%",
+    fontSize: 18,
+    color: BLUE,
+    fontWeight: "600",
+  },
+  resendButton: {
+    width: "100%",
+    paddingVertical: "1%",
+  },
+  resendText: {
+    fontSize: 18,
+    color: PURPLE,
+    textAlign: "center",
+    textDecorationLine: "underline",
+    fontWeight: "300",
+  },
+  verifiedButton: {
+    width: "80%",
+    margin: "2%",
+    backgroundColor: TURQUOISE,
+    borderRadius: 10000000,
+  },
+  verifiedText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "400",
+    width: "100%",
+    textAlign: "center",
+    paddingVertical: 15,
+  },
+  mailButton: {
+    width: "100%",
+    paddingVertical: "1%",
+  },
+  mailText: {
+    fontSize: 18,
+    color: PURPLE,
+    textAlign: "center",
+    textDecorationLine: "underline",
+    fontWeight: "300",
+  },
+});

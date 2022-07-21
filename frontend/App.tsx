@@ -14,6 +14,7 @@ import { LoadingScreen } from "./src/components/LoadingScreen";
 import MediumText from "./src/components/Text/MediumText";
 import FirebaseInteractor from "./src/firebase/firebaseInteractor";
 import { UID } from "./src/models/types";
+import ConsentScreen from "./src/screens/ConsentScreen";
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
 import ChangePasswordScreen from "./src/screens/Login/changePassword";
 import SettingsScreen from "./src/screens/Login/settings";
@@ -104,6 +105,11 @@ export default function App() {
             name="SignInFlow"
             component={signInFlow}
             options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="ConsentScreen"
+            component={ConsentScreen}
+            options={{ headerBackVisible: false }}
           />
           <Stack.Screen
             name="EmailVerification"
