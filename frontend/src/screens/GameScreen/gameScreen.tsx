@@ -20,6 +20,7 @@ import { LoadingScreen } from "../../components/LoadingScreen";
 import MediumText from "../../components/Text/MediumText";
 import RegularText from "../../components/Text/RegularText";
 import { BLUE, GREY } from "../../constants/colors";
+import { BOLD_FONT } from "../../constants/fonts";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { User } from "../../models/types";
 import { GameStateContext } from "../../utils/context";
@@ -458,7 +459,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     backgroundColor: "transparent",
-    fontFamily: "Montserrat_700Bold",
+    fontFamily: BOLD_FONT,
   },
   // Styles associated with bottom sheet modal for game tutorial
   contentContainer: {

@@ -1,6 +1,8 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
+import { REGULAR_FONT } from "../../constants/fonts";
+
 interface SignInFlowCustomTextInputProps {
   value: string;
   setValue: (value: string) => void;
@@ -39,6 +41,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: 0,
     textAlign: "left",
-    fontFamily: "Montserrat_400Regular",
+    fontFamily: REGULAR_FONT,
   },
 });
