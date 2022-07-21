@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { ReactElement, useCallback } from "react";
 import { Image, StyleSheet, View, Pressable } from "react-native";
 
@@ -30,8 +29,6 @@ export default function GameTutorialScreen({
   navButtonTitle,
   onFinish,
 }: GameTutorialScreenProps): ReactElement {
-  const navigation = useNavigation();
-
   const handleTutorialFinish = useCallback(
     (event) => {
       onFinish(true);

@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground } from "react-native";
 
 import TextIconButton from "../components/Button/TextIconButton";
 import { LoadingScreen } from "../components/LoadingScreen";
+import BoldText from "../components/Text/BoldText";
 import MediumText from "../components/Text/MediumText";
 import { Role } from "../constants/role";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
@@ -75,11 +76,11 @@ export default function Homescreen(props: HomescreenProps) {
           <MediumText style={styles.testDayHeader}>
             Your test date is:
           </MediumText>
-          <Text style={styles.testDay}>
+          <BoldText style={styles.testDay}>
             {monthFormatter.format(user.testDate) +
               " " +
               dayFormatter.format(user.testDate)}
-          </Text>
+          </BoldText>
         </View>
       </ImageBackground>
       <View style={styles.buttonBox}>
