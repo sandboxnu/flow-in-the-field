@@ -1,94 +1,189 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import TextIconButton from "../components/TextIconButton";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
+
+import PrimaryButton from "../components/Button/PrimaryButton";
+import TextIconButton from "../components/Button/TextIconButton";
+import { LoadingScreen } from "../components/LoadingScreen";
+import { Role } from "../constants/role";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
 
 import "intl";
-import 'intl/locale-data/jsonp/en';
-import { LoadingScreen } from "../components/LoadingScreen";
+import "intl/locale-data/jsonp/en";
+import { GameStateContext } from "../utils/context";
 
 const fi = new FirebaseInteractor();
 
-export default function Homescreen() {
-    const [user, setUser] = useState<User>();
+export interface HomescreenProps {
+  route: any;
+}
 
-    useEffect(() => {
-        fi.getUser().then(setUser).catch(console.error);
-    }, []);
+export default function Homescreen(props: HomescreenProps) {
+  const [user, setUser] = useState<User>();
+  const testFinished = props.route.params
+    ? props.route.params["testFinished"]
+    : false;
+  const gameStateContext = useContext(GameStateContext);
 
-    const navigation = useNavigation();
+  useEffect(() => {
+    fi.getUser()
+      .then((user) => setUser(user))
+      .catch(console.error);
+  }, []);
 
-    if (!user) {
-        return <LoadingScreen />
+  const navigation = useNavigation();
+
+  if (!user) {
+    return <LoadingScreen />;
+  }
+
+  const startSession = () => {
+    fi.startSession().then((sessionId: UID) => {
+      gameStateContext.updateSessionId(sessionId);
+      navigation.navigate("GameScreen", { sessionId });
+    });
+  };
+
+  const hasFinishedTest = () => {
+    return testFinished || user.testScore != null;
+  };
+
+  const testAvailable = () => {
+    const now = new Date(Date.now());
+    const timeUntilTest = user.testDate.getTime() - now.getTime();
+
+    return !hasFinishedTest() && timeUntilTest <= 0;
+  };
+
+  const startTest = () => {
+    if (testAvailable()) {
+      navigation.navigate("TestWelcomeScreen");
     }
+  };
 
-    const startSession = () => {
-        fi.startSession().then((sessionId: UID) => navigation.navigate("GameScreen", {sessionId: sessionId}))
-    }
-
-    const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" })
-    const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" })
-    return (
-        <View style={styles.main}>
-            <Text style={styles.testDay}>
-                Your test date is:
-            </Text>
-            <View style={styles.calendar}>
-                <Text style={styles.monthNameText}>
-                    {monthFormatter.format(user.testDate).toLowerCase()}
-                </Text>
-                <View style={styles.line} />
-                <View style={styles.evenSpaced}>
-                    <Text style={styles.dayText}>{dayFormatter.format(user.testDate)}</Text>
-                </View>
-            </View>
-            <TextIconButton onPress={() => startSession()} text="Start a new session" icon={require("../assets/start-session-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("SettingsScreen")} text="Profile" icon={require("../assets/profile-icon.png")} />
-            <TextIconButton onPress={() => navigation.navigate("RevisitOnboarding", {signedIn: true})} text="Help" icon={require("../assets/help-icon.png")} />
-        </View>)
+  const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" });
+  const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" });
+  return (
+    <View style={styles.main}>
+      <ImageBackground
+        style={styles.backgroundImageBox}
+        source={require("../assets/lines.png")}
+        imageStyle={styles.backgroundImage}
+      >
+        <View style={styles.testDayBox}>
+          <Text style={styles.testDayHeader}>Your test date is:</Text>
+          <Text style={styles.testDay}>
+            {monthFormatter.format(user.testDate) +
+              " " +
+              dayFormatter.format(user.testDate)}
+          </Text>
+        </View>
+      </ImageBackground>
+      <View style={styles.buttonBox}>
+        <TextIconButton
+          onPress={() => startSession()}
+          text="Start a new session"
+          icon={require("../assets/start-session-icon.png")}
+        />
+        <TextIconButton
+          onPress={() => startTest()}
+          text="Take the test"
+          icon={require("../assets/flow-icon-test.png")}
+          testNotAvailable={!testAvailable()}
+        />
+        {user.role == Role.ADMIN && (
+          <TextIconButton
+            onPress={() => navigation.navigate("AdminScreen")}
+            text="Admin"
+            icon={require("../assets/admin-icon.png")}
+          />
+        )}
+        <TextIconButton
+          onPress={() => navigation.navigate("SettingsScreen")}
+          text="Settings"
+          icon={require("../assets/settings-icon.png")}
+        />
+        <TextIconButton
+          onPress={() =>
+            navigation.navigate("RevisitOnboarding", { signedIn: true })
+          }
+          text="About"
+          icon={require("../assets/about-icon.png")}
+        />
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    main: {
-        width: "100%",
-        height: "100%",
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FFF'
-    },
-    calendar: {
-        aspectRatio: 1,
-        width: "50%",
-        borderColor: "#5EAFDF",
-        borderWidth: 3,
-        borderRadius: 31,
-        alignItems: 'center',
-        marginBottom: "8%"
-    },
-    monthNameText: {
-        fontSize: 48,
-        color: "#5EAFDF"
-    },
-    line: {
-        height: 2,
-        width: "100%",
-        backgroundColor: "#5EAFDF"
-    },
-    dayText: {
-        fontSize: 68,
-        textAlign: 'center',
-        color: "#5EAFDF"
-    },
-    evenSpaced: {
-        flex: 1,
-        justifyContent: 'center'
-    },
-    testDay: {
-        fontSize: 36,
-        color: "#5EAFDF",
-        marginBottom: "5%"
-    }
-})
+  main: {
+    display: "flex",
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    backgroundColor: "#FFF",
+    alignItems: "center",
+  },
+  calendar: {
+    aspectRatio: 1,
+    width: "50%",
+    borderColor: "#5EAFDF",
+    borderWidth: 3,
+    borderRadius: 31,
+    alignItems: "center",
+    marginBottom: "8%",
+  },
+  monthNameText: {
+    fontSize: 48,
+    color: "#5EAFDF",
+  },
+  line: {
+    height: 2,
+    width: "100%",
+    backgroundColor: "#5EAFDF",
+  },
+  dayText: {
+    fontSize: 68,
+    textAlign: "center",
+    color: "#5EAFDF",
+  },
+  evenSpaced: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  testDay: {
+    fontSize: 50,
+    color: "#5EAFDF",
+    paddingTop: "3%",
+    alignSelf: "center",
+  },
+  testDayHeader: {
+    fontSize: 30,
+    color: "#D16B50",
+    marginLeft: "7%",
+    alignSelf: "flex-start",
+  },
+  testDayBox: {
+    justifyContent: "center",
+    paddingBottom: "12%",
+  },
+  backgroundImageBox: {
+    width: "100%",
+    height: "30%",
+    justifyContent: "center",
+  },
+  backgroundImage: {
+    resizeMode: "stretch",
+    width: "100%",
+    height: "100%",
+  },
+  buttonBox: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+  },
+});

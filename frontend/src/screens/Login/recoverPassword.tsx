@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { PURPLE, TURQUOISE } from "../../constants/colors";
-import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import { LIGHTPURPLE } from "../../constants/colors";
+import SignInFlowCustomTextInput from "../../components/TextInput/SignInFlowCustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import ErrorText from "../../components/ErrorText";
 import { mapErrorCodeToMessage } from "../../utils/utils";
@@ -19,7 +19,7 @@ export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProp
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
+            <SignInFlowCustomTextInput value={email} setValue={setEmail} placeholderText="Email" secureText={false} />
             <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
                 if (!email) {
@@ -31,11 +31,11 @@ export default function RecoverPasswordPage({ goToSignIn }: RecoveryPasswordProp
                         goToSignIn();
                     });
                 }
-            }} style={styles.recoveryPasswordButton}>
-                <Text style={styles.recoverPasswordText}>recover password</Text>
+            }} style={styles.recoverPasswordButton}>
+                <Text style={styles.recoverPasswordText}>Recover Password</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
-                <Text style={styles.loginText}>log in</Text>
+                <Text style={styles.loginText}>Log In</Text>
             </TouchableOpacity>
         </View>
     )
@@ -62,17 +62,19 @@ const styles = StyleSheet.create({
         height: "100%",
         paddingTop: "15%"
     },
-    recoveryPasswordButton: {
-        backgroundColor: TURQUOISE,
-        borderRadius: 8,
-        marginTop: 5
+    recoverPasswordButton: {
+        backgroundColor: LIGHTPURPLE,
+        width: "85%",
+        height: "5.5%",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 12,
+        marginTop: "5%"
     },
     recoverPasswordText: {
         color: 'white',
-        paddingHorizontal: 20,
-        paddingVertical: 3,
         fontSize: 18,
-        fontWeight: '400'
+        fontWeight: '500'
     },
     mainImage: {
         width: "60%",
@@ -84,8 +86,9 @@ const styles = StyleSheet.create({
         margin: 11
     },
     loginText: {
-        color: PURPLE,
-        textDecorationLine: "underline",
-        fontSize: 18
+        color: LIGHTPURPLE,
+        fontSize: 18,
+        fontWeight: '500',
+        marginTop: "2%"
     }
 })

@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
-import { PURPLE, TURQUOISE } from "../../constants/colors";
+import { LIGHTPURPLE } from "../../constants/colors";
 import ErrorText from "../../components/ErrorText";
-import CustomTextInput from "../../components/TextInput/CustomTextInput";
+import SignInFlowCustomTextInput from "../../components/TextInput/SignInFlowCustomTextInput";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { mapErrorCodeToMessage } from "../../utils/utils";
 
@@ -23,8 +23,8 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/flow-icon.png")} style={styles.mainImage} />
-            <CustomTextInput value={email} setValue={setEmail} placeholderText="email" secureText={false} />
-            <CustomTextInput value={password} secureText setValue={setPassword} placeholderText="password" />
+            <SignInFlowCustomTextInput value={email} setValue={setEmail} placeholderText="Email" secureText={false} />
+            <SignInFlowCustomTextInput value={password} secureText setValue={setPassword} placeholderText="Password" />
             <ErrorText message={error} />
             <TouchableOpacity onPress={() => {
                 if (!email) {
@@ -46,13 +46,13 @@ export default function LoginPage({ goToSignUp, goToRecoveryScreen, goToAccountS
                 }
             }} style={styles.loginButton}>
 
-                <Text style={styles.loginText}>log in</Text>
+                <Text style={styles.loginText}>Log In</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToSignUp} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>sign up</Text>
+                <Text style={styles.signUpText}>Sign Up</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={goToRecoveryScreen} style={styles.signUpButton}>
-                <Text style={styles.signUpText}>forgot password</Text>
+                <Text style={styles.signUpText}>Forgot Password</Text>
             </TouchableOpacity>
         </View>
     )
@@ -79,30 +79,32 @@ const styles = StyleSheet.create({
         paddingTop: "15%"
     },
     loginButton: {
-        backgroundColor: TURQUOISE,
-        borderRadius: 8,
-        marginTop: 5
+        backgroundColor: LIGHTPURPLE,
+        width: "85%",
+        height: "5.5%",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 12,
+        marginTop: "5%"
     },
     loginText: {
         color: 'white',
-        paddingHorizontal: 20,
-        paddingVertical: 3,
         fontSize: 18,
-        fontWeight: '400'
+        fontWeight: '500'
+    },
+    signUpButton: {
+        marginTop: 11
+    },
+    signUpText: {
+        color: LIGHTPURPLE,
+        fontSize: 18,
+        fontWeight: '500',
+        marginTop: "2%"
     },
     mainImage: {
         width: "60%",
         resizeMode: 'contain',
         maxHeight: 158,
         marginBottom: "10%"
-    },
-    signUpButton: {
-        marginTop: 11
-    },
-    signUpText: {
-        textDecorationLine: "underline",
-        color: PURPLE,
-        fontSize: 18
-
     },
 })
