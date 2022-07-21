@@ -1,9 +1,8 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/core"
 import { User } from "firebase/auth"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { LoadingScreen } from "../../components/LoadingScreen"
 import FirebaseInteractor from "../../firebase/firebaseInteractor"
-import AccountSettings from "./accountSettings"
 import LoginPage from "./login"
 import RecoverPasswordPage from "./recoverPassword"
 import SignUpPage from "./signUp"
@@ -15,7 +14,14 @@ export default function SignInFlow() {
 
     const userSignedIn = () => {
         if (fi.auth.currentUser?.emailVerified) {
-            navigation.navigate("HomeScreen")
+            fi.getUser().then((user) => {
+                if (user.hasGivenConsent) {
+                    navigation.navigate("HomeScreen")
+                }
+                else {
+                    navigation.navigate("ConsentScreen")
+                }
+            })
         } else {
             navigation.navigate("EmailVerification")
         }

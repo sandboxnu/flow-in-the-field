@@ -1,23 +1,23 @@
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Image, Text } from "react-native";
 
 import BackButton from "./src/components/Button/BackButton";
 import FirebaseInteractor from "./src/firebase/firebaseInteractor";
-import { User, Word, UID, GameType } from "./src/models/types";
+import { UID } from "./src/models/types";
+import ConsentScreen from "./src/screens/ConsentScreen";
 import GameScreenFlow from "./src/screens/GameScreen/GameScreenFlow";
-import AccountSettings from "./src/screens/Login/accountSettings";
 import ChangePasswordScreen from "./src/screens/Login/changePassword";
 import SettingsScreen from "./src/screens/Login/settings";
 import signInFlow from "./src/screens/Login/signInFlow";
 import OnboardingScreens from "./src/screens/Onboarding/OnboardingScreens";
+import TestResultsScreen from "./src/screens/TestScreen/TestResultsScreen";
+import TestScreen from "./src/screens/TestScreen/TestScreen";
 import TestWelcomeScreen from "./src/screens/TestScreen/TestWelcomeScreen";
 import AdminScreen from "./src/screens/adminScreen";
 import EmailVerificationScreen from "./src/screens/emailVerificationScreen";
 import Homescreen from "./src/screens/homescreen";
-import TestScreen from "./src/screens/TestScreen/TestScreen";
-import TestResultsScreen from "./src/screens/TestScreen/TestResultsScreen";
 import { GameStateContext } from "./src/utils/context";
 
 const Stack = createNativeStackNavigator();
@@ -87,6 +87,11 @@ export default function App() {
             name="SignInFlow"
             component={signInFlow}
             options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="ConsentScreen"
+            component={ConsentScreen}
+            options={{ headerBackVisible: false }}
           />
           <Stack.Screen
             name="EmailVerification"

@@ -12,6 +12,7 @@ export interface User {
   numPairs: NumPairs;
   gameType: GameType;
   role: Role;
+  hasGivenConsent: boolean;
   hasFinishedTutorial: boolean;
   testScore: number | null;
   testSessionId: string | null;
