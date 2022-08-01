@@ -1,9 +1,17 @@
+import {
+  useFonts,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_700Bold,
+} from "@expo-google-fonts/montserrat";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { StyleSheet, Image, Text } from "react-native";
+import { StyleSheet, Image } from "react-native";
 
 import BackButton from "./src/components/Button/BackButton";
+import { LoadingScreen } from "./src/components/LoadingScreen";
+import MediumText from "./src/components/Text/MediumText";
 import FirebaseInteractor from "./src/firebase/firebaseInteractor";
 import { UID } from "./src/models/types";
 import ConsentScreen from "./src/screens/ConsentScreen";
@@ -64,6 +72,16 @@ export default function App() {
     setCurrentSessionId(newSessionId);
   }
 
+  const [fontsLoaded] = useFonts({
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
     <GameStateContext.Provider
       value={{
@@ -112,7 +130,9 @@ export default function App() {
             component={SettingsScreen}
             options={{
               headerTitle: () => (
-                <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>
+                <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>
+                  Settings
+                </MediumText>
               ),
               headerLeft: () => <BackButton onPress={() => {}} />,
               headerShadowVisible: true,
@@ -125,7 +145,9 @@ export default function App() {
             component={ChangePasswordScreen}
             options={{
               headerTitle: () => (
-                <Text style={{ color: "#5eafdf", fontSize: 20 }}>Settings</Text>
+                <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>
+                  Settings
+                </MediumText>
               ),
               headerLeft: () => (
                 <BackButton onPress={() => {}} isHome={false} />
@@ -141,9 +163,9 @@ export default function App() {
             options={{
               headerTitle: () => {
                 return (
-                  <Text style={{ color: "#5eafdf", fontSize: 20 }}>
+                  <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>
                     Vocabulary Practice
-                  </Text>
+                  </MediumText>
                 );
               },
               headerTintColor: "#000",
@@ -170,7 +192,9 @@ export default function App() {
             component={AdminScreen}
             options={{
               headerTitle: () => (
-                <Text style={{ color: "#5eafdf", fontSize: 20 }}>Admin</Text>
+                <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>
+                  Admin
+                </MediumText>
               ),
               headerLeft: () => <BackButton onPress={() => {}} />,
               headerShadowVisible: true,

@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { UID } from "../../models/types";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { useNavigation } from "@react-navigation/core";
+import MediumText from "../../components/Text/MediumText";
 
 const TEST_WELCOME_HEADER_OPTIONS = {
     headerTitle: () => { return <Image style={styles.mainImage} source={require('../../assets/flow-icon-light.png')} /> },
@@ -17,7 +18,7 @@ const TEST_WELCOME_HEADER_OPTIONS = {
         shadowOpacity: 0,
         borderBottomWidth: 0,
     }
-  }
+}
 
 const fi = new FirebaseInteractor();
 
@@ -31,16 +32,16 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions(TEST_WELCOME_HEADER_OPTIONS);
-      }, [navigation]);
+    }, [navigation]);
 
-      const startTest = () => {
-          fi.startTestSession().then((testSessionId: UID) => navigation.navigate("TestScreen", { testSessionId: testSessionId }))
-      }
+    const startTest = () => {
+        fi.startTestSession().then((testSessionId: UID) => navigation.navigate("TestScreen", { testSessionId: testSessionId }))
+    }
 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.startButton} onPress={() => startTest()}>
-                <Text style={{color: "#FFF", fontSize: 22}}>start</Text>
+                <MediumText style={{ color: "#FFF", fontSize: 22 }}>start</MediumText>
             </TouchableOpacity>
         </View>
     )
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
         width: 94,
         resizeMode: 'contain',
         height: 51
-      },
+    },
     container: {
         flexDirection: "column",
         flex: 1,

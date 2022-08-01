@@ -1,5 +1,6 @@
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 
+import { BOLD_FONT } from "../../constants/fonts";
 import CustomButton from "./CustomButton";
 
 interface PrimaryButtonProps {
@@ -8,6 +9,7 @@ interface PrimaryButtonProps {
   text: string;
   style?: StyleProp<ViewStyle>;
 }
+
 export default function PrimaryButton(props: PrimaryButtonProps) {
   const overrideStyles = typeof props.style === "object" ? props.style : {};
   return CustomButton({
@@ -47,5 +49,6 @@ const styles = StyleSheet.create({
   enabledTextStyle: {
     color: "white",
     backgroundColor: "transparent",
+    fontFamily: BOLD_FONT,
   },
 });

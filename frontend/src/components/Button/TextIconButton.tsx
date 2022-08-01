@@ -1,5 +1,7 @@
 import React from "react";
-import { TouchableOpacity, Text, Image, StyleSheet, View } from "react-native";
+import { TouchableOpacity, Image, StyleSheet, View } from "react-native";
+
+import MediumText from "../Text/MediumText";
 
 interface TextIconButtonProps {
   text: string;
@@ -23,7 +25,7 @@ export default function TextIconButton({
         }
       >
         <Image source={icon} style={styles.image} />
-        <Text style={styles.text}>{text}</Text>
+        <MediumText style={styles.text}>{text}</MediumText>
       </View>
     </TouchableOpacity>
   );

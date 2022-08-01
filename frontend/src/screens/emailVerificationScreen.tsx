@@ -4,14 +4,15 @@ import React, { useState } from "react";
 import {
   View,
   Image,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Linking,
   Platform,
 } from "react-native";
 
-import ErrorText from "../components/ErrorText";
+import ErrorText from "../components/Text/ErrorText";
+import MediumText from "../components/Text/MediumText";
+import RegularText from "../components/Text/RegularText";
 import { BLUE, PURPLE, TURQUOISE } from "../constants/colors";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 
@@ -28,10 +29,10 @@ export default function EmailVerificationScreen() {
           source={require("../assets/flow-icon.png")}
           style={styles.mainImage}
         />
-        <Text style={styles.promptText}>
+        <RegularText style={styles.promptText}>
           A verification link was sent to your email. This helps us protect your
           account, so that only you can access it.
-        </Text>
+        </RegularText>
       </View>
       <View style={styles.containedContainer}>
         <ErrorText message={errorMessage} />
@@ -41,7 +42,9 @@ export default function EmailVerificationScreen() {
             await fi.resendEmailVerification();
           }}
         >
-          <Text style={styles.resendText}>resend verification email</Text>
+          <MediumText style={styles.resendText}>
+            resend verification email
+          </MediumText>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.verifiedButton}
@@ -64,7 +67,9 @@ export default function EmailVerificationScreen() {
               });
           }}
         >
-          <Text style={styles.verifiedText}>I have verified my email</Text>
+          <MediumText style={styles.verifiedText}>
+            I have verified my email
+          </MediumText>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.mailButton}
@@ -82,7 +87,7 @@ export default function EmailVerificationScreen() {
             }
           }}
         >
-          <Text style={styles.mailText}>open mail</Text>
+          <MediumText style={styles.mailText}>open mail</MediumText>
         </TouchableOpacity>
       </View>
     </View>
@@ -97,20 +102,17 @@ const styles = StyleSheet.create({
     paddingVertical: "10%",
     justifyContent: "space-between",
   },
-
   containedContainer: {
     width: "100%",
     height: "85%",
     alignItems: "center",
   },
-
   mainImage: {
     width: "60%",
     resizeMode: "contain",
     maxHeight: "25%",
     marginBottom: "10%",
   },
-
   promptText: {
     textAlign: "center",
     marginHorizontal: "10%",
@@ -118,12 +120,10 @@ const styles = StyleSheet.create({
     color: BLUE,
     fontWeight: "600",
   },
-
   resendButton: {
     width: "100%",
     paddingVertical: "1%",
   },
-
   resendText: {
     fontSize: 18,
     color: PURPLE,
@@ -131,14 +131,12 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     fontWeight: "300",
   },
-
   verifiedButton: {
     width: "80%",
     margin: "2%",
     backgroundColor: TURQUOISE,
     borderRadius: 10000000,
   },
-
   verifiedText: {
     color: "white",
     fontSize: 18,
@@ -147,12 +145,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 15,
   },
-
   mailButton: {
     width: "100%",
     paddingVertical: "1%",
   },
-
   mailText: {
     fontSize: 18,
     color: PURPLE,

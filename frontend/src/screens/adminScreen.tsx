@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ActivityIndicator,
   ScrollView,
@@ -10,7 +9,10 @@ import {
 } from "react-native";
 
 import PrimaryButton from "../components/Button/PrimaryButton";
-import ErrorText from "../components/ErrorText";
+import BoldText from "../components/Text/BoldText";
+import ErrorText from "../components/Text/ErrorText";
+import RegularText from "../components/Text/RegularText";
+import { REGULAR_FONT } from "../constants/fonts";
 import {
   generateRoundsCSV,
   generateTestRoundsCSV,
@@ -86,26 +88,26 @@ export default function AdminScreen(props: AdminScreenProps) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.view} ref={scrollViewRef}>
-        <Text>
+        <RegularText>
           Press the buttons below to export data as an email with a CSV
           attachment.
-        </Text>
+        </RegularText>
 
-        <Text style={styles.header}>Practice Data</Text>
+        <BoldText style={styles.header}>Practice Data</BoldText>
 
         <View style={styles.paragraph}>
-          <Text>
+          <RegularText>
             The Practice Data CSV will contain the following information for all
             practice rounds played by participants:
-          </Text>
-          <Text> • User ID</Text>
-          <Text> • Game Type</Text>
-          <Text> • Number of Turkish Words</Text>
-          <Text> • Session ID</Text>
-          <Text> • Round ID</Text>
-          <Text> • Start Time</Text>
-          <Text> • Duration</Text>
-          <Text> • Score</Text>
+          </RegularText>
+          <RegularText> • User ID</RegularText>
+          <RegularText> • Game Type</RegularText>
+          <RegularText> • Number of Turkish Words</RegularText>
+          <RegularText> • Session ID</RegularText>
+          <RegularText> • Round ID</RegularText>
+          <RegularText> • Start Time</RegularText>
+          <RegularText> • Duration</RegularText>
+          <RegularText> • Score</RegularText>
         </View>
 
         <PrimaryButton
@@ -117,22 +119,22 @@ export default function AdminScreen(props: AdminScreenProps) {
           style={styles.button}
         />
 
-        <Text style={styles.header}>Test Data</Text>
+        <BoldText style={styles.header}>Test Data</BoldText>
 
         <View style={styles.paragraph}>
-          <Text>
+          <RegularText>
             The Test Data CSV will contain the following information for all
             test questions answered by participants:
-          </Text>
-          <Text> • Participant ID</Text>
-          <Text> • Game Type</Text>
-          <Text> • Test Session ID</Text>
-          <Text> • Question Number</Text>
-          <Text> • Start Time</Text>
-          <Text> • End Time</Text>
-          <Text> • Duration</Text>
-          <Text> • Answer</Text>
-          <Text> • Correctness</Text>
+          </RegularText>
+          <RegularText> • Participant ID</RegularText>
+          <RegularText> • Game Type</RegularText>
+          <RegularText> • Test Session ID</RegularText>
+          <RegularText> • Question Number</RegularText>
+          <RegularText> • Start Time</RegularText>
+          <RegularText> • End Time</RegularText>
+          <RegularText> • Duration</RegularText>
+          <RegularText> • Answer</RegularText>
+          <RegularText> • Correctness</RegularText>
         </View>
 
         <PrimaryButton
@@ -147,12 +149,12 @@ export default function AdminScreen(props: AdminScreenProps) {
           <ErrorText message={errorState} />
         </View>
 
-        <Text style={styles.header}>Edit Consent Form</Text>
+        <BoldText style={styles.header}>Edit Consent Form</BoldText>
 
-        <Text>
+        <RegularText>
           Use the input text field below to edit the text shown to participants
           on the consent form screen.
-        </Text>
+        </RegularText>
 
         <View
           style={
@@ -215,6 +217,7 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     letterSpacing: 0,
     textAlign: "left",
+    fontFamily: REGULAR_FONT,
   },
   view: {
     padding: "5%",

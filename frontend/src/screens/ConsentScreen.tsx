@@ -2,13 +2,14 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
 
+import MediumText from "../components/Text/MediumText";
+import RegularText from "../components/Text/RegularText";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 
 const CONSENT_HEADER_OPTIONS = {
@@ -69,12 +70,16 @@ export default function ConsentScreen(props: ConsentScreenProps) {
             setCopyScrollPos(event.nativeEvent.contentOffset.y);
           }}
         >
-          <Text style={{ color: "#FFF", fontSize: 20 }}>{consentText}</Text>
+          <RegularText style={{ color: "#FFF", fontSize: 20 }}>
+            {consentText}
+          </RegularText>
         </ScrollView>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.consentButton} onPress={consentGiven}>
-          <Text style={{ color: "#FFF", fontSize: 22 }}>I consent</Text>
+          <MediumText style={{ color: "#FFF", fontSize: 22 }}>
+            I consent
+          </MediumText>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -84,7 +89,9 @@ export default function ConsentScreen(props: ConsentScreenProps) {
           }}
           style={styles.noConsentButton}
         >
-          <Text style={{ color: "#FFF", fontSize: 22 }}>I do not consent</Text>
+          <MediumText style={{ color: "#FFF", fontSize: 22 }}>
+            I do not consent
+          </MediumText>
         </TouchableOpacity>
       </View>
     </View>
