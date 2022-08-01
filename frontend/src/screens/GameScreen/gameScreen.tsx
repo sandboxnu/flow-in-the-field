@@ -221,16 +221,6 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     if (showAnswers) {
       return (
         <View style={styles.doneContainer}>
-          <PrimaryButton
-            disabled={isLoading}
-            onPress={() => {
-              setIsLoading(true);
-              fi.startRound(gameStateContext.sessionId).then((result) =>
-                gameStateContext.updateRoundId(result)
-              );
-            }}
-            text="next round"
-          />
           <SecondaryButton
             disabled={isLoading}
             text="end session"
@@ -240,6 +230,16 @@ export default function GameScreen(props: SpecificGameScreenProps) {
               gameStateContext.updateRoundId("");
               navigation.navigate("HomeScreen");
             }}
+          />
+          <PrimaryButton
+            disabled={isLoading}
+            onPress={() => {
+              setIsLoading(true);
+              fi.startRound(gameStateContext.sessionId).then((result) =>
+                gameStateContext.updateRoundId(result)
+              );
+            }}
+            text="next round"
           />
         </View>
       );

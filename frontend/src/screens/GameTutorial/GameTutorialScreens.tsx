@@ -119,7 +119,7 @@ export default function GameTutorialScreens({
             ? "Once you have matched all the words, press done to " +
               "submit your answers."
             : "Once you have matched the word, press done to " +
-              "submit your answers."
+              "submit your answer."
         }
         doneButton
         onFinish={onFinish}
