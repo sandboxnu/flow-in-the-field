@@ -27,8 +27,7 @@ export default function SettingsScreen() {
         <RegularText style={styles.label}>Password</RegularText>
         <RegularText style={styles.value}>********</RegularText>
       </View>
-      <View style={styles.row}>
-        <RegularText style={styles.label} />
+      <View style={{ ...styles.row, justifyContent: "center" }}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("ChangePasswordScreen")}
@@ -36,8 +35,7 @@ export default function SettingsScreen() {
           <MediumText style={styles.buttonText}>change password</MediumText>
         </TouchableOpacity>
       </View>
-      <View style={styles.row}>
-        <RegularText style={styles.label} />
+      <View style={{ ...styles.row, justifyContent: "center" }}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -80,11 +78,12 @@ const styles = StyleSheet.create({
     fontSize: 21,
   },
   button: {
-    flex: 1,
+    width: "70%",
     borderRadius: 6,
     backgroundColor: LIGHTPURPLE,
     justifyContent: "center",
-    padding: "2%",
+    alignItems: "center",
+    padding: "3%",
   },
   buttonText: {
     color: "white",
