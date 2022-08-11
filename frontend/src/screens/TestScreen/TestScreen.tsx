@@ -39,21 +39,28 @@ export default function TestScreen(props: TestScreenProps) {
   const { testSessionId } = props.route.params;
   const [currentTestRoundId, setCurrentTestRoundId] = useState<UID>("");
   const [page, setPage] = useState<number>(1);
+  const [finished, setFinished] = useState<boolean>(false);
   const numQuestions = 50;
   const [testQuestion, setTestQuestion] = useState<TestWord>();
   const [testQuestions, setTestQuestions] = useState<TestWord[]>();
   const [answer, setAnswer] = useState<string>("");
   const [answers, setAnswers] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (currentTestRoundId == "") {
-      fi.startTestRound(testSessionId, page).then((result) =>
-        setCurrentTestRoundId(result)
-      );
-    } else if (answers.length == numQuestions) {
+    setIsLoading(true);
+
+    fi.getTestWord(page)
+      .then((testWord) => {
+        setTestQuestion(testWord);
+      })
+      .catch(console.error);
+    fi.getTestQuestions().then((testWords) => {
+      setTestQuestions(testWords);
+    });
+
+    if (finished) {
       const testGradingInfo = gradeAnswers();
-      fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
       fi.endTestSession(
         testSessionId,
         testGradingInfo.score,
@@ -65,16 +72,15 @@ export default function TestScreen(props: TestScreenProps) {
         })
       );
     } else {
-      fi.getTestWord(page)
-        .then((testWord) => {
-          setTestQuestion(testWord);
-        })
-        .catch(console.error);
-      fi.getTestQuestions().then((testWords) => {
-        setTestQuestions(testWords);
-      });
+      fi.startTestRound(testSessionId, page).then((result) =>
+        setCurrentTestRoundId(result)
+      );
     }
-  }, [currentTestRoundId, answers]);
+  }, [page, finished]);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [currentTestRoundId]);
 
   const gradeAnswers = () => {
     let numCorrectTestAnswers = 0;
@@ -103,16 +109,17 @@ export default function TestScreen(props: TestScreenProps) {
   const continueButtonOnPress = () => {
     if (!isLoading) {
       setIsLoading(true);
-      fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect());
-      setAnswers([...answers, answer]);
-      setAnswer("");
-      if (page < numQuestions) {
-        setPage(page + 1);
-      }
-      fi.startTestRound(testSessionId, page).then((result) =>
-        setCurrentTestRoundId(result)
+      fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect()).then(
+        () => {
+          setAnswers([...answers, answer]);
+          setAnswer("");
+          if (page < numQuestions) {
+            setPage(page + 1);
+          } else {
+            setFinished(true);
+          }
+        }
       );
-      setIsLoading(false);
     }
   };
 
