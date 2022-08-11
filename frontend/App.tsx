@@ -7,6 +7,7 @@ import BackButton from "./src/components/Button/BackButton";
 import FirebaseInteractor from "./src/firebase/FirebaseInteractor";
 import { UID } from "./src/models/types";
 import AdminScreen from "./src/screens/AdminScreen";
+import ConsentScreen from "./src/screens/ConsentScreen";
 import EmailVerificationScreen from "./src/screens/EmailVerificationScreen";
 import GameFlow from "./src/screens/Game/GameFlow";
 import HomeScreen from "./src/screens/HomeScreen";
@@ -86,6 +87,11 @@ export default function App() {
             name="SignInFlow"
             component={signInFlow}
             options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="ConsentScreen"
+            component={ConsentScreen}
+            options={{ headerBackVisible: false }}
           />
           <Stack.Screen
             name="EmailVerification"
