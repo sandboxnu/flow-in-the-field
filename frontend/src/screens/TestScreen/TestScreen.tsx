@@ -237,6 +237,7 @@ const styles = StyleSheet.create({
   wordsContainer: {
     width: "100%",
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-around",
   },
   wordsText: {
