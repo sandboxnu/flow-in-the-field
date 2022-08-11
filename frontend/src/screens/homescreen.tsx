@@ -1,14 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground } from "react-native";
 
-import PrimaryButton from "../components/Button/PrimaryButton";
 import TextIconButton from "../components/Button/TextIconButton";
 import { LoadingScreen } from "../components/LoadingScreen";
+import BoldText from "../components/Text/BoldText";
+import MediumText from "../components/Text/MediumText";
 import { Role } from "../constants/role";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
-
 import "intl";
 import "intl/locale-data/jsonp/en";
 import { GameStateContext } from "../utils/context";
@@ -64,6 +64,7 @@ export default function Homescreen(props: HomescreenProps) {
 
   const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" });
   const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "short" });
+
   return (
     <View style={styles.main}>
       <ImageBackground
@@ -72,12 +73,14 @@ export default function Homescreen(props: HomescreenProps) {
         imageStyle={styles.backgroundImage}
       >
         <View style={styles.testDayBox}>
-          <Text style={styles.testDayHeader}>Your test date is:</Text>
-          <Text style={styles.testDay}>
+          <MediumText style={styles.testDayHeader}>
+            Your test date is:
+          </MediumText>
+          <BoldText style={styles.testDay}>
             {monthFormatter.format(user.testDate) +
               " " +
               dayFormatter.format(user.testDate)}
-          </Text>
+          </BoldText>
         </View>
       </ImageBackground>
       <View style={styles.buttonBox}>
@@ -92,7 +95,7 @@ export default function Homescreen(props: HomescreenProps) {
           icon={require("../assets/flow-icon-test.png")}
           testNotAvailable={!testAvailable()}
         />
-        {user.role == Role.ADMIN && (
+        {user.role === Role.ADMIN && (
           <TextIconButton
             onPress={() => navigation.navigate("AdminScreen")}
             text="Admin"

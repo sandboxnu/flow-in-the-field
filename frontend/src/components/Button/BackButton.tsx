@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, Image, View, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Image, View, TouchableOpacity } from "react-native";
+
 interface BackButtonProps {
   onPress: () => void;
   isHome?: boolean;

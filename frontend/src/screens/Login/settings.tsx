@@ -1,10 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { BLUE, GREY, LIGHTPURPLE, PURPLE } from "../../constants/colors";
+import MediumText from "../../components/Text/MediumText";
+import RegularText from "../../components/Text/RegularText";
+import { BLUE, GREY, LIGHTPURPLE } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
+
 const fi = new FirebaseInteractor();
 export default function SettingsScreen() {
   const navigation = useNavigation();
@@ -12,36 +15,34 @@ export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.label}>Email</Text>
+        <RegularText style={styles.label}>Email</RegularText>
         <View style={styles.scroll}>
           <ScrollView horizontal>
-            <Text style={styles.value}>{fi.email}</Text>
+            <RegularText style={styles.value}>{fi.email}</RegularText>
           </ScrollView>
         </View>
       </View>
       <View style={styles.divider} />
       <View style={styles.row}>
-        <Text style={styles.label}>Password</Text>
-        <Text style={styles.value}>********</Text>
+        <RegularText style={styles.label}>Password</RegularText>
+        <RegularText style={styles.value}>********</RegularText>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.label} />
+      <View style={{ ...styles.row, justifyContent: "center" }}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("ChangePasswordScreen")}
         >
-          <Text style={styles.buttonText}>change password</Text>
+          <MediumText style={styles.buttonText}>change password</MediumText>
         </TouchableOpacity>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.label} />
+      <View style={{ ...styles.row, justifyContent: "center" }}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
             fi.logout().then(() => navigation.navigate("SignInFlow"));
           }}
         >
-          <Text style={styles.buttonText}>logout</Text>
+          <MediumText style={styles.buttonText}>logout</MediumText>
         </TouchableOpacity>
       </View>
     </View>
@@ -77,11 +78,12 @@ const styles = StyleSheet.create({
     fontSize: 21,
   },
   button: {
-    flex: 1,
+    width: "70%",
     borderRadius: 6,
     backgroundColor: LIGHTPURPLE,
     justifyContent: "center",
-    padding: "2%",
+    alignItems: "center",
+    padding: "3%",
   },
   buttonText: {
     color: "white",

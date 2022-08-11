@@ -8,7 +8,7 @@ import React, {
   useRef,
   useContext,
 } from "react";
-import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Image } from "react-native";
 import { DraxView, DraxProvider } from "react-native-drax";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -17,9 +17,12 @@ import PrimaryButton from "../../components/Button/PrimaryButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
 import CustomRow from "../../components/CustomRow";
 import { LoadingScreen } from "../../components/LoadingScreen";
+import MediumText from "../../components/Text/MediumText";
+import RegularText from "../../components/Text/RegularText";
 import { BLUE, GREY } from "../../constants/colors";
+import { BOLD_FONT } from "../../constants/fonts";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import { User, UID } from "../../models/types";
+import { User } from "../../models/types";
 import { GameStateContext } from "../../utils/context";
 import { durstenfeldShuffle } from "../../utils/utils";
 import GameTutorialScreens from "../GameTutorial/GameTutorialScreens";
@@ -50,7 +53,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
   const navigation = useNavigation();
   const [englishWords, setEnglishWords] = useState<string[]>();
   const [currentPairs, setCurrentPairs] = useState<MaybeWordPair[]>();
-  const [user, setUser] = useState<User>();
+  const [, setUser] = useState<User>();
   const [submitted, setSubmitted] = useState(false);
   const [showAnswers, setShowAnswers] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +95,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
   }, []);
 
   useEffect(() => {
-    if (gameStateContext.roundId == "") {
+    if (gameStateContext.roundId === "") {
       fi.startRound(gameStateContext.sessionId).then(async (result) => {
         gameStateContext.updateRoundId(result);
       });
@@ -218,16 +221,6 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     if (showAnswers) {
       return (
         <View style={styles.doneContainer}>
-          <PrimaryButton
-            disabled={isLoading}
-            onPress={() => {
-              setIsLoading(true);
-              fi.startRound(gameStateContext.sessionId).then((result) =>
-                gameStateContext.updateRoundId(result)
-              );
-            }}
-            text="next round"
-          />
           <SecondaryButton
             disabled={isLoading}
             text="end session"
@@ -237,6 +230,16 @@ export default function GameScreen(props: SpecificGameScreenProps) {
               gameStateContext.updateRoundId("");
               navigation.navigate("HomeScreen");
             }}
+          />
+          <PrimaryButton
+            disabled={isLoading}
+            onPress={() => {
+              setIsLoading(true);
+              fi.startRound(gameStateContext.sessionId).then((result) =>
+                gameStateContext.updateRoundId(result)
+              );
+            }}
+            text="next round"
           />
         </View>
       );
@@ -278,7 +281,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
       if (currentPairs?.some(({ english }) => english === word) ?? false) {
         return (
           <View key={word} style={styles.englishUsed}>
-            <Text style={styles.english}>{word}</Text>
+            <RegularText style={styles.english}>{word}</RegularText>
           </View>
         );
       }
@@ -291,7 +294,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
           dragReleasedStyle={{ opacity: 0.3 }}
           longPressDelay={100}
         >
-          <Text style={styles.english}>{word}</Text>
+          <RegularText style={styles.english}>{word}</RegularText>
         </DraxView>
       );
     });
@@ -322,7 +325,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
     currentPairs?.length ?? 0
   );
   const correctAnswersText = (
-    <Text style={styles.correctAnswersText}>Correct Answers</Text>
+    <MediumText style={styles.correctAnswersText}>Correct Answers</MediumText>
   );
   const shouldFlexWrap = props.isPairing && !submitted;
 
@@ -424,18 +427,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  scoreText: {
-    color: BLUE,
-    fontSize: 124,
-    textAlign: "center",
-    width: "100%",
-  },
-  correctText: {
-    color: BLUE,
-    fontSize: 64,
-    textAlign: "center",
-    width: "100%",
-  },
   correctAnswersText: {
     color: BLUE,
     fontSize: 40,
@@ -468,6 +459,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     backgroundColor: "transparent",
+    fontFamily: BOLD_FONT,
   },
   // Styles associated with bottom sheet modal for game tutorial
   contentContainer: {

@@ -1,11 +1,14 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
+import { REGULAR_FONT } from "../../constants/fonts";
+
 interface CustomTextInputProps {
   value: string;
   setValue: (value: string) => void;
   placeholderText: string;
   secureText: boolean;
+  width?: string;
 }
 
 export default function CustomTextInput({
@@ -13,6 +16,7 @@ export default function CustomTextInput({
   setValue,
   placeholderText,
   secureText,
+  width = "70%",
 }: CustomTextInputProps) {
   return (
     <TextInput
@@ -20,7 +24,7 @@ export default function CustomTextInput({
       value={value}
       onChangeText={setValue}
       secureTextEntry={secureText}
-      style={styles.textInput}
+      style={{ ...styles.textInput, width }}
       placeholder={placeholderText}
     />
   );
@@ -32,13 +36,14 @@ const styles = StyleSheet.create({
     borderColor: "#4D4661",
     paddingHorizontal: 9,
     height: 36,
-    width: "60%",
+    width: "70%",
     marginVertical: "4%",
     fontSize: 24,
     fontStyle: "normal",
     fontWeight: "400",
-    lineHeight: 35,
+    lineHeight: 31,
     letterSpacing: 0,
     textAlign: "left",
+    fontFamily: REGULAR_FONT,
   },
 });

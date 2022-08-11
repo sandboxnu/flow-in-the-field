@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import AnimatedBar from "react-native-animated-bar";
 import { DraxProvider } from "react-native-drax";
 
+import MediumText from "../../components/Text/MediumText";
+import RegularText from "../../components/Text/RegularText";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { TestWord, UID } from "../../models/types";
 
@@ -12,9 +14,9 @@ const fi = new FirebaseInteractor();
 const TEST_HEADER_OPTIONS = {
   headerTitle: () => {
     return (
-      <Text style={{ color: "#5eafdf", fontSize: 20 }}>
+      <MediumText style={{ color: "#5eafdf", fontSize: 20 }}>
         Test Your Knowledge
-      </Text>
+      </MediumText>
     );
   },
   title: "",
@@ -140,16 +142,22 @@ export default function TestScreen(props: TestScreenProps) {
             duration={500}
             row
           />
-          <Text style={{ color: "#5eafdf", fontSize: 16, paddingLeft: 8 }}>
+          <MediumText
+            style={{ color: "#5eafdf", fontSize: 16, paddingLeft: 8 }}
+          >
             {page} / {numQuestions}
-          </Text>
+          </MediumText>
         </View>
-        <Text style={{ fontSize: 36 }}>
+        <RegularText style={{ fontSize: 36 }}>
           Do these words share the same meaning?
-        </Text>
+        </RegularText>
         <View style={styles.wordsContainer}>
-          <Text style={styles.wordsText}>{testQuestion?.turkish}</Text>
-          <Text style={styles.wordsText}>{testQuestion?.english}</Text>
+          <MediumText style={styles.wordsText}>
+            {testQuestion?.turkish}
+          </MediumText>
+          <MediumText style={styles.wordsText}>
+            {testQuestion?.english}
+          </MediumText>
         </View>
         <View style={styles.answerContainer}>
           <TouchableOpacity
@@ -160,7 +168,7 @@ export default function TestScreen(props: TestScreenProps) {
                 : styles.unselectedAnswerButton
             }
           >
-            <Text
+            <MediumText
               style={
                 answer === "yes"
                   ? styles.selectedAnswerText
@@ -168,7 +176,7 @@ export default function TestScreen(props: TestScreenProps) {
               }
             >
               Yes
-            </Text>
+            </MediumText>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setAnswer("no")}
@@ -178,7 +186,7 @@ export default function TestScreen(props: TestScreenProps) {
                 : styles.unselectedAnswerButton
             }
           >
-            <Text
+            <MediumText
               style={
                 answer === "no"
                   ? styles.selectedAnswerText
@@ -186,7 +194,7 @@ export default function TestScreen(props: TestScreenProps) {
               }
             >
               No
-            </Text>
+            </MediumText>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -198,7 +206,9 @@ export default function TestScreen(props: TestScreenProps) {
               : { ...styles.continueButton, opacity: 0.5 }
           }
         >
-          <Text style={{ color: "#6E81E7", fontSize: 22 }}>{"continue >"}</Text>
+          <MediumText style={{ color: "#6E81E7", fontSize: 22 }}>
+            {"continue >"}
+          </MediumText>
         </TouchableOpacity>
       </View>
     </DraxProvider>
@@ -227,6 +237,7 @@ const styles = StyleSheet.create({
   wordsContainer: {
     width: "100%",
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-around",
   },
   wordsText: {

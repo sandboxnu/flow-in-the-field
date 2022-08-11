@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
-import ErrorText from "../../components/ErrorText";
+import ErrorText from "../../components/Text/ErrorText";
+import MediumText from "../../components/Text/MediumText";
+import RegularText from "../../components/Text/RegularText";
 import SignInFlowCustomTextInput from "../../components/TextInput/SignInFlowCustomTextInput";
 import { BLUE, LIGHTPURPLE } from "../../constants/colors";
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
@@ -39,7 +41,7 @@ export default function ChangePasswordScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Change Password</Text>
+      <MediumText style={styles.header}>Change Password</MediumText>
       <SignInFlowCustomTextInput
         placeholderText="Current Password"
         value={currPass}
@@ -59,10 +61,10 @@ export default function ChangePasswordScreen() {
         secureText
       />
       <TouchableOpacity style={styles.button} onPress={updatePassword}>
-        <Text style={styles.buttonText}>save</Text>
+        <MediumText style={styles.buttonText}>save</MediumText>
       </TouchableOpacity>
       <ErrorText message={error} />
-      <Text>{successMessage}</Text>
+      <RegularText>{successMessage}</RegularText>
     </View>
   );
 }
