@@ -329,7 +329,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
   return (
     <DraxProvider>
       <GestureHandlerRootView style={styles.container}>
-        <View style={showingModal ? styles.overlay : styles.finishedTutorial}>
+        <View style={styles.finishedTutorial}>
           <View style={styles.testWrap}>
             <View
               style={
@@ -345,18 +345,29 @@ export default function GameScreen(props: SpecificGameScreenProps) {
                 : renderEnglishOptions()}
             </View>
           </View>
+
           <View style={styles.bottomContainer}>{renderTurkishWords()}</View>
           {submitted ? renderSubmittedButtons() : renderInProgressButtons()}
         </View>
         {showingModal && (
-          <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
-            <View style={styles.contentContainer}>
-              <GameTutorialScreens
-                isPairing={props.isPairing}
-                onFinish={handleClosePress}
-              />
-            </View>
-          </BottomSheet>
+          <>
+            <View
+              style={{
+                position: "absolute",
+                height: "100%",
+                width: "100%",
+                backgroundColor: "#6E81E7A6",
+              }}
+            />
+            <BottomSheet ref={bottomSheetRef} index={1} snapPoints={snapPoints}>
+              <View style={styles.contentContainer}>
+                <GameTutorialScreens
+                  isPairing={props.isPairing}
+                  onFinish={handleClosePress}
+                />
+              </View>
+            </BottomSheet>
+          </>
         )}
       </GestureHandlerRootView>
     </DraxProvider>
@@ -474,16 +485,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  overlay: {
-    opacity: 0.8,
-    backgroundColor: "#6E81E7A6",
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-  },
   finishedTutorial: {
     width: "100%",
     height: "100%",
     alignItems: "center",
+  },
+  realOverlay: {
+    position: "absolute",
+    height: 1000,
+    width: 1000,
+    backgroundColor: "#000",
+    zIndex: 1,
+    top: 400,
+    left: 100,
   },
 });
