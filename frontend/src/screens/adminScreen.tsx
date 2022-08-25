@@ -175,13 +175,7 @@ export default function AdminScreen(props: AdminScreenProps) {
           on the consent form screen.
         </Text>
 
-        <View
-          style={
-            keyboardShow
-              ? { ...styles.consentContainer, marginBottom: "100%" }
-              : styles.consentContainer
-          }
-        >
+        <View style={styles.consentContainer}>
           <TextInput
             placeholderTextColor="#4D4661"
             value={consentText}
