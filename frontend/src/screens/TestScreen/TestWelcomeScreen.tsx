@@ -103,6 +103,5 @@ const styles = StyleSheet.create({
     width: "75%",
     fontSize: 18,
     fontWeight: "500",
-    textAlign: "center",
   },
 });
