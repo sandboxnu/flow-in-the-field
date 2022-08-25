@@ -5,19 +5,19 @@ interface TextIconButtonProps {
   text: string;
   icon: number;
   onPress: () => void;
-  testNotAvailable?: boolean;
+  disabled?: boolean;
 }
 export default function TextIconButton({
   text,
   icon,
   onPress,
-  testNotAvailable,
+  disabled,
 }: TextIconButtonProps) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <View
         style={
-          testNotAvailable
+          disabled
             ? { ...styles.main, backgroundColor: "#6E81E759" }
             : styles.main
         }
