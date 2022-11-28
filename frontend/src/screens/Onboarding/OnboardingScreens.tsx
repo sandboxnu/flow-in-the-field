@@ -1,21 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import Swiper from "react-native-swiper";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import Swiper from 'react-native-swiper';
 
-import { TURQUOISE, BLUE, PURPLE } from "../../constants/colors";
-import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import OnboardingScreen from "./OnboardingScreen";
+import { BLUE, PURPLE, TURQUOISE } from '../../constants/colors';
+import FirebaseInteractor from '../../firebase/firebaseInteractor';
+import OnboardingScreen from './OnboardingScreen';
 
 interface OnboardingScreenProps {
   navigation: any;
   route: any;
 }
 const fi = new FirebaseInteractor();
+
 export default function OnboardingScreens({
   navigation,
   route,
 }: OnboardingScreenProps) {
+  const [gameType, setGameType] = useState("pairing");
   const [compensation, setCompensation] = useState("25");
+
+  useEffect(() => {
+    fi.getUser().then((user) => {
+      setGameType(user.gameType);
+    });
+  }, []);
 
   useEffect(() => {
     fi.getCompensation().then((c) => setCompensation(c.toString()));
@@ -40,12 +48,19 @@ export default function OnboardingScreens({
       <OnboardingScreen
         bgColor={TURQUOISE}
         screenContent={
-          "To achieve your goal, you'll be using this app!\n\n " +
-          "Here is how it works:\n • You'll see a set of English " +
-          "words and a set of Turkish words.\n • You'll try to " +
-          "match each English word to the correct Turkish word, " +
-          "then you'll receive feedback.\n • The more you practice, " +
-          "the better you'll get!"
+          gameType === "pairing"
+            ? "To achieve your goal, you'll be using this app!\n\n " +
+              "Here is how it works:\n • You'll see a set of English " +
+              "words and a set of Turkish words.\n • You'll try to " +
+              "match each English word to the correct Turkish word, " +
+              "then you'll receive feedback.\n • The more you practice, " +
+              "the better you'll get!"
+            : "To achieve your goal, you'll be using this app!\n\n " +
+              "Here is how it works:\n • You'll see one English word " +
+              "and a set of Turkish words.\n • You'll try to match " +
+              "the English word to the correct Turkish word, then you'll " +
+              "receive feedback.\n • The more you practice, " +
+              "the better you'll get!"
         }
       />
       <OnboardingScreen
