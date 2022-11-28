@@ -2,13 +2,11 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 
-import PrimaryButton from "../components/Button/PrimaryButton";
 import TextIconButton from "../components/Button/TextIconButton";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { Role } from "../constants/role";
 import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
-
 import "intl";
 import "intl/locale-data/jsonp/en";
 import { GameStateContext } from "../utils/context";
