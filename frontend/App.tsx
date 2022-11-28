@@ -181,6 +181,12 @@ export default function App() {
           <Stack.Screen
             name="TestWelcomeScreen"
             component={TestWelcomeScreen}
+            options={{
+              headerLeft: () => (
+                <BackButton onPress={() => {}} tint="#FFFFFF" />
+              ),
+              headerBackVisible: false,
+            }}
           />
           <Stack.Screen
             name="TestScreen"

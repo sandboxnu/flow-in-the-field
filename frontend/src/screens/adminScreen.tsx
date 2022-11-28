@@ -30,6 +30,8 @@ export default function AdminScreen(props: AdminScreenProps) {
   const [consentText, setConsentText] = useState("");
   const [keyboardShow, setKeyboardShow] = useState(false);
   const scrollViewRef = useRef<any>();
+  const [compensation, setCompensation] = useState("");
+  const [compError, setCompError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -63,8 +65,27 @@ export default function AdminScreen(props: AdminScreenProps) {
     });
   }, []);
 
+  useEffect(() => {
+    fi.getCompensation().then((c) => {
+      setCompensation(c.toString());
+    });
+  }, []);
+
   const saveConsentText = () => {
-    fi.setConsentText(consentText);
+    setIsLoading(true);
+    fi.setConsentText(consentText).then(() => setIsLoading(false));
+  };
+
+  const saveCompensation = () => {
+    setIsLoading(true);
+    const newComp = parseFloat(compensation); //Doesn't take into account weird edge cases but i'm assuming David won't do that
+    if (isNaN(+compensation) || isNaN(newComp)) {
+      setCompError("Please enter a valid number for compensation.");
+      setIsLoading(false);
+    } else {
+      setCompError("");
+      fi.setCompensation(newComp).then(() => setIsLoading(false));
+    }
   };
 
   async function tryExport(func: () => Promise<object[]>) {
@@ -154,13 +175,7 @@ export default function AdminScreen(props: AdminScreenProps) {
           on the consent form screen.
         </Text>
 
-        <View
-          style={
-            keyboardShow
-              ? { ...styles.consentContainer, marginBottom: "100%" }
-              : styles.consentContainer
-          }
-        >
+        <View style={styles.consentContainer}>
           <TextInput
             placeholderTextColor="#4D4661"
             value={consentText}
@@ -178,12 +193,44 @@ export default function AdminScreen(props: AdminScreenProps) {
           />
         </View>
 
-        {isLoading && (
-          <View style={styles.loading}>
-            <ActivityIndicator />
+        <Text style={styles.header}>Edit Compensation</Text>
+
+        <Text>
+          Use the number input field below to edit the compensation value
+          displayed to participants.
+        </Text>
+
+        <View
+          style={
+            keyboardShow
+              ? { ...styles.consentContainer, marginBottom: "100%" }
+              : styles.consentContainer
+          }
+        >
+          <View style={styles.error}>
+            <ErrorText message={compError} />
           </View>
-        )}
+          <TextInput
+            placeholderTextColor="#4D4661"
+            value={compensation}
+            secureTextEntry={false}
+            style={styles.consentTextInput}
+            onChangeText={setCompensation}
+            placeholder="compensation"
+          />
+          <PrimaryButton
+            onPress={saveCompensation}
+            disabled={isLoading}
+            text="Save Compensation"
+            style={styles.button}
+          />
+        </View>
       </ScrollView>
+      {isLoading && (
+        <View style={styles.loading}>
+          <ActivityIndicator />
+        </View>
+      )}
     </View>
   );
 }
@@ -236,6 +283,7 @@ const styles = StyleSheet.create({
   },
   error: {
     marginTop: 30,
+    alignItems: "center",
   },
   loading: {
     position: "absolute",

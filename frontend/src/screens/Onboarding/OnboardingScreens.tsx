@@ -1,29 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import Swiper from "react-native-swiper";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import Swiper from 'react-native-swiper';
 
-import { TURQUOISE, BLUE, PURPLE } from "../../constants/colors";
-import FirebaseInteractor from "../../firebase/firebaseInteractor";
-import OnboardingScreen from "./OnboardingScreen";
-
-const fi = new FirebaseInteractor();
+import { BLUE, PURPLE, TURQUOISE } from '../../constants/colors';
+import FirebaseInteractor from '../../firebase/firebaseInteractor';
+import OnboardingScreen from './OnboardingScreen';
 
 interface OnboardingScreenProps {
   navigation: any;
   route: any;
 }
+const fi = new FirebaseInteractor();
 
 export default function OnboardingScreens({
   navigation,
   route,
 }: OnboardingScreenProps) {
   const [gameType, setGameType] = useState("pairing");
+  const [compensation, setCompensation] = useState("25");
 
   useEffect(() => {
     fi.getUser().then((user) => {
       setGameType(user.gameType);
     });
   }, []);
+
+  useEffect(() => {
+    fi.getCompensation().then((c) => setCompensation(c.toString()));
+  });
 
   return (
     <Swiper
@@ -61,12 +65,7 @@ export default function OnboardingScreens({
       />
       <OnboardingScreen
         bgColor={PURPLE}
-        screenContent={
-          "Over the next week, you can use this app to practice " +
-          "as much or as little as you like. At the end of the week, " +
-          "you'll receive a vocabulary test. The better you do on the " +
-          "test, the more money you'll win!"
-        }
+        screenContent={`Over the next week, you can use this app to practice as much or as little as you like. At the end of the week, you'll receive a vocabulary test. After you finish the test, you’ll receive $${compensation} for your participation.`}
         hasNavButton
         navButtonTitle="done"
         navigation={navigation}

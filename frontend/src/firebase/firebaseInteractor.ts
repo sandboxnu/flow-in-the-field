@@ -527,6 +527,23 @@ export default class FirebaseInteractor {
     });
   }
 
+  async getCompensation(): Promise<number> {
+    const docSnapshot = await getDoc(doc(this.db, "copyText", "compensation"));
+    if (!docSnapshot.exists()) {
+      const defaultCompensation = 25;
+      await this.setCompensation(defaultCompensation);
+      return defaultCompensation;
+    } else {
+      return docSnapshot.data()?.value ?? 25;
+    }
+  }
+
+  async setCompensation(compensation: number) {
+    await setDoc(doc(this.db, "copyText", "compensation"), {
+      value: compensation,
+    });
+  }
+
   // Updates the state of hasFinishedTutorial for this user to be true
   async updateHasFinishedTutorial() {
     const user = this.auth.currentUser;

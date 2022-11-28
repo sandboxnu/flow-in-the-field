@@ -127,10 +127,8 @@ export default function GameTutorialScreens({
       <GameTutorialScreen
         screenContent={
           isPairing
-            ? "Once you've submitted your answers, the game will " +
-              "give you your results.\n"
-            : "Once you've submitted your answer, the game will " +
-              "give you your results.\n"
+            ? "Once you've submitted your answers, you will see your results.\n "
+            : "Once you've submitted your answer, you will see your results.\n"
         }
         secondaryScreenContent={
           isPairing
@@ -146,10 +144,7 @@ export default function GameTutorialScreens({
         onFinish={onFinish}
       />
       <GameTutorialScreen
-        screenContent={
-          "On the next page, you will view the English and Turkish words from " +
-          "the game round in their correct pairs."
-        }
+        screenContent="On the next page, you will see the correct answers. The English words will be paired with their corresponding Turkish words."
         imagePath={tutorialImages.page6}
         onFinish={onFinish}
       />
