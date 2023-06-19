@@ -46,9 +46,10 @@ export default function TestWelcomeScreen(props: TestWelcomeScreenProps) {
   }, [navigation]);
 
   const startTest = () => {
-    fi.startTestSession().then((testSessionId: UID) =>
-      navigation.navigate("TestScreen", { testSessionId })
-    );
+    navigation.navigate("TestScreen", {});
+    // fi.startTestSession().then((testSessionId: UID) =>
+    //   navigation.navigate("TestScreen", { testSessionId })
+    // );
   };
 
   return (

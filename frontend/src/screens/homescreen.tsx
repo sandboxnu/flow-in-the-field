@@ -5,59 +5,60 @@ import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import TextIconButton from "../components/Button/TextIconButton";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { Role } from "../constants/role";
-import FirebaseInteractor from "../firebase/firebaseInteractor";
+// import FirebaseInteractor from "../firebase/firebaseInteractor";
 import { User, UID } from "../models/types";
 import "intl";
 import "intl/locale-data/jsonp/en";
 import { GameStateContext } from "../utils/context";
 
-const fi = new FirebaseInteractor();
+// const fi = new FirebaseInteractor();
 
 export interface HomescreenProps {
   route: any;
 }
 
 export default function Homescreen(props: HomescreenProps) {
-  const [user, setUser] = useState<User>();
-  const testFinished = props.route.params
-    ? props.route.params["testFinished"]
-    : false;
+  // const [user, setUser] = useState<User>();
+  // const testFinished = props.route.params
+  //   ? props.route.params["testFinished"]
+  //   : false;
   const gameStateContext = useContext(GameStateContext);
 
-  useEffect(() => {
-    fi.getUser()
-      .then((user) => setUser(user))
-      .catch(console.error);
-  }, []);
+  // useEffect(() => {
+  //   fi.getUser()
+  //     .then((user) => setUser(user))
+  //     .catch(console.error);
+  // }, []);
 
   const navigation = useNavigation();
 
-  if (!user) {
-    return <LoadingScreen />;
-  }
+  // if (!user) {
+  //   return <LoadingScreen />;
+  // }
 
   const startSession = () => {
+    navigation.navigate("GameScreen", {});
     // if (!pastTestTime()) {
-    fi.startSession().then((sessionId: UID) => {
-      gameStateContext.updateSessionId(sessionId);
-      navigation.navigate("GameScreen", { sessionId });
-    });
+    // fi.startSession().then((sessionId: UID) => {
+    //   gameStateContext.updateSessionId(sessionId);
+    //   navigation.navigate("GameScreen", { sessionId });
+    // });
     // }
   };
 
   const hasFinishedTest = () => {
-    return testFinished || user.testScore != null;
+    return false;
   };
 
-  const pastTestTime = () => {
-    const now = new Date(Date.now());
-    const timeUntilTest = user.testDate.getTime() - now.getTime();
-
-    return timeUntilTest <= 0;
-  };
+  // const pastTestTime = () => {
+  //   const now = new Date(Date.now());
+  //   const timeUntilTest = user.testDate.getTime() - now.getTime();
+  //
+  //   return timeUntilTest <= 0;
+  // };
 
   const testAvailable = () => {
-    return !hasFinishedTest() && pastTestTime();
+    return true;
   };
 
   const startTest = () => {
@@ -78,9 +79,9 @@ export default function Homescreen(props: HomescreenProps) {
         <View style={styles.testDayBox}>
           <Text style={styles.testDayHeader}>Your test date is:</Text>
           <Text style={styles.testDay}>
-            {monthFormatter.format(user.testDate) +
+            {monthFormatter.format(new Date()) +
               " " +
-              dayFormatter.format(user.testDate)}
+              dayFormatter.format(new Date())}
           </Text>
         </View>
       </ImageBackground>
@@ -89,25 +90,26 @@ export default function Homescreen(props: HomescreenProps) {
           onPress={() => startSession()}
           text="Start a new session"
           icon={require("../assets/start-session-icon.png")}
-          disabled={pastTestTime() && user.role !== Role.ADMIN}
+          disabled={false}
         />
         <TextIconButton
           onPress={() => startTest()}
           text="Take the test"
           icon={require("../assets/flow-icon-test.png")}
-          disabled={!testAvailable() && user.role !== Role.ADMIN}
+          disabled={false}
         />
-        {user.role == Role.ADMIN && (
-          <TextIconButton
-            onPress={() => navigation.navigate("AdminScreen")}
-            text="Admin"
-            icon={require("../assets/admin-icon.png")}
-          />
-        )}
+        {/* {user.role == Role.ADMIN && ( */}
+        {/*   <TextIconButton */}
+        {/*     onPress={() => navigation.navigate("AdminScreen")} */}
+        {/*     text="Admin" */}
+        {/*     icon={require("../assets/admin-icon.png")} */}
+        {/*   /> */}
+        {/* )} */}
         <TextIconButton
           onPress={() => navigation.navigate("SettingsScreen")}
           text="Settings"
           icon={require("../assets/settings-icon.png")}
+          disabled
         />
         <TextIconButton
           onPress={() =>

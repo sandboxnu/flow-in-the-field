@@ -76,7 +76,7 @@ export default function App() {
       <NavigationContainer theme={NAV_THEME}>
         <Stack.Navigator
           screenOptions={HOME_HEADER_OPTIONS}
-          initialRouteName="SignInFlow"
+          initialRouteName="HomeScreen"
         >
           <Stack.Screen
             name="Onboarding"
@@ -150,11 +150,11 @@ export default function App() {
               headerLeft: () => (
                 <BackButton
                   onPress={async () => {
-                    const currentWords = await fi.getCorrectWords(
-                      currentRoundId
-                    );
-                    fi.endRound(currentRoundId, currentWords);
-                    fi.endSession(currentSessionId);
+                    // const currentWords = await fi.getCorrectWords(
+                    //   currentRoundId
+                    // );
+                    // fi.endRound(currentRoundId, currentWords);
+                    // fi.endSession(currentSessionId);
                     onRoundChange("");
                     onSessionChange("");
                   }}

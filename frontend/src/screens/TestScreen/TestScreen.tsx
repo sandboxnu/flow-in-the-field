@@ -61,20 +61,25 @@ export default function TestScreen(props: TestScreenProps) {
 
     if (finished) {
       const testGradingInfo = gradeAnswers();
-      fi.endTestSession(
-        testSessionId,
-        testGradingInfo.score,
-        testGradingInfo.correctAnswers
-      ).then(() =>
-        navigation.navigate("TestResultsScreen", {
-          correct: testGradingInfo.score,
-          total: numQuestions,
-        })
-      );
+      navigation.navigate("TestResultsScreen", {
+        correct: testGradingInfo.score,
+        total: numQuestions,
+      });
+      // fi.endTestSession(
+      //   testSessionId,
+      //   testGradingInfo.score,
+      //   testGradingInfo.correctAnswers
+      // ).then(() =>
+      //   navigation.navigate("TestResultsScreen", {
+      //     correct: testGradingInfo.score,
+      //     total: numQuestions,
+      //   })
+      // );
     } else {
-      fi.startTestRound(testSessionId, page).then((result) =>
-        setCurrentTestRoundId(result)
-      );
+      setCurrentTestRoundId(currentTestRoundId + 1);
+      // fi.startTestRound(testSessionId, page).then((result) =>
+      //   setCurrentTestRoundId(result)
+      // );
     }
   }, [page, finished]);
 
@@ -109,17 +114,24 @@ export default function TestScreen(props: TestScreenProps) {
   const continueButtonOnPress = () => {
     if (!isLoading) {
       setIsLoading(true);
-      fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect()).then(
-        () => {
-          setAnswers([...answers, answer]);
-          setAnswer("");
-          if (page < numQuestions) {
-            setPage(page + 1);
-          } else {
-            setFinished(true);
-          }
-        }
-      );
+      setAnswers([...answers, answer]);
+      setAnswer("");
+      if (page < numQuestions) {
+        setPage(page + 1);
+      } else {
+        setFinished(true);
+      }
+      // fi.endTestRound(currentTestRoundId, determineIfRoundAnswerCorrect()).then(
+      //   () => {
+      //     setAnswers([...answers, answer]);
+      //     setAnswer("");
+      //     if (page < numQuestions) {
+      //       setPage(page + 1);
+      //     } else {
+      //       setFinished(true);
+      //     }
+      //   }
+      // );
     }
   };
 

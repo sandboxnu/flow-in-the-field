@@ -92,40 +92,29 @@ export default function GameScreen(props: SpecificGameScreenProps) {
   }, []);
 
   useEffect(() => {
-    if (gameStateContext.roundId == "") {
-      fi.startRound(gameStateContext.sessionId).then(async (result) => {
-        gameStateContext.updateRoundId(result);
-      });
-    } else {
-      fi.getUser()
-        .then((user) => {
-          setUser(user);
-          setShowingModal(!user.hasFinishedTutorial);
-          fi.getRoundPairs(gameStateContext.roundId)
-            .then((words) => {
-              setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
-              setCurrentPairs(
-                durstenfeldShuffle(
-                  words.map((word, i) => ({
-                    turkish: word.turkish,
-                    correctEnglishWord: word.english,
-                    english: undefined,
-                  }))
-                )
-              );
-              setSubmitted(false);
-              setShowAnswers(false);
-              setIsLoading(false);
-            })
-            .catch(console.error);
-        })
-        .catch(console.error);
-    }
+    setShowingModal(false);
+    fi.getXRandomPairs(4)
+      .then((words) => {
+        setEnglishWords(durstenfeldShuffle(props.shuffleFunction(words)));
+        setCurrentPairs(
+          durstenfeldShuffle(
+            words.map((word, i) => ({
+              turkish: word.turkish,
+              correctEnglishWord: word.english,
+              english: undefined,
+            }))
+          )
+        );
+        setSubmitted(false);
+        setShowAnswers(false);
+        setIsLoading(false);
+      })
+      .catch((e) => console.error(e));
   }, [gameStateContext.roundId]);
 
   useEffect(() => {
     if (submitted) {
-      fi.endRound(gameStateContext.roundId, getCorrectWords());
+      // fi.endRound(gameStateContext.roundId, getCorrectWords());
     }
   }, [submitted]);
 
@@ -222,7 +211,7 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             disabled={isLoading}
             text="end session"
             onPress={() => {
-              fi.endSession(gameStateContext.sessionId);
+              // fi.endSession(gameStateContext.sessionId);
               gameStateContext.updateSessionId("");
               gameStateContext.updateRoundId("");
               navigation.navigate("HomeScreen");
@@ -232,9 +221,10 @@ export default function GameScreen(props: SpecificGameScreenProps) {
             disabled={isLoading}
             onPress={() => {
               setIsLoading(true);
-              fi.startRound(gameStateContext.sessionId).then((result) =>
-                gameStateContext.updateRoundId(result)
-              );
+              gameStateContext.updateRoundId(gameStateContext.roundId + 1);
+              // fi.startRound(gameStateContext.sessionId).then((result) =>
+              //   gameStateContext.updateRoundId(result)
+              // );
             }}
             text="next round"
           />
