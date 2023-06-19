@@ -37,12 +37,12 @@ export default function Homescreen(props: HomescreenProps) {
   }
 
   const startSession = () => {
-    if (!pastTestTime()) {
-      fi.startSession().then((sessionId: UID) => {
-        gameStateContext.updateSessionId(sessionId);
-        navigation.navigate("GameScreen", { sessionId });
-      });
-    }
+    // if (!pastTestTime()) {
+    fi.startSession().then((sessionId: UID) => {
+      gameStateContext.updateSessionId(sessionId);
+      navigation.navigate("GameScreen", { sessionId });
+    });
+    // }
   };
 
   const hasFinishedTest = () => {
@@ -61,9 +61,9 @@ export default function Homescreen(props: HomescreenProps) {
   };
 
   const startTest = () => {
-    if (testAvailable()) {
-      navigation.navigate("TestWelcomeScreen");
-    }
+    // if (testAvailable()) {
+    navigation.navigate("TestWelcomeScreen");
+    // }
   };
 
   const dayFormatter = new Intl.DateTimeFormat(undefined, { day: "numeric" });
@@ -89,13 +89,13 @@ export default function Homescreen(props: HomescreenProps) {
           onPress={() => startSession()}
           text="Start a new session"
           icon={require("../assets/start-session-icon.png")}
-          disabled={pastTestTime()}
+          disabled={pastTestTime() && user.role !== Role.ADMIN}
         />
         <TextIconButton
           onPress={() => startTest()}
           text="Take the test"
           icon={require("../assets/flow-icon-test.png")}
-          disabled={!testAvailable()}
+          disabled={!testAvailable() && user.role !== Role.ADMIN}
         />
         {user.role == Role.ADMIN && (
           <TextIconButton

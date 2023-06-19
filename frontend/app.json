@@ -18,7 +18,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "bundleIdentifier": "com.flowinthefield.flowinthefield"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +32,11 @@
       "favicon": "./src/assets/flow-icon-square.png"
     },
     "description": "Main branch of *Flow in the Field* - currently in development.\n\nA language learning mobile app designed to study the relationship between mutual information and flow.",
-    "githubUrl": "https://github.com/sandboxnu/flow-in-the-field"
+    "githubUrl": "https://github.com/sandboxnu/flow-in-the-field",
+    "extra": {
+      "eas": {
+        "projectId": "794991ea-69dd-4482-83cc-a7e02db15a51"
+      }
+    }
   }
 }
