@@ -104,11 +104,13 @@ export default function Homescreen(props: HomescreenProps) {
             icon={require("../assets/admin-icon.png")}
           />
         )}
-        <TextIconButton
-          onPress={() => navigation.navigate("SettingsScreen")}
-          text="Settings"
-          icon={require("../assets/settings-icon.png")}
-        />
+        {user.role == Role.ADMIN && (
+          <TextIconButton
+            onPress={() => navigation.navigate("SettingsScreen")}
+            text="Settings"
+            icon={require("../assets/settings-icon.png")}
+          />
+        )}
         <TextIconButton
           onPress={() =>
             navigation.navigate("RevisitOnboarding", { signedIn: true })
