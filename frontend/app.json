@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flow in the Field",
-    "slug": "flow-in-the-field",
+    "name": "Flow in the Field Demo",
+    "slug": "flow-in-the-field-demo",
     "owner": "flow-in-the-field",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
-      "bundleIdentifier": "com.flowinthefield.flowinthefield"
+      "bundleIdentifier": "com.flowinthefielddemo.flowinthefielddemo"
     },
     "android": {
       "adaptiveIcon": {
@@ -35,7 +35,7 @@
     "githubUrl": "https://github.com/sandboxnu/flow-in-the-field",
     "extra": {
       "eas": {
-        "projectId": "794991ea-69dd-4482-83cc-a7e02db15a51"
+        "projectId": "72d2185e-f85f-459b-8581-712a86a25c5b"
       }
     }
   }
