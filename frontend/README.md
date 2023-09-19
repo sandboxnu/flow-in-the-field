@@ -70,3 +70,4 @@ go to the function `getRandomGameType` in `frontend/src/utils/utils.ts`. \
 To remove an option, remove the option from the constant `gameTypes`.
 
 To change the consent text or compensation, use the Admin screen in-app.
+
