@@ -56,3 +56,17 @@ To run the app with connection to the production database, you can use command:
 
 Warning: activity in this mode will change the prod database. \
 The QR code created will be shareable across different wifi networks.
+
+
+## Changing Variables
+
+To change number of words available to be assigned to participants (ie. 2, 4, 8), 
+go the function `getRandomPairing` in  `frontend/src/utils/utils.ts`. \
+First, edit the constant `let choice = Math.floor(Math.random() * 3);` to match the desired number of options. \
+Then, edit the `switch` statement so the `case`s return the desired options for number of words.
+
+To change the game types available to be assigned to participants (ie. pairing, selecting),
+go to the function `getRandomGameType` in `frontend/src/utils/utils.ts`. \
+To remove an option, remove the option from the constant `gameTypes`.
+
+To change the consent text or compensation, use the Admin screen in-app.
