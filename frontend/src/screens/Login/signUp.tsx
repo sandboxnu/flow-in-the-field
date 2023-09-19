@@ -76,9 +76,6 @@ export default function SignUpPage({
       >
         <Text style={styles.signUpText}>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={goToSignIn} style={styles.loginButton}>
-        <Text style={styles.loginText}>Log In</Text>
-      </TouchableOpacity>
     </View>
   );
 }
