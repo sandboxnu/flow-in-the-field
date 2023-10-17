@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import AnimatedBar from "react-native-animated-bar";
 import { DraxProvider } from "react-native-drax";
+import { min } from "react-native-reanimated";
 
 import FirebaseInteractor from "../../firebase/firebaseInteractor";
 import { TestWord, UID } from "../../models/types";
@@ -30,6 +32,8 @@ const TEST_HEADER_OPTIONS = {
   },
 };
 
+const ROUND_LENGTH = 15;
+
 export interface TestScreenProps {
   route: any;
 }
@@ -40,12 +44,16 @@ export default function TestScreen(props: TestScreenProps) {
   const [currentTestRoundId, setCurrentTestRoundId] = useState<UID>("");
   const [page, setPage] = useState<number>(1);
   const [finished, setFinished] = useState<boolean>(false);
+
   const numQuestions = 50;
   const [testQuestion, setTestQuestion] = useState<TestWord>();
   const [testQuestions, setTestQuestions] = useState<TestWord[]>();
   const [answer, setAnswer] = useState<string>("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [timer, setTimer] = useState<number>(ROUND_LENGTH);
+  const [resetTimer, setResetTimer] = useState<boolean>(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -115,6 +123,8 @@ export default function TestScreen(props: TestScreenProps) {
           setAnswer("");
           if (page < numQuestions) {
             setPage(page + 1);
+            setTimer(ROUND_LENGTH);
+            setResetTimer(true);
           } else {
             setFinished(true);
           }
@@ -122,6 +132,20 @@ export default function TestScreen(props: TestScreenProps) {
       );
     }
   };
+
+  React.useEffect(() => {
+    if (resetTimer) {
+      const counter: any = timer > 0 && setInterval(() => setTimer(timer - 1), 1000);
+
+      if (timer === 0) {
+        // countdown is finished
+        setResetTimer(false);
+        clearInterval(counter);
+        continueButtonOnPress();
+      }
+      return () => clearInterval(counter);
+    }
+  }, [timer, resetTimer, setResetTimer]);
 
   const determineIfRoundAnswerCorrect = () => {
     return answer === testQuestion?.correctlyPaired;
@@ -131,10 +155,21 @@ export default function TestScreen(props: TestScreenProps) {
     navigation.setOptions(TEST_HEADER_OPTIONS);
   }, [navigation]);
 
+  const formatTimer = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    const formattedSec = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+    return `${minutes}:${formattedSec}`;
+  }
+
   return (
     <DraxProvider>
       <View style={styles.container}>
         <View style={styles.row}>
+          <Text style={{ color: "#5eafdf", fontSize: 16, paddingRight: 8 }}>
+            {page} / {numQuestions}
+          </Text>
           <AnimatedBar
             progress={page / numQuestions}
             height={6}
@@ -147,8 +182,8 @@ export default function TestScreen(props: TestScreenProps) {
             duration={500}
             row
           />
-          <Text style={{ color: "#5eafdf", fontSize: 16, paddingLeft: 8 }}>
-            {page} / {numQuestions}
+          <Text style={styles.timer}>
+            {formatTimer(timer)}
           </Text>
         </View>
         <Text style={{ fontSize: 36 }}>
@@ -230,6 +265,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  timer: {
+    color: "#5eafdf",
+    fontSize: 16,
+    paddingLeft: 8,
+    width: "12%",
   },
   wordsContainer: {
     width: "100%",
