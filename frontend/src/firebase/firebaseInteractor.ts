@@ -8,6 +8,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInAnonymously,
   EmailAuthProvider,
   reauthenticateWithCredential,
   updatePassword,
@@ -29,6 +30,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 
+import _MetricsCollector from "./MetricsCollector";
 import { Role } from "../constants/role";
 import {
   User,
@@ -49,7 +51,6 @@ import {
   getRandomGameType,
   insertRoundInOrder,
 } from "../utils/utils";
-import _MetricsCollector from "./MetricsCollector";
 
 const { manifest } = Constants;
 
@@ -111,24 +112,19 @@ export default class FirebaseInteractor {
   }
 
   /**
-   * Creates an account for a user, but does not store them in the db yet, since we don't know what we will store
+   * Creates a user by signing in anonymously
    */
-  async createAccount(email: string, password: string) {
-    const userAuth = await createUserWithEmailAndPassword(
-      this.auth,
-      email,
-      password
-    );
+  async createUserWithRecruitmentID(recruitmentId: string) {
+    const userAuth = await signInAnonymously(this.auth);
 
     if (userAuth.user?.uid == null) {
       throw new Error("No actual user");
     }
 
-    sendEmailVerification(userAuth.user);
-    this.lastEmailRequestedAt = new Date(Date.now());
     const userDoc = doc(this.db, "users", userAuth.user.uid);
 
     await setDoc(userDoc, {
+      recruitmentId,
       numPairs: getRandomPairing(),
       gameType: getRandomGameType(),
       testDate: Timestamp.fromDate(getTestDate()),
@@ -161,6 +157,10 @@ export default class FirebaseInteractor {
 
   async signInWithUsernameAndPassword(username: string, password: string) {
     await signInWithEmailAndPassword(this.auth, username, password);
+  }
+
+  async signInWithRecruitmentId(recruitmentId: string) {
+    await signInAnonymously(this.auth);
   }
 
   async resetPassword(email: string) {
