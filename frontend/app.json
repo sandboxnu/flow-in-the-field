@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "2", // this is all that needs to be changed for future builds
+      "buildNumber": "1", // this is all that needs to be changed for future builds
       "bundleIdentifier": "com.flowadmin.flowadmin"
     },
     "android": {
