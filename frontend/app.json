@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "2", // this is all that needs to be changed for future builds
-      "bundleIdentifier": "com.flowinthefieldadmin.flowinthefieldadmin"
+      "bundleIdentifier": "com.flowadmin.flowadmin"
     },
     "android": {
       "adaptiveIcon": {
