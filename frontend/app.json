@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
-      "bundleIdentifier": "com.flowinthefield.flowinthefield"
+      "bundleIdentifier": "com.flow.flow"
     },
     "android": {
       "adaptiveIcon": {
